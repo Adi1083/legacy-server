@@ -231,7 +231,11 @@ _CATALOG_B64 = (
 def _load_catalog() -> Dict[int, Tuple[int, int, int]]:
     raw = zlib.decompress(base64.b64decode(_CATALOG_B64))
     rows = json.loads(raw.decode("utf-8"))
-    return {int(r[0]): (int(r[1]), int(r[2]), int(r[3])) for r in rows}
+    catalog = {int(r[0]): (int(r[1]), int(r[2]), int(r[3])) for r in rows}
+    # Ensure default parachute 209000001 has collection_type = 5 (CollectionType.PARACHUTE)
+    if 209000001 in catalog and catalog[209000001][2] == 0:
+        catalog[209000001] = (catalog[209000001][0], catalog[209000001][1], 5)
+    return catalog
 
 
 # item_id -> (item_type, item_sub_type, collection_type)
@@ -475,6 +479,8 @@ def encode_get_backpack_res(
         meta = UNLOCKED_ITEM_DEFS.get(int(iid))
         itype = meta[0] if meta else None
         isub = meta[1] if meta else None
+        if itype == ItemType.COLLECTION and meta and meta[2]:
+            isub = meta[2]
         buf += encode_submessage(
             3,
             encode_item(
@@ -495,9 +501,9 @@ def encode_change_clothes_res(profile_bytes: bytes) -> bytes:
 
 
 def encode_get_hide_collections_res(item_ids: Iterable[int] = ()) -> bytes:
-    """proto.CSGetHideCollectionsRes (tag 1 is packed uint32[])."""
+    """proto.CSGetHideCollectionsRes (tag 1 is packed uint32[]). Returns b'\x0a\x00' if empty to prevent client NRE."""
     ids = [int(x) for x in item_ids]
-    return encode_packed_uint32(1, ids) if ids else b""
+    return encode_packed_uint32(1, ids) if ids else b"\x0a\x00"
 
 
 # ---------------------------------------------------------------------------

@@ -433,6 +433,40 @@ def decode_group_change_req(data: bytes) -> Dict[str, Any]:
     }
 
 
+def decode_show_emote_req(data: bytes) -> Dict[str, Any]:
+    """Decode tcp.ShowEmoteReq (tag 1: uint64 group_id, tag 2: uint32 emote_id)."""
+    f = decode_proto(data) if data else {}
+    return {
+        "group_id": get_varint(f, 1, 0),
+        "emote_id": get_varint(f, 2, 0),
+    }
+
+
+def encode_show_emote_ntf(account_id: int, emote_id: int) -> bytes:
+    """Encode tcp.ShowEmoteNtf (tag 1: uint64 account_id, tag 2: uint32 emote_id)."""
+    buf = bytearray()
+    buf += encode_uint64(1, int(account_id))
+    buf += encode_uint32(2, int(emote_id))
+    return bytes(buf)
+
+
+def decode_show_pet_action_req(data: bytes) -> Dict[str, Any]:
+    """Decode tcp.ShowPetActionReq (tag 1: uint64 group_id, tag 2: uint32 action_id)."""
+    f = decode_proto(data) if data else {}
+    return {
+        "group_id": get_varint(f, 1, 0),
+        "action_id": get_varint(f, 2, 0),
+    }
+
+
+def encode_show_pet_action_ntf(account_id: int, action_id: int) -> bytes:
+    """Encode tcp.ShowPetActionNtf (tag 1: uint64 account_id, tag 2: uint32 action_id)."""
+    buf = bytearray()
+    buf += encode_uint64(1, int(account_id))
+    buf += encode_uint32(2, int(action_id))
+    return bytes(buf)
+
+
 def decode_matchmaking_start_req(data: bytes) -> Dict[str, Any]:
     """
     Decode `tcp.MatchmakingStartReq`:
@@ -876,6 +910,8 @@ def encode_group_member_info(
                 shows.append(int(s))
             except (ValueError, TypeError):
                 pass
+    if not shows:
+        shows = [907000001, 907000005, 907000010, 907000013, 907000014]
 
     aid = int(profile.get("account_id", member.get("account_id", 0)))
     if is_leader is None:

@@ -339,9 +339,8 @@
       <p>Instant live control for Splash Logos, Launcher Backgrounds, OB17 Login Wallpapers, and Lobby Banners. Zero APK repacking.</p>
     </div>
     <div class="status-cluster">
-      <div class="stat-chip live"><span class="pulse-dot"></span> BlueStacks (emulator-5554) Connected</div>
+      <div class="stat-chip live"><span class="pulse-dot"></span> Dynamic HTTP CMS Active</div>
       <button class="btn btn-secondary btn-sm" onclick="loadSlots()">🔄 Refresh Slots</button>
-      <button class="btn btn-gold btn-sm" onclick="rebuildMasterApk()" title="Build an installable APK with all current branding applied">📦 Export Standalone APK</button>
     </div>
   </div>
 
@@ -461,20 +460,19 @@
     function uploadSlotImage(key, fileOrBlob) {
       const reader = new FileReader();
       reader.onload = async () => {
-        showToast('Syncing ' + key + ' to server & emulator...');
+        showToast('Saving ' + key + ' to static/banners/ ...');
         try {
           const res = await fetch('/api/dashboard/branding/update', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               slot: key,
-              image_base64: reader.result,
-              push_to_emulator: true
+              image_base64: reader.result
             })
           });
           const data = await res.json();
           if (data && data.ok) {
-            showToast('✅ ' + data.name + ' updated and synced!');
+            showToast('✅ ' + data.name + ' updated in static/banners/ and live!');
             // Update preview image immediately
             const imgEl = document.getElementById('img-' + key);
             if (imgEl) imgEl.src = data.preview_url;
@@ -487,20 +485,6 @@
         }
       };
       reader.readAsDataURL(fileOrBlob);
-    }
-
-    async function rebuildMasterApk() {
-      showToast('Starting standalone APK export in background...');
-      try {
-        const res = await fetch('/api/dashboard/branding/update', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'rebuild_apk' })
-        });
-        showToast('APK build scheduled. Check legacy/apk/ directory.');
-      } catch (err) {
-        showToast('Build trigger failed: ' + err.message);
-      }
     }
 
     function showToast(msg) {

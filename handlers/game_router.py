@@ -226,23 +226,15 @@ def handle_game_post(handler: Any, path: str, client_ip: str, raw_body: bytes) -
         return True
 
     if endpoint == "GetBackpack":
-        wallet = state.get_wallet(DEFAULT_ACCOUNT_ID)
+        from handlers.inventory_handler import inventory_service
         handler.send_proto(
             "CSGetBackpackRes",
-            encode_backpack_res(coins=wallet["coins"], gems=wallet["gems"]),
+            inventory_service.get_backpack(account_id=DEFAULT_ACCOUNT_ID),
         )
         return True
 
     if endpoint in ("HideAvatar", "GetHideAvatar"):
         handler.send_proto("CSGetHideAvatarRes", b"\x0a\x00")
-        return True
-
-    if endpoint == "GetGachaInfo":
-        handler.send_proto("CSGetGachaInfoRes", b"")
-        return True
-
-    if endpoint in ("GetGachaDesc", "GetGachaSpecialExchangeDesc"):
-        handler.send_proto("GachaDescRes", b"")
         return True
 
     if endpoint in ("GetGameOpeningInfo", "GetMapOpeningInfo", "GetOpeningInfo"):

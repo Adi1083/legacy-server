@@ -48,6 +48,8 @@ from proto.team_models import (
     decode_group_id_req,
     decode_group_invite_req,
     decode_group_ready_req,
+    decode_show_emote_req,
+    decode_show_pet_action_req,
     decode_matchmaking_group_start_req,
     decode_matchmaking_start_req,
     decode_proto_req,
@@ -66,6 +68,8 @@ from proto.team_models import (
     encode_group_stop_ntf,
     encode_matchmaking_suss_ntf,
     encode_message_notify,
+    encode_show_emote_ntf,
+    encode_show_pet_action_ntf,
     encode_team_info,
     encode_team_member_list_with_account_info,
     group_mode_from_team,
@@ -1153,7 +1157,40 @@ def handle_group_tcp_command(
         _push_team_packet(enriched, EGroupProto.CHANGE_NTF, payload)
         return EGroupProto.CHANGE_NTF, 0, payload
 
+    if cmd == EGroupProto.SHOWEMOTE:
+        req = decode_show_emote_req(raw_body)
+        team = _resolve_target_team(req["group_id"], account_id) or _get_or_create_team(account_id)
+        emote_id = int(req.get("emote_id") or 0)
+        ntf_payload = encode_show_emote_ntf(account_id, emote_id)
+        _push_team_packet(team, EGroupProto.SHOWEMOTE_NTF, ntf_payload)
+        return EGroupProto.SHOWEMOTE_NTF, 0, ntf_payload
+
+    if cmd == EGroupProto.SHOWPETACTION:
+        req = decode_show_pet_action_req(raw_body)
+        team = _resolve_target_team(req["group_id"], account_id) or _get_or_create_team(account_id)
+        action_id = int(req.get("action_id") or 0)
+        ntf_payload = encode_show_pet_action_ntf(account_id, action_id)
+        _push_team_packet(team, EGroupProto.SHOWPETACTION_NTF, ntf_payload)
+        return EGroupProto.SHOWPETACTION_NTF, 0, ntf_payload
+
     return cmd, 0, b""
+
+
+def broadcast_group_change(account_id: int) -> None:
+    """Broadcast updated group info to all members after profile or collection changes."""
+    team = state.get_team(account_id=account_id) or _get_or_create_team(account_id)
+    if team:
+        enriched = _enrich_team(team) or team
+        payload = _encode_team_group_info(enriched)
+        _push_team_packet(enriched, EGroupProto.CHANGE_NTF, payload)
+
+
+def trigger_team_show_emote(account_id: int, emote_id: int) -> None:
+    """Trigger real-time emote playback on 3D character in lobby squad."""
+    team = state.get_team(account_id=account_id) or _get_or_create_team(account_id)
+    if team:
+        ntf_payload = encode_show_emote_ntf(account_id, emote_id)
+        _push_team_packet(team, EGroupProto.SHOWEMOTE_NTF, ntf_payload)
 
 
 def handle_tcp_proto_req(

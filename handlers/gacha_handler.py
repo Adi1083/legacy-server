@@ -8,6 +8,7 @@ import threading
 import time
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
+from core.database import db
 from core.state import DEFAULT_ACCOUNT_ID, state
 from proto.gacha_models import (
     CHEST_CONFIGS,
@@ -109,6 +110,19 @@ class GachaService:
     def _ensure_seeded(self, account_id: int) -> None:
         if account_id in self._seeded_accounts:
             return
+        saved_states = db.get_all_gacha_states(account_id)
+        if saved_states:
+            acct_state = self._chest_state.setdefault(account_id, {})
+            for cid, sdict in saved_states.items():
+                acct_state[cid] = {
+                    "lottery_count_weekly": int(sdict.get("lottery_count_weekly", 0)),
+                    "exchanged_reward_list": list(sdict.get("exchanged_reward_list", [])),
+                    "next_free_time": int(sdict.get("next_free_time", 0)),
+                    "not_got_num": int(sdict.get("not_got_num", 0)),
+                    "limit_purchase_count_one": int(sdict.get("limit_purchase_count_one", 0)),
+                    "limit_purchase_count_ten": int(sdict.get("limit_purchase_count_ten", 0)),
+                    "first_draw_reward_num": int(sdict.get("first_draw_reward_num", 0)),
+                }
         for iid, qty in _INITIAL_GACHA_STOCK.items():
             if state.get_item_count(iid) == 0:
                 state.add_item(iid, qty)
@@ -182,6 +196,17 @@ class GachaService:
         account_id: int,
     ) -> bool:
         is_multi = gacha_type == LotteryType.SOME
+        need_vouchers = cfg.exchange_ten_num if is_multi else cfg.exchange_once_num
+
+        # Smart fallback if consume_type is NONE (0)
+        if consume_type == ConsumeType.NONE:
+            if cfg.exchange_itemid and state.get_item_count(cfg.exchange_itemid) >= need_vouchers:
+                consume_type = ConsumeType.EXCHANGE_ITEM
+            elif cfg.free_type == 1 and not is_multi and now >= rec["next_free_time"]:
+                consume_type = ConsumeType.FREE
+            else:
+                consume_type = ConsumeType.MONEY
+
         if consume_type == ConsumeType.FREE:
             if cfg.free_type != 1 or is_multi or now < rec["next_free_time"]:
                 return False
@@ -189,7 +214,6 @@ class GachaService:
             return True
 
         if consume_type == ConsumeType.EXCHANGE_ITEM and cfg.exchange_itemid:
-            need_vouchers = cfg.exchange_ten_num if is_multi else cfg.exchange_once_num
             ok, _ = _consume_inventory_items([(cfg.exchange_itemid, need_vouchers)])
             return ok
 
@@ -258,16 +282,20 @@ class GachaService:
                 )
 
             is_multi = gacha_type == LotteryType.SOME
+            is_ten_plus_one = is_multi and (cfg.ten_num == 10)
             spin_count = cfg.ten_num if is_multi else cfg.once_num
 
             lottery_goods: List[Dict[str, int]] = []
+            extra_one_goods: List[Dict[str, int]] = []
             has_big_reward = False
+
             for idx in range(spin_count):
                 force_rare = (
                     cfg.must_drop
                     and is_multi
                     and idx == spin_count - 1
                     and not has_big_reward
+                    and not is_ten_plus_one
                 )
                 picked = self._pick_item(cfg, rec, force_rare=force_rare)
                 if picked.reward_level >= RareType.RARE:
@@ -297,13 +325,55 @@ class GachaService:
                     }
                 )
 
-            rec["lottery_count_weekly"] += spin_count
+            # Award bonus +1 spin for 10+1 draws (Gold, Diamond, Weapon Royale)
+            if is_ten_plus_one:
+                force_rare = cfg.must_drop and not has_big_reward
+                picked_extra = self._pick_item(cfg, rec, force_rare=force_rare)
+                if picked_extra.reward_level >= RareType.RARE:
+                    has_big_reward = True
+
+                already_owned = (
+                    not _is_stackable_item(picked_extra.item_id)
+                    and state.is_item_unlocked(picked_extra.item_id)
+                    and picked_extra.repeated_item_id != picked_extra.item_id
+                )
+                if already_owned:
+                    dest_id = picked_extra.repeated_item_id or ITEM_FF_TOKEN
+                    dest_num = max(1, picked_extra.repeated_item_num)
+                else:
+                    dest_id = picked_extra.item_id
+                    dest_num = max(1, picked_extra.item_num)
+
+                state.add_item(dest_id, dest_num)
+                extra_one_goods.append(
+                    {
+                        "origin_award_type": picked_extra.item_type,
+                        "origin_award_id": picked_extra.item_id,
+                        "origin_award_num": picked_extra.item_num,
+                        "dest_award_type": AwardType.ITEM,
+                        "dest_award_id": dest_id,
+                        "dest_award_num": dest_num,
+                    }
+                )
+
+            total_drawn = spin_count + (1 if is_ten_plus_one else 0)
+            rec["lottery_count_weekly"] += total_drawn
             if cfg.first_reward_switch and rec["first_draw_reward_num"] < cfg.first_reward_max:
                 rec["first_draw_reward_num"] += 1
+
+            # Durable state persistence
+            db.save_gacha_state(account_id, chest_id, rec)
+            db.log_action(
+                account_id,
+                "GACHA_SPIN",
+                f"Spun chest {chest_id} ({gacha_type=}, {consume_type=}), awarded {total_drawn} items, luck={rec['not_got_num']}",
+                {"chest_id": chest_id, "gacha_type": gacha_type, "total_drawn": total_drawn, "luck": rec["not_got_num"]},
+            )
 
             remaining_vouchers = state.get_item_count(cfg.exchange_itemid) if cfg.exchange_itemid else 0
             return encode_lottery_res(
                 lottery_goods=lottery_goods,
+                extra_one_goods=extra_one_goods,
                 lottery_count_weekly=rec["lottery_count_weekly"],
                 next_free_time=rec["next_free_time"],
                 limit_purchase_count_one=rec["limit_purchase_count_one"],
@@ -352,6 +422,16 @@ class GachaService:
 
             rec["exchanged_reward_list"].append(condition_num)
             rec["exchanged_reward_list"].sort()
+
+            # Durable state persistence
+            db.save_gacha_state(account_id, chest_id, rec)
+            db.log_action(
+                account_id,
+                "GACHA_MILESTONE",
+                f"Claimed milestone {condition_num} for chest {chest_id}",
+                {"chest_id": chest_id, "condition_num": condition_num},
+            )
+
             return encode_exchange_gacha_extra_reward_res(
                 items=items,
                 coins=coins,

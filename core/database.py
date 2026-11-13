@@ -169,6 +169,17 @@ class Database:
                 """)
                 conn.execute("CREATE INDEX IF NOT EXISTS idx_audit_acct ON audit_log(account_id, timestamp DESC);")
 
+                # 10. Gacha / Luck Royale State (Luck counter, weekly count, claim milestones, free cooldown)
+                conn.execute("""
+                    CREATE TABLE IF NOT EXISTS gacha_states (
+                        account_id INTEGER NOT NULL,
+                        chest_id INTEGER NOT NULL,
+                        state_json TEXT NOT NULL,
+                        updated_at INTEGER NOT NULL,
+                        PRIMARY KEY (account_id, chest_id)
+                    );
+                """)
+
                 conn.execute("COMMIT;")
             except Exception:
                 conn.execute("ROLLBACK;")
@@ -570,6 +581,35 @@ class Database:
                     state_json = excluded.state_json,
                     updated_at = excluded.updated_at;
             """, (int(account_id), blob, now))
+
+    # -------------------------------------------------------------------------
+    # Luck Royale / Gacha State Persistence
+    # -------------------------------------------------------------------------
+
+    def get_all_gacha_states(self, account_id: int) -> Dict[int, Dict[str, Any]]:
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT chest_id, state_json FROM gacha_states WHERE account_id = ?;", (int(account_id),))
+            rows = cur.fetchall()
+            res: Dict[int, Dict[str, Any]] = {}
+            for r in rows:
+                try:
+                    res[int(r["chest_id"])] = json.loads(r["state_json"])
+                except Exception:
+                    pass
+            return res
+
+    def save_gacha_state(self, account_id: int, chest_id: int, state_dict: Dict[str, Any]) -> None:
+        with self._lock:
+            now = int(time.time())
+            blob = json.dumps(state_dict)
+            self._get_conn().execute("""
+                INSERT INTO gacha_states (account_id, chest_id, state_json, updated_at)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(account_id, chest_id) DO UPDATE SET
+                    state_json = excluded.state_json,
+                    updated_at = excluded.updated_at;
+            """, (int(account_id), int(chest_id), blob, now))
 
     # -------------------------------------------------------------------------
     # Audit Log

@@ -1,4 +1,4 @@
-"""
+    """
 Barbosa Project 1.39 Branding & Visuals CMS Engine.
 Enables 100% dynamic HTTP management of boot splash, launcher background,
 login wallpaper, title logos, and lobby banners through the Admin Dashboard.

@@ -197,7 +197,7 @@ def infer_item_type_and_subtype(item_id: int) -> Tuple[int, int]:
     if prefix3 in (101, 102):
         return ItemType.AVATAR, ItemSubType.NONE
     if prefix3 == 209:
-        return ItemType.COLLECTION, ItemSubType.NONE
+        return ItemType.COLLECTION, 5  # CollectionType.PARACHUTE
     if prefix3 in (203, 204, 205, 206, 207, 208, 211, 212, 214):
         return ItemType.CLOTHES, ItemSubType.NONE
     if prefix3 in (301, 302, 303, 700, 710):
@@ -217,6 +217,11 @@ def infer_item_type_and_subtype(item_id: int) -> Tuple[int, int]:
             return ItemType.DEBRIS, ItemSubType.AVATARLEVELCARD
         return ItemType.DEBRIS, ItemSubType.NONE
     if 900 <= prefix3 <= 999:
+        # Collection items: 901=Banner(1), 902=HeadPic(2), 903=LootBox(3), 904=BackPack(4),
+        # 905=Parachute(5), 906=Skyboard(6), 907=WeaponSkin(7), 908=Vehicle(8), 909=Emote(9)
+        col_type = prefix3 % 10
+        if 1 <= col_type <= 9:
+            return ItemType.COLLECTION, col_type
         return ItemType.COLLECTION, ItemSubType.NONE
     if prefix3 == 1001:
         return ItemType.VIRTUAL, ItemSubType.NONE
