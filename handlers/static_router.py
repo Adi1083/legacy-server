@@ -119,6 +119,7 @@ def _strip_cdn_prefixes(path: str) -> list[str]:
 
 def handle_static_get(handler, path, client_ip):
     host_header = handler.headers.get("Host", "127.0.0.1:8080")
+    scheme = "https" if (handler.headers.get("X-Forwarded-Proto") == "https" or "onrender.com" in host_header) else "http"
     
     if "ver.php" in path:
         ver_info = {
@@ -131,8 +132,8 @@ def handle_static_get(handler, path, client_ip):
             "billboard_msg": "",
             "remote_version": VERSION,
             "remote_option_version": SUB_VERSION,
-            "cdn_url": f"http://{host_header}/live/",
-            "server_url": f"http://{host_header}/",
+            "cdn_url": f"{scheme}://{host_header}/live/",
+            "server_url": f"{scheme}://{host_header}/",
             "is_review_server": False,
             "appstore_url": "",
             "force_to_restart_app": False,
