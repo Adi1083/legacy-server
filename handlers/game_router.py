@@ -102,9 +102,19 @@ _load_required_handlers()
 def handle_game_post(handler: Any, path: str, client_ip: str, raw_body: bytes) -> bool:
     """Route incoming Free Fire HTTP/POST & fallback-GET game requests."""
     host_header = handler.headers.get("Host", "127.0.0.1:8080")
-    base_url = f"http://{host_header.rstrip('/')}"
-    tcp_host = host_header.split(":", 1)[0].strip() or "10.0.2.2"
-    tcp_addr = f"{tcp_host}:8081"
+    scheme = "https" if (handler.headers.get("X-Forwarded-Proto") == "https" or "onrender.com" in host_header) else "http"
+    base_url = f"{scheme}://{host_header.rstrip('/')}"
+
+    tcp_override = os.environ.get("TCP_PUBLIC_ADDR")
+    if tcp_override:
+        tcp_addr = tcp_override
+    elif "onrender.com" in host_header:
+        # Render free tier does not route raw TCP port 8081. Default to local gateway
+        tcp_addr = "10.0.2.2:8081"
+    else:
+        tcp_host = host_header.split(":", 1)[0].strip() or "10.0.2.2"
+        tcp_addr = f"{tcp_host}:8081"
+
     endpoint = _extract_endpoint(path)
     clean_path = path.split("?", 1)[0]
 
@@ -223,7 +233,7 @@ def handle_game_post(handler: Any, path: str, client_ip: str, raw_body: bytes) -
         return True
 
     if endpoint in ("HideAvatar", "GetHideAvatar"):
-        handler.send_proto("CSGetHideAvatarRes", b"")
+        handler.send_proto("CSGetHideAvatarRes", b"\x0a\x00")
         return True
 
     if endpoint == "GetGachaInfo":
