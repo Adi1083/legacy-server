@@ -1,7 +1,8 @@
 """
 Barbosa Project 1.39 Branding & Visuals CMS Engine.
-Enables real-time management of boot splash, launcher background,
+Enables 100% dynamic HTTP management of boot splash, launcher background,
 login wallpaper, title logos, and lobby banners through the Admin Dashboard.
+Zero APK repacking, zero ADB or emulator dependencies.
 """
 
 from __future__ import annotations
@@ -10,20 +11,14 @@ import base64
 import io
 import json
 import os
-import subprocess
 import threading
 from typing import Any, Dict, List, Optional
 from PIL import Image
 
 SERVER_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LEGACY_ROOT = os.path.dirname(SERVER_DIR)
 STATIC_DIR = os.path.join(SERVER_DIR, "static")
 BANNERS_DIR = os.path.join(STATIC_DIR, "banners")
 CMS_JSON_PATH = os.path.join(SERVER_DIR, "data", "lobby_cms.json")
-BASE_APK_PATH = os.path.join(LEGACY_ROOT, "apk", "Barbosa_1.39_LocalHost.apk")
-
-ADB_PATH = r"C:\Program Files\BlueStacks_msi5\HD-Adb.exe"
-DEVICE_SERIAL = "emulator-5554"
 
 os.makedirs(BANNERS_DIR, exist_ok=True)
 
@@ -33,8 +28,6 @@ BRANDING_SLOTS: Dict[str, Dict[str, Any]] = {
         "category": "boot",
         "desc": "Unity engine startup splash logo (4.0s boot screen)",
         "size": (512, 512),
-        "apk_path": "assets/bin/Data/globalgamemanagers.assets",
-        "path_id": 3,
         "format": "PNG",
         "default_url": "/banners/custom_splash.png",
     },
@@ -43,8 +36,6 @@ BRANDING_SLOTS: Dict[str, Dict[str, Any]] = {
         "category": "boot",
         "desc": "Hotupdate and version checking screen wallpaper (FF_fakeloading_img)",
         "size": (1024, 512),
-        "apk_path": "assets/bin/Data/a5d7b6bb7a57deb41a74f2a8197d39ea",
-        "path_id": 1,
         "format": "PNG",
         "default_url": "/banners/custom_launcher.png",
     },
@@ -53,8 +44,6 @@ BRANDING_SLOTS: Dict[str, Dict[str, Any]] = {
         "category": "login",
         "desc": "Main title and login screen background (dts_loading_img_0B17_BG)",
         "size": (1024, 512),
-        "apk_path": "assets/bin/Data/fbdb872a41bc0924abc8c5c0910f5e0e",
-        "path_id": 1,
         "format": "PNG",
         "default_url": "/banners/custom_login.png",
     },
@@ -63,8 +52,6 @@ BRANDING_SLOTS: Dict[str, Dict[str, Any]] = {
         "category": "login",
         "desc": "Secondary PVE login & loading screen (dts_loading_img_PVE_BG)",
         "size": (1024, 512),
-        "apk_path": "assets/bin/Data/71489e73ded47d64eb761135ba1b72c7",
-        "path_id": 1,
         "format": "PNG",
         "default_url": "/banners/custom_login.png",
     },
@@ -73,8 +60,6 @@ BRANDING_SLOTS: Dict[str, Dict[str, Any]] = {
         "category": "boot",
         "desc": "Free Fire Header Logo on login screen (FF_UI_Logo)",
         "size": (512, 128),
-        "apk_path": "assets/bin/Data/8e570f01ef9b5414f80a8c1472f9274e",
-        "path_id": 1,
         "format": "PNG",
         "default_url": "/banners/FF_UI_Logo.png",
     },
@@ -83,8 +68,6 @@ BRANDING_SLOTS: Dict[str, Dict[str, Any]] = {
         "category": "boot",
         "desc": "DTS Studio RGB logo (DTS_UI_LOGO_rgb)",
         "size": (512, 256),
-        "apk_path": "assets/bin/Data/e0380ceb8e6f8d1489ae0826d63c1090",
-        "path_id": 1,
         "format": "PNG",
         "default_url": "/banners/DTS_UI_LOGO_rgb.png",
     },
@@ -132,7 +115,8 @@ def get_all_slots() -> List[Dict[str, Any]]:
             filepath = os.path.join(BANNERS_DIR, filename)
             has_custom = os.path.isfile(filepath)
             
-            preview_url = f"/banners/{filename}" if has_custom else slot["default_url"]
+            mtime = int(os.path.getmtime(filepath)) if has_custom else 0
+            preview_url = f"/banners/{filename}?t={mtime}" if has_custom else slot["default_url"]
             results.append({
                 "key": slot_key,
                 "name": slot["name"],
@@ -142,15 +126,15 @@ def get_all_slots() -> List[Dict[str, Any]]:
                 "height": slot["size"][1],
                 "preview_url": preview_url,
                 "is_custom": has_custom,
-                "last_modified": int(os.path.getmtime(filepath)) if has_custom else 0,
+                "last_modified": mtime,
             })
         return results
 
 
-def update_branding_slot(slot_key: str, image_raw_or_b64: str | bytes, push_to_emulator: bool = True) -> Dict[str, Any]:
+def update_branding_slot(slot_key: str, image_raw_or_b64: str | bytes, push_to_emulator: bool = False) -> Dict[str, Any]:
     """
-    Save an uploaded or selected image to the slot, update lobby CMS if applicable,
-    and optionally hot-swap into the emulator without repacking.
+    Save an uploaded or selected image directly to static/banners/ and sync with Lobby CMS.
+    Completely eliminates APK repacking and ADB dependencies.
     """
     if slot_key not in BRANDING_SLOTS:
         return {"ok": False, "error": f"Unknown branding slot: {slot_key}"}
@@ -183,27 +167,34 @@ def update_branding_slot(slot_key: str, image_raw_or_b64: str | bytes, push_to_e
     with _LOCK:
         img.save(out_path, format="PNG")
 
-    # If this is a lobby CMS item, update lobby_cms.json immediately
-    if slot.get("cms_type") == "splash":
-        _update_lobby_cms_splash(slot["cms_id"], f"/banners/{out_filename}")
-    elif slot.get("cms_type") == "advert":
-        _update_lobby_cms_advert(slot["cms_id"], f"/banners/{out_filename}")
+    mtime = int(os.path.getmtime(out_path))
+    banner_url = f"/banners/{out_filename}"
 
-    # If this is a boot/client asset, apply hot-swap or update APK
-    hot_swap_result = None
-    if slot.get("category") in ("boot", "login") and push_to_emulator:
-        hot_swap_result = _apply_asset_to_emulator(slot_key, out_path)
+    # If this is a lobby CMS item, update state and lobby_cms.json immediately
+    if slot.get("cms_type") == "splash":
+        _update_lobby_cms_splash(slot["cms_id"], banner_url)
+    elif slot.get("cms_type") == "advert":
+        _update_lobby_cms_advert(slot["cms_id"], banner_url)
 
     return {
         "ok": True,
         "slot": slot_key,
         "name": slot["name"],
-        "preview_url": f"/banners/{out_filename}?t={int(os.path.getmtime(out_path))}",
-        "hot_swap": hot_swap_result,
+        "preview_url": f"{banner_url}?t={mtime}",
+        "url": banner_url,
+        "version": mtime,
+        "hot_swap": {"pushed": False, "note": "Served dynamically over HTTP from static/banners/"},
     }
 
 
 def _update_lobby_cms_splash(splash_id: int, image_url: str) -> None:
+    try:
+        from core.state import state
+        state.upsert_cms_item("splashes", {"id": splash_id, "image_url": image_url, "bg_img_url": image_url})
+        return
+    except Exception:
+        pass
+
     if not os.path.exists(CMS_JSON_PATH):
         return
     try:
@@ -213,6 +204,7 @@ def _update_lobby_cms_splash(splash_id: int, image_url: str) -> None:
             if s.get("id") == splash_id:
                 s["image_url"] = image_url
                 s["bg_img_url"] = image_url
+                s["version"] = int(s.get("version", 1)) + 1
         with open(CMS_JSON_PATH, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
     except Exception:
@@ -220,6 +212,13 @@ def _update_lobby_cms_splash(splash_id: int, image_url: str) -> None:
 
 
 def _update_lobby_cms_advert(advert_id: int, image_url: str) -> None:
+    try:
+        from core.state import state
+        state.upsert_cms_item("adverts", {"id": advert_id, "advertisment_url": image_url})
+        return
+    except Exception:
+        pass
+
     if not os.path.exists(CMS_JSON_PATH):
         return
     try:
@@ -232,60 +231,3 @@ def _update_lobby_cms_advert(advert_id: int, image_url: str) -> None:
             json.dump(data, f, indent=2)
     except Exception:
         pass
-
-
-def _apply_asset_to_emulator(slot_key: str, new_png_path: str) -> Dict[str, Any]:
-    """Push the modified asset to emulator game storage via ADB without repacking."""
-    if not os.path.exists(ADB_PATH):
-        return {"pushed": False, "reason": "adb_not_found"}
-
-    slot = BRANDING_SLOTS[slot_key]
-    apk_rel_path = slot.get("apk_path")
-    if not apk_rel_path:
-        return {"pushed": False, "reason": "no_apk_path"}
-
-    # Target path on Android device persistent data
-    # /sdcard/Android/data/com.dts.freefireth/files/
-    target_remote = f"/sdcard/Android/data/com.dts.freefireth/files/{apk_rel_path}"
-    target_remote_dir = target_remote.rsplit("/", 1)[0]
-
-    try:
-        # Ensure remote directory exists
-        cmd_mkdir = [ADB_PATH, "-s", DEVICE_SERIAL, "shell", "su", "-c", f"mkdir -p '{target_remote_dir}'"]
-        subprocess.run(cmd_mkdir, capture_output=True, timeout=5)
-
-        # Inject texture into the raw serialized Unity asset file locally
-        import UnityPy
-        import zipfile
-        
-        with zipfile.ZipFile(BASE_APK_PATH, "r") as z:
-            raw_asset_bytes = z.read(apk_rel_path)
-
-        env = UnityPy.load(raw_asset_bytes)
-        img = Image.open(new_png_path).convert("RGBA")
-        target_path_id = slot["path_id"]
-        for obj in env.objects:
-            if obj.path_id == target_path_id and obj.type.name == "Texture2D":
-                d = obj.read()
-                d.image = img
-                d.save()
-                break
-        patched_bytes = env.file.save()
-
-        # Write to temporary local file and push via ADB
-        temp_local = os.path.join(LEGACY_ROOT, "dump", f"patched_{os.path.basename(apk_rel_path)}")
-        with open(temp_local, "wb") as f:
-            f.write(patched_bytes)
-
-        cmd_push = [ADB_PATH, "-s", DEVICE_SERIAL, "push", temp_local, target_remote]
-        res = subprocess.run(cmd_push, capture_output=True, text=True, timeout=10)
-        
-        # Also copy to root data directory if present
-        subprocess.run(
-            [ADB_PATH, "-s", DEVICE_SERIAL, "shell", "su", "-c", f"chmod 666 '{target_remote}'"],
-            capture_output=True, timeout=5
-        )
-
-        return {"pushed": True, "remote_path": target_remote, "output": res.stdout.strip()}
-    except Exception as ex:
-        return {"pushed": False, "error": str(ex)}
