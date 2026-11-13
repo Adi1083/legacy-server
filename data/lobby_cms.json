@@ -1,0 +1,824 @@
+{
+  "splashes": [
+    {
+      "id": 1,
+      "enabled": true,
+      "region": "DEFAULT",
+      "language": "en",
+      "name": "India V1 Season 1",
+      "sort_id": 1,
+      "start_time": 1794485300,
+      "end_time": 1826024900,
+      "image_url": "/banners/splash_welcome.png",
+      "bg_img_url": "/banners/splash_welcome.png",
+      "gos_pos": 7,
+      "type": 0,
+      "link_url": "",
+      "version": 14,
+      "open_type": 1
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "region": "DEFAULT",
+      "language": "en",
+      "name": "Apocalyptic Order Pass",
+      "sort_id": 2,
+      "start_time": 1794485300,
+      "end_time": 1826024900,
+      "image_url": "/banners/splash_elite.png",
+      "bg_img_url": "/banners/splash_elite.png",
+      "gos_pos": 14,
+      "type": 0,
+      "link_url": "",
+      "version": 13,
+      "open_type": 1
+    }
+  ],
+  "adverts": [
+    {
+      "id": 1,
+      "enabled": true,
+      "type": 11,
+      "sort_id": 1,
+      "language": "en",
+      "advertisment_url": "/banners/lobby_ad_1.png",
+      "ad_start_time": 1794485300,
+      "ad_end_time": 1826024900,
+      "go_pos": 7,
+      "go_to_switch": true,
+      "link_url": ""
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "type": 11,
+      "sort_id": 2,
+      "language": "en",
+      "advertisment_url": "/banners/lobby_ad_2.png",
+      "ad_start_time": 1794485300,
+      "ad_end_time": 1826024900,
+      "go_pos": 15,
+      "go_to_switch": true,
+      "link_url": ""
+    },
+    {
+      "id": 3,
+      "enabled": true,
+      "type": 27,
+      "sort_id": 3,
+      "language": "en",
+      "advertisment_url": "/banners/activity_banner.png",
+      "ad_start_time": 1794401259,
+      "ad_end_time": 1826023659,
+      "go_pos": 7,
+      "go_to_switch": true,
+      "link_url": ""
+    },
+    {
+      "id": 4,
+      "enabled": true,
+      "type": 4,
+      "sort_id": 4,
+      "language": "en",
+      "advertisment_url": "/banners/splash_elite.png",
+      "ad_start_time": 1794401259,
+      "ad_end_time": 1826023659,
+      "go_pos": 114,
+      "go_to_switch": true,
+      "link_url": ""
+    }
+  ],
+  "announcements": [
+    {
+      "id": 1,
+      "enabled": true,
+      "language": "en",
+      "order_in_this_language": 1,
+      "title": "Welcome to India V1!",
+      "desc": "All systems online: Lobby CMS, Luck Royale, Elite Pass, Vault Unlock-All, Events & Guilds.",
+      "image_url": "/banners/announce_welcome.png",
+      "image_url_for_lobby": "/banners/announce_welcome.png",
+      "start_time": 1794400562,
+      "end_time": 1826022962,
+      "gos_pos": 7,
+      "link_url": ""
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "language": "en",
+      "order_in_this_language": 2,
+      "title": "Season Launch Festival & Bingo",
+      "desc": "Check in daily on the Attendance Calendar, flip Bingo cards, and claim free Diamonds!",
+      "image_url": "/banners/announce_events.png",
+      "image_url_for_lobby": "/banners/announce_events.png",
+      "start_time": 1794400562,
+      "end_time": 1826022962,
+      "gos_pos": 7,
+      "link_url": ""
+    }
+  ],
+  "marquees": [
+    {
+      "id": 1,
+      "enabled": true,
+      "language": "en",
+      "order_in_this_language": 1,
+      "content": "Welcome to India V1 Free Fire 1.39! Claim Daily Attendance & Bingo rewards now!",
+      "start_time": 1794400562,
+      "end_time": 1826022962,
+      "region": "DEFAULT",
+      "gos_pos": 7
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "language": "en",
+      "order_in_this_language": 2,
+      "content": "Season Launch Festival is live — complete missions to earn free Diamonds and Activeness chests!",
+      "start_time": 1794400562,
+      "end_time": 1826022962,
+      "region": "DEFAULT",
+      "gos_pos": 15
+    }
+  ],
+  "broadcasts": [
+    {
+      "id": 1,
+      "enabled": true,
+      "nickname": "Clack",
+      "navigation_type": 15,
+      "source": "Diamond Royale",
+      "item_id": 203000001,
+      "time_stamp": 1794486842,
+      "source_id": 1
+    },
+    {
+      "id": 2,
+      "enabled": true,
+      "nickname": "Kelly_Dash",
+      "navigation_type": 114,
+      "source": "Elite Pass",
+      "item_id": 204000001,
+      "time_stamp": 1794486872,
+      "source_id": 2
+    },
+    {
+      "id": 3,
+      "enabled": true,
+      "nickname": "Hayato_Blade",
+      "navigation_type": 15,
+      "source": "Weapon Royale",
+      "item_id": 907100001,
+      "time_stamp": 1794486902,
+      "source_id": 3
+    },
+    {
+      "id": 4,
+      "enabled": true,
+      "nickname": "Wukong_Bush",
+      "navigation_type": 3,
+      "source": "Store",
+      "item_id": 211000001,
+      "time_stamp": 1794486932,
+      "source_id": 4
+    }
+  ],
+  "events": [
+    {
+      "id": 1001,
+      "activity_id": 1001,
+      "enabled": true,
+      "group_id": 1,
+      "act_title": "Daily Login Bonus",
+      "act_text": "Log in to India V1 today to claim Diamonds & Gold!",
+      "award_context": "Daily Login Pack",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 1,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 3,
+          "award_id": 0,
+          "award_num": 50
+        },
+        {
+          "award_type": 2,
+          "award_id": 0,
+          "award_num": 1000
+        },
+        {
+          "award_type": 6,
+          "award_id": 0,
+          "award_num": 20
+        }
+      ],
+      "table_type": 1
+    },
+    {
+      "id": 2001,
+      "activity_id": 2001,
+      "enabled": true,
+      "group_id": 2,
+      "act_title": "India V1 Festival Launch",
+      "act_text": "Celebrate Free Fire 1.39 Season Launch with exclusive rewards!",
+      "award_context": "Festival Gift",
+      "image_url": "/banners/announce_events.png",
+      "image_url_for_lobby": "/banners/lobby_ad_2.png",
+      "activity_type": 5,
+      "sort_id": 1,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 1,
+          "award_id": 203000003,
+          "award_num": 1
+        },
+        {
+          "award_type": 3,
+          "award_id": 0,
+          "award_num": 100
+        }
+      ],
+      "table_type": 2
+    },
+    {
+      "id": 3001,
+      "activity_id": 3001,
+      "enabled": true,
+      "group_id": 3,
+      "act_title": "Elite Pass Season Preview",
+      "act_text": "Explore the new Fire Pass tiers and claim bonus Diamonds!",
+      "award_context": "Season Preview",
+      "image_url": "/banners/splash_elite.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 20,
+      "sort_id": 1,
+      "is_process_show": 1,
+      "act_tag": 1,
+      "gos_pos": 114,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 3,
+          "award_id": 0,
+          "award_num": 150
+        },
+        {
+          "award_type": 2,
+          "award_id": 0,
+          "award_num": 5000
+        }
+      ],
+      "table_type": 6
+    },
+    {
+      "id": 4001,
+      "activity_id": 4001,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #1",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #1",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 1,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 2,
+          "award_id": 0,
+          "award_num": 500
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 1002,
+      "activity_id": 1002,
+      "enabled": true,
+      "group_id": 1,
+      "act_title": "Play 1 Classic Match",
+      "act_text": "Drop into Bermuda and survive in Classic or Ranked mode.",
+      "award_context": "Match Bonus",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 2,
+      "is_process_show": 1,
+      "act_tag": 1,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 2,
+          "award_id": 0,
+          "award_num": 1500
+        },
+        {
+          "award_type": 6,
+          "award_id": 0,
+          "award_num": 30
+        }
+      ],
+      "table_type": 1
+    },
+    {
+      "id": 2002,
+      "activity_id": 2002,
+      "enabled": false,
+      "group_id": 2,
+      "act_title": "Festival Token Exchange",
+      "act_text": "Exchange event tokens for legendary outfit pieces.",
+      "award_context": "Exchange Bundle",
+      "image_url": "/banners/announce_events.png",
+      "image_url_for_lobby": "/banners/lobby_ad_2.png",
+      "activity_type": 2,
+      "sort_id": 2,
+      "is_process_show": 0,
+      "act_tag": 3,
+      "gos_pos": 3,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 1,
+          "award_id": 902000002,
+          "award_num": 1
+        }
+      ],
+      "exchange_items": [
+        {
+          "id": 203000001,
+          "cnt": 1
+        }
+      ],
+      "table_type": 2
+    },
+    {
+      "id": 4002,
+      "activity_id": 4002,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #2",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #2",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 2,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 3,
+          "award_id": 0,
+          "award_num": 25
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 1003,
+      "activity_id": 1003,
+      "enabled": true,
+      "group_id": 1,
+      "act_title": "Eliminate 3 Opponents",
+      "act_text": "Score 3 eliminations across any mode to unlock a weapon crate.",
+      "award_context": "Sharpshooter Cache",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_2.png",
+      "activity_type": 0,
+      "sort_id": 3,
+      "is_process_show": 1,
+      "act_tag": 0,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 3,
+      "awards": [
+        {
+          "award_type": 1,
+          "award_id": 901000002,
+          "award_num": 1
+        },
+        {
+          "award_type": 6,
+          "award_id": 0,
+          "award_num": 25
+        }
+      ],
+      "table_type": 1
+    },
+    {
+      "id": 4003,
+      "activity_id": 4003,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #3",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #3",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 3,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 1,
+          "award_id": 901000004,
+          "award_num": 1
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 3002,
+      "activity_id": 3002,
+      "enabled": true,
+      "group_id": 1,
+      "act_title": "Visit Luck Royale",
+      "act_text": "Check out the latest Diamond Royale & Gold Royale jackpots.",
+      "award_context": "Royale Preview",
+      "image_url": "/banners/splash_welcome.png",
+      "image_url_for_lobby": "/banners/lobby_ad_2.png",
+      "activity_type": 21,
+      "sort_id": 4,
+      "is_process_show": 0,
+      "act_tag": 0,
+      "gos_pos": 15,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 2,
+          "award_id": 0,
+          "award_num": 800
+        }
+      ],
+      "table_type": 1
+    },
+    {
+      "id": 4004,
+      "activity_id": 4004,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #4",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #4",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 4,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 2,
+          "award_id": 0,
+          "award_num": 750
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 4005,
+      "activity_id": 4005,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #5",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #5",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 5,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 3,
+          "award_id": 0,
+          "award_num": 50
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 4006,
+      "activity_id": 4006,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #6",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #6",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 6,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 1,
+          "award_id": 902000004,
+          "award_num": 1
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 4007,
+      "activity_id": 4007,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #7",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #7",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 7,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 2,
+          "award_id": 0,
+          "award_num": 1000
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 4008,
+      "activity_id": 4008,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #8",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #8",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 8,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 3,
+          "award_id": 0,
+          "award_num": 35
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    },
+    {
+      "id": 4009,
+      "activity_id": 4009,
+      "enabled": false,
+      "group_id": 4,
+      "act_title": "Bingo Cell #9",
+      "act_text": "Flip this card to complete a Bingo line!",
+      "award_context": "Card #9",
+      "image_url": "/banners/activity_banner.png",
+      "image_url_for_lobby": "/banners/lobby_ad_1.png",
+      "activity_type": 0,
+      "sort_id": 9,
+      "is_process_show": 1,
+      "act_tag": 2,
+      "gos_pos": 0,
+      "start_time": 1794400562,
+      "end_time": 1797078962,
+      "cdt_value": 1,
+      "awards": [
+        {
+          "award_type": 1,
+          "award_id": 203000007,
+          "award_num": 1
+        }
+      ],
+      "table_type": 4,
+      "activity_class": 1
+    }
+  ],
+  "feature_switches": [
+    {
+      "id": 1,
+      "name": "LOTTERY_PR",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "name": "TREASURE_BOX_PR",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 3,
+      "name": "SPECIAL_STORE_ICON",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 4,
+      "name": "GIFT_STORE_IOS",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 5,
+      "name": "EXCHANGE_STORE_IOS",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 6,
+      "name": "LEVEL_LIMITED_FOR_SPLASH_BANNER",
+      "is_open": false,
+      "enabled": false
+    },
+    {
+      "id": 7,
+      "name": "AD_REWARDED_VIDEO_ENTRANCE",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 8,
+      "name": "PRELOAD_REWARDED_VIDEO_UNDER_WIFI",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 9,
+      "name": "UNFINISHED_TOPUP_ICON_SHOW",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 10,
+      "name": "FINISHED_TOPUP_ICON_SHOW",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 11,
+      "name": "TP_TICK",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 12,
+      "name": "PVE_WEAPON_INFO_SHOW",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 13,
+      "name": "CATAPULT_USING",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 14,
+      "name": "LIVE_SHOW",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 15,
+      "name": "TP_INFO",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 16,
+      "name": "SP_UNITY",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 18,
+      "name": "MYSTERY_BONUS",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 20,
+      "name": "AFTER_MATCH_REWARD_AD",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 21,
+      "name": "CHAMPIONSHIP_ENTRANCE",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 22,
+      "name": "NATIONAL_FLAG",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 23,
+      "name": "ACTIVENESS_LEVEL",
+      "is_open": true,
+      "enabled": true
+    },
+    {
+      "id": 24,
+      "name": "SECOND_RECHARGE_ICON",
+      "is_open": true,
+      "enabled": true
+    }
+  ],
+  "bonus_events": [
+    {
+      "id": 1,
+      "enabled": true,
+      "region": "DEFAULT",
+      "start_day": "2026-01-01",
+      "end_day": "2028-12-31",
+      "daily_start_time": "00:00:00",
+      "daily_end_time": "23:59:59",
+      "match_mode": 0,
+      "game_mode": 0,
+      "map_id": 0,
+      "group_mode": 0,
+      "exp_bonus": 100,
+      "gold_bonus": 100,
+      "gold_limit": 5000,
+      "debris_limit": 50,
+      "today_start_timestamp": 1794483362,
+      "today_end_timestamp": 1794569762,
+      "tomorrow_start_timestamp": 1794569762,
+      "tomorrow_end_timestamp": 1794656162
+    }
+  ]
+}

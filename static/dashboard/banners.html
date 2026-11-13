@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>India V1 1.39 - Banners &amp; Ads Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       CSS VARIABLES & THEME TOKENS
+       ========================================================================== */
+    :root {
+      --b-bg-base: #070a12;
+      --b-bg-surface: rgba(15, 23, 42, 0.78);
+      --b-bg-surface-elevated: rgba(22, 33, 59, 0.88);
+      --b-bg-input: rgba(10, 15, 29, 0.85);
+      --b-border: rgba(255, 255, 255, 0.08);
+      --b-border-hover: rgba(56, 189, 248, 0.35);
+      --b-border-active: #38bdf8;
+      
+      --b-text-main: #f8fafc;
+      --b-text-muted: #94a3b8;
+      --b-text-dim: #64748b;
+
+      --b-cyan: #38bdf8;
+      --b-cyan-glow: rgba(56, 189, 248, 0.22);
+      --b-indigo: #818cf8;
+      --b-green: #10b981;
+      --b-green-glow: rgba(16, 185, 129, 0.22);
+      --b-gold: #f59e0b;
+      --b-gold-glow: rgba(245, 158, 11, 0.22);
+      --b-rose: #f43f5e;
+      --b-rose-glow: rgba(244, 63, 94, 0.22);
+
+      --b-radius-sm: 6px;
+      --b-radius-md: 10px;
+      --b-radius-lg: 14px;
+      --b-shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(circle at 10% 10%, #0d172e 0%, transparent 45%),
+                  radial-gradient(circle at 90% 90%, #111827 0%, transparent 45%),
+                  var(--b-bg-base);
+      color: var(--b-text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: hidden; /* Viewport-fitted workspace */
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(7, 10, 18, 0.5); }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+    .monospace { font-family: 'JetBrains Mono', monospace; }
+
+    /* ==========================================================================
+       TOP COMPONENT HEADER & SUB-TABS (COMPACT & VIEWPORT-FITTED)
+       ========================================================================== */
+    .b-workspace {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      padding: 16px 22px;
+      gap: 14px;
+    }
+
+    .b-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+      padding-bottom: 4px;
+    }
+
+    .b-title-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .b-module-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: var(--b-radius-sm);
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--b-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      letter-spacing: 0.05em;
+    }
+
+    .b-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .b-subtabs-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 4px;
+      border-radius: var(--b-radius-md);
+      border: 1px solid var(--b-border);
+    }
+
+    .b-subtab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 15px;
+      border-radius: var(--b-radius-sm);
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--b-text-muted);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .b-subtab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .b-subtab-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(99, 102, 241, 0.18));
+      color: #fff;
+      border-color: rgba(56, 189, 248, 0.35);
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.15);
+    }
+
+    .b-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ==========================================================================
+       SUB-TAB PANES (VIEWPORT-FITTED, NO ENDLESS VERTICAL SCROLL)
+       ========================================================================== */
+    .b-subtab-pane {
+      display: none;
+      flex: 1;
+      height: calc(100vh - 78px);
+      min-height: 0;
+      gap: 16px;
+    }
+
+    .b-subtab-pane.active {
+      display: flex;
+      animation: bFadeIn 0.2s ease-out;
+    }
+
+    @keyframes bFadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 2-Column Split Panes */
+    .b-col-left {
+      flex: 1.15;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+    }
+
+    .b-col-right {
+      flex: 0.85;
+      min-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+    }
+
+    /* Glass Cards */
+    .b-card {
+      background: var(--b-bg-surface);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-lg);
+      padding: 16px 18px;
+      box-shadow: var(--b-shadow-card);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      position: relative;
+    }
+
+    .b-card.flex-1 { flex: 1; }
+
+    .b-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--b-border);
+      flex-shrink: 0;
+    }
+
+    .b-card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .b-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .b-card-desc {
+      font-size: 11.5px;
+      color: var(--b-text-muted);
+      margin-top: 1px;
+    }
+
+    /* ==========================================================================
+       BUTTONS & BADGES
+       ========================================================================== */
+    .b-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #031326;
+      border: 1px solid transparent;
+      border-radius: var(--b-radius-sm);
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      box-shadow: 0 2px 8px var(--b-cyan-glow);
+    }
+    .b-btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .b-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(30, 41, 59, 0.7);
+      color: var(--b-text-main);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-sm);
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .b-btn-secondary:hover { background: rgba(51, 65, 85, 0.8); border-color: rgba(255, 255, 255, 0.2); }
+
+    .b-btn-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      color: #1a0f00;
+      border: 1px solid transparent;
+      border-radius: var(--b-radius-sm);
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px var(--b-gold-glow);
+    }
+    .b-btn-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .b-btn-icon {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--b-radius-sm);
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--b-border);
+      color: var(--b-text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .b-btn-icon:hover { color: #fff; background: rgba(51, 65, 85, 0.85); border-color: rgba(255,255,255,0.2); }
+    .b-btn-icon.text-danger:hover { background: rgba(244, 63, 94, 0.2); color: #fda4af; border-color: var(--b-rose); }
+
+    .b-btn-xs { padding: 4px 8px; font-size: 11px; }
+    .b-btn-sm { padding: 5px 11px; font-size: 11.5px; }
+
+    .b-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .b-badge-cyan { background: rgba(56, 189, 248, 0.12); color: var(--b-cyan); border: 1px solid rgba(56, 189, 248, 0.25); }
+    .b-badge-green { background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.25); }
+    .b-badge-gold { background: rgba(245, 158, 11, 0.12); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.25); }
+    .b-badge-dim { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+
+    /* Toggle Switch Button */
+    .b-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px 3px 4px;
+      border-radius: 9999px;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--b-border);
+      color: var(--b-text-dim);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .b-toggle-knob {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #64748b;
+      transition: all 0.2s;
+    }
+    .b-toggle-btn.active {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+    .b-toggle-btn.active .b-toggle-knob {
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    /* Actions Cluster */
+    .b-actions-cluster {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ==========================================================================
+       SUB-TAB 1: LOBBY BILLBOARD ADS (TABLE + SIMULATOR)
+       ========================================================================== */
+    .b-table-wrap {
+      flex: 1;
+      overflow-y: auto;
+      border-radius: var(--b-radius-md);
+      border: 1px solid var(--b-border);
+      background: rgba(10, 15, 29, 0.4);
+    }
+
+    .b-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .b-data-table th {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 9px 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--b-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--b-border);
+      z-index: 10;
+    }
+
+    .b-data-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+    }
+
+    .b-table-row:hover { background: rgba(255, 255, 255, 0.03); }
+    .b-table-row.row-selected { background: rgba(56, 189, 248, 0.08); }
+
+    .b-thumb-box {
+      width: 48px;
+      height: 28px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #020617;
+      border: 1px solid var(--b-border);
+    }
+    .b-thumb-box img { width: 100%; height: 100%; object-fit: cover; }
+
+    .b-item-primary { font-weight: 700; color: #fff; font-size: 12px; }
+    .b-item-secondary { font-size: 10.5px; color: var(--b-text-dim); max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Billboard Simulator View */
+    .b-sim-stage {
+      position: relative;
+      flex: 1;
+      border-radius: var(--b-radius-md);
+      background: linear-gradient(180deg, #091024 0%, #030712 100%);
+      border: 1px solid var(--b-border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .b-sim-badge {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--b-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      z-index: 20;
+    }
+
+    .b-sim-controls {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 20;
+    }
+
+    .b-billboard-screen {
+      width: 88%;
+      height: 70%;
+      position: relative;
+      border-radius: var(--b-radius-md);
+      overflow: hidden;
+      border: 2px solid rgba(56, 189, 248, 0.3);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .b-billboard-screen:hover { border-color: var(--b-cyan); transform: scale(1.01); }
+
+    .b-billboard-slide {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .b-billboard-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .b-billboard-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 14px;
+      background: linear-gradient(180deg, transparent, rgba(3, 7, 18, 0.95));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .b-billboard-tag { font-size: 11px; font-weight: 700; color: #fff; }
+    .b-billboard-jump-pill {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--b-cyan);
+      background: rgba(56, 189, 248, 0.15);
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .b-billboard-empty {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--b-text-dim);
+    }
+    .b-billboard-empty-icon { color: #334155; }
+
+    .b-billboard-dots {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .b-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #334155;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .b-dot.active {
+      width: 22px;
+      background: var(--b-cyan);
+      box-shadow: 0 0 8px var(--b-cyan);
+    }
+
+    /* ==========================================================================
+       SUB-TAB 2: LOGIN SPLASH POPUPS (LIST + SIMULATOR)
+       ========================================================================== */
+    .b-splashes-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 2px;
+    }
+
+    .b-splash-card {
+      background: rgba(10, 15, 29, 0.6);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-md);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .b-splash-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .b-splash-card.selected {
+      border-color: var(--b-cyan);
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.1);
+    }
+
+    .b-splash-card-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .b-splash-thumb {
+      width: 64px;
+      height: 38px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #020617;
+      border: 1px solid var(--b-border);
+      flex-shrink: 0;
+    }
+    .b-splash-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .b-splash-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .b-splash-header-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .b-splash-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .b-splash-sub {
+      font-size: 10.5px;
+      color: var(--b-text-dim);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 240px;
+    }
+
+    .b-splash-meta {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .b-splash-card-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Startup Popup Simulator */
+    .b-splash-sim-frame {
+      flex: 1;
+      border-radius: var(--b-radius-md);
+      background: #000;
+      border: 1px solid var(--b-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    .b-splash-modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .b-splash-modal-box {
+      width: 92%;
+      max-width: 440px;
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: var(--b-radius-md);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px var(--b-cyan-glow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .b-splash-modal-header {
+      padding: 8px 12px;
+      background: rgba(2, 6, 23, 0.9);
+      border-bottom: 1px solid var(--b-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .b-splash-modal-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .b-splash-modal-close {
+      background: transparent;
+      border: none;
+      color: var(--b-text-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .b-splash-modal-close:hover { color: #fff; }
+
+    .b-splash-modal-body {
+      background: #020617;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .b-splash-modal-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .b-splash-modal-footer {
+      padding: 10px 14px;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid var(--b-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .b-splash-modal-chk {
+      font-size: 10.5px;
+      color: var(--b-text-dim);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ==========================================================================
+       SUB-TAB 3: ASSET GALLERY & DRAG-AND-DROP UPLOADER
+       ========================================================================== */
+    .b-uploader-card {
+      padding: 14px 18px;
+      margin-bottom: 2px;
+    }
+
+    .b-dropzone {
+      border: 2px dashed rgba(56, 189, 248, 0.35);
+      border-radius: var(--b-radius-md);
+      background: rgba(10, 15, 30, 0.45);
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .b-dropzone:hover, .b-dropzone.dragover {
+      border-color: var(--b-cyan);
+      background: rgba(56, 189, 248, 0.08);
+      transform: scale(1.002);
+    }
+
+    .b-drop-icon { color: var(--b-cyan); }
+    .b-drop-title { font-size: 13px; font-weight: 700; color: #fff; }
+    .b-drop-hint { font-size: 11px; color: var(--b-text-muted); }
+
+    .b-upload-progress {
+      display: none;
+      margin-top: 8px;
+      background: rgba(2, 6, 23, 0.8);
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+      border: 1px solid var(--b-border);
+    }
+    .b-upload-progress.show { display: block; }
+    .b-upload-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      transition: width 0.2s;
+    }
+
+    /* Filter & Controls bar */
+    .b-filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .b-filter-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .b-search-input {
+      background: var(--b-bg-input);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-sm);
+      padding: 6px 12px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 12px;
+      width: 240px;
+    }
+    .b-search-input:focus { outline: none; border-color: var(--b-cyan); }
+
+    .b-select {
+      background: var(--b-bg-input);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-sm);
+      padding: 6px 10px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 12px;
+    }
+    .b-select:focus { outline: none; border-color: var(--b-cyan); }
+
+    /* Gallery Grid */
+    .b-gallery-grid {
+      flex: 1;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      padding-right: 4px;
+    }
+
+    .b-gallery-card {
+      background: rgba(10, 15, 29, 0.7);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s;
+    }
+    .b-gallery-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .b-gallery-thumb-wrap {
+      width: 100%;
+      height: 125px;
+      background: #020617;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .b-gallery-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.25s;
+    }
+    .b-gallery-card:hover .b-gallery-thumb { transform: scale(1.04); }
+
+    .b-gallery-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #fff;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .b-gallery-thumb-wrap:hover .b-gallery-thumb-overlay { opacity: 1; }
+
+    .b-gallery-info {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .b-gallery-filename {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .b-gallery-sub {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--b-text-dim);
+    }
+
+    .b-gallery-assign-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .b-assign-lbl { font-size: 10px; color: var(--b-text-dim); font-weight: 600; }
+
+    .b-btn-assign {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--b-border);
+      color: var(--b-text-muted);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .b-btn-assign:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: var(--b-cyan);
+    }
+
+    .b-gallery-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+
+    .b-gallery-empty {
+      grid-column: 1 / -1;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--b-text-dim);
+    }
+    .b-gallery-empty-icon { color: #334155; }
+
+    /* ==========================================================================
+       SUB-TAB 4: TOP MARQUEE TICKER & NEWS ANNOUNCEMENTS
+       ========================================================================== */
+    .b-ticker-preview-bar {
+      background: rgba(2, 6, 23, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--b-radius-sm);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .b-ticker-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      flex-shrink: 0;
+    }
+
+    .b-ticker-marquee-window {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .b-ticker-marquee-stream {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: #7dd3fc;
+      animation: marqueeScroll 26s linear infinite;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .b-mq-card {
+      background: rgba(10, 15, 29, 0.6);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-md);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .b-mq-info { flex: 1; min-width: 0; }
+    .b-mq-header { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .b-mq-id { font-weight: 700; color: #fff; font-size: 12px; }
+    .b-mq-text { font-size: 12px; color: var(--b-text-muted); }
+    .b-mq-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+    /* News & Announcements List & Viewer */
+    .b-news-split {
+      display: flex;
+      gap: 14px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .b-news-list-box {
+      flex: 0.9;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .b-news-row {
+      background: rgba(10, 15, 29, 0.6);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-md);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .b-news-row:hover { border-color: rgba(56, 189, 248, 0.35); }
+    .b-news-row.selected {
+      border-color: var(--b-cyan);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .b-news-row-left { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+    .b-news-title { font-weight: 700; color: #fff; font-size: 12px; }
+    .b-news-desc-snippet { font-size: 10.5px; color: var(--b-text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* News Sim Card (Game Modal Mockup) */
+    .b-news-sim-card {
+      flex: 1.1;
+      background: #0b1120;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: var(--b-radius-md);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .b-news-sim-header {
+      background: rgba(2, 6, 23, 0.9);
+      border-bottom: 1px solid var(--b-border);
+      padding: 8px 12px;
+    }
+
+    .b-news-sim-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .b-news-sim-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--b-text-dim);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .b-news-sim-tab.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #fff;
+    }
+
+    .b-news-sim-body {
+      padding: 14px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .b-news-sim-banner {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--b-border);
+    }
+
+    .b-news-sim-title { font-size: 14px; font-weight: 800; color: #fff; }
+    .b-news-sim-text { font-size: 12px; color: var(--b-text-muted); line-height: 1.6; white-space: pre-wrap; }
+
+    .b-news-sim-link-box {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--b-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* ==========================================================================
+       SIDE-DRAWER EDITOR FOR FORMS (COMPACT, OVERLAY, NON-SCROLL INVASIVE)
+       ========================================================================== */
+    .b-drawer {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 380px;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(56, 189, 248, 0.3);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 100;
+      transform: translateX(100%);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .b-drawer.open { transform: translateX(0); }
+
+    .b-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--b-border);
+      padding-bottom: 12px;
+    }
+    .b-drawer-title { font-size: 14px; font-weight: 800; color: #fff; }
+
+    .b-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: 4px;
+    }
+
+    .b-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .b-form-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--b-text-muted);
+    }
+
+    .b-input, .b-textarea {
+      background: var(--b-bg-input);
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-sm);
+      padding: 8px 12px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 12px;
+      transition: all 0.18s;
+    }
+    .b-input:focus, .b-textarea:focus { outline: none; border-color: var(--b-cyan); box-shadow: 0 0 0 2px var(--b-cyan-glow); }
+    .b-textarea { resize: vertical; min-height: 80px; }
+
+    .b-drawer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      border-top: 1px solid var(--b-border);
+      padding-top: 12px;
+    }
+
+    .b-drawer-thumb-preview {
+      width: 100%;
+      height: 90px;
+      background: #020617;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--b-border);
+    }
+    .b-drawer-thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ==========================================================================
+       IMAGE PREVIEW MODAL
+       ========================================================================== */
+    .b-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .b-modal-overlay.show { display: flex; animation: bFadeIn 0.2s ease-out; }
+
+    .b-modal-card {
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: var(--b-radius-lg);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      max-width: 720px;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .b-modal-header {
+      padding: 12px 18px;
+      background: rgba(2, 6, 23, 0.95);
+      border-bottom: 1px solid var(--b-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .b-modal-title { font-size: 13px; font-weight: 700; color: #fff; font-family: 'JetBrains Mono', monospace; }
+
+    .b-modal-body {
+      background: #020617;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 480px;
+      overflow: hidden;
+    }
+    .b-modal-img { max-width: 100%; max-height: 440px; object-fit: contain; border-radius: 4px; }
+
+    .b-modal-footer {
+      padding: 12px 18px;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid var(--b-border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* ==========================================================================
+       TOAST NOTIFICATION
+       ========================================================================== */
+    .b-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 10px 16px;
+      background: #0f172a;
+      border: 1px solid var(--b-border);
+      border-radius: var(--b-radius-md);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .b-toast.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .b-toast-success { border-color: var(--b-green); }
+    .b-toast-error { border-color: var(--b-rose); color: #fecdd3; }
+    .b-toast-info { border-color: var(--b-cyan); }
+    .b-toast-icon { display: flex; align-items: center; }
+
+    .spinning { animation: bSpin 0.7s linear infinite; }
+    @keyframes bSpin { 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div id="banners-component-root" class="b-workspace">
+  <!-- Top Navigation & Controls Header -->
+  <header class="b-topbar">
+    <div class="b-title-cluster">
+      <span class="b-module-badge">CMS / AD-SYSTEM</span>
+      <h1 class="b-title">Banners &amp; Ads Engine</h1>
+    </div>
+
+    <!-- Secondary Viewport Tabs -->
+    <nav class="b-subtabs-nav">
+      <button class="b-subtab-btn active" data-tab="billboard" onclick="BannersSection.switchSubTab('billboard')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <span>Billboard Ads (Carousel)</span>
+      </button>
+      <button class="b-subtab-btn" data-tab="splashes" onclick="BannersSection.switchSubTab('splashes')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span>Login Splash Popups</span>
+      </button>
+      <button class="b-subtab-btn" data-tab="assets" onclick="BannersSection.switchSubTab('assets')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Asset Manager &amp; Upload</span>
+      </button>
+      <button class="b-subtab-btn" data-tab="marquee-news" onclick="BannersSection.switchSubTab('marquee-news')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <span>Ticker &amp; Announcements</span>
+      </button>
+    </nav>
+
+    <!-- Global Actions -->
+    <div class="b-header-actions">
+      <button id="b-refresh-btn" class="b-btn-secondary" onclick="BannersSection.refreshAll()" title="Refresh CMS &amp; Assets">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        <span>Refresh</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       SUB-TAB 1: LOBBY BILLBOARD CAROUSEL ADS
+       ======================================================================= -->
+  <section id="b-pane-billboard" class="b-subtab-pane active">
+    <!-- Left Column: Ad Spots Table & Controls -->
+    <div class="b-col-left b-card">
+      <div class="b-card-header">
+        <div class="b-card-title-group">
+          <div class="b-card-title">
+            <span>Lobby Billboard Ad Spots</span>
+            <span class="b-badge b-badge-cyan">Type 11</span>
+          </div>
+          <div class="b-card-desc">Left billboard carousel on lobby screen. Client rotates every 4 seconds.</div>
+        </div>
+        <div class="b-actions-cluster">
+          <button class="b-btn-secondary b-btn-sm" onclick="BannersSection.resetCategory('adverts')">Reset Defaults</button>
+          <button class="b-btn-primary b-btn-sm" onclick="BannersSection.newAd()">+ New Ad Spot</button>
+        </div>
+      </div>
+
+      <div class="b-table-wrap">
+        <table class="b-data-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">Sort</th>
+              <th style="width: 60px;">Image</th>
+              <th>Spot &amp; Path</th>
+              <th style="width: 170px;">Jump Target</th>
+              <th style="width: 90px;">Status</th>
+              <th style="width: 80px; text-align:right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="b-adverts-table-body">
+            <!-- Dynamically populated via banners.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Free Fire 1.39 Lobby Simulator -->
+    <div class="b-col-right b-card">
+      <div class="b-card-header">
+        <div class="b-card-title-group">
+          <div class="b-card-title">Lobby Billboard Simulator</div>
+          <div class="b-card-desc">Live simulation of the 1.39 lobby carousel rotation</div>
+        </div>
+      </div>
+
+      <div class="b-sim-stage">
+        <span class="b-sim-badge">LOBBY AD ROTATOR</span>
+        <div class="b-sim-controls">
+          <button class="b-btn-icon" onclick="BannersSection.prevAd()" title="Previous Ad">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button id="b-carousel-play-btn" class="b-btn-icon" onclick="BannersSection.toggleCarouselPlay()" title="Pause Carousel">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="b-btn-icon" onclick="BannersSection.nextAd()" title="Next Ad">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <div id="b-billboard-screen" class="b-billboard-screen">
+          <!-- Slide rendered via banners.js -->
+        </div>
+
+        <div id="b-billboard-dots" class="b-billboard-dots">
+          <!-- Pagination dots -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Ad Side-Drawer -->
+    <div id="b-ad-drawer" class="b-drawer">
+      <div class="b-drawer-header">
+        <h3 id="b-ad-drawer-title" class="b-drawer-title">Edit Billboard Ad</h3>
+        <button class="b-btn-icon" onclick="BannersSection.closeAdDrawer()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form id="b-ad-form" class="b-drawer-body" onsubmit="BannersSection.saveAd(event)">
+        <input type="hidden" id="b-ad-input-id">
+
+        <div class="b-form-group">
+          <label class="b-form-label">Banner Image Preview</label>
+          <div class="b-drawer-thumb-preview">
+            <img id="b-ad-img-preview" src="/banners/lobby_ad_1.png" alt="Preview">
+          </div>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Pick From Uploaded Banners</label>
+          <select id="b-ad-picker" class="b-select" onchange="document.getElementById('b-ad-input-url').value = this.value; BannersSection.updateAdImgPreview();">
+            <option value="">-- Choose from uploaded assets --</option>
+          </select>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Image URL / Path</label>
+          <input type="text" id="b-ad-input-url" class="b-input monospace" placeholder="/banners/lobby_ad_1.png" oninput="BannersSection.updateAdImgPreview()" required>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Jump Destination (go_pos)</label>
+          <select id="b-ad-select-pos" class="b-select">
+            <!-- Dynamically populated from NAV_DESTINATIONS -->
+          </select>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Sub-Destination Param (sub_go_pos)</label>
+          <input type="text" id="b-ad-input-sub" class="b-input monospace" placeholder="e.g. 1,6 for Store Bundles">
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Sort Priority Index</label>
+          <input type="number" id="b-ad-input-sort" class="b-input" min="1" max="99" value="1">
+        </div>
+
+        <div class="b-form-group" style="flex-direction:row; align-items:center; gap:8px;">
+          <input type="checkbox" id="b-ad-input-enabled" checked>
+          <label for="b-ad-input-enabled" class="b-form-label" style="margin:0; text-transform:none; cursor:pointer;">Enable this Ad in Lobby Rotation</label>
+        </div>
+
+        <div class="b-drawer-footer">
+          <button type="button" class="b-btn-secondary" onclick="BannersSection.closeAdDrawer()">Cancel</button>
+          <button type="submit" class="b-btn-primary">Save Ad Spot</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       SUB-TAB 2: LOGIN SPLASH POPUPS WITH FORCE-SHOW
+       ======================================================================= -->
+  <section id="b-pane-splashes" class="b-subtab-pane">
+    <!-- Left Column: Splash List & Cache-Buster Controls -->
+    <div class="b-col-left b-card">
+      <div class="b-card-header">
+        <div class="b-card-title-group">
+          <div class="b-card-title">
+            <span>Login Splash Popups</span>
+            <span class="b-badge b-badge-gold">Auto-Popup on Login</span>
+          </div>
+          <div class="b-card-desc">Full-screen popup banners displayed when the player enters the lobby.</div>
+        </div>
+        <div class="b-actions-cluster">
+          <button class="b-btn-gold" onclick="BannersSection.bumpAllSplashes()" title="Increments version counter on all splashes, busting Unity PlayerPrefs cache">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Force Re-Show on Next Login</span>
+          </button>
+          <button class="b-btn-primary b-btn-sm" onclick="BannersSection.newSplash()">+ New Splash</button>
+        </div>
+      </div>
+
+      <div id="b-splashes-list" class="b-splashes-list">
+        <!-- Rendered via banners.js -->
+      </div>
+    </div>
+
+    <!-- Right Column: High-Fidelity Startup Popup Screen Simulator -->
+    <div class="b-col-right b-card">
+      <div class="b-card-header">
+        <div class="b-card-title-group">
+          <div class="b-card-title">In-Game Startup Screen Simulator</div>
+          <div class="b-card-desc">Exact scale rendering of client's Login Splash modal</div>
+        </div>
+      </div>
+
+      <div id="b-splash-sim-frame" class="b-splash-sim-frame">
+        <!-- Modal popup rendered via banners.js -->
+      </div>
+    </div>
+
+    <!-- Edit Splash Side-Drawer -->
+    <div id="b-splash-drawer" class="b-drawer">
+      <div class="b-drawer-header">
+        <h3 id="b-splash-drawer-title" class="b-drawer-title">Edit Login Splash</h3>
+        <button class="b-btn-icon" onclick="BannersSection.closeSplashDrawer()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form id="b-splash-form" class="b-drawer-body" onsubmit="BannersSection.saveSplash(event)">
+        <input type="hidden" id="b-splash-input-id">
+
+        <div class="b-form-group">
+          <label class="b-form-label">Banner Image Preview</label>
+          <div class="b-drawer-thumb-preview">
+            <img id="b-splash-img-preview" src="/banners/splash_welcome.png" alt="Preview">
+          </div>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Internal Name / Title</label>
+          <input type="text" id="b-splash-input-name" class="b-input" placeholder="Season Launch" required>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Pick From Uploaded Banners</label>
+          <select id="b-splash-picker" class="b-select" onchange="document.getElementById('b-splash-input-url').value = this.value; BannersSection.updateSplashImgPreview();">
+            <option value="">-- Choose from uploaded assets --</option>
+          </select>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Popup Banner Image URL</label>
+          <input type="text" id="b-splash-input-url" class="b-input monospace" placeholder="/banners/splash_welcome.png" oninput="BannersSection.updateSplashImgPreview()" required>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Jump Destination (gos_pos)</label>
+          <select id="b-splash-select-pos" class="b-select">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">External Web URL (if gos_pos=99)</label>
+          <input type="text" id="b-splash-input-web" class="b-input monospace" placeholder="https://example.com/promo">
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Sub-Destination Param (sub_go_pos)</label>
+          <input type="text" id="b-splash-input-sub" class="b-input monospace" placeholder="e.g. 1">
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Display Order / Priority</label>
+          <input type="number" id="b-splash-input-sort" class="b-input" min="1" max="99" value="1">
+        </div>
+
+        <div class="b-form-group" style="flex-direction:row; align-items:center; gap:8px;">
+          <input type="checkbox" id="b-splash-input-browser" checked>
+          <label for="b-splash-input-browser" class="b-form-label" style="margin:0; text-transform:none; cursor:pointer;">Use Embedded In-Game Browser</label>
+        </div>
+
+        <div class="b-form-group" style="flex-direction:row; align-items:center; gap:8px;">
+          <input type="checkbox" id="b-splash-input-enabled" checked>
+          <label for="b-splash-input-enabled" class="b-form-label" style="margin:0; text-transform:none; cursor:pointer;">Active / Shown on Login</label>
+        </div>
+
+        <div class="b-drawer-footer">
+          <button type="button" class="b-btn-secondary" onclick="BannersSection.closeSplashDrawer()">Cancel</button>
+          <button type="submit" class="b-btn-primary">Save Splash</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       SUB-TAB 3: ASSET GALLERY & DRAG-AND-DROP UPLOADER
+       ======================================================================= -->
+  <section id="b-pane-assets" class="b-subtab-pane">
+    <div class="b-card flex-1">
+      <!-- Drag & Drop Uploader Header -->
+      <div class="b-dropzone" id="b-upload-dropzone" onclick="document.getElementById('b-upload-file-input').click()">
+        <div class="b-drop-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="b-drop-title">Drop new banner image here, or click to browse</div>
+        <div class="b-drop-hint">PNG, JPG, or JPEG up to 10MB. Stored instantly on server at /banners/&lt;filename&gt;</div>
+        <input type="file" id="b-upload-file-input" accept="image/png,image/jpeg,image/jpg" multiple style="display:none">
+      </div>
+
+      <div id="b-upload-progress" class="b-upload-progress">
+        <div id="b-upload-progress-bar" class="b-upload-progress-bar"></div>
+      </div>
+      <div id="b-upload-progress-text" style="font-size:11px; color:var(--b-cyan); margin-top:4px;"></div>
+
+      <!-- Filter, Search & Gallery Bar -->
+      <div class="b-filter-bar" style="margin-top: 14px;">
+        <div class="b-filter-left">
+          <input type="text" id="b-gallery-search" class="b-search-input" placeholder="Filter assets by name...">
+          <select id="b-gallery-sort" class="b-select">
+            <option value="name">Sort by Name</option>
+            <option value="date">Sort by Date Modified</option>
+            <option value="size">Sort by File Size</option>
+          </select>
+        </div>
+        <div class="b-badge b-badge-dim" id="b-gallery-count-badge">0 Files</div>
+      </div>
+
+      <!-- Responsive Grid Gallery -->
+      <div id="b-gallery-grid" class="b-gallery-grid">
+        <!-- Rendered via banners.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       SUB-TAB 4: TOP MARQUEE TICKER & NEWS ANNOUNCEMENTS
+       ======================================================================= -->
+  <section id="b-pane-marquee-news" class="b-subtab-pane">
+    <!-- Left Column: Top Marquee Ticker -->
+    <div class="b-col-left b-card">
+      <div class="b-card-header">
+        <div class="b-card-title-group">
+          <div class="b-card-title">Top Marquee Ticker</div>
+          <div class="b-card-desc">Animated text crawler running across the top of the lobby screen</div>
+        </div>
+        <div class="b-actions-cluster">
+          <button class="b-btn-secondary b-btn-sm" onclick="BannersSection.resetCategory('marquees')">Reset</button>
+          <button class="b-btn-primary b-btn-sm" onclick="BannersSection.newMarquee()">+ New Ticker</button>
+        </div>
+      </div>
+
+      <!-- Live Simulated Marquee Strip -->
+      <div class="b-ticker-preview-bar">
+        <span class="b-ticker-badge">LIVE TICKER</span>
+        <div class="b-ticker-marquee-window">
+          <div id="b-ticker-stream" class="b-ticker-marquee-stream">
+            WELCOME TO INDIA V1 FREE FIRE 1.39
+          </div>
+        </div>
+      </div>
+
+      <div id="b-marquee-list" style="flex:1; overflow-y:auto; padding-right:2px;">
+        <!-- Rendered via banners.js -->
+      </div>
+    </div>
+
+    <!-- Right Column: In-Game News & Notices -->
+    <div class="b-col-right b-card">
+      <div class="b-card-header">
+        <div class="b-card-title-group">
+          <div class="b-card-title">News &amp; Announcements</div>
+          <div class="b-card-desc">In-game News dialog notices &amp; patch note entries</div>
+        </div>
+        <div class="b-actions-cluster">
+          <button class="b-btn-secondary b-btn-sm" onclick="BannersSection.resetCategory('announcements')">Reset</button>
+          <button class="b-btn-primary b-btn-sm" onclick="BannersSection.newNews()">+ New Notice</button>
+        </div>
+      </div>
+
+      <div class="b-news-split">
+        <!-- News List (Left) -->
+        <div id="b-news-list" class="b-news-list-box">
+          <!-- Rendered via banners.js -->
+        </div>
+
+        <!-- News Dialog Simulator (Right) -->
+        <div id="b-news-viewer" class="b-news-sim-card">
+          <!-- Rendered via banners.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Marquee Side-Drawer -->
+    <div id="b-marquee-drawer" class="b-drawer">
+      <div class="b-drawer-header">
+        <h3 class="b-drawer-title">Edit Marquee Ticker</h3>
+        <button class="b-btn-icon" onclick="BannersSection.closeMarqueeDrawer()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="b-drawer-body" onsubmit="BannersSection.saveMarquee(event)">
+        <input type="hidden" id="b-mq-input-id">
+
+        <div class="b-form-group">
+          <label class="b-form-label">Ticker Text Message</label>
+          <textarea id="b-mq-input-content" class="b-textarea" placeholder="Enter scrolling broadcast message..." required></textarea>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Jump Destination (gos_pos)</label>
+          <select id="b-mq-select-pos" class="b-select">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+
+        <div class="b-form-group" style="flex-direction:row; align-items:center; gap:8px;">
+          <input type="checkbox" id="b-mq-input-enabled" checked>
+          <label for="b-mq-input-enabled" class="b-form-label" style="margin:0; text-transform:none; cursor:pointer;">Active / Broadcast in Lobby</label>
+        </div>
+
+        <div class="b-drawer-footer">
+          <button type="button" class="b-btn-secondary" onclick="BannersSection.closeMarqueeDrawer()">Cancel</button>
+          <button type="submit" class="b-btn-primary">Save Ticker</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Edit News Side-Drawer -->
+    <div id="b-news-drawer" class="b-drawer">
+      <div class="b-drawer-header">
+        <h3 class="b-drawer-title">Edit News Announcement</h3>
+        <button class="b-btn-icon" onclick="BannersSection.closeNewsDrawer()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="b-drawer-body" onsubmit="BannersSection.saveNews(event)">
+        <input type="hidden" id="b-news-input-id">
+
+        <div class="b-form-group">
+          <label class="b-form-label">Notice Title</label>
+          <input type="text" id="b-news-input-title" class="b-input" placeholder="Season Launch Festival" required>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Pick From Uploaded Banners</label>
+          <select id="b-news-picker" class="b-select" onchange="document.getElementById('b-news-input-url').value = this.value;">
+            <option value="">-- Choose from uploaded assets --</option>
+          </select>
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Header Banner Image URL</label>
+          <input type="text" id="b-news-input-url" class="b-input monospace" placeholder="/banners/announce_welcome.png">
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">External Action Link URL</label>
+          <input type="text" id="b-news-input-link" class="b-input monospace" placeholder="https://example.com/patch-notes">
+        </div>
+
+        <div class="b-form-group">
+          <label class="b-form-label">Body Text / Markdown</label>
+          <textarea id="b-news-input-desc" class="b-textarea" style="min-height:120px;" placeholder="Full announcement text..."></textarea>
+        </div>
+
+        <div class="b-form-group" style="flex-direction:row; align-items:center; gap:8px;">
+          <input type="checkbox" id="b-news-input-enabled" checked>
+          <label for="b-news-input-enabled" class="b-form-label" style="margin:0; text-transform:none; cursor:pointer;">Visible in In-Game News Modal</label>
+        </div>
+
+        <div class="b-drawer-footer">
+          <button type="button" class="b-btn-secondary" onclick="BannersSection.closeNewsDrawer()">Cancel</button>
+          <button type="submit" class="b-btn-primary">Save Notice</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<script src="/dashboard/banners.js"></script>
+<script>
+  // Automatic component initialization
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.BannersSection && typeof window.BannersSection.init === 'function') {
+      window.BannersSection.init();
+    }
+  });
+</script>
+</body>
+</html>

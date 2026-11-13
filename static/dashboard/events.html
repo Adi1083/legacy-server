@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events &amp; Quests Studio - Free Fire 1.39 India V1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #06090f;
+      --bg-surface: #0c121d;
+      --bg-card: #121a29;
+      --bg-card-hover: #162033;
+      --bg-input: #080d16;
+      --border: #1e293b;
+      --border-subtle: #152033;
+      --border-accent: #38bdf8;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --green: #10b981;
+      --gold: #f59e0b;
+      --rose: #f43f5e;
+      --purple: #a855f7;
+      --blue: #3b82f6;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.45;
+      overflow: hidden;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-base); }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+    /* SVG Icon utility */
+    .svg-ico {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      vertical-align: middle;
+      stroke-width: 2;
+    }
+    .svg-ico.gem { stroke: var(--accent); fill: rgba(56, 189, 248, 0.2); }
+    .svg-ico.gold { stroke: var(--gold); fill: rgba(245, 158, 11, 0.2); }
+    .svg-ico.item { stroke: var(--purple); fill: rgba(168, 85, 247, 0.2); }
+    .svg-ico.activeness { stroke: var(--green); fill: rgba(16, 185, 129, 0.2); }
+    .svg-ico.exp { stroke: var(--blue); fill: rgba(59, 130, 246, 0.2); }
+
+    /* Layout Root */
+    .evt-root {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      background: var(--bg-base);
+      overflow: hidden;
+    }
+
+    /* Top Control Bar */
+    .evt-topbar {
+      height: 54px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 16px;
+    }
+    .evt-topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .evt-badge-brand {
+      padding: 3px 8px;
+      background: linear-gradient(135deg, #0284c7, #4f46e5);
+      border-radius: var(--radius-sm);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .evt-topbar-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: var(--text-primary);
+    }
+    .evt-chip-count {
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    /* Subnav Buttons */
+    .evt-subnav-group {
+      display: flex;
+      align-items: center;
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 3px;
+      gap: 2px;
+    }
+    .evt-subnav-btn {
+      padding: 5px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .evt-subnav-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .evt-subnav-btn.active {
+      background: var(--bg-card);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .evt-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Standard Buttons */
+    .evt-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .evt-btn-primary {
+      background: var(--accent);
+      color: #041220;
+      border-color: var(--accent);
+    }
+    .evt-btn-primary:hover {
+      background: #7dd3fc;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+    .evt-btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border-color: var(--border);
+    }
+    .evt-btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: #334155;
+    }
+    .evt-btn-danger {
+      background: rgba(244, 63, 94, 0.1);
+      color: var(--rose);
+      border-color: rgba(244, 63, 94, 0.25);
+    }
+    .evt-btn-danger:hover {
+      background: rgba(244, 63, 94, 0.2);
+      border-color: var(--rose);
+    }
+    .evt-btn-sm {
+      padding: 4px 10px;
+      font-size: 11.5px;
+    }
+
+    /* Content Area */
+    .evt-content-viewport {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .evt-tab-pane {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+      flex-direction: column;
+    }
+    .evt-tab-pane.active {
+      display: flex;
+    }
+
+    /* -------------------------------------------------------------------------
+       TAB 1: Active Events List View
+       ------------------------------------------------------------------------- */
+    .evt-filter-toolbar {
+      height: 48px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 12px;
+    }
+    .evt-search-box {
+      position: relative;
+      width: 240px;
+    }
+    .evt-search-box .svg-ico {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+    }
+    .evt-input-search {
+      width: 100%;
+      height: 32px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0 10px 0 32px;
+      color: var(--text-primary);
+      font-size: 12px;
+    }
+    .evt-input-search:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .evt-pills-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+    }
+    .evt-filter-pill {
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .evt-filter-pill:hover {
+      color: var(--text-primary);
+      border-color: #334155;
+    }
+    .evt-filter-pill.active {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .evt-filter-meta-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    .evt-select-compact {
+      height: 30px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      padding: 0 8px;
+      cursor: pointer;
+    }
+    .evt-select-compact:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .evt-grid-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 20px;
+    }
+    .evt-grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+    }
+
+    /* Event Card */
+    .evt-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+    .evt-card:hover {
+      border-color: #334155;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+    .evt-card.is-disabled {
+      opacity: 0.65;
+    }
+    .evt-card-header {
+      padding: 12px 14px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .evt-card-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .evt-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .badge-cyan { background: rgba(56, 189, 248, 0.12); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-amber { background: rgba(245, 158, 11, 0.12); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-purple { background: rgba(168, 85, 247, 0.12); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge-emerald { background: rgba(16, 185, 129, 0.12); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-rose { background: rgba(244, 63, 94, 0.12); color: var(--rose); border: 1px solid rgba(244, 63, 94, 0.3); }
+    .badge-blue { background: rgba(59, 130, 246, 0.12); color: var(--blue); border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-gray { background: #1e293b; color: var(--text-tertiary); border: 1px solid #334155; }
+    .badge-id { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; background: #0b111e; color: #94a3b8; border: 1px solid var(--border); }
+    .tag-new { background: #0284c7; color: #fff; }
+    .tag-hot { background: #dc2626; color: #fff; }
+    .tag-limited { background: #d97706; color: #fff; }
+    .tag-preview { background: #7c3aed; color: #fff; }
+
+    /* Switch Component */
+    .evt-switch {
+      position: relative;
+      display: inline-block;
+      width: 34px;
+      height: 18px;
+    }
+    .evt-switch input { opacity: 0; width: 0; height: 0; }
+    .evt-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #1e293b;
+      transition: .2s;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+    }
+    .evt-slider:before {
+      position: absolute;
+      content: "";
+      height: 12px;
+      width: 12px;
+      left: 2px;
+      bottom: 2px;
+      background-color: var(--text-tertiary);
+      transition: .2s;
+      border-radius: 50%;
+    }
+    .evt-switch input:checked + .evt-slider {
+      background-color: rgba(16, 185, 129, 0.25);
+      border-color: var(--green);
+    }
+    .evt-switch input:checked + .evt-slider:before {
+      transform: translateX(16px);
+      background-color: var(--green);
+    }
+
+    .evt-card-body {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .evt-card-title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .evt-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .evt-card-context {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .evt-card-desc {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Condition Box */
+    .evt-card-condition-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 7px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .evt-cond-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+    .evt-cond-label {
+      color: var(--text-tertiary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .evt-cond-val {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .evt-sim-progress {
+      position: relative;
+      height: 14px;
+      background: #080d16;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .evt-sim-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      border-radius: 3px;
+    }
+    .evt-sim-text {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-shadow: 0 1px 2px #000;
+    }
+
+    /* Rewards Row */
+    .evt-card-rewards-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .evt-rewards-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .evt-rewards-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .evt-reward-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+    }
+    .evt-reward-pill.reward-gem { border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08); color: var(--accent); }
+    .evt-reward-pill.reward-gold { border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08); color: var(--gold); }
+    .evt-reward-pill.reward-item { border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.08); color: #c084fc; }
+    .evt-reward-pill.reward-activeness { border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.08); color: var(--green); }
+    .evt-reward-pill.reward-exp { border-color: rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.08); color: var(--blue); }
+
+    .evt-card-footer-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 10.5px;
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 8px;
+      margin-top: auto;
+    }
+    .evt-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .evt-meta-nav {
+      color: var(--accent);
+    }
+
+    .evt-card-actions {
+      padding: 8px 14px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+
+    /* -------------------------------------------------------------------------
+       TAB 2: Custom Event Builder (2-Column Viewport Fit)
+       ------------------------------------------------------------------------- */
+    .evt-builder-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      height: 100%;
+      overflow: hidden;
+    }
+    .evt-builder-form-pane {
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border-right: 1px solid var(--border);
+    }
+    .evt-builder-preview-pane {
+      overflow-y: auto;
+      padding: 20px;
+      background: #090e18;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Section Card */
+    .evt-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .evt-form-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+    }
+    .evt-form-card-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .evt-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .evt-form-row.triple {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .evt-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .evt-field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .evt-input, .evt-select, .evt-textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 12px;
+      padding: 7px 10px;
+      transition: border-color 0.15s ease;
+    }
+    .evt-input:focus, .evt-select:focus, .evt-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .evt-textarea {
+      resize: vertical;
+      min-height: 54px;
+      line-height: 1.4;
+    }
+
+    /* Multi-reward editor */
+    .evt-rewards-editor-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .evt-reward-edit-row {
+      display: grid;
+      grid-template-columns: 32px 140px 1fr 110px 32px;
+      gap: 8px;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+    }
+    .evt-rew-icon-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .evt-rew-preview-ico .svg-ico {
+      width: 18px;
+      height: 18px;
+    }
+    .evt-item-input-group {
+      display: flex;
+      gap: 6px;
+    }
+    .evt-rew-num-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .evt-quick-inc-btns {
+      display: flex;
+      gap: 4px;
+    }
+    .evt-btn-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text-tertiary);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 5px;
+      cursor: pointer;
+    }
+    .evt-btn-chip:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .evt-btn-del-row {
+      background: transparent;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .evt-btn-del-row:hover {
+      color: var(--rose);
+      background: rgba(244, 63, 94, 0.15);
+    }
+
+    /* Form Action Bar */
+    .evt-builder-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 10px;
+    }
+
+    /* Live Game Preview Card */
+    .evt-game-preview-card {
+      background: #141c2c;
+      border: 1px solid #29354d;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+    .evt-preview-banner-wrap {
+      position: relative;
+      height: 140px;
+      width: 100%;
+      background: #0b101a;
+      overflow: hidden;
+    }
+    .evt-preview-banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .evt-preview-badges-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      gap: 6px;
+    }
+    .evt-preview-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .evt-preview-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .evt-preview-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .evt-preview-context {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .evt-preview-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .evt-preview-progress-box {
+      background: #0c121e;
+      border: 1px solid #1c273c;
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .evt-preview-task {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+    }
+    .evt-task-name { color: var(--text-tertiary); display: inline-flex; align-items: center; gap: 4px; }
+    .evt-task-stat { font-weight: 600; color: #fff; }
+    .evt-preview-rewards-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .evt-preview-rew-heading {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+    }
+    .evt-preview-rew-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .evt-preview-btn-mock {
+      margin-top: 4px;
+    }
+    .evt-btn-claim-mock {
+      width: 100%;
+      height: 36px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.5px;
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* JSON Inspector Panel */
+    .evt-json-panel {
+      background: #080d15;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .evt-json-panel.hide { display: none; }
+    .evt-json-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #38bdf8;
+      max-height: 240px;
+      overflow-y: auto;
+      white-space: pre;
+    }
+
+    /* -------------------------------------------------------------------------
+       TAB 3: Bingo & Bonus Matrix
+       ------------------------------------------------------------------------- */
+    .evt-bingo-layout {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .evt-bingo-header-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .evt-bingo-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 900px;
+    }
+    .evt-bingo-cell {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+    .evt-bingo-cell:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.1);
+    }
+    .evt-bingo-cell.is-disabled {
+      opacity: 0.5;
+    }
+    .evt-bingo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .evt-bingo-num {
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: #041220;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .evt-bingo-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .evt-bingo-reward-wrap {
+      min-height: 28px;
+    }
+
+    .evt-bonus-row {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      margin-top: 6px;
+    }
+    .evt-bonus-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .evt-bonus-sub {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-left: 8px;
+    }
+
+    /* Empty state */
+    .evt-empty-state {
+      grid-column: 1 / -1;
+      padding: 48px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .evt-empty-icon .svg-ico {
+      width: 36px;
+      height: 36px;
+      color: var(--text-tertiary);
+    }
+    .evt-empty-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .evt-empty-desc {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* Toast System */
+    .evt-toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .evt-toast {
+      pointer-events: auto;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      animation: evtSlideIn 0.25s ease;
+      transition: all 0.25s ease;
+    }
+    .evt-toast.hide { opacity: 0; transform: translateY(10px); }
+    .evt-toast-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .evt-toast-info .evt-toast-dot { background: var(--accent); }
+    .evt-toast-success .evt-toast-dot { background: var(--green); }
+    .evt-toast-error .evt-toast-dot { background: var(--rose); }
+
+    @keyframes evtSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="evt-root">
+    <!-- Top Control Bar -->
+    <header class="evt-topbar">
+      <div class="evt-topbar-left">
+        <span class="evt-badge-brand">India V1</span>
+        <h2 class="evt-topbar-title">Events &amp; Quests Studio</h2>
+        <span class="evt-chip-count" id="evt-total-count">Loading...</span>
+      </div>
+
+      <!-- Subnav Navigation -->
+      <div class="evt-subnav-group">
+        <button class="evt-subnav-btn active" data-tab="list" onclick="window.eventsModule.switchTab('list')">
+          <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Active Quests &amp; Cards</span>
+        </button>
+        <button class="evt-subnav-btn" data-tab="builder" onclick="window.eventsModule.switchTab('builder')">
+          <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          <span>Event &amp; Mission Builder</span>
+        </button>
+        <button class="evt-subnav-btn" data-tab="bingo" onclick="window.eventsModule.switchTab('bingo')">
+          <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Bingo &amp; Bonus Matrix</span>
+        </button>
+      </div>
+
+      <div class="evt-topbar-right">
+        <button class="evt-btn evt-btn-secondary evt-btn-sm" onclick="window.eventsModule.resetDefault()" title="Reset CMS events to factory defaults">
+          <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+          <span>Reset Defaults</span>
+        </button>
+        <button class="evt-btn evt-btn-secondary evt-btn-sm" onclick="window.eventsModule.reload()" title="Refresh live events from server">
+          <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <span>Refresh</span>
+        </button>
+        <button class="evt-btn evt-btn-primary" onclick="window.eventsModule.createNewEvent()">
+          <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Create Event</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Viewport -->
+    <main class="evt-content-viewport">
+
+      <!-- =====================================================================
+           PANE 1: Active Events & Quests Grid View
+           ===================================================================== -->
+      <section class="evt-tab-pane active" id="pane-evt-list">
+        <!-- Filter Toolbar -->
+        <div class="evt-filter-toolbar">
+          <div class="evt-search-box">
+            <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="evt-input-search" id="evt-search-input" placeholder="Search title, ID, or description...">
+          </div>
+
+          <div class="evt-pills-bar">
+            <button class="evt-filter-pill active" data-cat="all">All Events</button>
+            <button class="evt-filter-pill" data-cat="1">Daily Missions</button>
+            <button class="evt-filter-pill" data-cat="2">Festival Events</button>
+            <button class="evt-filter-pill" data-cat="6">Season / Mega</button>
+            <button class="evt-filter-pill" data-cat="4">Bingo Cells</button>
+            <button class="evt-filter-pill" data-cat="5">Token Exchange</button>
+            <button class="evt-filter-pill" data-cat="9">Activeness</button>
+          </div>
+
+          <div class="evt-filter-meta-controls">
+            <select class="evt-select-compact" id="evt-status-filter">
+              <option value="all">All Status</option>
+              <option value="enabled">Active Only</option>
+              <option value="disabled">Paused Only</option>
+            </select>
+            <select class="evt-select-compact" id="evt-sort-select">
+              <option value="sort_id_asc">Sort: Priority (Asc)</option>
+              <option value="sort_id_desc">Sort: Priority (Desc)</option>
+              <option value="id_asc">Sort: ID (Asc)</option>
+              <option value="id_desc">Sort: ID (Desc)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Scrollable Cards Grid -->
+        <div class="evt-grid-scroll-area">
+          <div class="evt-grid-cards" id="events-grid-cards">
+            <!-- Rendered by events.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           PANE 2: Custom Event & Mission Builder
+           ===================================================================== -->
+      <section class="evt-tab-pane" id="pane-evt-builder">
+        <div class="evt-builder-layout">
+
+          <!-- Left Column: Form Controls -->
+          <div class="evt-builder-form-pane">
+
+            <!-- Section 1: Event Identity -->
+            <div class="evt-form-card">
+              <div class="evt-form-card-header">
+                <span class="evt-form-card-title">
+                  <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span id="bld-form-mode-title">Create New Event / Quest</span>
+                </span>
+                <span class="evt-pill badge-id" id="bld-badge-id-indicator">#1001</span>
+              </div>
+
+              <div class="evt-form-row">
+                <div class="evt-field">
+                  <label class="evt-field-label">Event ID (Unique integer)</label>
+                  <input type="number" class="evt-input" id="bld-id" value="1001">
+                </div>
+                <div class="evt-field" style="justify-content: flex-end;">
+                  <label class="evt-field-label">Deployment Status</label>
+                  <div style="display:flex; align-items:center; gap:8px; height:32px;">
+                    <label class="evt-switch">
+                      <input type="checkbox" id="bld-enabled" checked>
+                      <span class="evt-slider"></span>
+                    </label>
+                    <span style="font-size:12px; font-weight:600; color:var(--text-secondary);">Active In-Game</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="evt-form-row">
+                <div class="evt-field">
+                  <label class="evt-field-label">Mission / Event Title</label>
+                  <input type="text" class="evt-input" id="bld-title" placeholder="e.g. Play 1 Classic Match">
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">Award Context Badge</label>
+                  <input type="text" class="evt-input" id="bld-context" placeholder="e.g. Daily Bonus Pack">
+                </div>
+              </div>
+
+              <div class="evt-field">
+                <label class="evt-field-label">Objective Description</label>
+                <textarea class="evt-textarea" id="bld-desc" placeholder="Detailed mission instructions displayed to players in the lobby activity modal..."></textarea>
+              </div>
+
+              <div class="evt-form-row triple">
+                <div class="evt-field">
+                  <label class="evt-field-label">Category / Tab Type</label>
+                  <select class="evt-select" id="bld-table-type">
+                    <option value="1">Daily Missions (1)</option>
+                    <option value="2">Festival Launch (2)</option>
+                    <option value="3">Festival Hub (3)</option>
+                    <option value="4">Bingo Cell Quest (4)</option>
+                    <option value="5">Token Exchange (5)</option>
+                    <option value="6">Mega Season Preview (6)</option>
+                    <option value="7">Community Event (7)</option>
+                    <option value="9">Activeness Progress (9)</option>
+                  </select>
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">Visual Tag</label>
+                  <select class="evt-select" id="bld-tag">
+                    <option value="0">None</option>
+                    <option value="1">NEW (Blue)</option>
+                    <option value="2">HOT (Red)</option>
+                    <option value="3">LIMITED (Amber)</option>
+                    <option value="1000">PREVIEW (Purple)</option>
+                  </select>
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">Sort Priority</label>
+                  <input type="number" class="evt-input" id="bld-sort" value="1" min="1">
+                </div>
+              </div>
+
+              <div class="evt-form-row" style="display:none;">
+                <input type="hidden" id="bld-group" value="1">
+              </div>
+            </div>
+
+            <!-- Section 2: Condition & Jump Navigation -->
+            <div class="evt-form-card">
+              <div class="evt-form-card-header">
+                <span class="evt-form-card-title">
+                  <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                  <span>Task Conditions &amp; Navigation</span>
+                </span>
+              </div>
+
+              <div class="evt-form-row triple">
+                <div class="evt-field">
+                  <label class="evt-field-label">Condition Value (Target)</label>
+                  <input type="number" class="evt-input" id="bld-condition-val" value="1" min="1">
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">Show Progress Bar</label>
+                  <div style="display:flex; align-items:center; gap:8px; height:32px;">
+                    <label class="evt-switch">
+                      <input type="checkbox" id="bld-show-progress" checked>
+                      <span class="evt-slider"></span>
+                    </label>
+                    <span style="font-size:11.5px; color:var(--text-secondary);">Visible in Game</span>
+                  </div>
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">Activity Type</label>
+                  <select class="evt-select" id="bld-activity-type">
+                    <option value="0">Normal (0)</option>
+                    <option value="1">First Recharge (1)</option>
+                    <option value="2">Token Exchange (2)</option>
+                    <option value="5">Festival (5)</option>
+                    <option value="20">Season Overview (20)</option>
+                    <option value="21">Navigation Jump (21)</option>
+                    <option value="22">Activeness (22)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="evt-form-row">
+                <div class="evt-field">
+                  <label class="evt-field-label">Navigation Jump Target (gos_pos)</label>
+                  <select class="evt-select" id="bld-gos-pos">
+                    <option value="0">0: None (In-Lobby Modal)</option>
+                    <option value="1">1: Player Profile</option>
+                    <option value="2">2: Squad / Duo Lobby</option>
+                    <option value="3">3: Mall / Store</option>
+                    <option value="4">4: Vault / Inventory</option>
+                    <option value="5">5: Clan Hub</option>
+                    <option value="6">6: Top-Up / Recharge</option>
+                    <option value="7">7: Activity / Event Tabs</option>
+                    <option value="8">8: Friends List</option>
+                    <option value="14">14 / 114: Elite Fire Pass</option>
+                    <option value="15">15: Luck Royale / Gacha</option>
+                  </select>
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">Schedule Presets</label>
+                  <div style="display:flex; gap:6px; height:32px; align-items:center;">
+                    <button type="button" class="evt-btn evt-btn-secondary evt-btn-sm" onclick="window.eventsModule.setSchedule(7)">7 Days</button>
+                    <button type="button" class="evt-btn evt-btn-secondary evt-btn-sm" onclick="window.eventsModule.setSchedule(30)">30 Days</button>
+                    <button type="button" class="evt-btn evt-btn-secondary evt-btn-sm" onclick="window.eventsModule.setSchedule(365)">1 Year</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="evt-form-row">
+                <div class="evt-field">
+                  <label class="evt-field-label">Start Timestamp (Unix sec)</label>
+                  <input type="number" class="evt-input" id="bld-start-time">
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">End Timestamp (Unix sec)</label>
+                  <input type="number" class="evt-input" id="bld-end-time">
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 3: Media Banners -->
+            <div class="evt-form-card">
+              <div class="evt-form-card-header">
+                <span class="evt-form-card-title">
+                  <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                  <span>Banner Assets</span>
+                </span>
+              </div>
+
+              <div class="evt-form-row">
+                <div class="evt-field">
+                  <label class="evt-field-label">Main Activity Banner URL</label>
+                  <input type="text" class="evt-input" id="bld-banner-main" value="/banners/activity_banner.png">
+                  <select class="evt-select" id="bld-banner-main-picker" style="margin-top:4px;">
+                    <option value="">Choose server banner...</option>
+                  </select>
+                </div>
+                <div class="evt-field">
+                  <label class="evt-field-label">Lobby Tile Ad Banner URL</label>
+                  <input type="text" class="evt-input" id="bld-banner-lobby" value="/banners/lobby_ad_1.png">
+                  <select class="evt-select" id="bld-banner-lobby-picker" style="margin-top:4px;">
+                    <option value="">Choose server banner...</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 4: Multi-Reward Item Rows -->
+            <div class="evt-form-card">
+              <div class="evt-form-card-header">
+                <span class="evt-form-card-title">
+                  <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                  <span>Rewards &amp; Item Drops</span>
+                </span>
+                <button type="button" class="evt-btn evt-btn-secondary evt-btn-sm" onclick="window.eventsModule.addRewardRow()">
+                  <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>Add Reward Row</span>
+                </button>
+              </div>
+
+              <div class="evt-rewards-editor-wrap" id="bld-rewards-list">
+                <!-- Rendered dynamically by events.js -->
+              </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="evt-builder-actions">
+              <button type="button" class="evt-btn evt-btn-primary" onclick="window.eventsModule.saveEvent(false)">
+                <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Save &amp; Deploy Event</span>
+              </button>
+              <button type="button" class="evt-btn evt-btn-secondary" onclick="window.eventsModule.saveEvent(true)" title="Clone this configuration to a brand new ID">
+                <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Save as New Clone</span>
+              </button>
+              <button type="button" class="evt-btn evt-btn-secondary" onclick="window.eventsModule.toggleJsonInspector()">
+                <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                <span>Raw Wire JSON</span>
+              </button>
+              <button type="button" class="evt-btn evt-btn-secondary" style="margin-left:auto;" onclick="window.eventsModule.switchTab('list')">
+                <span>Cancel</span>
+              </button>
+            </div>
+
+            <!-- Wire JSON inspector -->
+            <div class="evt-json-panel hide" id="bld-json-panel">
+              <div style="font-size:11px; font-weight:700; color:var(--text-tertiary); text-transform:uppercase;">Compiled Wire Protobuf Payload</div>
+              <pre class="evt-json-code" id="bld-json-output"></pre>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Live In-Game Preview Target -->
+          <div class="evt-builder-preview-pane">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:-4px;">
+              <span style="font-size:11px; font-weight:700; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px;">Live In-Game Client Preview</span>
+              <span class="evt-pill badge-cyan">Real-Time Render</span>
+            </div>
+
+            <div id="bld-card-preview-target">
+              <!-- Rendered dynamically by events.js -->
+            </div>
+
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; display:flex; flex-direction:column; gap:8px;">
+              <div style="font-size:11px; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Protocol &amp; Wire Verification</div>
+              <p style="font-size:11.5px; color:var(--text-tertiary); line-height:1.4;">
+                Saved events map dynamically to <code>CSGetActivityDescRes</code> (1.39 wire packet) and initialize claimable account state under <code>state.list_events()</code>.
+                When a player launches the client, new events show immediately on the activity tab.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           PANE 3: Bingo & Bonus Matrix
+           ===================================================================== -->
+      <section class="evt-tab-pane" id="pane-evt-bingo">
+        <div class="evt-bingo-layout">
+
+          <div class="evt-bingo-header-card">
+            <div>
+              <h3 style="font-size:14px; font-weight:700;">Bingo Grid Quest Matrix (#4001 - #4009)</h3>
+              <p style="font-size:11.5px; color:var(--text-secondary); margin-top:2px;">
+                Interactive 3x3 flip cards for COW.EventTabType.GWBINGO (Type 4). Players flip cells to complete lines.
+              </p>
+            </div>
+            <button class="evt-btn evt-btn-secondary evt-btn-sm" onclick="window.eventsModule.reload()">
+              <svg class="svg-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Refresh Matrix</span>
+            </button>
+          </div>
+
+          <div class="evt-bingo-matrix-grid" id="bingo-matrix-grid">
+            <!-- 3x3 Grid rendered by events.js -->
+          </div>
+
+          <div class="evt-bingo-header-card" style="margin-top:10px;">
+            <div>
+              <h3 style="font-size:14px; font-weight:700;">Bonus Multipliers &amp; Feature Switches</h3>
+              <p style="font-size:11.5px; color:var(--text-secondary); margin-top:2px;">
+                In-game server multipliers for Gold, EXP, and Event Drop rates.
+              </p>
+            </div>
+          </div>
+
+          <div id="bonus-events-list">
+            <!-- Rendered by events.js -->
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Toast Container -->
+    <div class="evt-toast-container" id="events-toast-container"></div>
+  </div>
+
+  <!-- Component Logic -->
+  <script src="events.js"></script>
+</body>
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>India V1 1.39 - Boot, Login &amp; Branding CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #070a12;
+      --bg-surface: rgba(15, 23, 42, 0.78);
+      --bg-surface-elevated: rgba(22, 33, 59, 0.88);
+      --bg-input: rgba(10, 15, 29, 0.85);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(56, 189, 248, 0.35);
+      --border-active: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.22);
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.22);
+      --gold: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.22);
+      --rose: #f43f5e;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 10% 10%, #0d172e 0%, transparent 45%),
+                  radial-gradient(circle at 90% 90%, #111827 0%, transparent 45%),
+                  var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(7, 10, 18, 0.5); }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.25); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.45); }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-title h2 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-title p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .status-cluster {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .stat-chip {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stat-chip.live { border-color: rgba(16, 185, 129, 0.4); color: #34d399; }
+    .pulse-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #031326;
+      box-shadow: 0 4px 12px var(--cyan-glow);
+    }
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-secondary {
+      background: rgba(30, 41, 59, 0.7);
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { background: rgba(51, 65, 85, 0.8); border-color: rgba(255, 255, 255, 0.2); }
+    .btn-gold {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      color: #1a0f00;
+      box-shadow: 0 4px 12px var(--gold-glow);
+    }
+    .btn-gold:hover { filter: brightness(1.1); }
+    .btn-sm { padding: 6px 12px; font-size: 11.5px; }
+
+    /* Category Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .filter-tab {
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      transition: all 0.15s;
+    }
+    .filter-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+    .filter-tab.active {
+      color: #fff;
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--cyan);
+    }
+
+    /* Cards Grid */
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .slot-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .slot-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .slot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .slot-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .slot-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .badge-boot { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-login { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-lobby { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    /* Preview Canvas Area */
+    .preview-box {
+      width: 100%;
+      height: 180px;
+      background: #000;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: 
+        linear-gradient(45deg, #0b1120 25%, transparent 25%), 
+        linear-gradient(-45deg, #0b1120 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #0b1120 75%), 
+        linear-gradient(-45deg, transparent 75%, #0b1120 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    }
+    .preview-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.2s;
+    }
+    .preview-box:hover .preview-img {
+      transform: scale(1.02);
+    }
+    .res-overlay {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #cbd5e1;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Actions Bar */
+    .slot-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .drop-trigger {
+      flex: 1;
+      border: 1px dashed rgba(56, 189, 248, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      text-align: center;
+      cursor: pointer;
+      color: var(--cyan);
+      font-weight: 600;
+      font-size: 11.5px;
+      background: rgba(56, 189, 248, 0.04);
+      transition: all 0.2s;
+    }
+    .drop-trigger:hover, .drop-trigger.dragover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--cyan);
+    }
+
+    /* Presets Quick Drawer */
+    .preset-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .preset-chip {
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .preset-chip:hover {
+      background: rgba(56, 189, 248, 0.1);
+      color: #fff;
+      border-color: var(--cyan);
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      background: #0f172a;
+      border: 1px solid var(--cyan);
+      color: #fff;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 15px var(--cyan-glow);
+      font-weight: 600;
+      font-size: 13px;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="header-bar">
+    <div class="header-title">
+      <h2>🎨 Game Branding &amp; Boot Visuals CMS</h2>
+      <p>Instant live control for Splash Logos, Launcher Backgrounds, OB17 Login Wallpapers, and Lobby Banners. Zero APK repacking.</p>
+    </div>
+    <div class="status-cluster">
+      <div class="stat-chip live"><span class="pulse-dot"></span> BlueStacks (emulator-5554) Connected</div>
+      <button class="btn btn-secondary btn-sm" onclick="loadSlots()">🔄 Refresh Slots</button>
+      <button class="btn btn-gold btn-sm" onclick="rebuildMasterApk()" title="Build an installable APK with all current branding applied">📦 Export Standalone APK</button>
+    </div>
+  </div>
+
+  <!-- Filter Category Tabs -->
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterSlots('all', this)">All Slots</button>
+    <button class="filter-tab" onclick="filterSlots('boot', this)">Startup &amp; Boot</button>
+    <button class="filter-tab" onclick="filterSlots('login', this)">Login &amp; Loading</button>
+    <button class="filter-tab" onclick="filterSlots('lobby', this)">Lobby &amp; Event Banners</button>
+  </div>
+
+  <!-- Slots Grid -->
+  <div class="slots-grid" id="slots-container">
+    <!-- Populated by JS -->
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    let allSlots = [];
+    let currentCategory = 'all';
+
+    async function loadSlots() {
+      try {
+        const res = await fetch('/api/dashboard/branding');
+        const data = await res.json();
+        if (data && data.ok) {
+          allSlots = data.slots || [];
+          renderSlots();
+        } else {
+          showToast('Failed to load branding slots: ' + (data.error || 'Server error'));
+        }
+      } catch (err) {
+        showToast('Connection error: ' + err.message);
+      }
+    }
+
+    function filterSlots(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSlots();
+    }
+
+    function renderSlots() {
+      const container = document.getElementById('slots-container');
+      const filtered = currentCategory === 'all' 
+        ? allSlots 
+        : allSlots.filter(s => s.category === currentCategory);
+
+      if (!filtered.length) {
+        container.innerHTML = '<div style="color:var(--text-muted); grid-column: 1/-1; padding: 40px; text-align:center;">No slots found in this category.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(s => `
+        <div class="slot-card" data-key="${s.key}">
+          <div class="slot-header">
+            <div>
+              <div class="slot-title">${s.name}</div>
+              <div class="slot-desc">${s.desc}</div>
+            </div>
+            <span class="badge badge-${s.category}">${s.category.toUpperCase()}</span>
+          </div>
+
+          <div class="preview-box">
+            <img id="img-${s.key}" class="preview-img" src="${s.preview_url}" onerror="this.src='/banners/splash_welcome.png'">
+            <div class="res-overlay">${s.width} × ${s.height} px</div>
+          </div>
+
+          <!-- Presets Quick Select -->
+          <div class="preset-bar">
+            <span style="font-size:10.5px; color:var(--text-dim); align-self:center;">Presets:</span>
+            <div class="preset-chip" onclick="applyPreset('${s.key}', '/banners/custom_splash.png')">India V1 Skull</div>
+            <div class="preset-chip" onclick="applyPreset('${s.key}', '/banners/custom_launcher.png')">Cyber Warzone</div>
+            <div class="preset-chip" onclick="applyPreset('${s.key}', '/banners/custom_login.png')">Sunset Dropship</div>
+          </div>
+
+          <div class="slot-actions">
+            <input type="file" id="file-${s.key}" accept="image/png,image/jpeg,image/jpg" style="display:none;" onchange="handleFileSelect('${s.key}', this.files[0])">
+            <div class="drop-trigger" 
+                 onclick="document.getElementById('file-${s.key}').click()"
+                 ondragover="event.preventDefault(); this.classList.add('dragover')"
+                 ondragleave="this.classList.remove('dragover')"
+                 ondrop="handleDrop('${s.key}', event)">
+              📁 Upload / Drop New Image
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('file-${s.key}').click()">⚡ Apply</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleDrop(key, e) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('dragover');
+      if (e.dataTransfer && e.dataTransfer.files.length) {
+        uploadSlotImage(key, e.dataTransfer.files[0]);
+      }
+    }
+
+    function handleFileSelect(key, file) {
+      if (file) uploadSlotImage(key, file);
+    }
+
+    async function applyPreset(key, presetUrl) {
+      showToast('Applying preset to ' + key + '...');
+      try {
+        const res = await fetch(presetUrl);
+        const blob = await res.blob();
+        uploadSlotImage(key, blob);
+      } catch (err) {
+        showToast('Failed to load preset: ' + err.message);
+      }
+    }
+
+    function uploadSlotImage(key, fileOrBlob) {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        showToast('Syncing ' + key + ' to server & emulator...');
+        try {
+          const res = await fetch('/api/dashboard/branding/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              slot: key,
+              image_base64: reader.result,
+              push_to_emulator: true
+            })
+          });
+          const data = await res.json();
+          if (data && data.ok) {
+            showToast('✅ ' + data.name + ' updated and synced!');
+            // Update preview image immediately
+            const imgEl = document.getElementById('img-' + key);
+            if (imgEl) imgEl.src = data.preview_url;
+            loadSlots();
+          } else {
+            showToast('❌ Error: ' + (data.error || 'Update failed'));
+          }
+        } catch (err) {
+          showToast('Network error: ' + err.message);
+        }
+      };
+      reader.readAsDataURL(fileOrBlob);
+    }
+
+    async function rebuildMasterApk() {
+      showToast('Starting standalone APK export in background...');
+      try {
+        const res = await fetch('/api/dashboard/branding/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'rebuild_apk' })
+        });
+        showToast('APK build scheduled. Check legacy/apk/ directory.');
+      } catch (err) {
+        showToast('Build trigger failed: ' + err.message);
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    // Auto-load on entry
+    loadSlots();
+  </script>
+</body>
+</html>
