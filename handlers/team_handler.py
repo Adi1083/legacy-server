@@ -401,8 +401,49 @@ def _build_matchmaking_suss_ntf(enriched: Dict[str, Any]) -> bytes:
     """Build `tcp.MatchmakingSussNtf` from an enriched team dictionary."""
     tid = int(enriched.get("team_id", 0))
     match_id = int(enriched.get("match_id") or (tid * 100 + int(enriched.get("matchmaking_started_at") or time.time()) % 100))
+    host = os.environ.get("INDIA V1_GAME_SERVER_HOST", "10.0.2.2")
+    port = int(os.environ.get("INDIA V1_GAME_SERVER_PORT", "39800"))
+    leader_id = int(enriched.get("leader_id") or 10001)
+
+    import hashlib
+    sec_hex = hashlib.md5(f"sec_{match_id}".encode()).hexdigest()
+    tok_hex = hashlib.md5(f"prep_{match_id}_{int(time.time())}".encode()).hexdigest()
+
+    try:
+        from combat.udp_server import get_combat_server
+        from combat.match_director import global_match_director
+        from core.state import state
+        udp_srv = get_combat_server()
+        player_nick = "PushpaGG"
+        try:
+            p_prof = state.get_player(leader_id)
+            if p_prof and p_prof.get("nickname"):
+                player_nick = p_prof["nickname"]
+        except Exception:
+            pass
+
+        udp_srv.register_match_token(token=tok_hex, account_id=leader_id, match_id=match_id, nickname=player_nick)
+        if global_match_director:
+            global_match_director.create_match(
+                match_id=match_id,
+                map_id=(enriched.get("map_ids") or [int(enriched.get("map_id", 1))])[0],
+                game_mode=int(enriched.get("game_mode", GameMode.BATTLE_ROYALE)),
+                match_mode=int(enriched.get("match_mode", MatchMode.CASUAL)),
+                host_player_id=str(leader_id),
+                host_nickname=player_nick,
+                bot_count=2,
+                prepare_token=tok_hex,
+                secret=sec_hex
+            )
+    except Exception as e:
+        logger.error("Failed to register combat match in team_handler: %s", e)
+
     return encode_matchmaking_suss_ntf(
         match_id=match_id,
+        server_addr=f"{host}:{port}",
+        secret=sec_hex,
+        prepare_token=tok_hex,
+        sleep_ms=500,
         map_id=(enriched.get("map_ids") or [int(enriched.get("map_id", 1))])[0],
         game_mode=int(enriched.get("game_mode", GameMode.BATTLE_ROYALE)),
         match_mode=int(enriched.get("match_mode", MatchMode.CASUAL)),

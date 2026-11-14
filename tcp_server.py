@@ -348,15 +348,50 @@ def _schedule_matchmaking_success(account_id: int, delay_secs: float = 2.0) -> N
         map_id = int(map_ids[0])
         game_mode = int(team.get("game_mode", GameMode.BATTLE_ROYALE))
         match_mode = int(team.get("match_mode", MatchMode.CASUAL))
-        difficulty = int(team.get("difficulty", 0))
+        difficulty = int(team.get("difficulty", 1))
         match_id = int(time.time() * 1000) % 100000000
 
+        import hashlib
+        sec_hex = hashlib.md5(f"sec_{match_id}".encode()).hexdigest()
+        tok_hex = hashlib.md5(f"tok_{match_id}_{int(time.time())}".encode()).hexdigest()
+
+        # Link match token and MatchDirector instance
+        try:
+            from combat.udp_server import get_combat_server
+            from combat.match_director import global_match_director
+            udp_srv = get_combat_server()
+            player_nick = "PushpaGG"
+            try:
+                p_prof = state.get_player(int(account_id))
+                if p_prof and p_prof.get("nickname"):
+                    player_nick = p_prof["nickname"]
+            except Exception:
+                pass
+
+            udp_srv.register_match_token(token=tok_hex, account_id=int(account_id), match_id=match_id, nickname=player_nick)
+            if global_match_director:
+                global_match_director.create_match(
+                    match_id=match_id,
+                    map_id=map_id,
+                    game_mode=game_mode,
+                    match_mode=match_mode,
+                    host_player_id=str(account_id),
+                    host_nickname=player_nick,
+                    bot_count=2,
+                    prepare_token=tok_hex,
+                    secret=sec_hex
+                )
+        except Exception as e:
+            logger.error("Failed to register combat match: %s", e)
+
+        # Determine the client's gateway IP
+        server_ip = "127.0.0.1" if client_ip in ("127.0.0.1", "::1", "localhost") else "10.0.2.2"
         suss_payload = encode_matchmaking_suss_ntf(
             match_id=match_id,
-            server_addr="127.0.0.1:10001",
-            secret="barbosa_secret",
-            prepare_token="barbosa_token",
-            sleep_ms=2500,
+            server_addr=f"{server_ip}:39800",
+            secret=sec_hex,
+            prepare_token=tok_hex,
+            sleep_ms=500,
             map_id=map_id,
             game_mode=game_mode,
             match_mode=match_mode,

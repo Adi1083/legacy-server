@@ -729,8 +729,10 @@ def encode_equip_skill_res(profile: Dict[str, Any]) -> bytes:
     return encode_submessage(1, encode_avatar_profile(profile))
 
 
-def encode_change_clothes_res(profile: Dict[str, Any]) -> bytes:
-    """Encode proto.CSChangeClothesRes (1: AvatarProfile profile)."""
+def encode_change_clothes_res(profile: Any) -> bytes:
+    """Encode proto.CSChangeClothesRes (1: AvatarProfile profile). Accepts dict or encoded bytes."""
+    if isinstance(profile, (bytes, bytearray)):
+        return encode_submessage(1, bytes(profile))
     return encode_submessage(1, encode_avatar_profile(profile))
 
 

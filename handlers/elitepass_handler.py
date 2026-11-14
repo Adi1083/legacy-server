@@ -331,12 +331,13 @@ def handle_elitepass_request(
         handler.send_proto("GetCardsAndIAPInfoRes", encode_get_cards_and_iap_info_res())
         return True
 
-    if endpoint == "GetEPSubscriptionBonusStatus":
+    if endpoint in ("GetEPSubscriptionBonusStatus", "GetRebateSubscriptionBonusStatus"):
         with _ep_lock:
             ep = _ensure_ep_account(account_id)
             is_got = bool(ep["subscription_bonus_got"])
+        res_name = "CSGetRebateSubscriptionBonusStatusRes" if endpoint == "GetRebateSubscriptionBonusStatus" else "CSGetEPSubscriptionBonusStatusRes"
         handler.send_proto(
-            "CSGetEPSubscriptionBonusStatusRes",
+            res_name,
             encode_ep_subscription_bonus_status_res(is_got=is_got),
         )
         return True

@@ -95,7 +95,7 @@ from proto.room_models import (
 # Runtime Configuration & Extended Room Metadata Store
 # ---------------------------------------------------------------------------
 
-_GAME_SERVER_HOST = os.environ.get("INDIA V1_GAME_SERVER_HOST", "127.0.0.1")
+_GAME_SERVER_HOST = os.environ.get("INDIA V1_GAME_SERVER_HOST", "10.0.2.2")
 _GAME_SERVER_PORT = int(os.environ.get("INDIA V1_GAME_SERVER_PORT", "39800"))
 _GAME_SERVER_ADDR = f"{_GAME_SERVER_HOST}:{_GAME_SERVER_PORT}"
 
@@ -327,11 +327,14 @@ def _build_matchmaking_suss(
     match_id: int = 0,
 ) -> bytes:
     mid = match_id or _next_match_id()
+    import hashlib
+    sec_hex = hashlib.md5(f"sec_{mid}".encode()).hexdigest()
+    tok_hex = hashlib.md5(f"prep_{mid}_{int(time.time())}".encode()).hexdigest()
     return encode_matchmaking_suss_ntf(
         match_id=mid,
         server_addr=_GAME_SERVER_ADDR,
-        secret=f"barbosa_sec_{mid}",
-        prepare_token=f"prep_{mid}_{int(time.time())}",
+        secret=sec_hex,
+        prepare_token=tok_hex,
         sleep_ms=500,
         map_id=int(map_id),
         game_mode=int(game_mode),
@@ -825,7 +828,7 @@ def _op_start_matchmaking(account_id: int, raw_body: bytes) -> Tuple[int, bytes]
     map_id = int((req.get("map_ids") or [1])[0])
     game_mode = int(req.get("game_mode", GameMode.BATTLE_ROYALE))
     match_mode = int(req.get("match_mode", MatchMode.CASUAL))
-    difficulty = int(req.get("difficulty", 0))
+    difficulty = int(req.get("difficulty", 1))
     group_id = int(req.get("group_id", 0)) or None
 
     team = state.start_matchmaking(
@@ -834,6 +837,12 @@ def _op_start_matchmaking(account_id: int, raw_body: bytes) -> Tuple[int, bytes]
         game_mode=game_mode,
         map_id=map_id,
     )
+    # Ensure match_mode and difficulty are persisted for TCP notification
+    if team and "team_id" in team:
+        raw_t = state._teams.get(team["team_id"])
+        if raw_t is not None:
+            raw_t["match_mode"] = match_mode
+            raw_t["difficulty"] = difficulty
     suss = _build_matchmaking_suss(
         map_id=int(team.get("map_id", map_id)),
         game_mode=int(team.get("game_mode", game_mode)),

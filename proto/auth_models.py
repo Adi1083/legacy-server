@@ -148,13 +148,25 @@ def encode_platform_profile_res(external_id="10001", external_name="Clack", exte
     buf += encode_string(4, "")
     return bytes(buf)
 
-def encode_wallet_res(coins=999999, gems=999999):
+def encode_account_wallet(coins=999999, gems=999999, gop_gems=0, total_topup=0, last_topup_time=0):
     buf = bytearray()
     buf += encode_uint32(1, coins)
-    buf += encode_uint32(2, gems)
+    buf += encode_int32(2, gems)
+    if gop_gems:
+        buf += encode_uint32(3, gop_gems)
+    if total_topup:
+        buf += encode_uint64(4, total_topup)
+    if last_topup_time:
+        buf += encode_int64(5, last_topup_time)
+    return bytes(buf)
+
+def encode_wallet_res(account_id=10001, coins=999999, gems=999999):
+    buf = bytearray()
+    buf += encode_uint64(1, account_id)
+    buf += encode_submessage(2, encode_account_wallet(coins=coins, gems=gems))
     return bytes(buf)
 
 def encode_backpack_res(coins=999999, gems=999999):
     buf = bytearray()
-    buf += encode_submessage(1, encode_wallet_res(coins, gems))
+    buf += encode_submessage(1, encode_account_wallet(coins=coins, gems=gems))
     return bytes(buf)

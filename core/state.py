@@ -1066,7 +1066,7 @@ class ServerState:
                 "head_pic": player["head_pic"] if player else 902000001,
                 "avatar_id": player["avatar_id"] if player else DEFAULT_AVATAR_ID,
                 "skin_color": 0,
-                "clothes": [],
+                "clothes": [211000000, 208000000, 203000573, 204000345, 205000299],
                 "equiped_skills": [],
                 "rank": player["rank"] if player else 315,
                 "ranking_points": player["ranking_points"] if player else 3250,

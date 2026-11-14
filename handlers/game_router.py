@@ -199,7 +199,7 @@ def handle_game_post(handler: Any, path: str, client_ip: str, raw_body: bytes) -
         wallet = state.get_wallet(DEFAULT_ACCOUNT_ID)
         handler.send_proto(
             "CSGetWalletRes",
-            encode_wallet_res(coins=wallet["coins"], gems=wallet["gems"]),
+            encode_wallet_res(account_id=DEFAULT_ACCOUNT_ID, coins=wallet["coins"], gems=wallet["gems"]),
         )
         return True
 

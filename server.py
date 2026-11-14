@@ -24,6 +24,7 @@ from handlers.dashboard_api import (
     render_dashboard_html,
 )
 from tcp_server import TCP_PORT, start_tcp_server, stop_tcp_server
+from combat.udp_server import start_combat_server, get_combat_server
 
 # Port configuration (respects Render/Cloud dynamic PORT env var)
 PORT = int(os.environ.get("PORT", 8080))
@@ -202,6 +203,7 @@ def run():
     print("=" * 65, flush=True)
 
     start_tcp_server(port=TCP_PORT, background=True)
+    start_combat_server()
     httpd = ThreadedDualStackServer(("::", PORT), BarbosaHandler)
     try:
         httpd.serve_forever()

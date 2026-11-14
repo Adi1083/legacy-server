@@ -897,6 +897,8 @@ def encode_group_member_info(
                 clothes.append(int(c))
             except (ValueError, TypeError):
                 pass
+    if not clothes:
+        clothes = [211000000, 208000000, 203000573, 204000345, 205000299]
 
     shows: List[int] = []
     raw_shows = profile.get("shows") or profile.get("equiped_skills") or []
@@ -926,13 +928,16 @@ def encode_group_member_info(
             member_role = 0
         member_ready = bool(member.get("ready", False))
 
+    raw_avatar = int(profile.get("avatar_id", 102000004))
+    avatar_id = raw_avatar if raw_avatar >= 101000000 else 102000004
+
     buf = bytearray()
     buf += encode_uint64(1, aid)
     buf += encode_string(2, str(profile.get("nickname", "Player")))
     buf += encode_string(3, str(profile.get("region", "ID")))
     buf += encode_uint64(4, int(member.get("joined_at", profile.get("create_at", int(time.time())))))
     buf += encode_uint32(5, int(profile.get("level", 1)))
-    buf += encode_uint32(6, int(profile.get("avatar_id", 101)))
+    buf += encode_uint32(6, avatar_id)
     buf += encode_uint32(7, int(profile.get("skin_color", 0)))
     buf += encode_packed_uint32(8, clothes)
     buf += encode_bool(9, member_ready)
@@ -1068,9 +1073,9 @@ def encode_group_dismiss_ntf(leaver_id: int, group_id: int, reason: int = EGroup
 
 def encode_matchmaking_suss_ntf(
     match_id: int,
-    server_addr: str = "127.0.0.1:10001",
-    secret: str = "barbosa_secret",
-    prepare_token: str = "barbosa_token",
+    server_addr: str = "10.0.2.2:39800",
+    secret: str = "0123456789abcdef0123456789abcdef",
+    prepare_token: str = "0123456789abcdef0123456789abcdef",
     sleep_ms: int = 0,
     map_id: int = 1,
     game_mode: int = GameMode.BATTLE_ROYALE,
