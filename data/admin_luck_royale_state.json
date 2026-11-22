@@ -1,12 +1,12 @@
 {
-  "updated_at": 1795331400,
+  "updated_at": 1795333665,
   "disabled_machines": [
     6
   ],
   "banner_assignments": {
-    "3": "UI_Lottery_Poster_P.png",
-    "4": "UI_Lottery_Poster_W.png",
-    "5": "UI_Lottery_Poster_G.png",
+    "3": "pushpa_splash_512.png",
+    "4": "pushpa_splash_512.png",
+    "5": "pushpa_splash_512.png",
     "6": "login_bg.png"
   },
   "events": {
@@ -26,6 +26,15 @@
   "machine_artwork": {
     "6": {
       "banner": "login_bg.png"
+    },
+    "4": {
+      "banner": "pushpa_splash_512.png"
+    },
+    "3": {
+      "banner": "pushpa_splash_512.png"
+    },
+    "5": {
+      "banner": "pushpa_splash_512.png"
     }
   },
   "reward_images": {}
