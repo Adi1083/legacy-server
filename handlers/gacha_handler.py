@@ -665,11 +665,24 @@ class GachaService:
                     state.add_item(dest_id, dest_num, account_id=account_id)
                     journal.items_added.append((dest_id, dest_num, was_new))
 
+                    # Stage 5 Duplicate Presentation Correction:
+                    # Gold Royale duplicate character rewards must present the authoritative debris item (800000000+)
+                    # as the primary reward (Origin) so CSSharedItemData resolves the item sprite, name, and count,
+                    # while avoiding matching wheel grand-prize IDs which triggers unwanted 3D feature showcase.
+                    origin_type = picked.item_type
+                    origin_id = picked.item_id
+                    origin_num = picked.item_num
+
+                    if is_owned and cfg.chest_id == CHEST_GOLD_ROYALE and (100000000 <= picked.item_id < 200000000 or picked.item_id in AVATAR_CATALOG):
+                        origin_type = AwardType.ITEM
+                        origin_id = dest_id
+                        origin_num = dest_num
+
                     lottery_goods.append(
                         {
-                            "origin_award_type": picked.item_type,
-                            "origin_award_id": picked.item_id,
-                            "origin_award_num": picked.item_num,
+                            "origin_award_type": origin_type,
+                            "origin_award_id": origin_id,
+                            "origin_award_num": origin_num,
                             "dest_award_type": AwardType.ITEM,
                             "dest_award_id": dest_id,
                             "dest_award_num": dest_num,
@@ -724,11 +737,20 @@ class GachaService:
                     state.add_item(dest_id, dest_num, account_id=account_id)
                     journal.items_added.append((dest_id, dest_num, was_new))
 
+                    origin_extra_type = picked_extra.item_type
+                    origin_extra_id = picked_extra.item_id
+                    origin_extra_num = picked_extra.item_num
+
+                    if is_owned and cfg.chest_id == CHEST_GOLD_ROYALE and (100000000 <= picked_extra.item_id < 200000000 or picked_extra.item_id in AVATAR_CATALOG):
+                        origin_extra_type = AwardType.ITEM
+                        origin_extra_id = dest_id
+                        origin_extra_num = dest_num
+
                     extra_one_goods.append(
                         {
-                            "origin_award_type": picked_extra.item_type,
-                            "origin_award_id": picked_extra.item_id,
-                            "origin_award_num": picked_extra.item_num,
+                            "origin_award_type": origin_extra_type,
+                            "origin_award_id": origin_extra_id,
+                            "origin_award_num": origin_extra_num,
                             "dest_award_type": AwardType.ITEM,
                             "dest_award_id": dest_id,
                             "dest_award_num": dest_num,
