@@ -1,0 +1,87 @@
+name: PR Validation & Conflict Prevention
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  branch-policy:
+    name: Enforce Target Branch Policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR Target Branch
+        run: |
+          TARGET_BRANCH="${{ github.base_ref }}"
+          IS_FORK="${{ github.event.pull_request.head.repo.fork }}"
+          SENDER="${{ github.actor }}"
+
+          echo "Target Branch: $TARGET_BRANCH"
+          echo "Is Fork: $IS_FORK"
+          echo "PR Author: $SENDER"
+
+          if [ "$TARGET_BRANCH" = "main" ] && [ "$IS_FORK" = "true" ]; then
+            echo "::error::Direct PRs to 'main' from forks are not allowed. Outside contributions must target 'develop'."
+            exit 1
+          fi
+
+  file-cleanliness:
+    name: Repository Cleanliness Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for Prohibited Files in PR Diff
+        run: |
+          TARGET="${{ github.base_ref }}"
+          echo "Checking diff against origin/$TARGET..."
+
+          # List all added/modified files in this PR
+          CHANGED_FILES=$(git diff --name-only origin/$TARGET...HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          FORBIDDEN_FOUND=0
+          for FILE in $CHANGED_FILES; do
+            # Check for test scripts, db dumps, apks, temporary logs, and burst captures
+            if [[ "$FILE" =~ ^test_.*\.py$ ]] || \
+               [[ "$FILE" =~ ^tests/ ]] || \
+               [[ "$FILE" =~ \.log$ ]] || \
+               [[ "$FILE" =~ \.apk$ ]] || \
+               [[ "$FILE" =~ \.bak$ ]] || \
+               [[ "$FILE" =~ ^scratch/ ]] || \
+               [[ "$FILE" =~ burst.*\.json$ ]]; then
+              echo "::error file=$FILE::Prohibited file pattern detected in PR: $FILE"
+              FORBIDDEN_FOUND=1
+            fi
+          done
+
+          if [ $FORBIDDEN_FOUND -eq 1 ]; then
+            echo "::error::PR contains forbidden temporary or test files. Please remove them and re-push."
+            exit 1
+          fi
+
+  syntax-check:
+    name: Python Syntax Compilation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Compile Python Codebase
+        run: |
+          python -m compileall -q .
