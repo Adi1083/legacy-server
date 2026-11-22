@@ -15,6 +15,7 @@ from urllib.parse import urlparse
 # Ensure local packages are importable
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from version import __version__, __server_name__, __protocol_version__
 from core.logger import log_request, request_history, history_lock
 from handlers.static_router import handle_static_get, VERSION, SUB_VERSION
 from handlers.game_router import handle_game_post
@@ -54,7 +55,7 @@ class ThreadedDualStackServer(ThreadingMixIn, HTTPServer):
                 print(f"[!] Warning: IPV6_V6ONLY=0 failed: {e}", flush=True)
         super().server_bind()
 
-class BarbosaHandler(BaseHTTPRequestHandler):
+class GatewayHandler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
     timeout = 10
 
@@ -249,14 +250,14 @@ class BarbosaHandler(BaseHTTPRequestHandler):
 
 def run():
     print("=" * 65, flush=True)
-    print(f"[*] India V1 Project 1.39 Modular High-Performance Server", flush=True)
+    print(f"[*] {__server_name__} v{__version__} (Protocol {__protocol_version__})", flush=True)
     print(f"[*] HTTP Port: {PORT} | TCP Lobby Port: {TCP_PORT} (IPv4 + IPv6 dual-stack)", flush=True)
     print(f"[*] Dashboard: http://localhost:{PORT}/dashboard", flush=True)
     print("=" * 65, flush=True)
 
     start_tcp_server(port=TCP_PORT, background=True)
     start_combat_server()
-    httpd = ThreadedDualStackServer(("::", PORT), BarbosaHandler)
+    httpd = ThreadedDualStackServer(("::", PORT), GatewayHandler)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
