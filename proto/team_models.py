@@ -574,7 +574,7 @@ def encode_account_info_basic(
     buf += encode_uint64(25, int(profile.get("external_uid", 0)))
     buf += encode_int64(26, int(profile.get("return_at", 0)))
     if team:
-        buf += encode_string(27, str(team.get("team_name", "Barbosa Squad")))
+        buf += encode_string(27, str(team.get("team_name", "IND Squad")))
         buf += encode_uint32(28, len(team.get("members", [])))
         buf += encode_uint64(29, int(team.get("team_id", 0)))
     return bytes(buf)
@@ -609,7 +609,7 @@ def encode_team_info(team: Dict[str, Any]) -> bytes:
     member_ids = [int(m.get("account_id", 0)) for m in members]
     buf = bytearray()
     buf += encode_uint64(1, int(team.get("team_id", 0)))
-    buf += encode_string(2, str(team.get("team_name", "Barbosa Squad")))
+    buf += encode_string(2, str(team.get("team_name", "IND Squad")))
     buf += encode_uint64(3, int(team.get("created_at", int(time.time()))))
     buf += encode_uint64(4, int(team.get("leader_id", 10001)))
     buf += encode_uint32(5, len(member_ids))

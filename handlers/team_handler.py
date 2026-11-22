@@ -498,7 +498,7 @@ def _op_start_matchmaking(
 
 def _http_create_team(handler: Any, raw_body: bytes, account_id: int) -> None:
     req = decode_cs_create_team_req(raw_body)
-    name = req["team_name"] or "Barbosa Squad"
+    name = req["team_name"] or "IND Squad"
     team = state.create_team(leader_id=account_id, team_name=name)
     _update_meta(
         team["team_id"],
@@ -685,7 +685,7 @@ def _http_get_team_invitation_list(handler: Any, _raw_body: bytes, account_id: i
         else:
             team_lookup[inviter_id] = {
                 "team_id": tid,
-                "team_name": inv.get("team_name", "Barbosa Squad"),
+                "team_name": inv.get("team_name", "IND Squad"),
                 "members": [{"account_id": inviter_id}],
             }
     handler.send_proto(
@@ -788,7 +788,7 @@ def _http_create_group(handler: Any, raw_body: bytes, account_id: int) -> None:
     # Detect whether caller passed CSCreateTeamReq (tag 1 string) or tcp.GroupCreateReq (tags 2..9)
     if 1 in f and isinstance(f[1][0], (bytes, bytearray)) and 4 not in f:
         req = decode_cs_create_team_req(raw_body)
-        team = state.create_team(leader_id=account_id, mode="squad", team_name=req["team_name"] or "Barbosa Squad")
+        team = state.create_team(leader_id=account_id, mode="squad", team_name=req["team_name"] or "IND Squad")
         payload = _encode_team_group_info(team)
     else:
         req = decode_group_create_req(raw_body)

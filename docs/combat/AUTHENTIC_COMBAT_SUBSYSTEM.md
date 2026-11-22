@@ -1,10 +1,14 @@
-# Authentic Combat Subsystem Specification: Free Fire 1.39 (Barbosa Engine)
+# Authentic Combat Subsystem Specification: Free Fire 1.39 (IND PROJECT Combat Engine)
 
-Authoritative specification of the Free Fire 1.39 combat network architecture, 266-opcode Barbosa catalog, binary packet wire layouts, Safe Zone mathematics, and autonomous 2-bot controller loop.
+Authoritative specification of the Free Fire 1.39 combat network architecture, 266-opcode IND PROJECT catalog, binary packet wire layouts, Safe Zone mathematics, and autonomous 2-bot controller loop.
+
+> [!WARNING]
+> **Implementation Status: Work In Progress (Not Yet Accurate)**  
+> The authoritative UDP combat subsystem and binary packet dispatch loops have been initiated in initial experimental form, but are **not yet mechanically accurate**. Real-time player physics, hit verification, bot combat navigation, and packet timing synchronization are actively under development and reverse-engineering.
 
 ---
 
-## 1. Network Transport Layer: GCommon Barbosa RUDP
+## 1. Network Transport Layer: GCommon IND PROJECT RUDP
 
 The Free Fire 1.39 combat subsystem operates over custom Reliable UDP (`GCommon.UDPSession`, TypeDef [9784]) bound to port `39800`.
 
@@ -52,7 +56,7 @@ Used for high-frequency position ticks (`NONE = 0`, `BYEBYE = 3`, `VAR = 4`) and
 
 ---
 
-## 2. Authentic 266 Barbosa Opcode Catalog
+## 2. Authentic 266 IND PROJECT Opcode Catalog
 
 Extracted from IL2CPP metadata v23 (`message.hTKYY D`, TypeDef [4464]). Wire enum values represent the authentic network identifiers processed in Unity switch statements.
 
@@ -137,7 +141,7 @@ Total: 39 + 34 + 16 = 89 Bytes
   - `game_mode`: `int32` (`1` = Classic Battle Royale).
   - `room_type`: `int32` (`0` = Default room).
   - `SafeZone Block (34B)`: `phase` (short), Current Circle ($x, y, z, r$), Next Circle ($x, y, z, r$).
-  - `Trailing Barbosa Fields (16B)`: 4x 32-bit zeros for `List<int>`, `List<uint>`, `List<Nested>`, and padding.
+  - `Trailing Trailing Fields (16B)`: 4x 32-bit zeros for `List<int>`, `List<uint>`, `List<Nested>`, and padding.
 
 ---
 

@@ -1,5 +1,5 @@
 """
-Barbosa Project 1.39 Threaded Lobby TCP Server (`port 8081`).
+IND PROJECT 1.39 Threaded Lobby TCP Server (`port 8081`).
 
 Implements Free Fire 1.39's binary TCP framing (`TCPSession` / `TCPMsgPacket` /
 `ServiceConnectionHandler`):
@@ -134,7 +134,7 @@ class EChannelProto:
 # Active TCP socket registry indexed by `account_id` for unsolicited pushes
 _SESS_LOCK = threading.RLock()
 _ACTIVE_SESSIONS: Dict[int, List[Tuple[socket.socket, threading.Lock]]] = {}
-_TCP_SERVER_INSTANCE: Optional["BarbosaTCPServer"] = None
+_TCP_SERVER_INSTANCE: Optional["IndTCPServer"] = None
 _TCP_THREAD: Optional[threading.Thread] = None
 
 
@@ -360,7 +360,7 @@ def _extract_account_id(login_blob: bytes, client_ip: str = "", default: int = D
 def encode_game_opening_info_res() -> bytes:
     """
     Encode `proto.GameOpeningInfoRes` [5602] for `MATCHMAKING (3)` cmd `GAMEOPENINGINFO (7)`.
-    Schema reconstructed from Barbosa IL2CPP metadata v23:
+    Schema reconstructed from Free Fire 1.39 IL2CPP metadata v23:
     1: GameOpeningInfoDescList [5599] -> 1: repeated GameOpeningInfoDesc [5598]
        1: uint32 map_id (1: Bermuda, 2: Purgatory, 3: Kalahari)
        3: string name
@@ -626,7 +626,7 @@ def _schedule_matchmaking_success(account_id: int, delay_secs: float = 1.0, clie
     t.start()
 
 
-class BarbosaTCPHandler(socketserver.BaseRequestHandler):
+class IndTCPHandler(socketserver.BaseRequestHandler):
     """Per-connection threaded handler for Free Fire 1.39 TCP Lobby sessions."""
 
     def setup(self) -> None:
@@ -733,7 +733,7 @@ class BarbosaTCPHandler(socketserver.BaseRequestHandler):
                     state.set_player_online(account_id, online_status=0)
 
 
-class BarbosaTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+class IndTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     daemon_threads = True
     allow_reuse_address = True
     request_queue_size = 256
@@ -755,7 +755,7 @@ def start_tcp_server(
     host: str = "::",
     port: int = TCP_PORT,
     background: bool = True,
-) -> BarbosaTCPServer:
+) -> IndTCPServer:
     """
     Start the threaded Lobby TCP server on `(host, port)`.
     When `background=True`, runs `serve_forever` in a daemon thread and returns
@@ -767,13 +767,13 @@ def start_tcp_server(
 
     use_ipv6 = ":" in host
     try:
-        srv = BarbosaTCPServer((host, int(port)), BarbosaTCPHandler, use_ipv6=use_ipv6)
+        srv = IndTCPServer((host, int(port)), IndTCPHandler, use_ipv6=use_ipv6)
     except OSError:
-        srv = BarbosaTCPServer(("0.0.0.0", int(port)), BarbosaTCPHandler, use_ipv6=False)
+        srv = IndTCPServer(("0.0.0.0", int(port)), IndTCPHandler, use_ipv6=False)
 
     _TCP_SERVER_INSTANCE = srv
     if background:
-        t = threading.Thread(target=srv.serve_forever, name="barbosa-tcp-lobby", daemon=True)
+        t = threading.Thread(target=srv.serve_forever, name="ind-tcp-lobby", daemon=True)
         t.start()
         _TCP_THREAD = t
     return srv
@@ -793,7 +793,7 @@ def stop_tcp_server() -> None:
 
 if __name__ == "__main__":
     print("=" * 65, flush=True)
-    print(f"[*] Barbosa Project 1.39 Lobby TCP Server listening on port {TCP_PORT}", flush=True)
+    print(f"[*] IND PROJECT 1.39 Lobby TCP Server listening on port {TCP_PORT}", flush=True)
     print("=" * 65, flush=True)
     srv = start_tcp_server(port=TCP_PORT, background=False)
     try:

@@ -1555,7 +1555,7 @@ def default_store_catalog() -> List[Dict[str, Any]]:
         (903000001, "Golden Trophy Loot Box", "Custom elimination crate", 1500, 149),
         (909000001, "Booyah Victory Emote", "Lobby & in-game emote", 1500, 149),
         (908000001, "Sports Car Finish", "Custom vehicle finish", 2000, 199),
-        (901000010, "Barbosa Elite Banner", "Profile banner", 500, 49),
+        (901000010, "IND Elite Banner", "Profile banner", 500, 49),
         (902000010, "Legend Emblem Avatar", "Profile avatar", 500, 49),
     ]
     for cid, cname, cdesc, cc, cg in collection_defs:

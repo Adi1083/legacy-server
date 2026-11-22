@@ -1,13 +1,19 @@
 # IND PROJECT Control Center — Free Fire 2019 Restoration (1.39 India V1)
 
 > **Authentic Dual-Plane Game Server & macOS-Inspired Administrative Control Center**  
-> Complete restoration of Free Fire 1.39.4 (Barbosa OB17, IL2CPP Unity 2018.4 on Android x86/ARM) featuring authoritative TCP/UDP protocol engines, 266-opcode combat subsystem, and a dark glass administrative studio.
+> Complete restoration of Free Fire 1.39.4 (OB17, IL2CPP Unity 2018.4 on Android x86/ARM) featuring authoritative TCP/UDP protocol engines, 266-opcode combat subsystem, and a dark glass administrative studio.
 
 [![Tests](https://img.shields.io/badge/tests-129%2F129%20verified-emerald?style=flat-square)](#5-quality-assurance--regression-verification)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org/)
-[![Protocol](https://img.shields.io/badge/protocol-Barbosa%201.39%20(RUDP%20%2B%20Protobuf)-cyan?style=flat-square)](docs/protocol/)
+[![Protocol](https://img.shields.io/badge/protocol-IND%20PROJECT%201.39%20(RUDP%20%2B%20Protobuf)-cyan?style=flat-square)](docs/protocol/)
 [![UI Style](https://img.shields.io/badge/design-macOS%20Dark%20Glass-purple?style=flat-square)](static/dashboard/)
 [![License](https://img.shields.io/badge/license-Proprietary%20%2F%20Restoration-amber?style=flat-square)](LICENSE)
+
+---
+
+> [!WARNING]
+> **UDP Combat Subsystem Status: Active Work In Progress (Not Yet Accurate)**  
+> Authoritative UDP combat networking, 12-byte RUDP packet framing, and opcode dispatch loops have been initiated and implemented in initial form, but **are not mechanically accurate yet**. Real-time player movement interpolation, hit registration, bot combat behavior, and packet synchronization are currently under active reverse engineering and tuning.
 
 ---
 
@@ -30,7 +36,7 @@ flowchart TD
         ADMIN["Administrative Control Center (/dashboard)"]
     end
 
-    subgraph CombatPlane["Authoritative Combat Plane (UDP:39800)"]
+    subgraph CombatPlane["Combat Plane (UDP:39800) — [WIP / Inactive Gating]"]
         RUDP["RUDP Session Manager (CRC-7 + ACK Gating)"]
         MD["Match Director (7-Stage Progression Loop)"]
         WE["World Engine (Bermuda PhysX & Spatial Grid)"]
@@ -53,11 +59,11 @@ flowchart TD
 
 ### Network Topology & Port Bindings
 
-| Subsystem | Port / Transport | Protocol & Framing | Primary Responsibilities |
+| Subsystem | Port / Transport | Protocol & Framing | Primary Responsibilities & Current Status |
 |:---|:---:|:---|:---|
-| **HTTP Gateway** | `8080` (HTTP/REST) | JSON / Protobuf / Static CDN | Account authentication, patch manifests, asset routing, Control Center SPA host (`/dashboard`), REST APIs. |
-| **TCP Lobby Server** | `8081` (TCP) | Length-prefixed binary stream (`proto_3`) | Persistent command multiplexing (`cmd_*`), real-time inventory synchronization, friend presence, and matchmaking coordinator. |
-| **UDP Combat Plane** | `39800` (RUDP) | 12-byte framed RUDP (CRC-7 integrity) | 266-opcode Barbosa binary protocol, sliding-window ACK gating, authoritative player/bot movement, safe zone contraction, hit registration. |
+| **HTTP Gateway** | `8080` (HTTP/REST) | JSON / Protobuf / Static CDN | Account authentication, patch manifests, asset routing, Control Center SPA host (`/dashboard`), REST APIs. **Status: Production Ready.** |
+| **TCP Lobby Server** | `8081` (TCP) | Length-prefixed binary stream (`proto_3`) | Persistent command multiplexing (`cmd_*`), real-time inventory synchronization, friend presence, and matchmaking coordinator. **Status: Fully Functional.** |
+| **UDP Combat Plane** | `39800` (RUDP) | 12-byte framed RUDP (CRC-7 integrity) | 266-opcode binary protocol, sliding-window ACK gating, player/bot movement, safe zone contraction, hit registration. **Status: Work In Progress (Started, tuning in progress, not yet mechanically accurate).** |
 
 ---
 
@@ -120,7 +126,7 @@ static/dashboard/src/modules/
 
 All visual assets rendered in the Control Center are extracted from original 1.39 game resources (Unity asset bundles and sprites):
 
-- **Reward Items & Vouchers:** 78 authoritative items matched 1:1 against `scratch/Item_authoritative.csv`.
+- **Reward Items & Vouchers:** 78 authoritative items matched 1:1 against `Item_authoritative.csv`.
 - **Character Debris:** 19 character debris items (`debris_800000001.png` - `debris_800000019.png`).
 - **Royale Posters & Banners:** Authentic Diamond, Weapon, Gold, and Incubator posters.
 - **Turntable UI:** 16 turntable UI elements, background ramps, and probability indicators.
@@ -153,7 +159,7 @@ All visual assets rendered in the Control Center are extracted from original 1.3
    ```bash
    python server.py
    ```
-   *Starts the HTTP Gateway (8080), TCP Lobby Server (8081), and UDP Combat Plane (39800).*
+   *Starts the HTTP Gateway (8080), TCP Lobby Server (8081), and experimental UDP Combat Plane (39800).*
 
 4. **Access the Administrative Dashboard:**
    Open your browser to:
@@ -210,10 +216,10 @@ Gold Royale 19-Character Debris Mapping:         100% PRESERVED & PROTECTED
 
 ```
 server/
-├── combat/                     # UDP combat plane, RUDP engine, 266-opcode codec, bot AI
+├── combat/                     # UDP combat plane, RUDP engine, 266-opcode codec, bot AI (WIP)
 ├── core/                       # State management, SQLite database layer, player session registry
 ├── data/                       # Authoritative databases, machine configs, CMS content
-├── docs/                       # Architecture diagrams, combat reverse-engineering, forensic audits
+├── docs/                       # Architecture diagrams, reverse-engineering, forensic audits
 ├── handlers/                   # HTTP REST handlers, game router, and admin studio APIs
 ├── proto/                      # Protobuf and binary packet data structures
 ├── static/
@@ -225,6 +231,32 @@ server/
 
 ---
 
-## 7. License & Attribution
+## 7. Contributing & Branching Model
 
-Restoration project for Free Fire 1.39.4 (2019 India V1 Barbosa OB17). Built for archival, reverse-engineering research, and private emulation purposes.
+To prevent conflicts and protect production stability, this repository strictly enforces a two-tier branching structure:
+
+- **`main` (Protected Production Branch)**:
+  - **Direct pushes are strictly restricted to the project owner (`@Adi1083`).**
+  - External pull requests targeting `main` will not be accepted.
+- **`develop` (Community Contribution & Staging)**:
+  - The designated active branch for all contributors and experimental work.
+  - Contributors should clone, branch off `develop`, and submit Pull Requests targeting `develop`.
+
+```
+  [ main ] (Protected, Owner Direct Only)
+      ▲
+      │ (Owner reviews & merges verified milestones)
+      │
+[ develop ] (Community Staging Branch - All PRs Target Here)
+   ▲     ▲
+   │     │
+[ feature/* ] [ fix/* ] (Contributor Branches)
+```
+
+For complete instructions on workflow, PR templates, and code style, read [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+
+---
+
+## 8. License & Attribution
+
+Restoration project for Free Fire 1.39.4 (2019 India V1 OB17). Built for archival, reverse-engineering research, and private emulation purposes.

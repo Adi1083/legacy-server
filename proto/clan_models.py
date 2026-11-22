@@ -371,7 +371,7 @@ def encode_clan_info(clan: Dict[str, Any]) -> bytes:
 
     buf = bytearray()
     buf += encode_uint64(1, int(clan.get("clan_id", 50001)))
-    buf += encode_string(2, str(clan.get("clan_name", "BARBOSA")))
+    buf += encode_string(2, str(clan.get("clan_name", "IND PROJECT")))
     buf += encode_uint64(3, int(clan.get("create_at", 1570000000)))
     buf += encode_uint64(4, int(clan.get("captain_id", 10001)))
     buf += encode_uint32(5, int(clan.get("clan_level", 4)))

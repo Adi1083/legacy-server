@@ -154,7 +154,7 @@ class MatchInstance:
         # Security & Auth Tokens
         import hashlib
         self.prepare_token: str = prepare_token or f"prep_{match_id}_{int(time.time())}_{hashlib.md5(f'{time.time()}'.encode()).hexdigest()[:8]}"
-        self.secret: str = secret or f"barbosa_sec_{match_id}_{hashlib.md5(f'{time.time()}'.encode()).hexdigest()[:8]}"
+        self.secret: str = secret or f"ind_sec_{match_id}_{hashlib.md5(f'{time.time()}'.encode()).hexdigest()[:8]}"
         self.connected_tokens: Dict[str, str] = {}  # player_id -> token
         self.client_endpoints: Dict[str, Tuple[str, int]] = {}  # player_id -> (ip, port)
         self.client_session_keys: Dict[str, int] = {}  # player_id -> session_key

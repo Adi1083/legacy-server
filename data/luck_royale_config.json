@@ -1,7 +1,7 @@
 {
   "schema_version": "1.39.0",
-  "version": 1130,
-  "last_modified": 1795290247,
+  "version": 1146,
+  "last_modified": 1795331400,
   "machines": [
     {
       "chest_id": 3,
@@ -19,7 +19,7 @@
       "chest_model_id": 203000374,
       "show_model_male": 102000010,
       "show_model_female": 101000010,
-      "rare_item_max": 100,
+      "rare_item_max": 140,
       "chest_type_enum": 3,
       "forge_tab_id": 0,
       "once_num": 1,

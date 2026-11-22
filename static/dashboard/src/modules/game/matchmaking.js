@@ -25,7 +25,7 @@
         <div class="glass-card-header">
           <div>
             <div class="glass-card-title">1.39 Matchmaking Protocol Architecture</div>
-            <div class="glass-card-subtitle">Authoritative Barbosa Server Handshake &amp; UDP Ticket Lifecycle</div>
+            <div class="glass-card-subtitle">Authoritative IND PROJECT Server Handshake &amp; UDP Ticket Lifecycle</div>
           </div>
           <div>${window.UI.Badge('PHASE 4 SPEC', 'cyan')}</div>
         </div>

@@ -848,7 +848,7 @@ class CurrencyResult(tuple):
 
 
 class ServerState:
-    """Thread-safe central game state store for Barbosa 1.39."""
+    """Thread-safe central game state store for IND PROJECT 1.39."""
 
     def __init__(self, cms_path: Optional[str] = None) -> None:
         self._lock = threading.RLock()

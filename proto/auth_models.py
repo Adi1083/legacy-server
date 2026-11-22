@@ -4,7 +4,7 @@ from .encoder import (
     encode_string, encode_bool, encode_submessage, encode_fixed64
 )
 
-def encode_major_login_res(account_id=10001, region="DEFAULT", token="barbosa_session_token_12345", ttl=86400, server_url="http://10.0.2.2:8080/"):
+def encode_major_login_res(account_id=10001, region="DEFAULT", token="ind_session_token_12345", ttl=86400, server_url="http://10.0.2.2:8080/"):
     buf = bytearray()
     buf += encode_uint64(1, account_id)
     buf += encode_string(2, region)

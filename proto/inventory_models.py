@@ -3,7 +3,7 @@ Protobuf models and full real APK item catalog for Free Fire 1.39 Vault,
 Backpack, Clothes, Loadouts, Collections, Armory/Shows, Emotes & Stickers.
 
 Item IDs and (ItemType, ItemSubType, CollectionType) metadata are extracted
-directly from Barbosa Project 1.39 APK DES-decrypted Config CSVs
+directly from IND PROJECT 1.39 APK DES-decrypted Config CSVs
 (Item.csv, Clothes.csv, CollectionWeapon.csv, Loadout.csv, Bundle.csv, Pet.csv).
 
 All ProtoMember tags, wire types, and IsPacked flags are verified from

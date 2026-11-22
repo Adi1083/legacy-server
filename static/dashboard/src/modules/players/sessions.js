@@ -82,7 +82,7 @@ window.Modules = window.Modules || {};
         ${window.UI.StatCard(
       'HTTP REST Gateway',
       'PORT 8080',
-      'Verified Live / Barbosa REST',
+      'Verified Live / IND PROJECT REST',
       window.UI.Icon('server', 16, '', 'var(--accent-emerald)'),
       'emerald'
     )}
@@ -136,14 +136,14 @@ window.Modules = window.Modules || {};
     } else {
       onlineTableHtml = window.UI.EmptyState(
         'No Active Online Players',
-        'No client game connections are currently connected to the Barbosa TCP lobby server. When players connect from the Free Fire 1.39 game client, active session descriptors will appear here.',
+        'No client game connections are currently connected to the IND PROJECT TCP lobby server. When players connect from the Free Fire 1.39 game client, active session descriptors will appear here.',
         window.UI.Icon('activity', 32, '', 'var(--text-tertiary)')
       );
     }
 
     const socketCardHtml = window.UI.Card(
       'Active Client Socket Telemetry',
-      'Real-time authenticated client connections across Barbosa TCP Lobby (8081)',
+      'Real-time authenticated client connections across IND PROJECT TCP Lobby (8081)',
       `
       < div style = "background: rgba(15, 23, 42, 0.45); padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); margin-bottom: 14px; font-size: 12px; color: var(--text-secondary); line-height: 1.5;" >
       <b>Daemon Architecture Note:</b> Raw socket handles are managed directly by < code > server / tcp_server.py</code >.Connected client handshakes and keep - alives are synchronized in memory and updated in the server state.

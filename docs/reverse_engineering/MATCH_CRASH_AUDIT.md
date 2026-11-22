@@ -152,7 +152,7 @@ When Bugly passes integer TID `0x4e8a` as a pointer, libc finds no match in `g_t
 
 ### 3.3 What Caused Bugly to Trigger?
 Bugly was triggered by two upstream wire layout mismatches in `server/combat/combat_opcodes.py`:
-1. **Opcode Numbering Mismatch**: Sending Opcode `130` (`RUDP_LANDMINE_RESYNC` in Barbosa enum) instead of `31` (`RUDP_JOIN_MATCH_FINISHED`) caused `il2cpp_class_is_assignable_from` to throw an unhandled `InvalidCastException`.
+1. **Opcode Numbering Mismatch**: Sending Opcode `130` (`RUDP_LANDMINE_RESYNC` in 1.39 enum) instead of `31` (`RUDP_JOIN_MATCH_FINISHED`) caused `il2cpp_class_is_assignable_from` to throw an unhandled `InvalidCastException`.
 2. **Wire Codec Size Mismatch**: Opcode 101 (`message.ae zaPn`, TypeDef [4579]) had clothes count serialized as a 2-byte short instead of 4-byte `Int32`, causing `ReadInt32()` to interpret payload bytes as 2.32 billion elements, instantly exhausting heap memory.
 
 ---
@@ -162,7 +162,7 @@ Bugly was triggered by two upstream wire layout mismatches in `server/combat/com
 | Subsystem | Root Vulnerability | Applied Fix | Verification Status |
 | :--- | :--- | :--- | :---: |
 | **Opcode Mapping** | Enum offset mix-up (Wire vs Index) | Standardized authentic 266-opcode catalog from TypeDef [4464] | **VERIFIED** |
-| **Opcode 130 Wire Codec** | Missing trailing Barbosa collection fields | Pack exact 89-byte structure (`<iQQIBiHii hffffffff iiii`) | **VERIFIED** |
+| **Opcode 130 Wire Codec** | Missing trailing 1.39 collection fields | Pack exact 89-byte structure (`<iQQIBiHii hffffffff iiii`) | **VERIFIED** |
 | **Opcode 101 Wire Codec** | Clothes array Int32 count interpretation | Pack exact 4-byte Int32 length headers for clothes & skills | **VERIFIED** |
 | **Asset Streaming** | External bundle null pointer (`mUseAB`) | Force `use_cache = false` and built-in asset resolution | **VERIFIED** |
 | **Signal Handling** | Bugly TID-as-pthread_t abort | Eliminating unhandled IL2CPP exceptions prevents handler trigger | **VERIFIED** |

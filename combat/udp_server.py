@@ -73,7 +73,7 @@ class ClientSession:
         self.last_alive_time: float = time.time()
         self.local_seq: int = 1
         self.remote_seq: int = 0
-        self.local_order: int = 0  # Authentic Barbosa order ID counter starts at 0
+        self.local_order: int = 0  # Authentic IND PROJECT order ID counter starts at 0
         self.remote_order: int = 0
         self.received_seq_bits: int = 0  # 32-bit history of received sequence numbers
         self.pending_acks: list = []
@@ -615,7 +615,7 @@ class CombatUDPServer:
     def _handle_join_match(self, pkt: UDMPacket, session: ClientSession) -> None:
         """
         Handle RUDP_JOIN_MATCH (100) from client.
-        Authentic Barbosa OB17 Protocol Ground-Truth Burst:
+        Authentic IND PROJECT OB17 Protocol Ground-Truth Burst:
         1. UDP_ACK (cmd=2, ack=client_seq, bits=1, 6B payload / 14B wire)
         2. S2C_JoinMatchRes (cmd=100, opt=2, seq=1, ord=0, 81B payload / 93B wire)
         3. RUDP_SYNC_REGION_ACTIVITIES (cmd=170, opt=2, seq=2, ord=1, 64B payload / 76B wire)
@@ -631,7 +631,7 @@ class CombatUDPServer:
         12. RUDP_SAFE_ZONE_CHANGE (cmd=117, opt=2, seq=100, ord=99, 48B payload / 60B wire)
             Followed by GRI data (cmd=501, seq=101, ord=100) and 10 Hz position sync (Opcode 1014).
         """
-        logger.info("Client %s sent RUDP_JOIN_MATCH (seq=%d, len=%d). Firing ground-truth Barbosa 12-step burst!",
+        logger.info("Client %s sent RUDP_JOIN_MATCH (seq=%d, len=%d). Firing ground-truth IND PROJECT 12-step burst!",
                     session.addr, pkt.seq_id, len(pkt.data))
         # Bot entity messages are gated by PLAYER_JOIN: every opcode 101 packet makes
         # the 1.39 client SIGSEGV inside its own message parser, so they stay off
@@ -675,7 +675,7 @@ class CombatUDPServer:
         session.local_order = 0
 
         # 2. S2C_JoinMatchRes (cmd=100, opt=2, seq=1, ord=0, 81B payload / 93B wire)
-        # Authentic Barbosa protobuf/binary structure initializing MatchGame.m_Match,
+        # Authentic IND PROJECT protobuf/binary structure initializing MatchGame.m_Match,
         # game mode, map ID, room settings, and initial safe zone.
         from .combat_packet_codec import S2C_JoinMatchRes, RUDP_BindPRI
         join_res = S2C_JoinMatchRes(
@@ -929,7 +929,7 @@ class CombatUDPServer:
         time.sleep(0.005)
 
         # 9. RUDP_BIND_PRI (cmd=118, opt=2, seq=8, ord=7, 24B payload / 36B wire)
-        # Authentic Barbosa PRI binding: <account_id: uint64><entity_id: uint32><pri_id: uint32><reserved: uint64>
+        # Authentic IND PROJECT PRI binding: <account_id: uint64><entity_id: uint32><pri_id: uint32><reserved: uint64>
         local_bind = RUDP_BindPRI(account_id=account_id, entity_id=1, pri_id=0, reserved=0)
         pkt_118 = UDMPacket(
             send_option=SendOption.RELIABLE,
@@ -1154,7 +1154,7 @@ class CombatUDPServer:
         session.combat_stage = 4
         session.match_entry_dispatched = True
         session.match_entry_time = time.time()
-        logger.info("[MATCH-ENTRY] Complete 12-step authentic Barbosa burst (final seq=%d, ord=%d) sent to %s! Match is LIVE on Bermuda Spawn Island.",
+        logger.info("[MATCH-ENTRY] Complete 12-step authentic 1.39 burst (final seq=%d, ord=%d) sent to %s! Match is LIVE on Bermuda Spawn Island.",
                     session.local_seq - 1, session.local_order - 1, session.addr)
 
     def _dispatch_stage_2_player_join(self, session: ClientSession) -> None:

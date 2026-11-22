@@ -204,7 +204,7 @@
       if (window.UI && typeof window.UI.Loading === 'function') {
         canvas.innerHTML = `
           <div class="page-container">
-            ${window.UI.Loading('Connecting to Barbosa Server Telemetry & State Bus...')}
+            ${window.UI.Loading('Connecting to IND PROJECT Server Telemetry & State Bus...')}
           </div>
         `;
       }
@@ -318,7 +318,7 @@
     // Render PageHeader component with clean dashboard icon
     const pageHeaderHtml = window.UI.PageHeader(
       'Overview',
-      'IND PROJECT Server Environment & Operational Overview • Barbosa Daemon Telemetry',
+      'IND PROJECT Server Environment & Operational Overview • IND PROJECT Daemon Telemetry',
       headerActionsHtml,
       'dashboard'
     );

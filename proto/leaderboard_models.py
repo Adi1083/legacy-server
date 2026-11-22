@@ -599,7 +599,7 @@ _EXTRA_GLOBAL_PLAYERS: list[dict[str, Any]] = [
         "exp": 845000,
         "rank": 318,
         "ranking_points": 4520,
-        "clan_name": "BARBOSA",
+        "clan_name": "IND PROJECT",
         "has_elite_pass": True,
         "badge_cnt": 295,
         "liked": 28450,
@@ -635,7 +635,7 @@ _EXTRA_GLOBAL_PLAYERS: list[dict[str, Any]] = [
 _SEEDED_CLANS: list[dict[str, Any]] = [
     {
         "clan_id": 50001,
-        "clan_name": "BARBOSA",
+        "clan_name": "IND PROJECT",
         "captain_id": 10001,
         "clan_level": 5,
         "capacity": 50,
@@ -698,7 +698,7 @@ _SEEDED_CLANS: list[dict[str, Any]] = [
 _SEEDED_CHAMPIONSHIP_TEAMS: list[dict[str, Any]] = [
     {
         "team_id": 70001,
-        "team_name": "BARBOSA_SQUAD",
+        "team_name": "IND_SQUAD",
         "captain_id": 10001,
         "member_ids": [10001, 20001, 20002, 20003],
         "trial_valid_score": 3250,

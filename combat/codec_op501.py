@@ -2,7 +2,7 @@
 Free Fire 1.39 Opcode 501 (RUDP_VAR_SYNC_GRI_DATA) Packet Codec.
 
 Reverse Engineered Ground-Truth:
-- IL2CPP Target: Free Fire Barbosa v1.39 (libil2cpp_decrypted.so / dump.cs)
+- IL2CPP Target: Free Fire IND PROJECT v1.39 (libil2cpp_decrypted.so / dump.cs)
 - Class Mapping:
     * TypeDefIndex [9754]: `GCommon.GRIDataPool` (Game Replication Info Data Pool)
     * Inherits from TypeDefIndex [9751]: `GCommon.ReplicationDataPool`

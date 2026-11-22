@@ -1,6 +1,6 @@
 # Free Fire 1.39 Match Progression Flow Specification
 
-Authoritative 7-stage match state machine, scene transitions, and packet synchronization sequence for Free Fire 1.39 (Barbosa OB17).
+Authoritative 7-stage match state machine, scene transitions, and packet synchronization sequence for Free Fire 1.39 (IND PROJECT OB17).
 
 ---
 

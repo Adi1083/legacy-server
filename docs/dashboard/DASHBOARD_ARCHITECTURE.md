@@ -8,7 +8,7 @@
 
 ## 1. System Overview & Core Philosophy
 
-The **IND PROJECT Control Center** is the unified administrative and live-operations command interface for the **FF 2019 Restoration** (Barbosa private server platform).
+The **IND PROJECT Control Center** is the unified administrative and live-operations command interface for the **FF 2019 Restoration** (IND PROJECT private server platform).
 
 ### The Core Problem Solved
 Prior to this architecture, the dashboard was fractured across 7 disconnected multi-page HTML documents (`index.html`, `vault.html`, `social.html`, `luck_royale.html`, `banners.html`, `modes.html`, `tracker.html`). Each page maintained its own isolated styling, made direct unstructured `fetch` calls, and fatally hardcoded target player account IDs to `10001`.

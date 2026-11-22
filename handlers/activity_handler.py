@@ -1,6 +1,6 @@
 """
 Activity, Attendance, Broadcast, Marquee, Splash, Advert, Bingo, Activeness,
-Switches & GameBonus HTTP handlers for Barbosa Project (Free Fire 1.39).
+Switches & GameBonus HTTP handlers for IND PROJECT (Free Fire 1.39).
 """
 
 from __future__ import annotations

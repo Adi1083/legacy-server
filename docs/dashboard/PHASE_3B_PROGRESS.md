@@ -75,7 +75,7 @@ Following Module 2 authorization, Server Monitoring was completely redesigned in
 
 ### Refined Architecture:
 1. **Title & Action Bar (`UI.PageHeader`):**
-   - PageHeader invoked with Lucide `activity` icon: "Server Monitoring" • "Barbosa Gateway wire telemetry, daemon telemetry, and Protobuf stream inspector".
+   - PageHeader invoked with Lucide `activity` icon: "Server Monitoring" • "IND PROJECT Gateway wire telemetry, daemon telemetry, and Protobuf stream inspector".
    - Integrated live stream status pill (`LIVE STREAM` in emerald vs `STREAM PAUSED` in amber), polling rate selector (1s, 2s, 5s, 0s), Pause/Resume toggle, manual Refresh, Clear Buffer with `UI.Confirm` modal, and Export JSON file dump.
 2. **Zero-Flicker Incremental Polling Engine:**
    - Eliminated destructive `innerHTML` wipes during background polling cycles.

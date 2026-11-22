@@ -7,9 +7,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 LEGACY_ROOT = os.path.dirname(BASE_DIR)
 BASE_APK_CANDIDATES = [
-    os.path.join(LEGACY_ROOT, "apk", "Barbosa_1.39_SingleBoot_Pushpa.apk"),
+    os.path.join(LEGACY_ROOT, "apk", "IND_PROJECT_1.39_SingleBoot_Pushpa.apk"),
     os.path.join(LEGACY_ROOT, "India V1 1.39 base (fix-crash).apk"),
-]
+] + [p for p in ([os.path.join(LEGACY_ROOT, "apk", f) for f in os.listdir(os.path.join(LEGACY_ROOT, "apk"))] if os.path.isdir(os.path.join(LEGACY_ROOT, "apk")) else []) if p.endswith('.apk')]
 BASE_APK_PATH = next((p for p in BASE_APK_CANDIDATES if os.path.isfile(p)), BASE_APK_CANDIDATES[0])
 
 VERSION = "1.39.4"

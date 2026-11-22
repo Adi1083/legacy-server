@@ -467,7 +467,7 @@ def encode_festival_attendance_info_res(
     items: Iterable[Dict[str, Any]],
     is_signed_today: bool = False,
     festival_item_id: int = 203000001,
-    act_text1: str = "Barbosa Festival Calendar",
+    act_text1: str = "IND Festival Calendar",
     act_text2: str = "Sign in daily for exclusive skins & diamonds!",
     act_text3: str = "Limited Time Event",
     start_time: int = 0,
@@ -515,7 +515,7 @@ def encode_festival_attendance_signin_res(act_text1: str = "Signed in successful
 
 def encode_festival_item_info_res(
     festival_item_id: int = 203000001,
-    act_text1: str = "Barbosa Festival",
+    act_text1: str = "IND Festival",
     act_text2: str = "Collect tokens and claim rewards!",
     act_text3: str = "Active Now",
 ) -> bytes:
@@ -766,7 +766,7 @@ def encode_activity_festival_desc(fest: Dict[str, Any]) -> bytes:
     buf += encode_uint32(2, int(fest.get("table_type", EventTabType.FESTIVAL1)))
     buf += encode_string(3, str(fest.get("table_sprite", "")))
     buf += encode_string(4, str(fest.get("language", "en")))
-    buf += encode_string(5, str(fest.get("event_title", "Barbosa Festival")))
+    buf += encode_string(5, str(fest.get("event_title", "IND Festival")))
     buf += encode_string(6, str(fest.get("event_lobby_icon", "")))
     buf += encode_string(7, str(fest.get("start_time", "2026-01-01 00:00:00")))
     buf += encode_string(8, str(fest.get("end_time", "2028-12-31 23:59:59")))

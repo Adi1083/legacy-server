@@ -1,4 +1,4 @@
-# Free Fire 1.39 (Barbosa / OB17) In-Match Combat & UDP Network Protocol Specification
+# Free Fire 1.39 (IND PROJECT / OB17) In-Match Combat & UDP Network Protocol Specification
 
 Deconstructed and verified against Free Fire 1.39 IL2CPP Metadata v23 (`global-metadata.dat`), `libil2cpp.so` memory dump from runtime process (PID 4252), and `dump/dump.cs`.
 

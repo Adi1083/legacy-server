@@ -3,7 +3,7 @@
  * Module: 08.4 Events & Quests Studio (#/cms/events)
  * 
  * Features:
- * - Live Event & Quest Manager for Barbosa FF 1.39 Core
+ * - Live Event & Quest Manager for IND PROJECT FF 1.39 Core
  * - Activity CRUD (activity_id, act_title, act_text, award_context, awards)
  * - Priority Reordering & In-Game Tagging
  * - Active Status Toggling via /api/dashboard/cms/toggle

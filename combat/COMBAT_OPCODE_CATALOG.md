@@ -1,7 +1,7 @@
 # Free Fire 1.39 Complete Combat Opcode Catalog (message.hTKYY D, TypeDef [4464])
 
 Total Opcodes / Fields: 266 (1 alue__ enum base + 265 combat opcodes).
-Extracted directly from Barbosa IL2CPP Metadata v23 (global-metadata.dat).
+Extracted directly from Free Fire 1.39 IL2CPP Metadata v23 (global-metadata.dat).
 
 ## 1. Disambiguation: Wire Enum Value vs Relative Metadata Index
 Previous crashes occurred due to confusion between the **1-based index** in CombatOpcode and the authentic **wire enum value** compiled into IL2CPP switch handlers:
@@ -304,7 +304,7 @@ Previous crashes occurred due to confusion between the **1-based index** in Comb
     - `[2B int16 phase]`
     - `[16B 4x float32 Circle 1 Current: center_x, center_y, center_z, radius]`
     - `[16B 4x float32 Circle 2 Next: center_x, center_y, center_z, radius]`
-  * **Trailing Barbosa Collections (16 bytes, `<iiii`)**:
+  * **Trailing Trailing Collections (16 bytes, `<iiii`)**:
     - `[4B int32 field11_count = 0]` (List<int>)
     - `[4B int32 field12_count = 0]` (List<uint>)
     - `[4B int32 field13_count = 0]` (List<Nested>)

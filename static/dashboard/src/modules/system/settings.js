@@ -29,7 +29,7 @@
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
         <div>
           <h2 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px;">Server Settings & Architecture</h2>
-          <p style="color: var(--text-secondary); font-size: 12px;">Global Barbosa runtime parameters, client branding slots, gateway ports & operational switches</p>
+          <p style="color: var(--text-secondary); font-size: 12px;">Global IND PROJECT runtime parameters, client branding slots, gateway ports & operational switches</p>
         </div>
         <div style="display: flex; gap: 8px; align-items: center;">
           <button class="btn btn-secondary" onclick="window.SystemSettingsModule.refresh()">
@@ -49,7 +49,7 @@
             <span class="badge badge-emerald">ACTIVE</span>
           </div>
           <div class="stat-value" style="font-size: 18px; color: var(--accent-emerald);">PORT 8080</div>
-          <div class="stat-subtext">HTTP/1.1 Barbosa Server Host</div>
+          <div class="stat-subtext">HTTP/1.1 IND PROJECT Server Host</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">
@@ -102,11 +102,11 @@
             </div>
             <div>
               <label style="font-size: 11px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; display: block; margin-bottom: 4px;">Message of the Day (MOTD)</label>
-              <textarea id="setting-brand-motd" class="form-input" style="height: 60px; resize: vertical;">${currentBranding.motd || 'Welcome to Barbosa FF 2019 Classic Server! Enjoy OB17 Luck Royale & Bermuda battles.'}</textarea>
+              <textarea id="setting-brand-motd" class="form-input" style="height: 60px; resize: vertical;">${currentBranding.motd || 'Welcome to IND PROJECT FF 2019 Classic Server! Enjoy OB17 Luck Royale & Bermuda battles.'}</textarea>
             </div>
             <div>
               <label style="font-size: 11px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; display: block; margin-bottom: 4px;">In-Lobby Marquee Announcement</label>
-              <input type="text" id="setting-brand-announcement" class="form-input" value="${currentBranding.welcome_announcement || 'IND PROJECT Barbosa Server Online — All Modes & Vouchers Enabled!'}">
+              <input type="text" id="setting-brand-announcement" class="form-input" value="${currentBranding.welcome_announcement || 'IND PROJECT IND PROJECT Server Online — All Modes & Vouchers Enabled!'}">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <div>
@@ -135,7 +135,7 @@
               <div style="font-size: 12px; color: var(--accent-cyan); margin-bottom: 12px;" id="prev-brand-sub">${currentBranding.brand_subtitle || 'FF 2019 Restoration'}</div>
               <div style="background: rgba(0, 0, 0, 0.35); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px; font-size: 11.5px; color: var(--text-secondary); text-align: left; margin-bottom: 8px;">
                 <div style="font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; font-weight: 600; margin-bottom: 2px;">Lobby MOTD Broadcast:</div>
-                <div id="prev-motd">${currentBranding.motd || 'Welcome to Barbosa FF 2019 Classic Server! Enjoy OB17 Luck Royale & Bermuda battles.'}</div>
+                <div id="prev-motd">${currentBranding.motd || 'Welcome to IND PROJECT FF 2019 Classic Server! Enjoy OB17 Luck Royale & Bermuda battles.'}</div>
               </div>
               <div style="font-size: 11px; color: var(--text-tertiary);">
                 Protocol: <span style="color: var(--accent-emerald);">OB17 v1.39</span> • Handshake: <span style="color: var(--accent-cyan);">TLS/XOR</span>
@@ -239,13 +239,13 @@
     resetBrandingDefaults() {
       window.UI.Confirm(
         'Reset Server Brand Settings',
-        'Are you sure you want to revert server branding, subtitle, and MOTD back to factory Barbosa 2019 defaults?',
+        'Are you sure you want to revert server branding, subtitle, and MOTD back to factory IND PROJECT 2019 defaults?',
         async () => {
           const defaults = [
             { key: 'brand_name', value: 'India V1' },
             { key: 'brand_subtitle', value: 'FF 2019 Restoration' },
-            { key: 'motd', value: 'Welcome to Barbosa FF 2019 Classic Server! Enjoy OB17 Luck Royale & Bermuda battles.' },
-            { key: 'welcome_announcement', value: 'IND PROJECT Barbosa Server Online — All Modes & Vouchers Enabled!' },
+            { key: 'motd', value: 'Welcome to IND PROJECT FF 2019 Classic Server! Enjoy OB17 Luck Royale & Bermuda battles.' },
+            { key: 'welcome_announcement', value: 'IND PROJECT IND PROJECT Server Online — All Modes & Vouchers Enabled!' },
             { key: 'region_tag', value: 'IND' },
             { key: 'discord_url', value: 'https://discord.gg/ff2019' }
           ];
@@ -256,7 +256,7 @@
 
           const canvas = document.getElementById('workspace-canvas');
           if (canvas) await renderSystemSettings(canvas);
-          window.UI.Toast('Branding reset to Barbosa defaults', 'success');
+          window.UI.Toast('Branding reset to IND PROJECT defaults', 'success');
         },
         true
       );

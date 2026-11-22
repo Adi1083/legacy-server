@@ -1,6 +1,6 @@
 # Free Fire 1.39 India V1 - Master Architecture & Technical Specifications
 
-Authoritative technical documentation, architecture diagrams, protocol specifications, and reverse-engineering audits for Free Fire 1.39.4 (Barbosa OB17, IL2CPP Unity 2018.4 on Android x86/ARM).
+Authoritative technical documentation, architecture diagrams, protocol specifications, and reverse-engineering audits for Free Fire 1.39.4 (IND PROJECT OB17, IL2CPP Unity 2018.4 on Android x86/ARM).
 
 ---
 
@@ -12,7 +12,7 @@ docs/
 ├── match_flow/
 │   └── MATCH_PROGRESSION_FLOW.md             # 7-stage match lifecycle: Lobby -> Cake -> Island -> Plane -> Parachute -> Combat -> Booyah
 ├── combat/
-│   └── AUTHENTIC_COMBAT_SUBSYSTEM.md         # Barbosa 266-opcode catalog, binary wire codecs, bot AI loops & ballistics
+│   └── AUTHENTIC_COMBAT_SUBSYSTEM.md         # IND PROJECT 266-opcode catalog, binary wire codecs, bot AI loops & ballistics
 ├── reverse_engineering/
 │   └── MATCH_CRASH_AUDIT.md                  # Forensics on SIGABRT, SIGSEGV 0x0, MatchmakingSussNtf, GameEngine, & mUseAB
 ├── protocol/                                  # Protobuf & TCP/UDP packet schemas (in progress)
@@ -28,7 +28,7 @@ The Free Fire 1.39 backend comprises an asymmetric dual-network topology:
    - **Gateway / Auth Server (`127.0.0.1:8080`)**: Account authentication, guest binding, version checks, CDN patch manifests.
    - **Lobby TCP Server (`127.0.0.1:8081`)**: Persistent command multiplexing (`proto_3/cmd_*`), inventory synchronization, friend presence, and matchmaking queue coordinator.
 2. **Authoritative Combat Plane (UDP RUDP / PhysX)**:
-   - **Combat RUDP Server (`127.0.0.1:39800`)**: Custom Barbosa reliable UDP protocol, 12-byte framing, CRC-7 integrity, sliding-window ACK gating, authoritative player/bot movement, safe zone contraction, and combat hit registration.
+   - **Combat RUDP Server (`127.0.0.1:39800`)**: Custom reliable UDP protocol, 12-byte framing, CRC-7 integrity, sliding-window ACK gating, authoritative player/bot movement, safe zone contraction, and combat hit registration. *(Note: UDP combat networking is actively started, but is work in progress and not yet accurate).*
 
 ```mermaid
 flowchart TD
@@ -79,7 +79,7 @@ Detailed in [`match_flow/MATCH_PROGRESSION_FLOW.md`](file:///d:/MY%20WORK/RESOUR
 - **Stage 5 (Active Combat & 2-Bot AI)**: Authoritative combat loop with `Bot_Kelly` and `Bot_Andrew` executing navigation, looting, cover, and hit validation.
 - **Stage 6 (Booyah! Victory & Settlement)**: Match completion (Opcode 103 `RUDP_MATCH_END`), damage summary, and MMR rating calculations.
 
-### 3.2 Authentic Combat Subsystem (Barbosa Engine)
+### 3.2 Authentic Combat Subsystem (IND PROJECT Combat Engine)
 Detailed in [`combat/AUTHENTIC_COMBAT_SUBSYSTEM.md`](file:///d:/MY%20WORK/RESOURCES/LEGACY/LEGACY/docs/combat/AUTHENTIC_COMBAT_SUBSYSTEM.md):
 - **Complete 266-Opcode Roster**: Wire enum mapping extracted from `global-metadata.dat` (`message.hTKYY D`, TypeDef [4464]).
 - **Wire Codec Specifications**: Byte-level binary memory layouts for Opcode 130 (`S2C_JoinMatchRes`, 89B), Opcode 101 (`S2C_PlayerJoin`, 116B+), Opcode 116 (`S2C_SyncSceneInfo`, 36B), and Opcode 1014 (`UDP_PlayerPositionOnly`).

@@ -120,7 +120,7 @@ class S2C_SyncShowCase:
         return bytes(buf)
 
     def serialize_padded(self, target_len: int = 96) -> bytes:
-        """Serializes and zero-pads to the authentic Barbosa ground-truth capture length (96 bytes)."""
+        """Serializes and zero-pads to the authentic 1.39 ground-truth capture length (96 bytes)."""
         payload = self.serialize()
         if len(payload) < target_len:
             payload = payload.ljust(target_len, b"\x00")

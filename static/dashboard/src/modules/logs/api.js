@@ -28,7 +28,7 @@
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
         <div>
           <h2 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px;">API Live Monitor</h2>
-          <p style="color: var(--text-secondary); font-size: 12px;">Real-time Barbosa HTTP gateway telemetry, request stream & wire inspector</p>
+          <p style="color: var(--text-secondary); font-size: 12px;">Real-time IND PROJECT HTTP gateway telemetry, request stream & wire inspector</p>
         </div>
         <div style="display: flex; gap: 8px; align-items: center;">
           <div id="stream-status-pill" class="badge badge-emerald" style="padding: 4px 10px; font-size: 11px;">
@@ -126,7 +126,7 @@
         <div class="glass-card-header">
           <div>
             <div class="glass-card-title">Wire-Level Protobuf Decoder</div>
-            <div class="glass-card-subtitle">Decode raw client hex or base64 packets directly against Barbosa schema decoder</div>
+            <div class="glass-card-subtitle">Decode raw client hex or base64 packets directly against Protobuf schema decoder</div>
           </div>
           <div class="glass-card-actions">
             <button class="btn btn-secondary" onclick="window.LogsApiModule.insertSampleHex()">Insert Sample Handshake</button>
@@ -421,7 +421,7 @@
     promptClearBuffer() {
       window.UI.Confirm(
         'Clear Request Telemetry Buffer',
-        'Are you sure you want to flush the Barbosa in-memory request ring buffer? This action cannot be undone.',
+        'Are you sure you want to flush the Gateway in-memory request ring buffer? This action cannot be undone.',
         async () => {
           const res = await window.apiClient.post('/api/dashboard/requests/clear');
           if (res.ok) {
@@ -531,7 +531,7 @@
         return;
       }
 
-      output.innerHTML = '<span style="color: var(--text-tertiary);">Decoding against Barbosa Protobuf Wire decoder...</span>';
+      output.innerHTML = '<span style="color: var(--text-tertiary);">Decoding against IND PROJECT Protobuf Wire decoder...</span>';
 
       try {
         const payload = raw.includes(' ') || /^[0-9a-fA-F]+$/.test(raw) ? { hex: raw } : { base64: raw };

@@ -1,6 +1,6 @@
 """
 Free Fire 1.39 Authoritative In-Game Combat Packet Codec.
-Implements exact binary serialization matching Barbosa IL2CPP Metadata v23 (TypeDefs [4464]..[4587]).
+Implements exact binary serialization matching Free Fire 1.39 IL2CPP Metadata v23 (TypeDefs [4464]..[4587]).
 
 Wire encoding rules:
 - Primitives: Little-Endian (<)
@@ -187,7 +187,7 @@ class S2C_JoinMatchRes:
         return bytes(buf)
 
     def serialize_compact(self) -> bytes:
-        """Authentic 16-byte wire payload as captured from live Barbosa combat server."""
+        """Authentic 16-byte wire payload as captured from live IND PROJECT combat server."""
         return struct.pack("<IQI", self.err_code, self.match_id, self.server_time)
 
     @classmethod

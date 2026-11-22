@@ -23,7 +23,7 @@ from proto.leaderboard_models import (
     encode_set_show_rank_res,
 )
 
-logger = logging.getLogger("barbosa.leaderboard")
+logger = logging.getLogger("ind.leaderboard")
 
 
 def _extract_endpoint(path: str) -> str:

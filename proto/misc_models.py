@@ -1,7 +1,7 @@
 """
 Protobuf encoders, decoders, and enums for Manual, Live/Streamer/Video,
 GiftRank, MysteryBonus, WinnerTakesAll (WTA), CollectionHide, Loadout, and
-Entitlement endpoints in Barbosa Project (Free Fire 1.39).
+Entitlement endpoints in IND PROJECT (Free Fire 1.39).
 
 Verified against global-metadata.dat (v23) and XOR-0x03 libil2cpp.so.
 """
@@ -175,7 +175,7 @@ def encode_streamer_base_info(s: Dict[str, Any]) -> bytes:
     """proto.StreamerBaseInfo [5469]"""
     buf = bytearray()
     buf += encode_uint64(1, int(s.get("account_id", 20001)))
-    buf += encode_string(2, str(s.get("nickname", "Barbosa_Streamer")))
+    buf += encode_string(2, str(s.get("nickname", "IND_Streamer")))
     buf += encode_uint32(3, int(s.get("head_pic", 902000001)))
     buf += encode_uint32(4, int(s.get("banner_id", 901000001)))
     return bytes(buf)
@@ -223,13 +223,13 @@ def encode_video_detail(v: Dict[str, Any]) -> bytes:
     buf += encode_uint32(1, int(v.get("video_id", 1)))
     buf += encode_string(2, str(v.get("video_url", "")))
     buf += encode_uint32(3, int(v.get("video_type", VideoType.HOTEST)))
-    buf += encode_string(4, str(v.get("video_name", "Barbosa Highlight")))
+    buf += encode_string(4, str(v.get("video_name", "IND Highlight")))
     buf += encode_uint32(5, int(v.get("video_sort_id", 1)))
     buf += encode_string(6, str(v.get("thumbnail_url", "")))
     buf += encode_uint32(7, int(v.get("create_at", now - 3600)))
     buf += encode_uint64(8, int(v.get("hit_count", 100)))
     buf += encode_uint64(9, int(v.get("streamer_account_id", 20001)))
-    buf += encode_string(10, str(v.get("streamer_nickname", "Barbosa_Bot")))
+    buf += encode_string(10, str(v.get("streamer_nickname", "IND_Bot")))
     buf += encode_uint32(11, int(v.get("streamer_sex", GenderType.MAN)))
     buf += encode_string(12, str(v.get("create_date", "2026-11-12")))
     return bytes(buf)
@@ -248,7 +248,7 @@ def decode_personal_video_zone_req(raw_body: bytes) -> Dict[str, int]:
 def encode_personal_video_zone_res(zone: Dict[str, Any]) -> bytes:
     """proto.CSGetPersonalVideoZoneRes [5459]"""
     buf = bytearray()
-    buf += encode_string(1, str(zone.get("nickname", "Barbosa_Bot")))
+    buf += encode_string(1, str(zone.get("nickname", "IND_Bot")))
     buf += encode_uint32(2, int(zone.get("sex", GenderType.MAN)))
     buf += encode_uint32(3, int(zone.get("fan_count", 1250)))
     buf += encode_uint32(4, int(zone.get("head_pic", 902000001)))
@@ -339,7 +339,7 @@ def encode_client_gift_rank_desc(desc: Dict[str, Any]) -> bytes:
     now = int(time.time())
     buf = bytearray()
     buf += encode_uint32(1, int(desc.get("rank_id", 1)))
-    buf += encode_string(2, str(desc.get("rank_name", "Barbosa Gift Ranking")))
+    buf += encode_string(2, str(desc.get("rank_name", "IND Gift Ranking")))
     buf += encode_int64(3, int(desc.get("open_time", now - 86400)))
     buf += encode_int64(4, int(desc.get("close_time", now + 30 * 86400)))
     buf += encode_bool(5, bool(desc.get("is_time_show", True)))

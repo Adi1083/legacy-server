@@ -1,13 +1,13 @@
 """
-UDP Game Combat Protocol Definitions and Packet Codec for Free Fire (Barbosa / OB17).
-Extracted directly from Barbosa IL2CPP Metadata v23 (TypeDef [9777]: GCommon.UDPMsgPacket).
+UDP Game Combat Protocol Definitions and Packet Codec for Free Fire (IND PROJECT / OB17).
+Extracted directly from Free Fire 1.39 IL2CPP Metadata v23 (TypeDef [9777]: GCommon.UDPMsgPacket).
 """
 
 import struct
 from typing import Optional, Tuple, NamedTuple, Any
 
 # Authentic Free Fire 1.39 CRC-7 Table (Polynomial 0x09: x^7 + x^3 + 1)
-# Extracted directly from Barbosa IL2CPP Metadata v23 (Field [55626], offset 0x643DCB)
+# Extracted directly from Free Fire 1.39 IL2CPP Metadata v23 (Field [55626], offset 0x643DCB)
 CRC7_TABLE = [
     0x00, 0x09, 0x12, 0x1b, 0x24, 0x2d, 0x36, 0x3f,
     0x48, 0x41, 0x5a, 0x53, 0x6c, 0x65, 0x7e, 0x77,

@@ -25,7 +25,7 @@ Offset | Size | Format | Field Name        | Type / Description
 0x00   | 8    | <Q     | visibility_mask   | UInt64 (64-bit player visibility bitmask)
 -----------------------------------------------------------------------------
 Total Wire Size: 8 bytes minimal (<Q).
-Padded Wire Size: 24 bytes (in authentic Barbosa burst capture seq=6, seq=99, seq=153, 
+Padded Wire Size: 24 bytes (in authentic 1.39 burst capture seq=6, seq=99, seq=153, 
                  the payload is 24 bytes with trailing zero padding for TEA block alignment).
 
 Wire Semantics:
@@ -69,7 +69,7 @@ class S2C_SyncPlayersVisibility:
     Wire layout:
     - [8B uint64 visibility_mask] (<Q)
     
-    In authentic Barbosa network captures (seq=6, seq=99, seq=153 in burst_summary_350.txt),
+    In authentic IND PROJECT network captures (seq=6, seq=99, seq=153 in burst_summary_350.txt),
     the packet payload length is 24 bytes (8B uint64 + 16B zero padding for TEA block alignment).
     Both 8-byte raw and 24-byte padded payloads are supported transparently.
     """
@@ -127,7 +127,7 @@ class S2C_SyncPlayersVisibility:
         """Serializes exact IL2CPP wire representation (<Q, 8 bytes).
         
         Args:
-            target_len: Target wire length (default 24 to match authentic Barbosa burst).
+            target_len: Target wire length (default 24 to match authentic 1.39 burst).
                         Pass 8 for minimal unpadded 8-byte payload.
         """
         raw = struct.pack("<Q", self.visibility_mask & 0xFFFFFFFFFFFFFFFF)

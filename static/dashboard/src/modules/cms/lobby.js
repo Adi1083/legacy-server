@@ -199,7 +199,7 @@
   async function resetSplashesToDefaults() {
     window.UI.Confirm(
       'Reset Splashes to Factory Seed',
-      'Reset all startup splash screens to Barbosa default configuration? Custom splashes will be overwritten.',
+      'Reset all startup splash screens to IND PROJECT default configuration? Custom splashes will be overwritten.',
       async () => {
         const res = await window.apiClient.post('/api/dashboard/cms/reset', { category: 'splashes' });
         if (res.ok) {

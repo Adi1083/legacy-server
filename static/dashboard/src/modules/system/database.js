@@ -463,7 +463,7 @@
         <button class="btn btn-secondary" onclick="document.getElementById('global-modal-overlay').remove()">Close</button>
       `;
 
-      window.UI.Modal('Barbosa SQLite Schema Architecture (12 Tables)', bodyHtml, actionsHtml);
+      window.UI.Modal('IND PROJECT SQLite Schema Architecture (12 Tables)', bodyHtml, actionsHtml);
     },
 
     exportActiveTable() {

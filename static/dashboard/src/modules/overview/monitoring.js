@@ -507,7 +507,7 @@
     // Render PageHeader component with clean activity icon
     const pageHeaderHtml = window.UI.PageHeader(
       'Server Monitoring',
-      'Barbosa Gateway wire telemetry, daemon telemetry, and Protobuf stream inspector',
+      'IND PROJECT Gateway wire telemetry, daemon telemetry, and Protobuf stream inspector',
       headerActionsHtml,
       'activity'
     );
@@ -614,7 +614,7 @@
       <div class="glass-card-header" style="margin-bottom: var(--space-sm);">
         <div>
           <div class="glass-card-title">Wire Packet Stream & Inspection</div>
-          <div class="glass-card-subtitle">Real-time HTTP wire packets processed by BarbosaHandler with Protobuf inspection</div>
+          <div class="glass-card-subtitle">Real-time HTTP wire packets processed by GatewayHandler with Protobuf inspection</div>
         </div>
         <div style="display: flex; gap: 8px; align-items: center;">
           <span style="font-size: 11.5px; color: var(--text-tertiary);">Display:</span>
@@ -730,7 +730,7 @@
 
     // Initial render loading state if no cached data exists
     if (!state.serverState && state.requests.length === 0) {
-      canvas.innerHTML = window.UI.Loading('Establishing live telemetry connection...', 'Probing Barbosa HTTP Gateway and Daemon status');
+      canvas.innerHTML = window.UI.Loading('Establishing live telemetry connection...', 'Probing IND PROJECT HTTP Gateway and Daemon status');
     }
 
     await fetchData();

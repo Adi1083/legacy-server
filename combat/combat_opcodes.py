@@ -1,6 +1,6 @@
 """
 Free Fire 1.39 In-Match Combat Opcodes (message.hTKYY).
-Extracted directly from Barbosa IL2CPP Metadata v23 (TypeDef [4464]).
+Extracted directly from Free Fire 1.39 IL2CPP Metadata v23 (TypeDef [4464]).
 """
 
 from enum import IntEnum

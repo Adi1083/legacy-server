@@ -391,7 +391,7 @@
             <label style="display: block; font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;">Server Region</label>
             <select id="modal-mq-region" class="form-input">
               <option value="DEFAULT" ${currentRegion === 'DEFAULT' ? 'selected' : ''}>DEFAULT (All Servers)</option>
-              <option value="IND" ${currentRegion === 'IND' ? 'selected' : ''}>IND (India / Barbosa)</option>
+              <option value="IND" ${currentRegion === 'IND' ? 'selected' : ''}>IND (India / Classic)</option>
               <option value="SEA" ${currentRegion === 'SEA' ? 'selected' : ''}>SEA (South East Asia)</option>
               <option value="BR" ${currentRegion === 'BR' ? 'selected' : ''}>BR (Brazil)</option>
             </select>
@@ -460,7 +460,7 @@
     const activeMqs = state.marquees.filter(m => m.enabled !== false);
     const marqueeString = activeMqs.length > 0 
       ? activeMqs.map(m => m.content).join('   ✦   ')
-      : 'Welcome to Free Fire 2019 Barbosa Restoration Core — All Systems Operational';
+      : 'Welcome to Free Fire 2019 IND PROJECT Restoration Core — All Systems Operational';
 
     // Currently selected article for simulator preview
     const selectedArticle = state.announcements.find(a => a.id === state.selectedNewsId) || state.announcements[0];

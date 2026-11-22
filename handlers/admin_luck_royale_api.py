@@ -124,7 +124,7 @@ if os.path.exists(_ITEM_CSV_PATH):
         logger.warning("Failed to load authoritative item CSV: %s", _e)
 
 # Authentication configuration
-ADMIN_API_TOKEN = os.environ.get("ADMIN_API_TOKEN", "barbosa-admin-token-2026")
+ADMIN_API_TOKEN = os.environ.get("ADMIN_API_TOKEN", "ind-admin-token-2026")
 REQUIRE_AUTH = os.environ.get("ADMIN_REQUIRE_AUTH", "0") == "1"
 
 # Known Vouchers, Currencies & Tokens mapping

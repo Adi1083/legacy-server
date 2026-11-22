@@ -1,4 +1,4 @@
-"""Luck Royale / Gacha HTTP endpoint handlers and server-authoritative engine for Free Fire 1.39 (Barbosa).
+"""Luck Royale / Gacha HTTP endpoint handlers and server-authoritative engine for Free Fire 1.39 (IND PROJECT).
 
 Owns:
 1. Server-side spin execution and reward pipeline.
