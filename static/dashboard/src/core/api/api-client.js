@@ -1,21 +1,44 @@
 /**
  * IND PROJECT Control Center — FF 2019 Restoration
- * Core API Client: Centralized HTTP Transport & Error Normalizer
+ * Core API Client: Authoritative Local HTTP Transport & Error Normalizer
+ *
+ * Strict Local Architecture:
+ * - Authoritative local backend: http://127.0.0.1:8080
+ * - Prefer same-origin relative paths when hosted on server.py
+ * - Strictly zero traffic permitted to legacy Render cloud URLs
  */
+
+const LOCAL_BACKEND_ORIGIN = 'http://127.0.0.1:8080';
+const BLOCKED_REMOTE_ORIGINS = [
+  'https://legacy-server-1mkj.onrender.com',
+  'http://legacy-server-1mkj.onrender.com',
+  'legacy-server-1mkj.onrender.com',
+  'onrender.com'
+];
 
 class ApiClient {
   constructor() {
-    this.baseUrl = '';
-    this.adminToken = localStorage.getItem('ind_admin_token') || '';
+    // Determine base URL:
+    // If served from local server.py (port 8080), use relative paths '' to avoid unnecessary CORS/preflight.
+    // If opened via file:// or another dev host/port, explicitly target http://127.0.0.1:8080.
+    const isSameOriginLocal = (typeof window !== 'undefined' && window.location)
+      && (window.location.protocol === 'http:' || window.location.protocol === 'https:')
+      && (window.location.port === '8080' || window.location.host === '127.0.0.1:8080' || window.location.host === 'localhost:8080');
+
+    this.baseUrl = isSameOriginLocal ? '' : LOCAL_BACKEND_ORIGIN;
+    this.localBackendUrl = LOCAL_BACKEND_ORIGIN;
+    this.adminToken = (typeof localStorage !== 'undefined') ? (localStorage.getItem('ind_admin_token') || '') : '';
     this.listeners = new Set();
   }
 
   setToken(token) {
     this.adminToken = token || '';
-    if (token) {
-      localStorage.setItem('ind_admin_token', token);
-    } else {
-      localStorage.removeItem('ind_admin_token');
+    if (typeof localStorage !== 'undefined') {
+      if (token) {
+        localStorage.setItem('ind_admin_token', token);
+      } else {
+        localStorage.removeItem('ind_admin_token');
+      }
     }
   }
 
@@ -47,7 +70,31 @@ class ApiClient {
   }
 
   async _request(method, endpoint, body = null, isUpload = false) {
-    const start = performance.now();
+    const start = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+
+    // Security audit: Hard block any attempt to contact Render or remote legacy servers
+    for (const blocked of BLOCKED_REMOTE_ORIGINS) {
+      if (typeof endpoint === 'string' && endpoint.includes(blocked)) {
+        console.error(`[API Security Block] Forbidden remote request to Render blocked: ${endpoint}`);
+        const errResult = {
+          ok: false,
+          status: 403,
+          data: null,
+          error: `Forbidden: Remote Render backend (${blocked}) is disabled. Use local backend at ${LOCAL_BACKEND_ORIGIN}.`
+        };
+        this._notify({
+          timestamp: new Date().toLocaleTimeString(),
+          method,
+          url: endpoint,
+          status: 403,
+          duration: 0,
+          ok: false,
+          error: errResult.error
+        });
+        return errResult;
+      }
+    }
+
     const url = endpoint.startsWith('http') ? endpoint : `${this.baseUrl}${endpoint}`;
     const options = {
       method,
@@ -60,7 +107,7 @@ class ApiClient {
 
     try {
       const response = await fetch(url, options);
-      const duration = Math.round(performance.now() - start);
+      const duration = Math.round(((typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()) - start);
       let data = null;
       const contentType = response.headers.get('content-type') || '';
 
@@ -94,12 +141,22 @@ class ApiClient {
 
       return result;
     } catch (err) {
-      const duration = Math.round(performance.now() - start);
+      const duration = Math.round(((typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()) - start);
+      const isConnectionRefused = err.message && (
+        err.message.includes('Failed to fetch') ||
+        err.message.includes('NetworkError') ||
+        err.message.includes('Network unreachable') ||
+        err.message.includes('ECONNREFUSED')
+      );
+      const errorMsg = isConnectionRefused
+        ? `Local backend unreachable at ${LOCAL_BACKEND_ORIGIN}. Verify python server.py is running on port 8080.`
+        : (err.message || 'Network unreachable');
+
       const result = {
         ok: false,
         status: 0,
         data: null,
-        error: err.message || 'Network unreachable'
+        error: errorMsg
       };
 
       this._notify({
@@ -149,4 +206,8 @@ class ApiClient {
 }
 
 // Global Singleton Export
-window.apiClient = new ApiClient();
+if (typeof window !== 'undefined') {
+  window.apiClient = new ApiClient();
+} else if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { ApiClient, LOCAL_BACKEND_ORIGIN };
+}
