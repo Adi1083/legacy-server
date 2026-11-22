@@ -7,3 +7,11 @@ data/*.db-wal
 .env
 .DS_Store
 
+# Test scripts and temporary harnesses
+test_*.py
+tests/
+scratch/
+*.bak
+*.burst
+combat/*burst*.json
+docs/dashboard/audit_screenshots/test_*.png

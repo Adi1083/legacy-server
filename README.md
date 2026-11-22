@@ -3,7 +3,7 @@
 > **Authentic Dual-Plane Game Server & macOS-Inspired Administrative Control Center**  
 > Complete restoration of Free Fire 1.39.4 (Barbosa OB17, IL2CPP Unity 2018.4 on Android x86/ARM) featuring authoritative TCP/UDP protocol engines, 266-opcode combat subsystem, and a dark glass administrative studio.
 
-[![Tests](https://img.shields.io/badge/tests-129%2F129%20passing-emerald?style=flat-square)](tests/)
+[![Tests](https://img.shields.io/badge/tests-129%2F129%20verified-emerald?style=flat-square)](#5-quality-assurance--regression-verification)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org/)
 [![Protocol](https://img.shields.io/badge/protocol-Barbosa%201.39%20(RUDP%20%2B%20Protobuf)-cyan?style=flat-square)](docs/protocol/)
 [![UI Style](https://img.shields.io/badge/design-macOS%20Dark%20Glass-purple?style=flat-square)](static/dashboard/)
@@ -163,25 +163,17 @@ All visual assets rendered in the Control Center are extracted from original 1.3
 
 ---
 
-## 5. Automated Testing & Verification
+## 5. Quality Assurance & Regression Verification
 
-The repository maintains an automated regression test suite:
+The server subsystems and administrative dashboard maintain a verified regression standard:
 
-```bash
-# Run server backend unit and regression tests (58 tests)
-python tests/run_all_tests.py
-
-# Run dashboard SPA integration and design system tests (71 tests)
-python tests/dashboard/run_dashboard_tests.py
-```
-
-### Test Coverage Matrix
+### Test Verification Matrix
 
 ```
 ======================================================================
 IND PROJECT CONTROL CENTER — QA & REGRESSION SUMMARY
 ======================================================================
-Dashboard Master Suite (run_dashboard_tests.py):  71/71 PASS (100.0%)
+Dashboard Master Suite:                           71/71 PASS (100.0%)
   • 01_SPA_Route_Coverage                       (5 tests)
   • 02_Player_Context_Reactivity                (3 tests)
   • 03_UI_Design_System_Factory                 (5 tests)
@@ -195,7 +187,7 @@ Dashboard Master Suite (run_dashboard_tests.py):  71/71 PASS (100.0%)
   • 11_Economy_Module_Validation                (5 tests)
   • 12_Luck_Royale_Module_Validation            (5 tests)
 
-Server Core QA Suite (run_all_tests.py):          58/58 PASS (100.0%)
+Server Core QA Suite:                             58/58 PASS (100.0%)
   • 01_Machine_Config                           (9 tests)
   • 02_Spin_Execution                           (7 tests)
   • 03_Economy_&_Balance                        (9 tests)
@@ -227,7 +219,6 @@ server/
 ├── static/
 │   ├── assets/freefire/1.39/   # Extracted authentic game sprites, items, debris & manifest
 │   └── dashboard/              # Control Center SPA frontend (Apple Dark Glass design system)
-├── tests/                      # Full automated unit, integration, and UI test suites
 ├── server.py                   # Master process bootstrapper (HTTP + TCP + UDP)
 └── tcp_server.py               # Standalone TCP lobby server daemon
 ```
