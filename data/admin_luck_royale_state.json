@@ -1,26 +1,24 @@
 {
-  "updated_at": 1795333665,
+  "updated_at": 1795335940,
   "disabled_machines": [
     6
   ],
   "banner_assignments": {
-    "3": "pushpa_splash_512.png",
+    "3": "UI_Lottery_Poster_P.png",
     "4": "pushpa_splash_512.png",
     "5": "pushpa_splash_512.png",
     "6": "login_bg.png"
   },
   "events": {
     "3": {
-      "event_id": 1795284959,
+      "event_id": 1795335518,
       "chest_id": 3,
-      "title": "Diamond Fiesta",
-      "banner_url": "/banners/announce_events.png",
-      "start_time": 1795284959,
-      "end_time": 1795889759,
-      "discount_percent": 20,
-      "rate_up_multiplier": 1.0,
-      "active": true,
-      "rewards": []
+      "title": "2x Magic Cube Drop Weekend",
+      "start_time": 1795335518,
+      "end_time": 1795940318,
+      "discount_percent": 30,
+      "rate_up_multiplier": 2.0,
+      "active": true
     }
   },
   "machine_artwork": {
@@ -31,7 +29,7 @@
       "banner": "pushpa_splash_512.png"
     },
     "3": {
-      "banner": "pushpa_splash_512.png"
+      "banner": "UI_Lottery_Poster_P.png"
     },
     "5": {
       "banner": "pushpa_splash_512.png"

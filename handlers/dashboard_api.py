@@ -925,12 +925,12 @@ def handle_dashboard_post(handler: Any, path: str, raw_body: bytes) -> bool:
                 return True
             granted = []
             for iid in item_ids:
-                new_count = state.add_item(iid, count=count)
+                new_count = state.add_item(iid, count=count, account_id=account_id)
                 granted.append({"item_id": iid, "count": new_count})
             handler.send_json({
                 "ok": True,
                 "granted": granted,
-                "unlocked_items_count": len(state.get_unlocked_items()),
+                "unlocked_items_count": len(state.get_unlocked_items(account_id=account_id)),
             })
             return True
 
