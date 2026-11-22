@@ -49,6 +49,29 @@ def decode_dotnet_string(data: bytes, offset: int = 0) -> Tuple[str, int]:
     return s, pos + length
 
 
+def encode_udp_string(s: str) -> bytes:
+    """Encodes a string for GCommon.UDPClientMessageBase.ReadString:
+    4-byte Int32 length prefix (Little-Endian) followed by UTF-8 bytes."""
+    raw = (s or "").encode("utf-8")
+    return struct.pack("<i", len(raw)) + raw
+
+
+def decode_udp_string(data: bytes, offset: int = 0) -> Tuple[str, int]:
+    """Decodes a string for GCommon.UDPClientMessageBase.ReadString:
+    4-byte Int32 length prefix (Little-Endian) followed by UTF-8 bytes."""
+    if len(data) < offset + 4:
+        return "", offset
+    length, = struct.unpack("<i", data[offset:offset+4])
+    offset += 4
+    if length <= 0:
+        return "", offset
+    if len(data) < offset + length:
+        raw = data[offset:]
+        return raw.decode("utf-8", errors="replace"), len(data)
+    s = data[offset:offset+length].decode("utf-8", errors="replace")
+    return s, offset + length
+
+
 # ---------------------------------------------------------------------------
 # 1. Match Join Handshake: C2S_RUDP_JoinMatch (100) & S2C_RUDP_JoinMatchRes
 # ---------------------------------------------------------------------------
@@ -62,50 +85,59 @@ class C2S_JoinMatch:
 
     def serialize(self) -> bytes:
         buf = bytearray()
-        buf.extend(encode_dotnet_string(self.prepare_token))
+        tok_bytes = self.prepare_token.encode("utf-8")
+        buf.extend(struct.pack("<I", len(tok_bytes)))
+        buf.extend(tok_bytes)
         buf.extend(struct.pack("<QQ", self.match_id, self.account_id))
         return bytes(buf)
 
     @classmethod
     def unserialize(cls, data: bytes) -> "C2S_JoinMatch":
-        token, offset = decode_dotnet_string(data, 0)
-        match_id, account_id = struct.unpack("<QQ", data[offset:offset+16])
+        if not data or len(data) < 4:
+            return cls("", 0, 0)
+        tok_len = struct.unpack("<I", data[:4])[0]
+        if tok_len <= len(data) - 4:
+            token = data[4:4+tok_len].decode("utf-8", errors="ignore")
+            offset = 4 + tok_len
+        else:
+            token, offset = decode_dotnet_string(data, 0)
+        if len(data) >= offset + 16:
+            match_id, account_id = struct.unpack("<QQ", data[offset:offset+16])
+        else:
+            match_id, account_id = 0, 0
         return cls(token, match_id, account_id)
 
 
 @dataclass
 class S2C_JoinMatchRes:
-    """TypeDef [4580]: message. nSa~rX (RUDP_JOIN_MATCH_FINISHED = 31)
-    
-    Wire layout (total 89 bytes):
-    - [4B int32 err_code] (message.qLLZWho)
-    - [8B uint64 match_id]
-    - [8B uint64 account_id]
-    - [4B uint32 server_time]
-    - [1B uint8 map_id]
-    - [4B int32 waiting_seconds]
-    - [2B uint16 weather_style]
-    - [4B int32 game_mode] (message.BuSs|~s)
-    - [4B int32 room_type] (message.o[OXXhp)
-    Total Header: 39 bytes (<iQQIBiHii)
-    
-    Nested SafeZone (TypeDef [4560]: message.j]‚VkzA):
-    - [2B int16 phase]
-    - [16B 4x float32 Circle 1 Current: x, y, z, radius]
-    - [16B 4x float32 Circle 2 Next: x, y, z, radius]
-    Total SafeZone: 34 bytes (<hffffffff)
-    
-    Trailing Barbosa Collection Fields (TypeDef [4580] fields 11..14):
-    - [4B int32 field11_count = 0] (List<int>)
-    - [4B int32 field12_count = 0] (List<uint>)
-    - [4B int32 field13_count = 0] (List<Nested>)
-    - [4B uint32 field14_val = 0]
-    Total Trailing: 16 bytes (<iiii)
-    Grand Total: 39 + 34 + 16 = 89 bytes
+    """TypeDef [4580]: message.nSa~rX (RUDP_JOIN_MATCH = 100).
+
+    Layout measured on the real client (Frida read trace + live vtable slot
+    resolution), not inferred from metadata:
+
+    Header, 39B (<IQQiBIHII>): err_code, account_id, match_id, server_time,
+        map_id, waiting_seconds, weather_style, game_mode, room_type
+
+    Nested message.j]VkzA, 26B:
+        phase    Int16                                        2B
+        current  message.My^x~o (0x1eec3e3: ReadInt32 x3) 12B
+        next     same class                                  12B
+
+    Collections + trailer, 16B:
+        list<int> count | list<uint> count | list<msg> count | trailing UInt32
+
+    Total: 39 + 26 + 16 = 81 bytes.
+
+    The earlier 34B block of four float32 per circle (2 + 16 + 16) was the
+    match-entry abort: the client reads three Int32 per circle, so our radius
+    600.0f landed on the second circle's first field and again on the second
+    collection count, producing a multi-million element list read that ran off
+    the packet and raised EndOfStreamException in
+    MatchClient.HandleRecvPacket (logcat: Fatal signal 6 in UnityMain).
     """
     err_code: int = 0         # message.qLLZWho: 0 = ERR_NONE
-    match_id: int = 10001
-    account_id: int = 1000001
+    account_id: int = 10001
+    match_id: int = 1000001
     server_time: int = 0      # UNIX timestamp
     map_id: int = 1           # 1 = Bermuda
     waiting_seconds: int = 60 # 60s Spawn Island countdown
@@ -125,62 +157,58 @@ class S2C_JoinMatchRes:
             self.next_safe_zone_radius = self.safe_zone_radius
 
     def serialize(self) -> bytes:
-        buf = bytearray()
-        # Header (39 bytes): [4B err_code][8B match_id][8B account_id][4B server_time][1B map_id][4B waiting_sec][2B weather][4B game_mode][4B room_type]
-        buf.extend(struct.pack(
-            "<iQQIBiHii",
-            self.err_code,
-            self.match_id,
-            self.account_id,
-            self.server_time,
-            self.map_id,
-            self.waiting_seconds,
-            self.weather_style,
-            self.game_mode,
-            self.room_type,
+        buf = bytearray(struct.pack(
+            "<IQQiBIHII",
+            int(self.err_code),
+            int(self.account_id),
+            int(self.match_id),
+            int(self.server_time),
+            int(self.map_id),
+            int(self.waiting_seconds),
+            int(self.weather_style),
+            int(self.game_mode),
+            int(self.room_type),
         ))
-        # Initial Safe Zone (TypeDef [4560]: message.j]‚VkzA)
-        # Wire layout: [2B phase][16B Circle 1 Current: x, y, z, radius][16B Circle 2 Next: x, y, z, radius] = 34B
+        # Nested message.j]\x82VkzA: Int16 phase + two message.My^x~\x81o circles,
+        # each exactly three Int32 (live vtable target 0x1eec3e3).
         buf.extend(struct.pack(
-            "<hffffffff",
-            self.phase,
-            float(self.safe_zone_center[0]),
-            float(self.safe_zone_center[1]),
-            float(self.safe_zone_center[2]),
-            float(self.safe_zone_radius),
-            float(self.next_safe_zone_center[0]),
-            float(self.next_safe_zone_center[1]),
-            float(self.next_safe_zone_center[2]),
-            float(self.next_safe_zone_radius)
+            "<hiiiiii",
+            int(self.phase),
+            int(self.safe_zone_center[0]),
+            int(self.safe_zone_center[2]),
+            int(self.safe_zone_radius),
+            int(self.next_safe_zone_center[0]),
+            int(self.next_safe_zone_center[2]),
+            int(self.next_safe_zone_radius),
         ))
-        # Authentic Barbosa trailing fields (TypeDef [4580] fields 11..14):
-        # Field 11: List<int> (count int32 = 0)
-        # Field 12: List<uint> (count int32 = 0)
-        # Field 13: List<Nested> (count int32 = 0)
-        # Field 14: uint32 = 0
-        buf.extend(struct.pack("<iiii", 0, 0, 0, 0))
+        # list<int> count, list<uint> count, list<message> count, trailing UInt32
+        buf.extend(struct.pack("<III", 0, 0, 0))
+        buf.extend(struct.pack("<I", 0))
         return bytes(buf)
+
+    def serialize_compact(self) -> bytes:
+        """Authentic 16-byte wire payload as captured from live Barbosa combat server."""
+        return struct.pack("<IQI", self.err_code, self.match_id, self.server_time)
 
     @classmethod
     def unserialize(cls, data: bytes) -> "S2C_JoinMatchRes":
-        """Decodes exact 89-byte wire payload."""
-        header = struct.unpack("<iQQIBiHii", data[:39])
-        phase, cx, cy, cz, cr, nx, ny, nz, nr = struct.unpack("<hffffffff", data[39:73])
-        # Trailing 16 bytes: f11_cnt, f12_cnt, f13_cnt, f14_val = struct.unpack("<iiii", data[73:89])
+        """Decodes the measured 81-byte wire payload."""
+        header = struct.unpack("<IQQiBIHII", data[:39])
+        phase, cx, cz, cr, nx, nz, nr = struct.unpack("<hiiiiii", data[39:65])
         return cls(
             err_code=header[0],
-            match_id=header[1],
-            account_id=header[2],
+            account_id=header[1],
+            match_id=header[2],
             server_time=header[3],
             map_id=header[4],
             waiting_seconds=header[5],
             weather_style=header[6],
             game_mode=header[7],
             room_type=header[8],
-            safe_zone_center=(cx, cy, cz),
-            safe_zone_radius=cr,
-            next_safe_zone_center=(nx, ny, nz),
-            next_safe_zone_radius=nr,
+            safe_zone_center=(float(cx), 0.0, float(cz)),
+            safe_zone_radius=float(cr),
+            next_safe_zone_center=(float(nx), 0.0, float(nz)),
+            next_safe_zone_radius=float(nr),
             phase=phase
         )
 
@@ -191,54 +219,159 @@ class S2C_JoinMatchRes:
 
 @dataclass
 class S2C_PlayerJoin:
-    """TypeDef [4579]: message.ae zaPn (RUDP_PLAYER_JOIN = 101)"""
-    player_id: int
+    """TypeDef [4579]: message.ae zaPn (RUDP_PLAYER_JOIN = 101)
+    
+    18 sequential fields established by IL2CPP disassembly of
+    message.ae zaPn.UnSerialize (RVA 0x01fafc18) and Serialize (RVA 0x1fb07e9):
+      1. UInt64  account_id
+      2. UInt64  match_id
+      3. Byte    camp
+      4. Byte    is_bot (0=human, 1=bot)
+      5. UInt64  team_id
+      6. String  nickname (Int32 len + UTF-8)
+      7. UInt32  avatar_id
+      8. Boolean is_ready
+      9. UInt32  level
+     10. UInt32  rank
+     11. Boolean is_alive
+     12. List    clothes (Int32 count + count * UInt64)
+     13. Byte    gender
+     14. Boolean flag
+     15. List    skills (Int32 count + count * UInt32)
+     16. String  region (Int32 len + UTF-8)
+     17. UInt32  banner_id
+     18. String  headpic (Int32 len + UTF-8)
+    """
     account_id: int
-    team_id: int
-    camp: int
     match_id: int
-    nickname: str
-    avatar_id: int
-    is_bot: bool
+    camp: int = 1
+    is_bot: bool = False
+    team_id: int = 1
+    nickname: str = ""
+    avatar_id: int = 1010001
+    is_ready: bool = True
     level: int = 25
     rank: int = 1800
-    is_ready: bool = True
+    is_alive: bool = True
     clothes: List[int] = None
     gender: int = 1
-    is_alive: bool = True
+    flag: bool = False
     skills: List[int] = None
-    region: str = "NA"
-    banner_id: int = 901001
-    headpic: str = "avatar_01"
+    region: str = "IND"
+    banner_id: int = 901000001
+    headpic: str = ""
+    player_id: int = 1  # Compatibility alias for server tracking (not serialized on wire)
 
     def __post_init__(self):
         if self.clothes is None:
-            self.clothes = [101001, 102001, 103001, 104001]
+            self.clothes = []
         if self.skills is None:
-            self.skills = [1, 2]
+            self.skills = []
 
     def serialize(self) -> bytes:
         buf = bytearray()
-        buf.extend(struct.pack("<QQBBQ", self.player_id, self.account_id, self.team_id, self.camp, self.match_id))
-        buf.extend(encode_dotnet_string(self.nickname))
-        buf.extend(struct.pack("<IBIIB", self.avatar_id, 1 if self.is_bot else 0, self.level, self.rank, 1 if self.is_ready else 0))
-        
-        # Clothes array: [4B count int32] + [8B * count uint64] (TypeDef [4579] field 12)
-        buf.extend(struct.pack("<i", len(self.clothes)))
-        for c in self.clothes:
-            buf.extend(struct.pack("<Q", c))
-
-        buf.extend(struct.pack("<BB", self.gender, 1 if self.is_alive else 0))
-        
-        # Skills array: [4B count int32] + [4B * count uint32] (TypeDef [4579] field 15)
-        buf.extend(struct.pack("<i", len(self.skills)))
-        for s in self.skills:
-            buf.extend(struct.pack("<I", s))
-
-        buf.extend(encode_dotnet_string(self.region))
-        buf.extend(struct.pack("<I", self.banner_id))
-        buf.extend(encode_dotnet_string(self.headpic))
+        # 1. account_id (UInt64)
+        # 2. match_id (UInt64)
+        # 3. camp (Byte)
+        # 4. is_bot (Byte)
+        # 5. team_id (UInt64)
+        buf.extend(struct.pack(
+            "<QQBBQ",
+            int(self.account_id) & 0xFFFFFFFFFFFFFFFF,
+            int(self.match_id) & 0xFFFFFFFFFFFFFFFF,
+            int(self.camp) & 0xFF,
+            1 if self.is_bot else 0,
+            int(self.team_id) & 0xFFFFFFFFFFFFFFFF
+        ))
+        # 6. nickname (String: Int32 len + UTF-8 bytes)
+        buf.extend(encode_udp_string(self.nickname))
+        # 7. avatar_id (UInt32)
+        # 8. is_ready (Boolean)
+        # 9. level (UInt32)
+        # 10. rank (UInt32)
+        # 11. is_alive (Boolean)
+        buf.extend(struct.pack(
+            "<I?II?",
+            int(self.avatar_id) & 0xFFFFFFFF,
+            bool(self.is_ready),
+            int(self.level) & 0xFFFFFFFF,
+            int(self.rank) & 0xFFFFFFFF,
+            bool(self.is_alive)
+        ))
+        # 12. clothes (Int32 count + count * UInt64)
+        clothes_list = self.clothes or []
+        buf.extend(struct.pack("<i", len(clothes_list)))
+        for cid in clothes_list:
+            buf.extend(struct.pack("<Q", int(cid) & 0xFFFFFFFFFFFFFFFF))
+        # 13. gender (Byte)
+        # 14. flag (Boolean)
+        buf.extend(struct.pack(
+            "<B?",
+            int(self.gender) & 0xFF,
+            bool(self.flag)
+        ))
+        # 15. skills (Int32 count + count * UInt32)
+        skills_list = self.skills or []
+        buf.extend(struct.pack("<i", len(skills_list)))
+        for sid in skills_list:
+            buf.extend(struct.pack("<I", int(sid) & 0xFFFFFFFF))
+        # 16. region (String: Int32 len + UTF-8 bytes)
+        buf.extend(encode_udp_string(self.region))
+        # 17. banner_id (UInt32)
+        buf.extend(struct.pack("<I", int(self.banner_id) & 0xFFFFFFFF))
+        # 18. headpic (String: Int32 len + UTF-8 bytes)
+        buf.extend(encode_udp_string(self.headpic))
         return bytes(buf)
+
+    @classmethod
+    def unserialize(cls, data: bytes) -> "S2C_PlayerJoin":
+        offset = 0
+        account_id, match_id, camp, is_bot_raw, team_id = struct.unpack("<QQBBQ", data[offset:offset+26])
+        offset += 26
+        nickname, offset = decode_udp_string(data, offset)
+        avatar_id, is_ready, level, rank, is_alive = struct.unpack("<I?II?", data[offset:offset+14])
+        offset += 14
+        clothes_count, = struct.unpack("<i", data[offset:offset+4])
+        offset += 4
+        clothes = []
+        for _ in range(max(0, clothes_count)):
+            cid, = struct.unpack("<Q", data[offset:offset+8])
+            clothes.append(cid)
+            offset += 8
+        gender, flag = struct.unpack("<B?", data[offset:offset+2])
+        offset += 2
+        skills_count, = struct.unpack("<i", data[offset:offset+4])
+        offset += 4
+        skills = []
+        for _ in range(max(0, skills_count)):
+            sid, = struct.unpack("<I", data[offset:offset+4])
+            skills.append(sid)
+            offset += 4
+        region, offset = decode_udp_string(data, offset)
+        banner_id, = struct.unpack("<I", data[offset:offset+4])
+        offset += 4
+        headpic, offset = decode_udp_string(data, offset)
+        return cls(
+            account_id=account_id,
+            match_id=match_id,
+            camp=camp,
+            is_bot=bool(is_bot_raw),
+            team_id=team_id,
+            nickname=nickname,
+            avatar_id=avatar_id,
+            is_ready=is_ready,
+            level=level,
+            rank=rank,
+            is_alive=is_alive,
+            clothes=clothes,
+            gender=gender,
+            flag=flag,
+            skills=skills,
+            region=region,
+            banner_id=banner_id,
+            headpic=headpic,
+            player_id=1
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -270,6 +403,20 @@ class S2C_SyncSceneInfo:
             float(self.spawn_island_radius)
         )
 
+    @classmethod
+    def unserialize(cls, data: bytes) -> "S2C_SyncSceneInfo":
+        mid, elapsed, countdown, alive, x, y, z, r = struct.unpack("<QffIffff", data[:36])
+        return cls(
+            match_id=mid,
+            elapsed_time=elapsed,
+            countdown_seconds=countdown,
+            alive_players=alive,
+            spawn_island_x=x,
+            spawn_island_y=y,
+            spawn_island_z=z,
+            spawn_island_radius=r
+        )
+
 
 # ---------------------------------------------------------------------------
 # 4. Airplane & Battle Start: S2C_RUDP_BattleStart (110)
@@ -294,6 +441,18 @@ class S2C_BattleStart:
             float(self.altitude),
             float(self.flight_speed),
             float(self.flight_duration)
+        )
+
+    @classmethod
+    def unserialize(cls, data: bytes) -> "S2C_BattleStart":
+        vals = struct.unpack("<Qfffffffff", data[:44])
+        return cls(
+            match_id=vals[0],
+            start_pos=(vals[1], vals[2], vals[3]),
+            end_pos=(vals[4], vals[5], vals[6]),
+            altitude=vals[7],
+            flight_speed=vals[8],
+            flight_duration=vals[9]
         )
 
 
@@ -330,30 +489,168 @@ class S2C_ParachuteSync:
 # ---------------------------------------------------------------------------
 
 @dataclass
-class UDP_PlayerPositionOnly:
-    """UDP_PLAYER_POSITION_ONLY = 1014"""
+class PlayerPosItem:
+    """TypeDef [4537]: message. jqCaJw (15 bytes)
+    Used within message.Ctdp€Ud (Opcode 1014: UDP_PLAYER_POSITION_ONLY)
+    - player_id: uint8 (1 byte, e.g. 1 for human, 2 for bot1, 3 for bot2)
+    - pos: message.My^x~ o (12 bytes, 3x int32 scaled in millimeters: int(coord * 1000))
+    - physx_state: uint8 (1 byte)
+    - physx_pose: uint8 (1 byte)
+    """
     player_id: int
     x: float
     y: float
     z: float
-    speed: float
-    physx_state: int
-    physx_pose: int
+    physx_state: int = 0
+    physx_pose: int = 0
 
     def serialize(self) -> bytes:
+        ix = int(self.x * 1000)
+        iy = int(self.y * 1000)
+        iz = int(self.z * 1000)
         return struct.pack(
-            "<I fff f BB",
-            self.player_id,
-            float(self.x), float(self.y), float(self.z),
-            float(self.speed),
-            self.physx_state,
-            self.physx_pose
+            "<B iii BB",
+            self.player_id & 0xFF,
+            ix, iy, iz,
+            self.physx_state & 0xFF,
+            self.physx_pose & 0xFF
         )
 
     @classmethod
+    def unserialize(cls, data: bytes, offset: int = 0) -> Tuple["PlayerPosItem", int]:
+        if len(data) < offset + 15:
+            return cls(0, 0.0, 0.0, 0.0, 0, 0), offset
+        pid, ix, iy, iz, state, pose = struct.unpack("<B iii BB", data[offset:offset+15])
+        return cls(pid, ix / 1000.0, iy / 1000.0, iz / 1000.0, state, pose), offset + 15
+
+
+@dataclass
+class UDP_PlayerPositionBatch:
+    """TypeDef [4607]: message.Ctdp€Ud (UDP_PLAYER_POSITION_ONLY = 1014)
+    Wire Layout:
+    - [4B int32 count1] (number of PlayerPosItem elements)
+    - [count1 * 15B PlayerPosItem elements]
+    - [4B int32 count2] (secondary list count, always 0)
+    - [4B int32 timestamp] (tick timestamp / seq)
+    """
+    players: List[PlayerPosItem]
+    timestamp: int = 0
+
+    def serialize(self) -> bytes:
+        buf = bytearray(struct.pack("<i", len(self.players)))
+        for p in self.players:
+            buf.extend(p.serialize())
+        buf.extend(struct.pack("<ii", 0, self.timestamp))
+        return bytes(buf)
+
+    @classmethod
+    def unserialize(cls, data: bytes) -> "UDP_PlayerPositionBatch":
+        if len(data) < 8:
+            return cls([], 0)
+        count, = struct.unpack("<i", data[:4])
+        players = []
+        offset = 4
+        for _ in range(count):
+            if offset + 15 > len(data):
+                break
+            item, offset = PlayerPosItem.unserialize(data, offset)
+            players.append(item)
+        ts = 0
+        if offset + 8 <= len(data):
+            _, ts = struct.unpack("<ii", data[offset:offset+8])
+        return cls(players, ts)
+
+
+@dataclass
+class UDP_SyncServerTime:
+    """TypeDef [23283]: Opcode 1000 (UDP_SYNC_SERVER_TIME) - 4 bytes uint32 server time / tick."""
+    server_time: int = 0
+
+    def serialize(self) -> bytes:
+        return struct.pack("<I", self.server_time & 0xFFFFFFFF)
+
+    @classmethod
+    def unserialize(cls, data: bytes) -> "UDP_SyncServerTime":
+        val = struct.unpack("<I", data[:4])[0] if len(data) >= 4 else 0
+        return cls(val)
+
+
+@dataclass
+class UDP_PlayerStateSync:
+    """TypeDef [23284]: Opcode 1001 (UDP_PLAYER_STATE_SYNC) - High frequency player sync.
+    Wire Layout:
+    - [4B uint32 server_time_ms]
+    - [4B uint32 flags / tick]
+    - [4B uint32 count]
+    - [count * 15B PlayerPosItem elements]
+    """
+    server_time_ms: int = 0
+    flags: int = 0
+    players: List[PlayerPosItem] = None
+
+    def __post_init__(self):
+        if self.players is None:
+            self.players = []
+
+    def serialize(self) -> bytes:
+        buf = bytearray(struct.pack("<III", self.server_time_ms & 0xFFFFFFFF, self.flags & 0xFFFFFFFF, len(self.players)))
+        for p in self.players:
+            buf.extend(p.serialize())
+        return bytes(buf)
+
+    @classmethod
+    def unserialize(cls, data: bytes) -> "UDP_PlayerStateSync":
+        if len(data) < 12:
+            return cls(0, 0, [])
+        ts, flags, count = struct.unpack("<III", data[:12])
+        players = []
+        offset = 12
+        for _ in range(count):
+            if offset + 15 > len(data):
+                break
+            item, offset = PlayerPosItem.unserialize(data, offset)
+            players.append(item)
+        return cls(ts, flags, players)
+
+
+@dataclass
+class UDP_PlayerPositionOnly:
+    """Compatibility wrapper for UDP_PLAYER_POSITION_ONLY = 1014.
+    Serializes a single entity as a valid 1-item message.Ctdp€Ud batch packet (27 bytes).
+    """
+    player_id: int
+    x: float
+    y: float
+    z: float
+    speed: float = 0.0
+    physx_state: int = 0
+    physx_pose: int = 0
+
+    def serialize(self) -> bytes:
+        item = PlayerPosItem(
+            player_id=self.player_id,
+            x=self.x,
+            y=self.y,
+            z=self.z,
+            physx_state=self.physx_state,
+            physx_pose=self.physx_pose
+        )
+        batch = UDP_PlayerPositionBatch(players=[item], timestamp=0)
+        return batch.serialize()
+
+    @classmethod
     def unserialize(cls, data: bytes) -> "UDP_PlayerPositionOnly":
-        pid, x, y, z, speed, state, pose = struct.unpack("<I fff f BB", data[:26])
-        return cls(pid, x, y, z, speed, state, pose)
+        batch = UDP_PlayerPositionBatch.unserialize(data)
+        if batch.players:
+            p = batch.players[0]
+            return cls(p.player_id, p.x, p.y, p.z, 0.0, p.physx_state, p.physx_pose)
+        if len(data) >= 22:
+            try:
+                pid, x, y, z = struct.unpack("<Ifff", data[:16])
+                return cls(pid, x, y, z, 0.0, 0, 0)
+            except Exception:
+                pass
+        return cls(0, 0.0, 0.0, 0.0, 0.0, 0, 0)
 
 
 @dataclass
@@ -487,7 +784,7 @@ class RUDP_Dead:
 
 @dataclass
 class RUDP_SafeZoneChange:
-    """TypeDef [4560]: message.j]‚VkzA (RUDP_SAFE_ZONE_CHANGE = 18)
+    """TypeDef [4560]: message.j]‚VkzA (RUDP_SAFE_ZONE_CHANGE = 117)
     
     Wire layout (total 34 bytes):
     - [2B int16 phase] (Field [24017]: pc}wE]‚)
@@ -519,3 +816,56 @@ class RUDP_SafeZoneChange:
     def unserialize(cls, data: bytes) -> "RUDP_SafeZoneChange":
         phase, cx, cy, cz, cr, nx, ny, nz, nr = struct.unpack("<hffffffff", data[:34])
         return cls(phase, cx, cy, cz, cr, nx, ny, nz, nr)
+
+
+@dataclass
+class RUDP_BindPRI:
+    """TypeDef [23055]: Opcode 118 (RUDP_BIND_PRI) - Priority Channel / Replication Binding.
+    
+    Wire layout (total 24 bytes):
+    - [8B uint64 account_id]
+    - [4B uint32 entity_id]
+    - [4B uint32 pri_id = 0]
+    - [8B uint64 reserved = 0]
+    Total Wire Format: 8 + 4 + 4 + 8 = 24 bytes (<QIIQ)
+    """
+    account_id: int
+    entity_id: int = 1
+    pri_id: int = 0
+    reserved: int = 0
+
+    def serialize(self) -> bytes:
+        return struct.pack("<QIIQ", self.account_id, self.entity_id, self.pri_id, self.reserved)
+
+    @classmethod
+    def unserialize(cls, data: bytes) -> "RUDP_BindPRI":
+        acc, eid, pid, res = struct.unpack("<QIIQ", data[:24])
+        return cls(account_id=acc, entity_id=eid, pri_id=pid, reserved=res)
+
+
+# ---------------------------------------------------------------------------
+# Opcode 170: RUDP_SYNC_REGION_ACTIVITIES
+# ---------------------------------------------------------------------------
+from .codec_op170 import RegionActivityItem, S2C_SyncRegionActivities, RUDP_SyncRegionActivities
+
+# ---------------------------------------------------------------------------
+# Opcode 130: RUDP_JOIN_MATCH_FINISHED
+# ---------------------------------------------------------------------------
+from .codec_op130 import JoinMatchFinishedPacket, RUDP_JoinMatchFinished
+
+# ---------------------------------------------------------------------------
+# Opcode 278: RUDP_SyncShowCase
+# ---------------------------------------------------------------------------
+from .codec_op278 import ShowCaseItem, S2C_SyncShowCase, RUDP_SyncShowCase
+
+# ---------------------------------------------------------------------------
+# Opcode 135: RUDP_SYNC_PLAYERS_VISIBILITY
+# ---------------------------------------------------------------------------
+from .codec_op135 import PlayerVisibilityItem, S2C_SyncPlayersVisibility, RUDP_SyncPlayersVisibility
+
+# ---------------------------------------------------------------------------
+# Opcode 501: RUDP_VAR_SYNC_GRI_DATA
+# ---------------------------------------------------------------------------
+from .codec_op501 import ReplicationItem, S2C_VarSyncGRIData, RUDP_VarSyncGRIData
+
+

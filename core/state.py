@@ -48,6 +48,16 @@ MODE_MAX_MEMBERS = {
     "squad": 4,
 }
 
+_MATCH_ID_COUNTER = int(time.time() * 1000) % 90000000 + 10000000
+_MATCH_ID_LOCK = threading.Lock()
+
+def generate_match_id() -> int:
+    """Generate a unique 8-digit dynamic match ID."""
+    global _MATCH_ID_COUNTER
+    with _MATCH_ID_LOCK:
+        _MATCH_ID_COUNTER += 1
+        return _MATCH_ID_COUNTER
+
 
 def _seed_players(now: int) -> Dict[int, Dict[str, Any]]:
     """Pre-seeded online bot friends and discoverable players."""
@@ -817,6 +827,26 @@ def _seed_lobby_cms(now: int) -> Dict[str, List[Dict[str, Any]]]:
     }
 
 
+class CurrencyResult(tuple):
+    """Tuple (success, balance) that also supports bool and int for max compatibility."""
+    def __new__(cls, success: bool, balance: int):
+        return super().__new__(cls, (bool(success), int(balance)))
+
+    @property
+    def success(self) -> bool:
+        return self[0]
+
+    @property
+    def balance(self) -> int:
+        return self[1]
+
+    def __bool__(self) -> bool:
+        return self[0]
+
+    def __int__(self) -> int:
+        return self[1]
+
+
 class ServerState:
     """Thread-safe central game state store for Barbosa 1.39."""
 
@@ -904,204 +934,132 @@ class ServerState:
         self._next_lobby_event_id: int = 1
         self._load_or_init_cms(now)
 
-        # Hydrate from SQLite persistence engine or persist fresh initial state
-        persisted_profile = None
+        # Hydrate all accounts from PlayerManager and SQLite persistence engine
         try:
-            persisted_profile = db.get_profile(DEFAULT_ACCOUNT_ID)
+            from core.player import player_manager
+            all_players = player_manager.list_all_players()
+            for p in all_players:
+                aid = p.account_id
+                prof = p.get_profile()
+                self._profiles[aid] = prof
+                self._claimed_ep_rewards.setdefault(aid, set())
+                self._mails.setdefault(aid, {})
+                self._friends.setdefault(aid, set())
+                self._friend_requests.setdefault(aid, {})
+                try:
+                    db_friends = db.get_friends(aid)
+                    if db_friends:
+                        self._friends[aid] = set(int(f) for f in db_friends)
+                    claims = db.get_claims(aid, claim_type="firepass")
+                    if claims:
+                        self._claimed_ep_rewards[aid] = {int(c["target_id"]) for c in claims}
+                    db_mails = db.get_mails(aid)
+                    if db_mails:
+                        self._mails[aid] = {int(m["mail_id"]): m for m in db_mails}
+                        self._next_mail_id = max([self._next_mail_id] + [int(m["mail_id"]) for m in db_mails])
+                    else:
+                        self._seed_initial_mails(now, aid)
+                except Exception:
+                    pass
+        except Exception as e:
+            pass
+
+        # Ensure default account 10001 is populated
+        if DEFAULT_ACCOUNT_ID not in self._profiles:
+            try:
+                from core.player import player_manager
+                p10001 = player_manager.get_or_create(DEFAULT_ACCOUNT_ID)
+                self._profiles[DEFAULT_ACCOUNT_ID] = p10001.get_profile()
+            except Exception:
+                pass
+
+        # Hydrate backward-compatibility mirrors for DEFAULT_ACCOUNT_ID
+        try:
+            db_inv = db.get_inventory(DEFAULT_ACCOUNT_ID)
+            if db_inv:
+                self._unlocked_items.update(db_inv.keys())
+                self._item_counts.update(db_inv)
         except Exception:
-            persisted_profile = None
+            pass
 
-        if persisted_profile:
-            # Hydrate profile
-            prof = self._profiles[DEFAULT_ACCOUNT_ID]
-            prof.update(persisted_profile)
-            prof["coins"] = int(persisted_profile.get("gold", persisted_profile.get("coins", prof["coins"])))
-            prof["gems"] = int(persisted_profile.get("diamonds", persisted_profile.get("gems", prof["gems"])))
-            prof["avatar_id"] = int(persisted_profile.get("selected_avatar_id", persisted_profile.get("avatar_id", prof["avatar_id"])))
-            prof["selected_pet_id"] = int(persisted_profile.get("selected_pet_id", prof.get("selected_pet_id", 1300000001)))
-            prof["gold"] = prof["coins"]
-            prof["diamonds"] = prof["gems"]
-            prof["selected_avatar_id"] = prof["avatar_id"]
-            if "clothes" in persisted_profile and isinstance(persisted_profile["clothes"], list):
-                prof["clothes"] = [int(x) for x in persisted_profile["clothes"]]
-
-            # Hydrate inventory
-            try:
-                db_inv = db.get_inventory(DEFAULT_ACCOUNT_ID)
-                if db_inv:
-                    self._unlocked_items.update(db_inv.keys())
-                    self._item_counts.update(db_inv)
-            except Exception:
-                pass
-
-            # Hydrate characters
-            try:
-                db_chars = db.get_characters(DEFAULT_ACCOUNT_ID)
-                for char_data in db_chars:
-                    aid = int(char_data["avatar_id"])
-                    if aid in self._characters:
-                        c = self._characters[aid]
-                        c["unlocked_level"] = int(char_data.get("level", c.get("unlocked_level", 8)))
-                        c["exp"] = int(char_data.get("exp", c.get("exp", 0)))
-                        if "clothes" in char_data and isinstance(char_data["clothes"], list):
-                            c["clothes"] = [int(x) for x in char_data["clothes"]]
-                        if "skills" in char_data and isinstance(char_data["skills"], list):
-                            c["equiped_skills"] = char_data["skills"]
-                        c["is_selected"] = (aid == prof["avatar_id"])
-                    else:
-                        clothes_list = [int(x) for x in char_data.get("clothes", [])]
-                        skills_list = char_data.get("skills", [])
-                        self._characters[aid] = {
-                            "avatar_id": aid,
-                            "name": char_data.get("name", f"Character_{aid}"),
-                            "unlocked_level": int(char_data.get("level", 8)),
-                            "exp": int(char_data.get("exp", 0)),
-                            "skin_color": 0,
-                            "clothes": clothes_list,
-                            "equiped_skills": skills_list,
-                            "skill_id": 0,
-                            "skill_level": 0,
-                            "is_selected": (aid == prof["avatar_id"]),
-                            "pve_primary_weapon": 0,
-                        }
-            except Exception:
-                pass
-
-            # Hydrate pets
-            try:
-                db_pets = db.get_pets(DEFAULT_ACCOUNT_ID)
-                for pet_data in db_pets:
-                    pid = int(pet_data["pet_id"])
-                    if pid in self._pets:
-                        p = self._pets[pid]
-                        p["level"] = int(pet_data.get("level", p["level"]))
-                        p["exp"] = int(pet_data.get("exp", p["exp"]))
-                        if pet_data.get("selected_skin_id"):
-                            sid = int(pet_data["selected_skin_id"])
-                            p["skin_id"] = sid
-                            if sid not in p["unlocked_skins"]:
-                                p["unlocked_skins"].append(sid)
-                        p["is_selected"] = (pid == prof.get("selected_pet_id"))
-                    else:
-                        sid = int(pet_data.get("selected_skin_id", 0))
-                        self._pets[pid] = {
-                            "id": pid,
-                            "name": pet_data.get("name", f"Pet_{pid}"),
-                            "level": int(pet_data.get("level", 1)),
-                            "exp": int(pet_data.get("exp", 0)),
-                            "is_selected": (pid == prof.get("selected_pet_id")),
-                            "skin_id": sid,
-                            "unlocked_skins": [sid] if sid else [],
-                            "actions": [1, 2, 3, 4],
-                            "skills": [],
-                        }
-            except Exception:
-                pass
-
-            # Hydrate friends
-            try:
-                db_friends = db.get_friends(DEFAULT_ACCOUNT_ID)
-                if db_friends:
-                    self._friends[DEFAULT_ACCOUNT_ID] = set(int(f) for f in db_friends)
-            except Exception:
-                pass
-
-            # Hydrate claimed EP rewards
-            try:
-                claims = db.get_claims(DEFAULT_ACCOUNT_ID, claim_type="firepass")
-                if claims:
-                    self._claimed_ep_rewards[DEFAULT_ACCOUNT_ID] = {int(c["target_id"]) for c in claims}
-            except Exception:
-                pass
-
-            # Hydrate mails
-            try:
-                db_mails = db.get_mails(DEFAULT_ACCOUNT_ID)
-                if db_mails:
-                    self._mails[DEFAULT_ACCOUNT_ID] = {int(m["mail_id"]): m for m in db_mails}
-                    self._next_mail_id = max([1000] + [int(m["mail_id"]) for m in db_mails])
-                else:
-                    self._seed_initial_mails(now)
-            except Exception:
-                self._seed_initial_mails(now)
-        else:
-            # Fresh SQLite database: persist initial state
-            prof = self._profiles[DEFAULT_ACCOUNT_ID]
-            try:
-                db.save_profile(DEFAULT_ACCOUNT_ID, prof)
-                db.save_inventory_batch(DEFAULT_ACCOUNT_ID, self._item_counts)
-                for c in self._characters.values():
-                    db.save_character(DEFAULT_ACCOUNT_ID, c)
-                for p in self._pets.values():
-                    db.save_pet(DEFAULT_ACCOUNT_ID, p)
-                for fid in self._friends.get(DEFAULT_ACCOUNT_ID, set()):
-                    db.save_friend(DEFAULT_ACCOUNT_ID, fid)
-                self._seed_initial_mails(now)
-            except Exception:
-                pass
-
-        self._profile: Dict[str, Any] = self._profiles[DEFAULT_ACCOUNT_ID]
+        self._profile: Dict[str, Any] = self._profiles.get(DEFAULT_ACCOUNT_ID, {})
         self._wallet: Dict[str, int] = {
-            "coins": self._profiles[DEFAULT_ACCOUNT_ID]["coins"],
-            "gems": self._profiles[DEFAULT_ACCOUNT_ID]["gems"],
+            "coins": self._profile.get("coins", DEFAULT_COINS),
+            "gems": self._profile.get("gems", DEFAULT_GEMS),
         }
 
     # ------------------------------------------------------------------
     # Internal helpers (must be called under self._lock)
     # ------------------------------------------------------------------
     def _ensure_account(self, account_id: int) -> Dict[str, Any]:
-        if account_id not in self._profiles:
-            now = int(time.time())
-            player = self._players.get(account_id)
-            self._profiles[account_id] = {
-                "account_id": account_id,
-                "account_type": 1,
-                "nickname": player["nickname"] if player else f"Player_{account_id}",
-                "region": "DEFAULT",
-                "level": player["level"] if player else 60,
-                "exp": player["exp"] if player else 99999,
-                "coins": DEFAULT_COINS,
-                "gems": DEFAULT_GEMS,
-                "banner_id": player["banner_id"] if player else 901000001,
-                "head_pic": player["head_pic"] if player else 902000001,
-                "avatar_id": player["avatar_id"] if player else DEFAULT_AVATAR_ID,
-                "skin_color": 0,
-                "clothes": [211000000, 208000000, 203000573, 204000345, 205000299],
-                "equiped_skills": [],
-                "rank": player["rank"] if player else 315,
-                "ranking_points": player["ranking_points"] if player else 3250,
-                "role": 0,
-                "clan_id": player["clan_id"] if player else 0,
-                "clan_name": player["clan_name"] if player else "",
-                "has_elite_pass": True,
-                "ep_event_id": 1,
-                "ep_badge": 1,
-                "badge_cnt": 100,
-                "liked": 100,
-                "show_rank": True,
-                "selected_pet_id": 1300000001,
-                "selected_pet_skin_id": 1310000001,
-                "slots": [904000001, 209000001, 906000001, 903000001, 908000001],
-                "shows": [907000001, 907000005, 907000010, 907000013, 907000014],
-                "emotes": [[1, 909000001], [2, 909000002], [3, 909000003], [4, 909000004]],
-                "loadouts": [500000001, 500000005],
-                "ranking_cards": [],
-                "pve_primary_weapon_skin": 907000001,
-                "hidden_collections": [],
-                "signature": "",
-                "create_at": now,
-                "last_login_at": now,
-            }
-        self._mails.setdefault(account_id, {})
-        self._friends.setdefault(account_id, set())
-        self._friend_requests.setdefault(account_id, {})
-        self._claimed_ep_rewards.setdefault(account_id, set())
-        return self._profiles[account_id]
+        aid = int(account_id)
+        if aid not in self._profiles:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(aid)
+                if not p:
+                    p = player_manager.get_or_create(aid)
+                self._profiles[aid] = p.get_profile()
+            except Exception:
+                now = int(time.time())
+                player = self._players.get(aid)
+                self._profiles[aid] = {
+                    "account_id": aid,
+                    "account_type": 1,
+                    "nickname": player["nickname"] if player else f"Player_{aid}",
+                    "region": "DEFAULT",
+                    "level": player["level"] if player else 60,
+                    "exp": player["exp"] if player else 99999,
+                    "coins": DEFAULT_COINS,
+                    "gems": DEFAULT_GEMS,
+                    "banner_id": player["banner_id"] if player else 901000001,
+                    "head_pic": player["head_pic"] if player else 902000001,
+                    "avatar_id": player["avatar_id"] if player else DEFAULT_AVATAR_ID,
+                    "skin_color": 0,
+                    "clothes": [211000000, 208000000, 203000573, 204000345, 205000299],
+                    "equiped_skills": [],
+                    "rank": player["rank"] if player else 315,
+                    "ranking_points": player["ranking_points"] if player else 3250,
+                    "role": 0,
+                    "clan_id": player["clan_id"] if player else 0,
+                    "clan_name": player["clan_name"] if player else "",
+                    "has_elite_pass": True,
+                    "ep_event_id": 1,
+                    "ep_badge": 1,
+                    "badge_cnt": 100,
+                    "liked": 100,
+                    "show_rank": True,
+                    "selected_pet_id": 1300000001,
+                    "selected_pet_skin_id": 1310000001,
+                    "slots": [904000001, 209000001, 906000001, 903000001, 908000001],
+                    "shows": [907000001, 907000005, 907000010, 907000013, 907000014],
+                    "emotes": [[1, 909000001], [2, 909000002], [3, 909000003], [4, 909000004]],
+                    "loadouts": [500000001, 500000005],
+                    "ranking_cards": [],
+                    "pve_primary_weapon_skin": 907000001,
+                    "hidden_collections": [],
+                    "signature": "",
+                    "create_at": now,
+                    "last_login_at": now,
+                }
+        self._mails.setdefault(aid, {})
+        self._friends.setdefault(aid, set())
+        self._friend_requests.setdefault(aid, {})
+        self._claimed_ep_rewards.setdefault(aid, set())
+        return self._profiles[aid]
 
     def _resolve_player_summary(self, account_id: int) -> Dict[str, Any]:
-        if account_id in self._players:
-            return copy.deepcopy(self._players[account_id])
-        prof = self._ensure_account(account_id)
+        aid = int(account_id)
+        try:
+            from core.player import player_manager
+            rp = player_manager.get_player(aid)
+            if rp:
+                return rp.to_summary()
+        except Exception:
+            pass
+        if aid in self._players:
+            return copy.deepcopy(self._players[aid])
+        prof = self._ensure_account(aid)
         return {
             "account_id": prof["account_id"],
             "nickname": prof["nickname"],
@@ -1124,7 +1082,7 @@ class ServerState:
             "last_login_at": prof["last_login_at"],
         }
 
-    def _seed_initial_mails(self, now: int) -> None:
+    def _seed_initial_mails(self, now: int, account_id: int = DEFAULT_ACCOUNT_ID) -> None:
         self.add_mail(
             title="Welcome to India V1",
             content="All characters, pets, and vault items are unlocked. Enjoy infinite coins and diamonds!",
@@ -1133,6 +1091,7 @@ class ServerState:
             gems=10000,
             mail_type=1,
             sender_nick="India V1 Admin",
+            account_id=account_id,
         )
         self.add_mail(
             title="Season Elite Care Package",
@@ -1142,6 +1101,7 @@ class ServerState:
             gems=5000,
             mail_type=3,
             sender_nick="System",
+            account_id=account_id,
         )
 
     # ------------------------------------------------------------------
@@ -1149,10 +1109,30 @@ class ServerState:
     # ------------------------------------------------------------------
     def get_profile(self, account_id: int = DEFAULT_ACCOUNT_ID) -> Dict[str, Any]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.get_profile()
+            except Exception:
+                pass
             return copy.deepcopy(self._ensure_account(account_id))
 
     def update_profile(self, account_id: int = DEFAULT_ACCOUNT_ID, **kwargs: Any) -> Dict[str, Any]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    updated = p.update_profile(**kwargs)
+                    p.save()
+                    self._profiles[account_id] = copy.deepcopy(updated)
+                    if account_id == DEFAULT_ACCOUNT_ID:
+                        self._wallet["coins"] = updated["coins"]
+                        self._wallet["gems"] = updated["gems"]
+                    return copy.deepcopy(updated)
+            except Exception:
+                pass
             prof = self._ensure_account(account_id)
             for k, v in kwargs.items():
                 if v is not None:
@@ -1190,6 +1170,14 @@ class ServerState:
 
     def get_wallet(self, account_id: int = DEFAULT_ACCOUNT_ID) -> Dict[str, int]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    w = p.get_wallet()
+                    return {"coins": w["coins"], "gems": w["gems"]}
+            except Exception:
+                pass
             prof = self._ensure_account(account_id)
             return {"coins": int(prof["coins"]), "gems": int(prof["gems"])}
 
@@ -1212,6 +1200,15 @@ class ServerState:
             if account_id == DEFAULT_ACCOUNT_ID:
                 self._wallet["coins"] = c
                 self._wallet["gems"] = g
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    with p._lock:
+                        p.coins = c
+                        p.gems = g
+            except Exception:
+                pass
             try:
                 db.update_wallet(account_id, gold=c, diamonds=g)
                 db.log_action(
@@ -1241,6 +1238,15 @@ class ServerState:
             if account_id == DEFAULT_ACCOUNT_ID:
                 self._wallet["coins"] = c
                 self._wallet["gems"] = g
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    with p._lock:
+                        p.coins = c
+                        p.gems = g
+            except Exception:
+                pass
             try:
                 db.update_wallet(account_id, gold=c, diamonds=g)
                 db.log_action(
@@ -1275,6 +1281,15 @@ class ServerState:
                 self._wallet["coins"] = c
                 self._wallet["gems"] = g
             try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    with p._lock:
+                        p.coins = c
+                        p.gems = g
+            except Exception:
+                pass
+            try:
                 db.update_wallet(account_id, gold=c, diamonds=g)
                 db.log_action(
                     account_id,
@@ -1285,6 +1300,56 @@ class ServerState:
             except Exception:
                 pass
             return True, {"coins": c, "gems": g}
+
+    def get_gold(self, account_id: int = DEFAULT_ACCOUNT_ID) -> int:
+        return self.get_wallet(account_id).get("coins", 0)
+
+    def get_diamond(self, account_id: int = DEFAULT_ACCOUNT_ID) -> int:
+        return self.get_wallet(account_id).get("gems", 0)
+
+    def modify_gold(self, account_id_or_delta: int, delta: Optional[int] = None) -> CurrencyResult:
+        with self._lock:
+            if delta is None:
+                aid = DEFAULT_ACCOUNT_ID
+                d = int(account_id_or_delta)
+            else:
+                aid = int(account_id_or_delta)
+                d = int(delta)
+            cur = self.get_gold(aid)
+            if d < 0 and cur + d < 0:
+                return CurrencyResult(False, cur)
+            new_val = cur + d
+            self.set_wallet(coins=new_val, account_id=aid)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(aid)
+                if p:
+                    p.coins = new_val
+            except Exception:
+                pass
+            return CurrencyResult(True, new_val)
+
+    def modify_diamond(self, account_id_or_delta: int, delta: Optional[int] = None) -> CurrencyResult:
+        with self._lock:
+            if delta is None:
+                aid = DEFAULT_ACCOUNT_ID
+                d = int(account_id_or_delta)
+            else:
+                aid = int(account_id_or_delta)
+                d = int(delta)
+            cur = self.get_diamond(aid)
+            if d < 0 and cur + d < 0:
+                return CurrencyResult(False, cur)
+            new_val = cur + d
+            self.set_wallet(gems=new_val, account_id=aid)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(aid)
+                if p:
+                    p.gems = new_val
+            except Exception:
+                pass
+            return CurrencyResult(True, new_val)
 
     def claim_ep_reward(self, reward_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> bool:
         with self._lock:
@@ -2127,29 +2192,66 @@ class ServerState:
     # ------------------------------------------------------------------
     # Unlocked Items API
     # ------------------------------------------------------------------
-    def get_unlocked_items(self) -> Set[int]:
+    def get_unlocked_items(self, account_id: int = DEFAULT_ACCOUNT_ID) -> Set[int]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.get_unlocked_items()
+            except Exception:
+                pass
             return set(self._unlocked_items)
 
-    def is_item_unlocked(self, item_id: int) -> bool:
+    def is_item_unlocked(self, item_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> bool:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.is_item_unlocked(item_id)
+            except Exception:
+                pass
             return int(item_id) in self._unlocked_items
 
-    def unlock_item(self, item_id: int, count: int = 1) -> bool:
+    def unlock_item(self, item_id: int, count: int = 1, account_id: int = DEFAULT_ACCOUNT_ID) -> bool:
         with self._lock:
             iid = int(item_id)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    is_new = p.unlock_item(iid, count)
+                    if account_id == DEFAULT_ACCOUNT_ID:
+                        self._unlocked_items.add(iid)
+                        self._item_counts[iid] = max(self._item_counts.get(iid, 0), int(count))
+                    return is_new
+            except Exception:
+                pass
             is_new = iid not in self._unlocked_items
             self._unlocked_items.add(iid)
             cnt = max(self._item_counts.get(iid, 0), int(count))
             self._item_counts[iid] = cnt
             try:
-                db.save_inventory_item(DEFAULT_ACCOUNT_ID, iid, cnt)
+                db.save_inventory_item(account_id, iid, cnt)
             except Exception:
                 pass
             return is_new
 
-    def unlock_items(self, item_ids: Iterable[int]) -> int:
+    def unlock_items(self, item_ids: Iterable[int], account_id: int = DEFAULT_ACCOUNT_ID) -> int:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    added = p.unlock_items(item_ids)
+                    if account_id == DEFAULT_ACCOUNT_ID:
+                        for raw_id in item_ids:
+                            self._unlocked_items.add(int(raw_id))
+                            self._item_counts.setdefault(int(raw_id), 1)
+                    return added
+            except Exception:
+                pass
             added = 0
             batch: Dict[int, int] = {}
             for raw_id in item_ids:
@@ -2161,12 +2263,12 @@ class ServerState:
                     added += 1
             if batch:
                 try:
-                    db.save_inventory_batch(DEFAULT_ACCOUNT_ID, batch)
+                    db.save_inventory_batch(account_id, batch)
                 except Exception:
                     pass
             return added
 
-    def lock_item(self, item_id: int) -> bool:
+    def lock_item(self, item_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> bool:
         with self._lock:
             iid = int(item_id)
             existed = iid in self._unlocked_items
@@ -2174,46 +2276,161 @@ class ServerState:
             self._item_counts.pop(iid, None)
             return existed
 
-    def add_item(self, item_id: int, count: int = 1) -> int:
+    def add_item(self, item_id: int, count: int = 1, account_id: int = DEFAULT_ACCOUNT_ID) -> int:
         with self._lock:
             iid = int(item_id)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    new_cnt = p.add_item(iid, count)
+                    if account_id == DEFAULT_ACCOUNT_ID:
+                        self._unlocked_items.add(iid)
+                        self._item_counts[iid] = new_cnt
+                    return new_cnt
+            except Exception:
+                pass
             self._unlocked_items.add(iid)
             new_cnt = self._item_counts.get(iid, 0) + max(1, int(count))
             self._item_counts[iid] = new_cnt
             try:
-                db.save_inventory_item(DEFAULT_ACCOUNT_ID, iid, new_cnt)
+                db.save_inventory_item(account_id, iid, new_cnt)
             except Exception:
                 pass
             return self._item_counts[iid]
 
-    def get_item_count(self, item_id: int) -> int:
+    def consume_item(self, item_id: int, count: int = 1, account_id: int = DEFAULT_ACCOUNT_ID) -> bool:
         with self._lock:
+            iid = int(item_id)
+            qty = max(1, int(count))
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    ok = p.consume_item(iid, qty)
+                    if ok and account_id == DEFAULT_ACCOUNT_ID:
+                        cur = self._item_counts.get(iid, 0)
+                        rem = cur - qty
+                        if rem <= 0:
+                            self._unlocked_items.discard(iid)
+                            self._item_counts.pop(iid, None)
+                        else:
+                            self._item_counts[iid] = rem
+                    return ok
+            except Exception:
+                pass
+            cur = self._item_counts.get(iid, 0)
+            if cur < qty:
+                return False
+            rem = cur - qty
+            if rem <= 0:
+                self._unlocked_items.discard(iid)
+                self._item_counts.pop(iid, None)
+            else:
+                self._item_counts[iid] = rem
+            try:
+                db.save_inventory_item(account_id, iid, rem)
+            except Exception:
+                pass
+            return True
+
+    def get_item_count(self, item_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> int:
+        with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.get_item_count(item_id)
+            except Exception:
+                pass
             iid = int(item_id)
             if iid not in self._unlocked_items:
                 return 0
             return self._item_counts.get(iid, 1)
 
-    def get_all_item_counts(self) -> Dict[int, int]:
+    def consume_item(self, item_id: int, count: int = 1, account_id: int = DEFAULT_ACCOUNT_ID) -> bool:
         with self._lock:
+            iid = int(item_id)
+            need = max(1, int(count))
+            cur = self.get_item_count(iid, account_id=account_id)
+            if cur < need:
+                return False
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    p.consume_item(iid, need)
+            except Exception:
+                pass
+            new_cnt = cur - need
+            if new_cnt <= 0:
+                self._unlocked_items.discard(iid)
+                self._item_counts.pop(iid, None)
+                try:
+                    db.delete_inventory_item(account_id, iid)
+                except Exception:
+                    pass
+            else:
+                self._item_counts[iid] = new_cnt
+                try:
+                    db.save_inventory_item(account_id, iid, new_cnt)
+                except Exception:
+                    pass
+            return True
+
+    def get_all_item_counts(self, account_id: int = DEFAULT_ACCOUNT_ID) -> Dict[int, int]:
+        with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.get_all_item_counts()
+            except Exception:
+                pass
             return dict(self._item_counts)
 
     # ------------------------------------------------------------------
     # Unlocked Characters & Skills API
     # ------------------------------------------------------------------
-    def list_characters(self) -> List[Dict[str, Any]]:
+    def list_characters(self, account_id: int = DEFAULT_ACCOUNT_ID) -> List[Dict[str, Any]]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.list_characters()
+            except Exception:
+                pass
             chars = list(self._characters.values())
             chars.sort(key=lambda c: c["avatar_id"])
             return copy.deepcopy(chars)
 
-    def get_character(self, avatar_id: int) -> Optional[Dict[str, Any]]:
+    def get_character(self, avatar_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> Optional[Dict[str, Any]]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.get_character(avatar_id)
+            except Exception:
+                pass
             c = self._characters.get(int(avatar_id))
             return copy.deepcopy(c) if c else None
 
     def select_character(self, avatar_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> Optional[Dict[str, Any]]:
         with self._lock:
             aid = int(avatar_id)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    res = p.select_character(aid)
+                    prof = self._ensure_account(account_id)
+                    prof["avatar_id"] = aid
+                    prof["selected_avatar_id"] = aid
+                    return res
+            except Exception:
+                pass
             if aid not in self._characters:
                 return None
             for cid, char in self._characters.items():
@@ -2241,9 +2458,17 @@ class ServerState:
         level: int = 8,
         skill_id: int = 0,
         clothes: Optional[List[int]] = None,
+        account_id: int = DEFAULT_ACCOUNT_ID,
     ) -> Dict[str, Any]:
         with self._lock:
             aid = int(avatar_id)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.unlock_character(aid, name, level, skill_id, clothes)
+            except Exception:
+                pass
             existing = self._characters.get(aid)
             if existing:
                 existing["unlocked_level"] = max(int(level), existing["unlocked_level"])
@@ -2256,7 +2481,7 @@ class ServerState:
                 if clothes is not None:
                     existing["clothes"] = [int(x) for x in clothes]
                 try:
-                    db.save_character(DEFAULT_ACCOUNT_ID, existing)
+                    db.save_character(account_id, existing)
                 except Exception:
                     pass
                 return copy.deepcopy(existing)
@@ -2279,12 +2504,12 @@ class ServerState:
             if skill_id > 0:
                 self._unlocked_skills.add(int(skill_id))
             try:
-                db.save_character(DEFAULT_ACCOUNT_ID, char)
+                db.save_character(account_id, char)
             except Exception:
                 pass
             return copy.deepcopy(char)
 
-    def register_characters(self, characters: Iterable[Dict[str, Any]]) -> int:
+    def register_characters(self, characters: Iterable[Dict[str, Any]], account_id: int = DEFAULT_ACCOUNT_ID) -> int:
         with self._lock:
             count = 0
             for c in characters:
@@ -2295,6 +2520,7 @@ class ServerState:
                     level=int(c.get("unlocked_level", 8)),
                     skill_id=int(c.get("skill_id", 0)),
                     clothes=c.get("clothes"),
+                    account_id=account_id,
                 )
                 count += 1
             return count
@@ -2310,8 +2536,17 @@ class ServerState:
             self._unlocked_skills.add(sid)
             return is_new
 
-    def equip_character_skills(self, avatar_id: int, skill_slots: List[Dict[str, int]]) -> Optional[Dict[str, Any]]:
+    def equip_character_skills(self, avatar_id: int, skill_slots: List[Dict[str, int]], account_id: int = DEFAULT_ACCOUNT_ID) -> Optional[Dict[str, Any]]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    for s in skill_slots:
+                        p.equip_skill(avatar_id, s.get("slot_id", 0), s.get("skill_id", 0))
+                    return p.get_character(avatar_id)
+            except Exception:
+                pass
             char = self._characters.get(int(avatar_id))
             if not char:
                 return None
@@ -2323,14 +2558,14 @@ class ServerState:
             for s in normalized:
                 if s["skill_id"] > 0:
                     self._unlocked_skills.add(s["skill_id"])
-            prof = self._ensure_account(DEFAULT_ACCOUNT_ID)
+            prof = self._ensure_account(account_id)
             if char["is_selected"]:
                 prof["equiped_skills"] = copy.deepcopy(normalized)
             try:
-                db.save_character(DEFAULT_ACCOUNT_ID, char)
-                db.save_profile(DEFAULT_ACCOUNT_ID, prof)
+                db.save_character(account_id, char)
+                db.save_profile(account_id, prof)
                 db.log_action(
-                    DEFAULT_ACCOUNT_ID,
+                    account_id,
                     "CHARACTER_EQUIP_SKILLS",
                     f"Equipped skills for avatar {avatar_id}",
                     {"avatar_id": avatar_id, "skills": normalized},
@@ -2339,8 +2574,15 @@ class ServerState:
                 pass
             return copy.deepcopy(char)
 
-    def equip_character_clothes(self, avatar_id: int, clothes: List[int]) -> Optional[Dict[str, Any]]:
+    def equip_character_clothes(self, avatar_id: int, clothes: List[int], account_id: int = DEFAULT_ACCOUNT_ID) -> Optional[Dict[str, Any]]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.equip_clothes(avatar_id, clothes)
+            except Exception:
+                pass
             char = self._characters.get(int(avatar_id))
             if not char:
                 return None
@@ -2349,14 +2591,14 @@ class ServerState:
             for c in clean_clothes:
                 self._unlocked_items.add(c)
                 self._item_counts.setdefault(c, 1)
-            prof = self._ensure_account(DEFAULT_ACCOUNT_ID)
+            prof = self._ensure_account(account_id)
             if char["is_selected"]:
                 prof["clothes"] = list(clean_clothes)
             try:
-                db.save_character(DEFAULT_ACCOUNT_ID, char)
-                db.save_profile(DEFAULT_ACCOUNT_ID, prof)
+                db.save_character(account_id, char)
+                db.save_profile(account_id, prof)
                 db.log_action(
-                    DEFAULT_ACCOUNT_ID,
+                    account_id,
                     "CHARACTER_EQUIP_CLOTHES",
                     f"Equipped clothes for avatar {avatar_id}",
                     {"avatar_id": avatar_id, "clothes": clean_clothes},
@@ -2368,14 +2610,28 @@ class ServerState:
     # ------------------------------------------------------------------
     # Unlocked Pets API
     # ------------------------------------------------------------------
-    def list_pets(self) -> List[Dict[str, Any]]:
+    def list_pets(self, account_id: int = DEFAULT_ACCOUNT_ID) -> List[Dict[str, Any]]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.list_pets()
+            except Exception:
+                pass
             pets = list(self._pets.values())
             pets.sort(key=lambda p: p["id"])
             return copy.deepcopy(pets)
 
-    def get_pet(self, pet_id: int) -> Optional[Dict[str, Any]]:
+    def get_pet(self, pet_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> Optional[Dict[str, Any]]:
         with self._lock:
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.get_pet(pet_id)
+            except Exception:
+                pass
             p = self._pets.get(int(pet_id))
             return copy.deepcopy(p) if p else None
 
@@ -2387,6 +2643,19 @@ class ServerState:
     ) -> Optional[Dict[str, Any]]:
         with self._lock:
             pid = int(pet_id)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    res = p.select_pet(pid, skin_id=skin_id)
+                    prof = self._ensure_account(account_id)
+                    prof["selected_pet_id"] = pid
+                    prof["pet_id"] = pid
+                    if res:
+                        prof["selected_pet_skin_id"] = res.get("skin_id", 0)
+                    return res
+            except Exception:
+                pass
             if pid not in self._pets:
                 return None
             for k, pet in self._pets.items():
@@ -2413,6 +2682,49 @@ class ServerState:
             except Exception:
                 pass
             return copy.deepcopy(selected)
+
+    def unlock_pet(
+        self,
+        pet_id: int,
+        name: str = "",
+        level: int = 7,
+        account_id: int = DEFAULT_ACCOUNT_ID,
+    ) -> Dict[str, Any]:
+        with self._lock:
+            pid = int(pet_id)
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    return p.unlock_pet(pid, name=name, level=level)
+            except Exception:
+                pass
+            existing = self._pets.get(pid)
+            if existing:
+                existing["level"] = max(int(level), existing["level"])
+                if name:
+                    existing["name"] = name
+                res = existing
+            else:
+                new_p = {
+                    "id": pid,
+                    "pet_id": pid,
+                    "name": name or f"Pet_{pid}",
+                    "level": int(level),
+                    "exp": 6000,
+                    "is_selected": False,
+                    "skin_id": pid + 9999000,
+                    "unlocked_skins": [pid + 9999000],
+                    "actions": [1, 2, 3, 4],
+                    "skills": [],
+                }
+                self._pets[pid] = new_p
+                res = new_p
+            try:
+                db.save_pet(account_id, res)
+            except Exception:
+                pass
+            return copy.deepcopy(res)
 
     def select_pet_skin(
         self,

@@ -61,7 +61,9 @@
     activeSplashPreviewId: null,
     searchBannerQuery: '',
     sortBannersBy: 'name',
-    isLoading: false
+    isLoading: false,
+    brandingSlots: [],
+    brandingFilter: 'all'
   };
 
   // SVG Icons helper (Strictly no emojis)
@@ -196,6 +198,8 @@
     } else if (tabName === 'marquee-news') {
       renderMarquees();
       renderAnnouncements();
+    } else if (tabName === 'boot-branding') {
+      loadBranding();
     }
   }
 
@@ -1393,6 +1397,151 @@
     }
   }
 
+  // =========================================================================
+  // SUB-TAB 5: BOOT, SPLASH & LOGIN VISUALS (REALTIME CMS ENGINE)
+  // =========================================================================
+
+  async function loadBranding() {
+    const grid = document.getElementById('b-branding-grid');
+    if (!grid) return;
+    try {
+      const res = await apiGet('/api/dashboard/branding');
+      if (res && res.ok && Array.isArray(res.slots)) {
+        state.brandingSlots = res.slots;
+        renderBranding();
+      } else {
+        grid.innerHTML = '<div style="grid-column:1/-1; padding:30px; text-align:center; color:var(--b-rose);">Failed to load branding slots from server.</div>';
+      }
+    } catch (e) {
+      grid.innerHTML = `<div style="grid-column:1/-1; padding:30px; text-align:center; color:var(--b-rose);">Error: ${escapeHtml(e.message)}</div>`;
+    }
+  }
+
+  function filterBranding(category) {
+    state.brandingFilter = category;
+    document.querySelectorAll('[data-bfilter]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-bfilter') === category);
+    });
+    renderBranding();
+  }
+
+  function renderBranding() {
+    const grid = document.getElementById('b-branding-grid');
+    if (!grid) return;
+    const filter = state.brandingFilter || 'all';
+    const slots = (state.brandingSlots || []).filter(s => filter === 'all' || s.category === filter);
+
+    if (slots.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1; padding:40px; text-align:center; color:var(--b-text-dim);">No branding slots in this category.</div>';
+      return;
+    }
+
+    grid.innerHTML = slots.map(slot => {
+      const isCustomBadge = slot.is_custom 
+        ? '<span class="b-badge b-badge-success" style="font-size:10px;">Custom Active</span>'
+        : '<span class="b-badge b-badge-default" style="font-size:10px;">APK Default</span>';
+      
+      const catBadge = `<span class="b-badge b-badge-cyan" style="font-size:10px; text-transform:uppercase;">${escapeHtml(slot.category)}</span>`;
+
+      return `
+        <div class="b-card" style="display:flex; flex-direction:column; justify-content:space-between; background:var(--b-bg-surface-elevated); border:1px solid var(--b-border);">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <h3 style="font-size:14px; font-weight:700; color:var(--b-text-main);">${escapeHtml(slot.name)}</h3>
+                <span style="font-size:11px; color:var(--b-text-dim); font-family:'JetBrains Mono', monospace;">${escapeHtml(slot.key)} (${slot.width}x${slot.height})</span>
+              </div>
+              <div style="display:flex; gap:4px; align-items:center;">
+                ${catBadge}
+                ${isCustomBadge}
+              </div>
+            </div>
+            <p style="font-size:12px; color:var(--b-text-muted); margin-bottom:12px; line-height:1.4;">${escapeHtml(slot.desc)}</p>
+
+            <!-- Preview Frame -->
+            <div style="background:#05070d; border-radius:var(--b-radius-sm); border:1px solid rgba(255,255,255,0.06); padding:8px; display:flex; align-items:center; justify-content:center; min-height:140px; max-height:180px; overflow:hidden; margin-bottom:12px; position:relative;">
+              <img id="branding-preview-${slot.key}" src="${slot.preview_url}" alt="${escapeHtml(slot.name)}" style="max-width:100%; max-height:160px; object-fit:contain; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.5);">
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="branding-url-${slot.key}" class="b-input" style="font-size:12px; padding:6px 10px;" placeholder="Image URL (/banners/...)" value="${escapeHtml(slot.preview_url.split('?')[0])}">
+              <button class="b-btn-primary" style="padding:6px 12px; font-size:12px; white-space:nowrap;" onclick="BannersSection.applyBrandingUrl('${slot.key}')">Apply URL</button>
+            </div>
+            <div style="display:flex; gap:8px; justify-content:space-between; align-items:center;">
+              <label class="b-btn-secondary" style="padding:6px 10px; font-size:12px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span>Upload New</span>
+                <input type="file" accept="image/*" style="display:none;" onchange="BannersSection.uploadBrandingFile('${slot.key}', this)">
+              </label>
+              <button class="b-btn-secondary" style="padding:6px 10px; font-size:12px; color:var(--b-text-dim);" onclick="BannersSection.resetBrandingSlot('${slot.key}')">Reset Default</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function uploadBrandingFile(slotKey, input) {
+    if (!input.files || input.files.length === 0) return;
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      const b64 = e.target.result;
+      showToast(`Uploading ${file.name} for ${slotKey}...`, 'info');
+      const res = await apiPost('/api/dashboard/branding/update', {
+        slot_key: slotKey,
+        image_b64: b64
+      });
+      if (res && res.ok) {
+        showToast(`Successfully updated visual for ${slotKey}!`, 'success');
+        await loadBranding();
+      } else {
+        showToast(`Update failed: ${res ? res.error : 'Network error'}`, 'error');
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function applyBrandingUrl(slotKey) {
+    const input = document.getElementById(`branding-url-${slotKey}`);
+    if (!input) return;
+    const url = input.value.trim();
+    if (!url) {
+      showToast('Please enter an image URL', 'error');
+      return;
+    }
+    showToast(`Applying URL to ${slotKey}...`, 'info');
+    const res = await apiPost('/api/dashboard/branding/update', {
+      slot_key: slotKey,
+      image_url: url
+    });
+    if (res && res.ok) {
+      showToast(`Visual for ${slotKey} updated!`, 'success');
+      await loadBranding();
+    } else {
+      showToast(`Update failed: ${res ? res.error : 'Network error'}`, 'error');
+    }
+  }
+
+  async function resetBrandingSlot(slotKey) {
+    if (!confirm(`Reset ${slotKey} visual to APK default?`)) return;
+    const res = await apiPost('/api/dashboard/branding/reset', { slot_key: slotKey });
+    if (res && res.ok) {
+      showToast(`Reset ${slotKey} to default`, 'success');
+      await loadBranding();
+    } else {
+      showToast('Reset failed', 'error');
+    }
+  }
+
+  function refreshBranding() {
+    loadBranding();
+    showToast('Reloaded visuals from server', 'info');
+  }
+
   // Initial Boot
   async function init() {
     initDropzone();
@@ -1487,6 +1636,14 @@
     saveNews,
     toggleNews,
     deleteNews,
+
+    // Boot & Login Visuals CMS
+    loadBranding,
+    filterBranding,
+    uploadBrandingFile,
+    applyBrandingUrl,
+    resetBrandingSlot,
+    refreshBranding,
 
     // Accessors
     getState: () => state

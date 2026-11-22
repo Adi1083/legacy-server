@@ -34,6 +34,7 @@ TCP dispatchers exported:
 
 from __future__ import annotations
 
+import json
 import os
 import threading
 import time
@@ -55,6 +56,7 @@ from proto.room_models import (
     GameMode,
     GroupMode,
     LevelVisualStyle,
+    MapID,
     MatchMode,
     TCP_HANDSHAKE_ACK,
     decode_game_opening_info_req,
@@ -113,10 +115,8 @@ _GROUP_MODE_SQUAD_SIZE = {
 
 
 def _next_match_id() -> int:
-    global _MATCH_COUNTER
-    with _META_LOCK:
-        _MATCH_COUNTER += 1
-        return _MATCH_COUNTER
+    from core.state import generate_match_id
+    return generate_match_id()
 
 
 def _default_room_meta(room: Dict[str, Any]) -> Dict[str, Any]:
@@ -330,78 +330,605 @@ def _build_matchmaking_suss(
     import hashlib
     sec_hex = hashlib.md5(f"sec_{mid}".encode()).hexdigest()
     tok_hex = hashlib.md5(f"prep_{mid}_{int(time.time())}".encode()).hexdigest()
+
+    try:
+        from combat.udp_server import get_combat_server
+        from combat.match_director import global_match_director
+        udp_srv = get_combat_server()
+        udp_srv.register_match_token(token=tok_hex, account_id=DEFAULT_ACCOUNT_ID, match_id=mid, nickname="PushpaGG")
+        if global_match_director:
+            global_match_director.create_match(
+                match_id=mid,
+                map_id=int(map_id),
+                game_mode=int(game_mode),
+                match_mode=int(match_mode),
+                host_player_id=str(DEFAULT_ACCOUNT_ID),
+                host_nickname="PushpaGG",
+                bot_count=49,
+                prepare_token=tok_hex,
+                secret=sec_hex
+            )
+    except Exception:
+        pass
+
     return encode_matchmaking_suss_ntf(
         match_id=mid,
         server_addr=_GAME_SERVER_ADDR,
         secret=sec_hex,
         prepare_token=tok_hex,
-        sleep_ms=500,
+        sleep_ms=0,
         map_id=int(map_id),
         game_mode=int(game_mode),
         match_mode=int(match_mode),
         use_cache=False,
-        level_visual_style=int(level_visual_style),
+        level_visual_style=int(level_visual_style or 1),
         difficulty=int(difficulty),
         first_login=False,
     )
 
 
-def _default_game_opening_descs() -> List[Dict[str, Any]]:
-    modes = [
-        # (map_id, name, game_mode, match_mode, sort_id)
-        # Classic (Battle Royale Casual)
-        (1, "Bermuda", GameMode.BATTLE_ROYALE, MatchMode.CASUAL, 1),
-        (2, "Purgatory", GameMode.BATTLE_ROYALE, MatchMode.CASUAL, 2),
-        (3, "Kalahari", GameMode.BATTLE_ROYALE, MatchMode.CASUAL, 3),
-        # Ranked (Battle Royale Ranking)
-        (1, "Bermuda", GameMode.BATTLE_ROYALE, MatchMode.RANKING, 4),
-        (2, "Purgatory", GameMode.BATTLE_ROYALE, MatchMode.RANKING, 5),
-        (3, "Kalahari", GameMode.BATTLE_ROYALE, MatchMode.RANKING, 6),
-        # Speed Royal (SpeedRoyale Casual)
-        (1, "Bermuda", GameMode.SPEED_ROYALE, MatchMode.CASUAL, 7),
-        (2, "Purgatory", GameMode.SPEED_ROYALE, MatchMode.CASUAL, 8),
-        (3, "Kalahari", GameMode.SPEED_ROYALE, MatchMode.CASUAL, 9),
-        # Rush Hour (Purge Casual)
-        (1, "Bermuda", GameMode.PURGE, MatchMode.CASUAL, 10),
-        (2, "Purgatory", GameMode.PURGE, MatchMode.CASUAL, 11),
-        (3, "Kalahari", GameMode.PURGE, MatchMode.CASUAL, 12),
-        (1, "Bermuda", GameMode.PURGE_ALT, MatchMode.CASUAL, 13),
-        # Clash Squad
-        (1, "Bermuda", GameMode.CS, MatchMode.CASUAL, 14),
-        (1, "Bermuda", GameMode.CS_ALT, MatchMode.CASUAL, 15),
-        # MatchMode.NONE (0) fallbacks
-        (1, "Bermuda", GameMode.BATTLE_ROYALE, 0, 16),
-        (2, "Purgatory", GameMode.BATTLE_ROYALE, 0, 17),
-        (3, "Kalahari", GameMode.BATTLE_ROYALE, 0, 18),
-        (1, "Bermuda", GameMode.SPEED_ROYALE, 0, 19),
-        (2, "Purgatory", GameMode.SPEED_ROYALE, 0, 20),
-        (3, "Kalahari", GameMode.SPEED_ROYALE, 0, 21),
+# ---------------------------------------------------------------------------
+# Dynamic Game Modes & Map Registry (Free Fire 1.39 Authentic Reversal)
+# ---------------------------------------------------------------------------
+
+_MODE_REGISTRY_LOCK = threading.RLock()
+_GAME_MODES_REGISTRY: Dict[str, Dict[str, Any]] = {}
+_MODES_SEEDED: bool = False
+
+# Canonical list of all 16 authentic 1.39 modes and map definitions:
+AUTHENTIC_139_GAME_MODES: List[Dict[str, Any]] = [
+    # --- Bermuda (Map ID 1) ---
+    {
+        "key": "1_1_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Classic Bermuda",
+        "game_mode": GameMode.BATTLE_ROYALE,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 1,
+    },
+    {
+        "key": "1_1_2",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Ranked Bermuda",
+        "game_mode": GameMode.BATTLE_ROYALE,
+        "match_mode": MatchMode.RANKING,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "",
+        "limited_rank": 10,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 2,
+    },
+    {
+        "key": "1_15_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Clash Squad 4v4",
+        "game_mode": GameMode.CS,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": True,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 3,
+    },
+    {
+        "key": "1_2_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Speed Royale (Rush Hour)",
+        "game_mode": GameMode.SPEED_ROYALE,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Fast-paced 20-player intense battle royale in a high-density zone.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 4,
+    },
+    {
+        "key": "1_16_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Big Head Deathmatch",
+        "game_mode": GameMode.BIG_HEAD,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Heads enlarge with consecutive kills! Fast respawns enabled.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": True,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 5,
+    },
+    {
+        "key": "1_3_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Fatal Blade (Fate Royale)",
+        "game_mode": GameMode.FATE_ROYALE,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Special arms weapon progression and fast-paced combat.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 6,
+    },
+    {
+        "key": "1_12_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Purge Night (Kill Feast)",
+        "game_mode": GameMode.PURGE,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Aggressive night combat with hype juice levels and high tier loot.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 7,
+    },
+    {
+        "key": "1_13_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Cold Dead (Die Twice / Reborn)",
+        "game_mode": GameMode.REBORN,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Fall once, rise again! Players resurrect upon their first death.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 8,
+    },
+    {
+        "key": "1_4_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Death Race (Zombie Speed Royale)",
+        "game_mode": GameMode.ZOMBIE_SPEED_ROYALE,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Armed amphibious vehicles vs waves of infected runners.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "2",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 9,
+    },
+    {
+        "key": "1_7_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Zombie Panic Ground",
+        "game_mode": GameMode.ZOMBIE_GROUND,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Defend the safe zone from mutating horde bosses and undead hordes.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 10,
+    },
+    {
+        "key": "1_14_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Hook & Brick (Grappling Hook)",
+        "game_mode": GameMode.HOOK_BRICK,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Vertical rooftops combat with high-velocity grappling hooks.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 11,
+    },
+    {
+        "key": "1_11_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Winner Takes All (Token War)",
+        "game_mode": GameMode.WINNER_TAKES_ALL,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Chip stake high-roller battle royale arena.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 12,
+    },
+
+    # --- Purgatory / Azores (Map ID 2) ---
+    {
+        "key": "2_1_1",
+        "map_id": MapID.PURGATORY,
+        "name": "Purgatory",
+        "mode_title": "Classic Purgatory",
+        "game_mode": GameMode.BATTLE_ROYALE,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 13,
+    },
+    {
+        "key": "2_1_2",
+        "map_id": MapID.PURGATORY,
+        "name": "Purgatory",
+        "mode_title": "Ranked Purgatory",
+        "game_mode": GameMode.BATTLE_ROYALE,
+        "match_mode": MatchMode.RANKING,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "",
+        "limited_rank": 10,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "1;2;4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1",
+        "pve_force_mm": False,
+        "weekday": "0",
+        "sort_id": 14,
+    },
+
+    # --- PVE Death Uprising & Survival (Map ID 3 / 1) ---
+    {
+        "key": "3_101_1",
+        "map_id": MapID.HYAKKI,
+        "name": "Death Uprising",
+        "mode_title": "Death Uprising (Hyakki Boss)",
+        "game_mode": GameMode.PVE_HYAKKI,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "4-player co-op raid boss battle against the Butcher boss.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": True,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1;2;3",
+        "pve_force_mm": True,
+        "weekday": "0",
+        "sort_id": 15,
+    },
+    {
+        "key": "1_102_1",
+        "map_id": MapID.BERMUDA,
+        "name": "Bermuda",
+        "mode_title": "Zombie Survival (PVE SVZombie)",
+        "game_mode": GameMode.PVE_SV_ZOMBIE,
+        "match_mode": MatchMode.CASUAL,
+        "language": "en",
+        "start_time": "00:00:00",
+        "end_time": "23:59:59",
+        "tips": "Survive endless waves of undead mutants and extraction rescue.",
+        "limited_rank": 0,
+        "limited_count": 0,
+        "enable": True,
+        "is_new": False,
+        "config_start_time": "2020-01-01 00:00:00",
+        "config_end_time": "2030-01-01 23:59:59",
+        "player_count_limit": "4",
+        "level_visual_style": LevelVisualStyle.NORMAL,
+        "difficulty": "1;2",
+        "pve_force_mm": True,
+        "weekday": "0",
+        "sort_id": 16,
+    },
+]
+
+
+def _ensure_seeded_game_modes() -> None:
+    global _MODES_SEEDED
+    with _MODE_REGISTRY_LOCK:
+        if _MODES_SEEDED and _GAME_MODES_REGISTRY:
+            return
+        for mode in AUTHENTIC_139_GAME_MODES:
+            key = str(mode.get("key") or f"{mode['map_id']}_{mode['game_mode']}_{mode['match_mode']}")
+            _GAME_MODES_REGISTRY[key] = dict(mode)
+        _MODES_SEEDED = True
+
+
+def get_game_opening_descriptors(only_enabled: bool = False) -> List[Dict[str, Any]]:
+    """Return list of game opening descriptors for GameOpeningInfoRes."""
+    _ensure_seeded_game_modes()
+    with _MODE_REGISTRY_LOCK:
+        descs: List[Dict[str, Any]] = []
+        for m in sorted(_GAME_MODES_REGISTRY.values(), key=lambda x: int(x.get("sort_id", 99))):
+            if only_enabled and not m.get("enable", True):
+                continue
+            desc = dict(m)
+            desc.pop("key", None)
+            desc.pop("mode_title", None)
+            descs.append(desc)
+        return descs
+
+
+def get_game_mode_names(lang: str = "en") -> List[Tuple[int, str, str]]:
+    """Return authentic mode translations for GameModeNameList."""
+    return [
+        (GameMode.BATTLE_ROYALE, lang, "Classic"),
+        (GameMode.SPEED_ROYALE, lang, "Speed Royal"),
+        (GameMode.FATE_ROYALE, lang, "Fatal Blade"),
+        (GameMode.ZOMBIE_SPEED_ROYALE, lang, "Death Race"),
+        (GameMode.ZOMBIE_GROUND, lang, "Zombie Panic"),
+        (GameMode.JANKENPON, lang, "Jan-Ken-Pon"),
+        (GameMode.WINNER_TAKES_ALL, lang, "Winner Takes All"),
+        (GameMode.PURGE, lang, "Rush Hour"),
+        (GameMode.PURGE_LEGACY, lang, "Rush Hour"),
+        (GameMode.REBORN, lang, "Cold Dead"),
+        (GameMode.HOOK_BRICK, lang, "Hook & Brick"),
+        (GameMode.CS, lang, "Clash Squad"),
+        (GameMode.CS_LEGACY, lang, "Clash Squad"),
+        (GameMode.BIG_HEAD, lang, "Big Head"),
+        (GameMode.PVE_HYAKKI, lang, "Death Uprising"),
+        (GameMode.PVE_SV_ZOMBIE, lang, "Zombie Survival"),
     ]
-    descs = []
-    for map_id, name, gmode, mmode, sort_id in modes:
-        descs.append({
-            "map_id": map_id,
-            "name": name,
-            "language": "en",
-            "start_time": "00:00:00",
-            "end_time": "23:59:59",
-            "tips": "",
-            "limited_rank": 0,
-            "limited_count": 0,
-            "enable": True,
-            "game_mode": gmode,
-            "match_mode": mmode,
-            "is_new": False,
-            "config_start_time": "2020-01-01 00:00:00",
-            "config_end_time": "2030-01-01 23:59:59",
-            "player_count_limit": "1;2;4",
-            "level_visual_style": LevelVisualStyle.NORMAL,
-            "difficulty": "1",
-            "pve_force_mm": False,
-            "weekday": "0;1;2;3;4;5;6",
-            "sort_id": sort_id,
-        })
-    return descs
+
+
+def _default_game_opening_descs() -> List[Dict[str, Any]]:
+    return get_game_opening_descriptors(only_enabled=False)
+
+
+def list_modes_admin() -> List[Dict[str, Any]]:
+    """Return JSON-serializable list of all authentic modes with status for admin control."""
+    _ensure_seeded_game_modes()
+    with _MODE_REGISTRY_LOCK:
+        return [dict(m) for m in sorted(_GAME_MODES_REGISTRY.values(), key=lambda x: int(x.get("sort_id", 99)))]
+
+
+def toggle_game_mode(
+    map_id: int,
+    game_mode: int,
+    match_mode: int = 1,
+    enable: Optional[bool] = None,
+) -> Optional[Dict[str, Any]]:
+    """Dynamically unlock, enable, or close a specific map/mode combination in real time."""
+    _ensure_seeded_game_modes()
+    key = f"{int(map_id)}_{int(game_mode)}_{int(match_mode)}"
+    with _MODE_REGISTRY_LOCK:
+        mode = _GAME_MODES_REGISTRY.get(key)
+        if not mode:
+            for k, m in _GAME_MODES_REGISTRY.items():
+                if int(m["map_id"]) == int(map_id) and int(m["game_mode"]) == int(game_mode):
+                    key = k
+                    mode = m
+                    break
+        if not mode:
+            return None
+        if enable is None:
+            mode["enable"] = not bool(mode.get("enable", True))
+        else:
+            mode["enable"] = bool(enable)
+        return dict(mode)
+
+
+def unlock_all_modes() -> int:
+    """Dynamically unlock and enable all 16 authentic 1.39 game modes."""
+    _ensure_seeded_game_modes()
+    with _MODE_REGISTRY_LOCK:
+        for m in _GAME_MODES_REGISTRY.values():
+            m["enable"] = True
+        return len(_GAME_MODES_REGISTRY)
+
+
+def lock_optional_modes() -> int:
+    """Lock optional experimental modes, leaving core modes active."""
+    _ensure_seeded_game_modes()
+    core_keys = {"1_1_1", "1_1_2", "2_1_1", "1_15_1"}
+    with _MODE_REGISTRY_LOCK:
+        locked_cnt = 0
+        for k, m in _GAME_MODES_REGISTRY.items():
+            if k in core_keys:
+                m["enable"] = True
+            else:
+                m["enable"] = False
+                locked_cnt += 1
+        return locked_cnt
+
+
+def update_game_mode(
+    map_id: int,
+    game_mode: int,
+    match_mode: int = 1,
+    **kwargs: Any,
+) -> Optional[Dict[str, Any]]:
+    """Update dynamic configuration of a mode (tips, sort_id, is_new, player_count_limit, etc.)."""
+    _ensure_seeded_game_modes()
+    key = f"{int(map_id)}_{int(game_mode)}_{int(match_mode)}"
+    with _MODE_REGISTRY_LOCK:
+        mode = _GAME_MODES_REGISTRY.get(key)
+        if not mode:
+            for k, m in _GAME_MODES_REGISTRY.items():
+                if int(m["map_id"]) == int(map_id) and int(m["game_mode"]) == int(game_mode):
+                    key = k
+                    mode = m
+                    break
+        if not mode:
+            return None
+        allowed_fields = {
+            "name", "mode_title", "tips", "enable", "is_new", "start_time",
+            "end_time", "player_count_limit", "level_visual_style", "difficulty",
+            "weekday", "sort_id", "limited_rank", "limited_count", "pve_force_mm",
+        }
+        for k, v in kwargs.items():
+            if k in allowed_fields:
+                mode[k] = v
+        return dict(mode)
+
+
+def reset_game_modes() -> None:
+    """Reset all game modes back to their authentic initial state."""
+    with _MODE_REGISTRY_LOCK:
+        _GAME_MODES_REGISTRY.clear()
+        for mode in AUTHENTIC_139_GAME_MODES:
+            key = str(mode.get("key") or f"{mode['map_id']}_{mode['game_mode']}_{mode['match_mode']}")
+            _GAME_MODES_REGISTRY[key] = dict(mode)
+
+
+def is_mode_enabled(map_id: int, game_mode: int, match_mode: int = 1) -> bool:
+    """Check if a specific map/mode combination is enabled."""
+    _ensure_seeded_game_modes()
+    key = f"{int(map_id)}_{int(game_mode)}_{int(match_mode)}"
+    with _MODE_REGISTRY_LOCK:
+        mode = _GAME_MODES_REGISTRY.get(key)
+        if mode:
+            return bool(mode.get("enable", True))
+        for m in _GAME_MODES_REGISTRY.values():
+            if int(m["map_id"]) == int(map_id) and int(m["game_mode"]) == int(game_mode):
+                return bool(m.get("enable", True))
+        return True
 
 
 def _default_game_servers() -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
@@ -831,6 +1358,9 @@ def _op_start_matchmaking(account_id: int, raw_body: bytes) -> Tuple[int, bytes]
     difficulty = int(req.get("difficulty", 1))
     group_id = int(req.get("group_id", 0)) or None
 
+    if not is_mode_enabled(map_id, game_mode, match_mode):
+        return EMatchmakingErrCode.MAPNOTOPEN, b""
+
     team = state.start_matchmaking(
         team_id=group_id,
         account_id=account_id,
@@ -1025,7 +1555,9 @@ def handle_matchmaking_tcp_command(
     """
     del protocol
     if sub_cmd in (EMatchmakingProto.START, EMatchmakingProto.GROUPSTART):
-        err, _ = _op_start_matchmaking(account_id, data)
+        err, suss = _op_start_matchmaking(account_id, data)
+        if err == EMatchmakingErrCode.SUSS and suss:
+            return EMatchmakingProto.MATCHMAKINGSUSS_NTF, err, suss
         return sub_cmd, err, b""
 
     if sub_cmd in (EMatchmakingProto.CANCEL, EMatchmakingProto.GROUPCANCEL, EMatchmakingProto.DROPMATCH):
@@ -1036,16 +1568,9 @@ def handle_matchmaking_tcp_command(
         req = decode_game_opening_info_req(data) if data else {"region": "IND", "language": "en"}
         lang = req.get("language") or "en"
         res = encode_game_opening_info_res(
-            descs=_default_game_opening_descs(),
+            descs=get_game_opening_descriptors(only_enabled=False),
             timezone_offset_secs=0,
-            mode_names=[
-                (GameMode.BATTLE_ROYALE, lang, "Classic"),
-                (GameMode.SPEED_ROYALE, lang, "Speed Royal"),
-                (GameMode.PURGE, lang, "Rush Hour"),
-                (GameMode.PURGE_ALT, lang, "Rush Hour"),
-                (GameMode.CS, lang, "Clash Squad"),
-                (GameMode.CS_ALT, lang, "Clash Squad"),
-            ],
+            mode_names=get_game_mode_names(lang),
         )
         return EMatchmakingProto.GAMEOPENINGINFO, EMatchmakingErrCode.SUSS, res
 
@@ -1262,18 +1787,58 @@ def _http_get_game_opening_info(handler: Any, raw_body: bytes, _account_id: int)
     req = decode_game_opening_info_req(raw_body) if raw_body else {"region": "IND", "language": "en"}
     lang = req.get("language") or "en"
     res = encode_game_opening_info_res(
-        descs=_default_game_opening_descs(),
+        descs=get_game_opening_descriptors(only_enabled=False),
         timezone_offset_secs=0,
-        mode_names=[
-            (GameMode.BATTLE_ROYALE, lang, "Classic"),
-            (GameMode.SPEED_ROYALE, lang, "Speed Royal"),
-            (GameMode.PURGE, lang, "Rush Hour"),
-            (GameMode.PURGE_ALT, lang, "Rush Hour"),
-            (GameMode.CS, lang, "Clash Squad"),
-            (GameMode.CS_ALT, lang, "Clash Squad"),
-        ],
+        mode_names=get_game_mode_names(lang),
     )
     handler.send_proto("GameOpeningInfoRes", res)
+
+
+def _http_admin_list_modes(handler: Any, _raw_body: bytes, _account_id: int) -> None:
+    handler.send_json({"ok": True, "modes": list_modes_admin()})
+
+
+def _http_admin_toggle_mode(handler: Any, raw_body: bytes, _account_id: int) -> None:
+    try:
+        data = json.loads(raw_body.decode("utf-8")) if raw_body else {}
+    except Exception:
+        data = {}
+    map_id = int(data.get("map_id", 1))
+    game_mode = int(data.get("game_mode", 1))
+    match_mode = int(data.get("match_mode", 1))
+    enable = data.get("enable")
+    if enable is not None:
+        enable = bool(enable)
+    toggled = toggle_game_mode(map_id, game_mode, match_mode, enable=enable)
+    handler.send_json({"ok": toggled is not None, "mode": toggled, "modes": list_modes_admin()})
+
+
+def _http_admin_unlock_all_modes(handler: Any, _raw_body: bytes, _account_id: int) -> None:
+    cnt = unlock_all_modes()
+    handler.send_json({"ok": True, "unlocked_count": cnt, "modes": list_modes_admin()})
+
+
+def _http_admin_lock_optional_modes(handler: Any, _raw_body: bytes, _account_id: int) -> None:
+    cnt = lock_optional_modes()
+    handler.send_json({"ok": True, "locked_count": cnt, "modes": list_modes_admin()})
+
+
+def _http_admin_update_mode(handler: Any, raw_body: bytes, _account_id: int) -> None:
+    try:
+        data = json.loads(raw_body.decode("utf-8")) if raw_body else {}
+    except Exception:
+        data = {}
+    map_id = int(data.get("map_id", 1))
+    game_mode = int(data.get("game_mode", 1))
+    match_mode = int(data.get("match_mode", 1))
+    kwargs = {k: v for k, v in data.items() if k not in ("map_id", "game_mode", "match_mode", "account_id")}
+    updated = update_game_mode(map_id, game_mode, match_mode, **kwargs)
+    handler.send_json({"ok": updated is not None, "mode": updated, "modes": list_modes_admin()})
+
+
+def _http_admin_reset_modes(handler: Any, _raw_body: bytes, _account_id: int) -> None:
+    reset_game_modes()
+    handler.send_json({"ok": True, "modes": list_modes_admin()})
 
 
 def _http_room_packet(handler: Any, raw_body: bytes, account_id: int) -> None:
@@ -1310,6 +1875,14 @@ _ROOM_ROUTES: Dict[str, _RouteFn] = {
     "GetGameOpeningInfo": _http_get_game_opening_info,
     "RoomPacket": _http_room_packet,
     "MatchmakingPacket": _http_matchmaking_packet,
+    "AdminListModes": _http_admin_list_modes,
+    "AdminToggleMode": _http_admin_toggle_mode,
+    "AdminUnlockAllModes": _http_admin_unlock_all_modes,
+    "AdminLockOptionalModes": _http_admin_lock_optional_modes,
+    "AdminUpdateMode": _http_admin_update_mode,
+    "AdminResetModes": _http_admin_reset_modes,
+    "api/dashboard/modes": _http_admin_list_modes,
+    "api/modes": _http_admin_list_modes,
 }
 
 

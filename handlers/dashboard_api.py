@@ -280,7 +280,91 @@ def handle_dashboard_get(
         handler.send_json(items[:limit])
         return True
 
-    if not path.startswith("/api/dashboard"):
+    if path.startswith("/api/admin/luck-royale") or path.startswith("/api/dashboard/luck-royale"):
+        from handlers.admin_luck_royale_api import handle_admin_luck_royale_request
+        return handle_admin_luck_royale_request(handler, "GET", path, query_string, b"")
+
+    # ------------------------------------------------------------------
+    # Admin Multi-Player Management REST GET Endpoints
+    # ------------------------------------------------------------------
+    if path in ("/api/admin/players", "/api/dashboard/players"):
+        qp = parse_qs(query_string)
+        page = max(1, _query_int(qp, "page", 1))
+        limit = max(1, min(100, _query_int(qp, "limit", _query_int(qp, "page_size", _query_int(qp, "per_page", 20)))))
+        search = _query_str(qp, "search", _query_str(qp, "q", _query_str(qp, "nickname", ""))).strip()
+        sort_by = _query_str(qp, "sort", _query_str(qp, "sort_by", "account_id")).strip()
+        sort_dir = _query_str(qp, "order", _query_str(qp, "sort_dir", _query_str(qp, "dir", "asc"))).strip()
+        raw_banned = _query_str(qp, "is_banned", "").strip()
+        is_banned = None
+        if raw_banned:
+            is_banned = (raw_banned == "1" or raw_banned.lower() == "true")
+        from core.player import player_manager
+        players, total = player_manager.list_players_paginated(
+            search=search,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+            page=page,
+            limit=limit,
+            is_banned=is_banned,
+        )
+        total_pages = (total + limit - 1) // limit if limit > 0 else 1
+        handler.send_json({
+            "ok": True,
+            "players": players,
+            "items": players,
+            "total": total,
+            "page": page,
+            "limit": limit,
+            "total_pages": total_pages,
+            "pages": total_pages,
+        })
+        return True
+
+    m_player_dossier = re.match(r"^/api/(admin|dashboard)/players/(\d+)$", path)
+    if m_player_dossier:
+        aid = int(m_player_dossier.group(2))
+        from core.player import player_manager
+        from core.database import db
+        player = player_manager.get_player(aid)
+        if not player:
+            handler.send_json({"ok": False, "error": f"Player {aid} not found"}, status=404)
+            return True
+        prof = player.get_profile()
+        wallet = player.get_wallet()
+        inv_map = player.get_all_item_counts()
+        inv_list = [{"item_id": iid, "count": cnt, "unlocked": True} for iid, cnt in sorted(inv_map.items())]
+        chars = player.list_characters()
+        pets = player.list_pets()
+        mails = state.list_mails(aid)
+        friends = state.list_friends(aid)
+        friend_requests = state.list_friend_requests(aid)
+        gacha_states = db.get_all_gacha_states(aid)
+        gacha_tx = db.get_gacha_transactions(account_id=aid, limit=50)
+        claims = db.get_claims(aid)
+        audit_logs = db.get_audit_logs(account_id=aid, limit=50)
+        handler.send_json({
+            "ok": True,
+            "account_id": aid,
+            "player": prof,
+            "profile": prof,
+            "wallet": wallet,
+            "inventory": inv_list,
+            "item_counts": inv_map,
+            "total_items": len(inv_map),
+            "characters": chars,
+            "pets": pets,
+            "mails": mails,
+            "friends": friends,
+            "friend_requests": friend_requests,
+            "gacha_states": gacha_states,
+            "gacha_transactions": gacha_tx,
+            "claims": claims,
+            "audit_logs": audit_logs,
+            "is_banned": player.is_banned,
+        })
+        return True
+
+    if not path.startswith("/api/dashboard") and not path.startswith("/api/admin/players"):
         return False
 
     qp = parse_qs(query_string)
@@ -371,13 +455,54 @@ def handle_dashboard_get(
         })
         return True
 
+    if path in ("/api/dashboard/modes", "/api/modes"):
+        from handlers.room_handler import list_modes_admin
+        handler.send_json({"ok": True, "modes": list_modes_admin()})
+        return True
+
     handler.send_json({"ok": False, "error": f"Unknown dashboard GET route: {path}"}, status=404)
     return True
 
 
+def _execute_player_item_delete(handler: Any, account_id: int, item_id: int, count: Optional[int] = None) -> bool:
+    from core.player import player_manager
+    from core.database import db
+    player = player_manager.get_player(account_id)
+    if not player:
+        handler.send_json({"ok": False, "error": f"Player {account_id} not found"}, status=404)
+        return True
+    cur_count = player.get_item_count(item_id)
+    if cur_count <= 0:
+        handler.send_json({"ok": False, "error": f"Item {item_id} not found in player {account_id} inventory"}, status=404)
+        return True
+
+    del_count = cur_count if (count is None or count >= cur_count) else count
+    player.delete_item(item_id, count=count)
+    rem_count = player.get_item_count(item_id)
+    db.log_action(
+        account_id,
+        "ADMIN_DELETE_ITEM",
+        f"Deleted {del_count}x item {item_id} from player {account_id}",
+        payload={"item_id": item_id, "count": count, "remaining": rem_count},
+    )
+    handler.send_json({
+        "ok": True,
+        "account_id": account_id,
+        "item_id": item_id,
+        "deleted_count": del_count,
+        "remaining_count": rem_count,
+        "message": f"Item {item_id} deleted successfully from player {account_id}",
+    })
+    return True
+
+
 def handle_dashboard_post(handler: Any, path: str, raw_body: bytes) -> bool:
-    """Handle POST /api/dashboard/* control endpoints. Returns True if handled."""
-    if not path.startswith("/api/dashboard"):
+    """Handle POST /api/dashboard/* and /api/admin/players/* control endpoints. Returns True if handled."""
+    if path.startswith("/api/admin/luck-royale") or path.startswith("/api/dashboard/luck-royale"):
+        from handlers.admin_luck_royale_api import handle_admin_luck_royale_request
+        return handle_admin_luck_royale_request(handler, "POST", path, "", raw_body)
+
+    if not path.startswith("/api/dashboard") and not path.startswith("/api/admin/players"):
         return False
 
     data, err = _parse_json_body(raw_body)
@@ -386,6 +511,110 @@ def handle_dashboard_post(handler: Any, path: str, raw_body: bytes) -> bool:
         return True
 
     try:
+        # ------------------------------------------------------------------
+        # 0. Admin Multi-Player Management POST Endpoints
+        # ------------------------------------------------------------------
+        if path in ("/api/admin/players/create", "/api/dashboard/players/create"):
+            from core.player import (
+                DEFAULT_AVATAR_ID,
+                DEFAULT_STARTER_COINS,
+                DEFAULT_STARTER_EXP,
+                DEFAULT_STARTER_GEMS,
+                DEFAULT_STARTER_LEVEL,
+                player_manager,
+            )
+            from core.database import db
+            nick = str(data.get("nickname") or "").strip()
+            if nick and player_manager.is_nickname_taken(nick):
+                handler.send_json({"ok": False, "error": f"Nickname '{nick}' is already taken"}, status=400)
+                return True
+
+            reg = str(data.get("region") or "DEFAULT").strip()
+            aid_avatar = _to_int(data.get("avatar_id"), DEFAULT_AVATAR_ID)
+            coins = _to_int(data.get("coins") if data.get("coins") is not None else data.get("gold"), DEFAULT_STARTER_COINS)
+            gems = _to_int(data.get("gems") if data.get("gems") is not None else data.get("diamonds"), DEFAULT_STARTER_GEMS)
+            lvl = max(1, _to_int(data.get("level"), DEFAULT_STARTER_LEVEL))
+            exp = max(0, _to_int(data.get("exp"), DEFAULT_STARTER_EXP))
+            oid = str(data.get("open_id") or "").strip()
+            did = str(data.get("device_id") or "").strip()
+            banned = bool(data.get("is_banned", False))
+
+            new_p = player_manager.create_account(
+                nickname=nick,
+                region=reg,
+                avatar_id=aid_avatar,
+                open_id=oid,
+                device_id=did,
+                initial_gold=coins,
+                initial_diamonds=gems,
+                level=lvl,
+                exp=exp,
+                is_banned=banned,
+            )
+            db.log_action(new_p.account_id, "ADMIN_CREATE_PLAYER", f"Created account {new_p.account_id} ({new_p.nickname})", payload=data)
+            handler.send_json({
+                "ok": True,
+                "account_id": new_p.account_id,
+                "player": new_p.get_profile(),
+                "profile": new_p.get_profile(),
+                "message": f"Account {new_p.account_id} created successfully",
+            }, status=201)
+            return True
+
+        m_ban = re.match(r"^/api/(admin|dashboard)/players/(\d+)/ban$", path)
+        if m_ban:
+            aid = int(m_ban.group(2))
+            from core.player import player_manager
+            from core.database import db
+            player = player_manager.get_player(aid)
+            if not player:
+                handler.send_json({"ok": False, "error": f"Player {aid} not found"}, status=404)
+                return True
+            player_manager.ban_player(aid)
+            reason = str(data.get("reason") or "Banned by administrator")
+            db.log_action(aid, "ADMIN_BAN_PLAYER", f"Player {aid} banned: {reason}", payload=data)
+            handler.send_json({
+                "ok": True,
+                "account_id": aid,
+                "is_banned": True,
+                "player": player.to_summary(),
+                "message": f"Player {aid} has been banned",
+            })
+            return True
+
+        m_unban = re.match(r"^/api/(admin|dashboard)/players/(\d+)/unban$", path)
+        if m_unban:
+            aid = int(m_unban.group(2))
+            from core.player import player_manager
+            from core.database import db
+            player = player_manager.get_player(aid)
+            if not player:
+                handler.send_json({"ok": False, "error": f"Player {aid} not found"}, status=404)
+                return True
+            player_manager.unban_player(aid)
+            db.log_action(aid, "ADMIN_UNBAN_PLAYER", f"Player {aid} unbanned by administrator", payload=data)
+            handler.send_json({
+                "ok": True,
+                "account_id": aid,
+                "is_banned": False,
+                "player": player.to_summary(),
+                "message": f"Player {aid} has been unbanned",
+            })
+            return True
+
+        m_del_item_post = re.match(r"^/api/(admin|dashboard)/players/(\d+)/items/(\d+)/delete$", path)
+        if m_del_item_post:
+            aid = int(m_del_item_post.group(2))
+            iid = int(m_del_item_post.group(3))
+            count = _to_int(data.get("count")) if data.get("count") is not None else None
+            return _execute_player_item_delete(handler, aid, iid, count)
+
+        if path in ("/api/admin/players/delete_item", "/api/dashboard/items/delete"):
+            aid = _to_int(data.get("account_id") or data.get("player_id"), DEFAULT_ACCOUNT_ID)
+            iid = _to_int(data.get("item_id"), 0)
+            count = _to_int(data.get("count")) if data.get("count") is not None else None
+            return _execute_player_item_delete(handler, aid, iid, count)
+
         account_id = _to_int(data.get("account_id"), DEFAULT_ACCOUNT_ID)
 
         # ------------------------------------------------------------------
@@ -910,6 +1139,68 @@ def handle_dashboard_post(handler: Any, path: str, raw_body: bytes) -> bool:
             handler.send_json(res, status=200 if res.get("ok") else 400)
             return True
 
+        # ------------------------------------------------------------------
+        # 6. Dynamic Game Modes & Maps Admin Controls
+        # ------------------------------------------------------------------
+        if path == "/api/dashboard/modes/toggle":
+            from handlers.room_handler import toggle_game_mode, list_modes_admin
+            map_id = _to_int(data.get("map_id"), 1)
+            game_mode = _to_int(data.get("game_mode"), 1)
+            match_mode = _to_int(data.get("match_mode"), 1)
+            enable = data.get("enable")
+            if enable is not None:
+                enable = bool(enable)
+            toggled = toggle_game_mode(map_id, game_mode, match_mode, enable=enable)
+            handler.send_json({
+                "ok": toggled is not None,
+                "mode": toggled,
+                "modes": list_modes_admin(),
+            })
+            return True
+
+        if path == "/api/dashboard/modes/unlock_all":
+            from handlers.room_handler import unlock_all_modes, list_modes_admin
+            cnt = unlock_all_modes()
+            handler.send_json({
+                "ok": True,
+                "unlocked_count": cnt,
+                "modes": list_modes_admin(),
+            })
+            return True
+
+        if path == "/api/dashboard/modes/lock_optional":
+            from handlers.room_handler import lock_optional_modes, list_modes_admin
+            cnt = lock_optional_modes()
+            handler.send_json({
+                "ok": True,
+                "locked_count": cnt,
+                "modes": list_modes_admin(),
+            })
+            return True
+
+        if path == "/api/dashboard/modes/update":
+            from handlers.room_handler import update_game_mode, list_modes_admin
+            map_id = _to_int(data.get("map_id"), 1)
+            game_mode = _to_int(data.get("game_mode"), 1)
+            match_mode = _to_int(data.get("match_mode"), 1)
+            kwargs = {k: v for k, v in data.items() if k not in ("map_id", "game_mode", "match_mode", "account_id")}
+            updated = update_game_mode(map_id, game_mode, match_mode, **kwargs)
+            handler.send_json({
+                "ok": updated is not None,
+                "mode": updated,
+                "modes": list_modes_admin(),
+            })
+            return True
+
+        if path == "/api/dashboard/modes/reset":
+            from handlers.room_handler import reset_game_modes, list_modes_admin
+            reset_game_modes()
+            handler.send_json({
+                "ok": True,
+                "modes": list_modes_admin(),
+            })
+            return True
+
         handler.send_json({"ok": False, "error": f"Unknown dashboard POST route: {path}"}, status=404)
         return True
     except ValueError as exc:
@@ -920,7 +1211,39 @@ def handle_dashboard_post(handler: Any, path: str, raw_body: bytes) -> bool:
         return True
 
 
+def handle_dashboard_delete(handler: Any, path: str, raw_body: bytes = b"") -> bool:
+    """Handle DELETE /api/admin/players/{id}/items/{item_id} and dashboard DELETE endpoints. Returns True if handled."""
+    if path.startswith("/api/admin/luck-royale") or path.startswith("/api/dashboard/luck-royale"):
+        from handlers.admin_luck_royale_api import handle_admin_luck_royale_request
+        return handle_admin_luck_royale_request(handler, "DELETE", path, "", raw_body)
+
+    m_item = re.match(r"^/api/(admin|dashboard)/players/(\d+)/items/(\d+)$", path)
+    if m_item:
+        aid = int(m_item.group(2))
+        iid = int(m_item.group(3))
+        count = None
+        if raw_body:
+            body_data, _ = _parse_json_body(raw_body)
+            if body_data and body_data.get("count") is not None:
+                count = _to_int(body_data.get("count"))
+        return _execute_player_item_delete(handler, aid, iid, count)
+
+    if not path.startswith("/api/dashboard") and not path.startswith("/api/admin/players"):
+        return False
+
+    handler.send_json({"ok": False, "error": f"Unknown dashboard DELETE route: {path}"}, status=404)
+    return True
+
+
 def render_dashboard_html(version: str = "1.39", sub_version: str = "1.39.4", port: int = 8080) -> str:
+    # Prefer serving master SPA entrypoint from static/dashboard/index.html
+    spa_index = os.path.join(_BASE_DIR, "static", "dashboard", "index.html")
+    if os.path.exists(spa_index):
+        try:
+            with open(spa_index, "r", encoding="utf-8") as f:
+                return f.read()
+        except Exception:
+            pass
     html = _DASHBOARD_HTML_TEMPLATE
     html = html.replace("__VERSION__", str(version))
     html = html.replace("__SUB_VERSION__", str(sub_version))
@@ -1155,6 +1478,9 @@ _DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
     <button class="nav-item" onclick="switchModule('vault', this)">
       <span class="nav-bullet"></span> Vault &amp; Character Catalog
     </button>
+    <button class="nav-item" onclick="switchModule('modes', this)">
+      <span class="nav-bullet"></span> Game Modes &amp; Maps Studio
+    </button>
   </aside>
 
   <!-- Viewport -->
@@ -1164,6 +1490,7 @@ _DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
     <iframe id="frame-tracker" class="module-frame" src="about:blank"></iframe>
     <iframe id="frame-social" class="module-frame" src="about:blank"></iframe>
     <iframe id="frame-vault" class="module-frame" src="about:blank"></iframe>
+    <iframe id="frame-modes" class="module-frame" src="about:blank"></iframe>
   </main>
 </div>
 
@@ -1173,7 +1500,8 @@ _DASHBOARD_HTML_TEMPLATE = r"""<!DOCTYPE html>
     events: '/dashboard/events.html',
     tracker: '/dashboard/tracker.html',
     social: '/dashboard/social.html',
-    vault: '/dashboard/vault.html'
+    vault: '/dashboard/vault.html',
+    modes: '/dashboard/modes.html'
   };
 
   let activeModuleId = 'banners';

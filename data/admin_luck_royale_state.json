@@ -1,0 +1,32 @@
+{
+  "updated_at": 1795288416,
+  "disabled_machines": [
+    6
+  ],
+  "banner_assignments": {
+    "3": "UI_Lottery_Poster_P.png",
+    "4": "UI_Lottery_Poster_W.png",
+    "5": "UI_Lottery_Poster_G.png",
+    "6": "login_bg.png"
+  },
+  "events": {
+    "3": {
+      "event_id": 1795284959,
+      "chest_id": 3,
+      "title": "Diamond Fiesta",
+      "banner_url": "/banners/announce_events.png",
+      "start_time": 1795284959,
+      "end_time": 1795889759,
+      "discount_percent": 20,
+      "rate_up_multiplier": 1.0,
+      "active": true,
+      "rewards": []
+    }
+  },
+  "machine_artwork": {
+    "6": {
+      "banner": "login_bg.png"
+    }
+  },
+  "reward_images": {}
+}

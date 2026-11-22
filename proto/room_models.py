@@ -39,6 +39,7 @@ from .encoder import (
 from .team_models import (
     GameMode,
     GroupMode,
+    MapID,
     MatchMode,
     decode_matchmaking_group_start_req,
     decode_matchmaking_start_req,
@@ -800,7 +801,7 @@ def encode_game_opening_info_desc(desc: Dict[str, Any]) -> bytes:
     buf += encode_uint32(20, int(desc.get("level_visual_style", LevelVisualStyle.NORMAL)))
     buf += encode_string(21, str(desc.get("difficulty", "1")))
     buf += encode_bool(22, bool(desc.get("pve_force_mm", False)))
-    buf += encode_string(23, str(desc.get("weekday", "0;1;2;3;4;5;6")))
+    buf += encode_string(23, str(desc.get("weekday", "0")))
     buf += encode_uint32(24, int(desc.get("sort_id", 1)))
     return bytes(buf)
 

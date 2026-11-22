@@ -397,19 +397,42 @@ def _sync_profile_field(account_id: int, **updates: Any) -> Dict[str, Any]:
     prof = state.update_profile(account_id, **updates)
     if account_id != DEFAULT_ACCOUNT_ID and state.get_player(account_id) is not None:
         state.upsert_player(account_id, **updates)
+    try:
+        from handlers.inventory_handler import inventory_service
+        inventory_service.notify_lobby_change(account_id)
+    except Exception:
+        pass
     return prof
 
 
 def _handle_change_nickname(
     handler: Any, raw_body: bytes, default_account_id: int
 ) -> None:
-    new_nick, _use_card = decode_modify_nickname_req(raw_body)
+    from core.player import player_manager
+    from proto.decoder import decode_proto, get_string
+    f = decode_proto(raw_body)
+    new_nick = get_string(f, 1, "")
+    if not new_nick or (2 in f and isinstance(f[2][0], (bytes, bytearray, str))):
+        alt = get_string(f, 2, "")
+        if alt and not isinstance(f[2][0], int):
+            new_nick = alt
+    reg = get_string(f, 3, "")
+    if reg:
+        player_manager.change_region(default_account_id, reg)
+
     cleaned = new_nick.strip()[:32]
     if cleaned:
-        prof = _sync_profile_field(default_account_id, nickname=cleaned)
-        final_nick = str(prof.get("nickname", cleaned))
+        if player_manager.is_nickname_taken(cleaned, exclude_account_id=default_account_id):
+            final_nick = str(state.get_profile(default_account_id).get("nickname", "Player"))
+            handler.send_proto("CSModifyNicknameRes (Duplicate)", encode_modify_nickname_res(final_nick))
+            return
+        success, final_nick, _msg = player_manager.change_nickname(default_account_id, cleaned)
+        if success:
+            _sync_profile_field(default_account_id, nickname=final_nick)
+        else:
+            final_nick = str(state.get_profile(default_account_id).get("nickname", "Player"))
     else:
-        final_nick = str(state.get_profile(default_account_id).get("nickname", "Clack"))
+        final_nick = str(state.get_profile(default_account_id).get("nickname", "Player"))
     handler.send_proto("CSModifyNicknameRes", encode_modify_nickname_res(final_nick))
 
 
@@ -449,6 +472,9 @@ _ROUTE_MAP: Dict[str, Callable[[Any, bytes, int], None]] = {
     "/GetPlayerRankingInfo": _handle_get_player_ranking_info,
     "/ChangeNickname": _handle_change_nickname,
     "/MajorModifyNickname": _handle_change_nickname,
+    "/ChangeNick": _handle_change_nickname,
+    "/CreateRole": _handle_change_nickname,
+    "/FirstLogin": _handle_change_nickname,
     "/ChangeBanner": _handle_change_banner,
     "/ChooseBanner": _handle_change_banner,
     "/ChangeAvatarIcon": _handle_change_avatar_icon,

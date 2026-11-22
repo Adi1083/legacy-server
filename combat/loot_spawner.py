@@ -186,7 +186,90 @@ class LootSpawner:
                     self._add_to_grid(c_item)
                     total_spawned += 1
 
+        # Populate Waiting Island practice loot
+        total_spawned += self.populate_waiting_island_loot()
         return total_spawned
+
+    def populate_waiting_island_loot(self, center: Tuple[float, float, float] = (-500.0, 10.0, 800.0), radius: float = 40.0) -> int:
+        """
+        Populate authentic Bermuda Waiting Island pre-match practice loot:
+        Spawns melee weapons, practice firearms, ammo, and interactive easter egg items
+        organized onto dedicated pedestal stations around the spawn island plaza.
+        """
+        cx, cy, cz = center
+        spawned = 0
+
+        pedestal_stations = [
+            # North Pedestal Station (Assault Rifles & AR Ammo)
+            {"name": "M4A1", "type": "weapon", "cfg": WEAPON_REGISTRY.get("M4A1", {}), "pos": (cx - 8.0, cy, cz + 15.0), "pedestal": "AR_Station"},
+            {"name": "AK47", "type": "weapon", "cfg": WEAPON_REGISTRY.get("AK47", {}), "pos": (cx - 4.0, cy, cz + 15.0), "pedestal": "AR_Station"},
+            {"name": "SCAR", "type": "weapon", "cfg": WEAPON_REGISTRY.get("SCAR", {}), "pos": (cx, cy, cz + 15.0), "pedestal": "AR_Station"},
+            {"name": "Ammo_AR", "type": "ammo", "cfg": CONSUMABLES_REGISTRY.get("Ammo_AR", {}), "pos": (cx + 4.0, cy, cz + 15.0), "pedestal": "AR_Station"},
+            {"name": "Ammo_AR", "type": "ammo", "cfg": CONSUMABLES_REGISTRY.get("Ammo_AR", {}), "pos": (cx + 8.0, cy, cz + 15.0), "pedestal": "AR_Station"},
+
+            # South Pedestal Station (Submachine Guns & SMG Ammo)
+            {"name": "MP40", "type": "weapon", "cfg": WEAPON_REGISTRY.get("MP40", {}), "pos": (cx - 6.0, cy, cz - 15.0), "pedestal": "SMG_Station"},
+            {"name": "UMP", "type": "weapon", "cfg": WEAPON_REGISTRY.get("UMP", {}), "pos": (cx - 2.0, cy, cz - 15.0), "pedestal": "SMG_Station"},
+            {"name": "MP5", "type": "weapon", "cfg": WEAPON_REGISTRY.get("MP5", {}), "pos": (cx + 2.0, cy, cz - 15.0), "pedestal": "SMG_Station"},
+            {"name": "Ammo_SMG", "type": "ammo", "cfg": CONSUMABLES_REGISTRY.get("Ammo_SMG", {}), "pos": (cx + 6.0, cy, cz - 15.0), "pedestal": "SMG_Station"},
+
+            # East Pedestal Station (Shotguns, Snipers & Ammo)
+            {"name": "M1014", "type": "weapon", "cfg": WEAPON_REGISTRY.get("M1014", {}), "pos": (cx + 15.0, cy, cz - 5.0), "pedestal": "Shotgun_Station"},
+            {"name": "SPAS12", "type": "weapon", "cfg": WEAPON_REGISTRY.get("SPAS12", {}), "pos": (cx + 15.0, cy, cz), "pedestal": "Shotgun_Station"},
+            {"name": "AWM", "type": "weapon", "cfg": WEAPON_REGISTRY.get("AWM", {}), "pos": (cx + 15.0, cy, cz + 5.0), "pedestal": "Sniper_Station"},
+            {"name": "Ammo_SG", "type": "ammo", "cfg": CONSUMABLES_REGISTRY.get("Ammo_SG", {}), "pos": (cx + 18.0, cy, cz - 3.0), "pedestal": "Shotgun_Station"},
+            {"name": "Ammo_Sniper", "type": "ammo", "cfg": CONSUMABLES_REGISTRY.get("Ammo_Sniper", {}), "pos": (cx + 18.0, cy, cz + 3.0), "pedestal": "Sniper_Station"},
+
+            # West Pedestal Station (Melee Weapons, Gloo Wall & Medkit)
+            {"name": "Pan", "type": "weapon", "cfg": WEAPON_REGISTRY.get("Pan", {}), "pos": (cx - 15.0, cy, cz - 6.0), "pedestal": "Melee_Station"},
+            {"name": "Katana", "type": "weapon", "cfg": WEAPON_REGISTRY.get("Katana", {}), "pos": (cx - 15.0, cy, cz - 2.0), "pedestal": "Melee_Station"},
+            {"name": "Bat", "type": "weapon", "cfg": WEAPON_REGISTRY.get("Bat", {}), "pos": (cx - 15.0, cy, cz + 2.0), "pedestal": "Melee_Station"},
+            {"name": "Machete", "type": "weapon", "cfg": WEAPON_REGISTRY.get("Machete", {}), "pos": (cx - 15.0, cy, cz + 6.0), "pedestal": "Melee_Station"},
+            {"name": "GlooWall", "type": "consumable", "cfg": CONSUMABLES_REGISTRY.get("GlooWall", CONSUMABLES_REGISTRY.get("Gloo_Wall", {})), "pos": (cx - 18.0, cy, cz - 2.0), "pedestal": "Defense_Station"},
+            {"name": "Medkit", "type": "consumable", "cfg": CONSUMABLES_REGISTRY.get("Medkit", {}), "pos": (cx - 18.0, cy, cz + 2.0), "pedestal": "Defense_Station"},
+
+            # Interactive Easter Egg Station (WaitingIslandGiantEasterEggHp = 1000)
+            {"name": "GiantEasterEgg", "type": "easter_egg", "cfg": {"item_id": 999000001, "name": "GiantEasterEgg", "category": "EASTER_EGG", "hp": 1000.0, "count": 1}, "pos": (cx, cy, cz - 20.0), "pedestal": "EasterEgg_Plaza"}
+        ]
+
+        for item in pedestal_stations:
+            cfg = item.get("cfg", {})
+            if not cfg:
+                continue
+            ix, iy, iz = item["pos"]
+            itype = item["type"]
+            name = item["name"]
+
+            item_id = cfg.get("item_id", 907000008)
+            cat = str(cfg.get("category", cfg.get("slot", "MELEE"))).upper()
+            extra = {"is_practice": True, "pedestal_station": item.get("pedestal", "Plaza")}
+            if itype == "weapon":
+                extra.update({"ammo_in_clip": cfg.get("clip_size", 30), "ammo_type": cfg.get("ammo_type", "ammo_ar")})
+            elif itype == "ammo":
+                extra.update({"ammo_type": cfg.get("ammo_type", "ammo_ar")})
+            elif itype == "consumable":
+                extra.update(cfg.copy())
+            elif itype == "easter_egg":
+                extra.update({"hp": cfg.get("hp", 1000.0), "max_hp": cfg.get("hp", 1000.0)})
+
+            g_item = GroundItem(
+                pickup_id=self.next_pickup_id,
+                item_type=itype,
+                item_id=item_id,
+                name=name,
+                category=cat,
+                x=ix,
+                y=iy,
+                z=iz,
+                count=cfg.get("count", 1),
+                extra_data=extra
+            )
+            self.next_pickup_id += 1
+            self.items[g_item.pickup_id] = g_item
+            self._add_to_grid(g_item)
+            spawned += 1
+
+        return spawned
 
     def get_items_near(self, x: float, z: float, radius: float = 3.0) -> List[GroundItem]:
         """Query all ground items within pickup interaction radius of coordinates."""

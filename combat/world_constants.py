@@ -87,7 +87,16 @@ BERMUDA_LANDMARKS: Dict[str, Dict[str, Any]] = {
         "x": -100.0, "z": 480.0, "y": 15.0, "radius": 100.0, "tier": 1,
         "description": "River bridge and cottage clusters"
     },
+    "Waiting_Island": {
+        "x": -500.0, "z": 800.0, "y": 10.0, "radius": 60.0, "tier": 1,
+        "description": "Bermuda Waiting Island pre-match gathering zone and obstacle course"
+    },
 }
+
+# Bermuda Waiting Island Authentic Spawn Zone Constants
+BERMUDA_WAITING_ISLAND_CENTER: Tuple[float, float, float] = (-500.0, 10.0, 800.0)
+BERMUDA_WAITING_ISLAND_RADIUS: float = 60.0
+BERMUDA_WAITING_ISLAND_SPAWN_RADIUS: float = 25.0
 
 # ---------------------------------------------------------------------------
 # Weapon Types, Categories & Baseline Performance
@@ -447,6 +456,46 @@ WEAPON_REGISTRY: Dict[str, Dict[str, Any]] = {
         "falloff_start_dist": 3.0,
         "falloff_end_dist": 3.0,
         "spawn_weight": 12,
+    },
+    "Bat": {
+        "item_id": 907000042,
+        "name": "Bat",
+        "category": WeaponCategory.MELEE,
+        "ammo_type": AmmoType.NONE,
+        "clip_size": 1,
+        "reserve_ammo": 0,
+        "base_damage": 55.0,
+        "headshot_multiplier": 2.0,
+        "limb_multiplier": 0.80,
+        "fire_rate": 0.60,
+        "effective_range": 2.8,
+        "bullet_speed": 0.0,
+        "accuracy": 1.0,
+        "recoil_bloom": 0.0,
+        "damage_falloff_min": 1.0,
+        "falloff_start_dist": 2.8,
+        "falloff_end_dist": 2.8,
+        "spawn_weight": 14,
+    },
+    "Machete": {
+        "item_id": 907000043,
+        "name": "Machete",
+        "category": WeaponCategory.MELEE,
+        "ammo_type": AmmoType.NONE,
+        "clip_size": 1,
+        "reserve_ammo": 0,
+        "base_damage": 58.0,
+        "headshot_multiplier": 2.0,
+        "limb_multiplier": 0.80,
+        "fire_rate": 0.60,
+        "effective_range": 2.6,
+        "bullet_speed": 0.0,
+        "accuracy": 1.0,
+        "recoil_bloom": 0.0,
+        "damage_falloff_min": 1.0,
+        "falloff_start_dist": 2.6,
+        "falloff_end_dist": 2.6,
+        "spawn_weight": 14,
     },
 }
 

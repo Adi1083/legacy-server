@@ -1,0 +1,4220 @@
+[
+  {
+    "id": "overview_main",
+    "domain": "01 Overview",
+    "name": "Main Dashboard",
+    "route": "#/overview/main",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\overview_main_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 10,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 12,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 170,
+      "headings": [
+        "Command Overview",
+        "Active Player Context",
+        "Account Population",
+        "Throughput Telemetry",
+        "Registered Game Assets"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "overview_monitoring",
+    "domain": "01 Overview",
+    "name": "Server Monitoring",
+    "route": "#/overview/monitoring",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\overview_monitoring_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 8,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 112,
+      "inputCount": 3,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1075,
+      "headings": [
+        "Server Monitoring & Telemetry",
+        "Throughput Rate",
+        "Wire Payload Volume",
+        "Active Player Telemetry",
+        "Buffer Saturation"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_directory",
+    "domain": "02 Player Management",
+    "name": "Player Directory",
+    "route": "#/players/directory",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_directory_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 33,
+      "emojiSamples": [
+        "👥",
+        "🎯",
+        "⚡",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 4,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 65,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 311,
+      "headings": [
+        "Player Directory & Account Fleet",
+        "Total Database Accounts\n          👥",
+        "Active Player Context\n          🎯",
+        "Direct Account Switcher\n            ⚡"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_inspector",
+    "domain": "02 Player Management",
+    "name": "Player Inspector",
+    "route": "#/players/inspector",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_inspector_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "👤",
+        "🎖",
+        "❤"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 10,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 65,
+      "headings": [
+        "Player Inspector: PushpaGG"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_account",
+    "domain": "02 Player Management",
+    "name": "Account Manager",
+    "route": "#/players/account",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_account_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 6,
+      "inputCount": 7,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 31,
+      "headings": [
+        "Account Manager & Provisioning"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_bans",
+    "domain": "02 Player Management",
+    "name": "Ban & Sanction Manager",
+    "route": "#/players/bans",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_bans_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 5,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 33,
+      "headings": [
+        "Ban Manager & Sanction Controls"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_sessions",
+    "domain": "02 Player Management",
+    "name": "Live Sessions",
+    "route": "#/players/sessions",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_sessions_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "⚠"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 2,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 7,
+      "headings": [],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_manager",
+    "domain": "03 Inventory & Collection",
+    "name": "Inventory Manager",
+    "route": "#/inventory/manager",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_manager_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "⚡"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 94,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 360,
+      "headings": [
+        "Vault & Item Studio (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_characters",
+    "domain": "03 Inventory & Collection",
+    "name": "Character Manager",
+    "route": "#/inventory/characters",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_characters_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 47,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 309,
+      "headings": [
+        "Character Manager (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_pets",
+    "domain": "03 Inventory & Collection",
+    "name": "Pet Manager",
+    "route": "#/inventory/pets",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_pets_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "🐾"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 27,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 99,
+      "headings": [
+        "Pet Companion Studio (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_wardrobe",
+    "domain": "03 Inventory & Collection",
+    "name": "Cosmetics & Wardrobe",
+    "route": "#/inventory/wardrobe",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_wardrobe_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 11,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 69,
+      "headings": [
+        "Cosmetics & Wardrobe (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "economy_currencies",
+    "domain": "04 Economy",
+    "name": "Currency Manager",
+    "route": "#/economy/currencies",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\economy_currencies_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 5,
+      "emojiSamples": [
+        "🔄",
+        "🪙",
+        "💎"
+      ],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 15,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 56,
+      "headings": [
+        "Currency Manager (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "economy_wallet",
+    "domain": "04 Economy",
+    "name": "Player Wallet",
+    "route": "#/economy/wallet",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\economy_wallet_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "💳",
+        "🪙",
+        "💎"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 7,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 53,
+      "headings": [
+        "Player Wallet Inspector (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_overview",
+    "domain": "05 Luck Royale Studio",
+    "name": "Studio Overview",
+    "route": "#/luck-royale/overview",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_overview_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 4,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Luck Royale Studio Overview"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_machines",
+    "domain": "05 Luck Royale Studio",
+    "name": "Machine Manager",
+    "route": "#/luck-royale/machines",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_machines_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 4,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Luck Royale Studio Overview"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_pools",
+    "domain": "05 Luck Royale Studio",
+    "name": "Reward Pool Editor",
+    "route": "#/luck-royale/pools",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_pools_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Reward Pool Editor"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_pity",
+    "domain": "05 Luck Royale Studio",
+    "name": "Lucky Meter & Pity",
+    "route": "#/luck-royale/pity",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_pity_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Lucky Meter & Pity Configuration"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_currencies",
+    "domain": "05 Luck Royale Studio",
+    "name": "Currencies & Vouchers",
+    "route": "#/luck-royale/currencies",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_currencies_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Vouchers & Spin Costs"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_forge",
+    "domain": "05 Luck Royale Studio",
+    "name": "Incubator Forge",
+    "route": "#/luck-royale/forge",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_forge_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Incubator Forge Recipes"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_events",
+    "domain": "05 Luck Royale Studio",
+    "name": "Events & Discounts",
+    "route": "#/luck-royale/events",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_events_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Events & Discounts"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_banners",
+    "domain": "05 Luck Royale Studio",
+    "name": "Banner Overrides",
+    "route": "#/luck-royale/banners",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_banners_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Gacha Banner Overrides"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_player",
+    "domain": "05 Luck Royale Studio",
+    "name": "Player Gacha State",
+    "route": "#/luck-royale/player",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_player_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Player Gacha State (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_transactions",
+    "domain": "05 Luck Royale Studio",
+    "name": "Spin Audit Ledger",
+    "route": "#/luck-royale/transactions",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_transactions_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 55,
+      "emojiSamples": [
+        "➕",
+        "🔄",
+        "📥",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 56,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 528,
+      "headings": [
+        "Transaction Explorer",
+        "Total Transactions",
+        "Diamonds Burned",
+        "Gold Burned",
+        "Grand Prize Jackpots"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_simulator",
+    "domain": "05 Luck Royale Studio",
+    "name": "Probability Simulator",
+    "route": "#/luck-royale/simulator",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_simulator_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 1,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 2,
+      "headings": [
+        "Probability Simulator (Monte Carlo)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_config",
+    "domain": "05 Luck Royale Studio",
+    "name": "Config Backup",
+    "route": "#/luck-royale/config",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_config_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "🧭"
+      ],
+      "cardCount": 0,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 1,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 0,
+      "headings": [],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_modes",
+    "domain": "06 Game Management",
+    "name": "Game Modes",
+    "route": "#/game/modes",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_modes_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 25,
+      "emojiSamples": [
+        "🔓",
+        "🔒",
+        "🔄",
+        "⚠",
+        "🎮",
+        "🏆",
+        "🎯",
+        "🔍",
+        "☰",
+        "⚙"
+      ],
+      "cardCount": 6,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 48,
+      "inputCount": 17,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 406,
+      "headings": [
+        "Game Modes Management",
+        "Total Modes\n          🎮",
+        "Active / Unlocked\n          ●",
+        "Locked / Disabled\n          ○",
+        "Ranked Modes\n          🏆"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_maps",
+    "domain": "06 Game Management",
+    "name": "Map Rotation",
+    "route": "#/game/maps",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_maps_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "🔄",
+        "🗺",
+        "📡"
+      ],
+      "cardCount": 7,
+      "tableCount": 2,
+      "unwrappedTableCount": 0,
+      "buttonCount": 10,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 238,
+      "headings": [
+        "Map Rotation & Territory Control",
+        "Active Territories\n          🗺️",
+        "Mode Allocation\n          ●",
+        "Combat Gateway\n          📡"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_matchmaking",
+    "domain": "06 Game Management",
+    "name": "Matchmaking Queue",
+    "route": "#/game/matchmaking",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_matchmaking_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 21,
+      "headings": [
+        "1.39 Matchmaking Protocol Architecture"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_rooms",
+    "domain": "06 Game Management",
+    "name": "Custom Rooms",
+    "route": "#/game/rooms",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_rooms_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 28,
+      "headings": [
+        "Custom Room Engine Specification & Modif"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_mail",
+    "domain": "07 Social & Communication",
+    "name": "Mailbox Manager",
+    "route": "#/social/mail",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_mail_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 9,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Mailbox (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_mail_compose",
+    "domain": "07 Social & Communication",
+    "name": "Compose Mail",
+    "route": "#/social/mail-compose",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_mail_compose_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 2,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 11,
+      "headings": [
+        "Compose System Mail"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_friends",
+    "domain": "07 Social & Communication",
+    "name": "Friends Manager",
+    "route": "#/social/friends",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_friends_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Friends & Social (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_squads",
+    "domain": "07 Social & Communication",
+    "name": "Squad Manager",
+    "route": "#/social/squads",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_squads_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Squad Lobby (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_banners",
+    "domain": "08 Content Management",
+    "name": "Billboard Banners",
+    "route": "#/cms/banners",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_banners_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 3,
+      "overflowingSamples": [
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 175,
+          "clientWidth": 160
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 166,
+          "clientWidth": 160
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 169,
+          "clientWidth": 160
+        }
+      ],
+      "emojiCount": 63,
+      "emojiSamples": [
+        "📁",
+        "⚡",
+        "🔄",
+        "📥",
+        "✕"
+      ],
+      "cardCount": 3,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 256,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 815,
+      "headings": [
+        "Free Fire 1.39 Lobby Billboard Simulator",
+        "Billboard Ad Rotation Queue",
+        "Banner Image Texture Repository"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_lobby",
+    "domain": "08 Content Management",
+    "name": "Lobby CMS & Splash",
+    "route": "#/cms/lobby",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_lobby_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 4,
+      "emojiSamples": [
+        "⚡",
+        "📁",
+        "✕",
+        "🔄"
+      ],
+      "cardCount": 2,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 20,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 65,
+      "headings": [
+        "Free Fire 1.39 Startup Splash Popup Simu",
+        "Login Splash Sequence Queue"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_announcements",
+    "domain": "08 Content Management",
+    "name": "Announcements",
+    "route": "#/cms/announcements",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_announcements_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 3,
+      "overflowingSamples": [
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 2611,
+          "clientWidth": 1600
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 415,
+          "clientWidth": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 405,
+          "clientWidth": 320
+        }
+      ],
+      "emojiCount": 5,
+      "emojiSamples": [
+        "✦",
+        "⚡",
+        "🔄"
+      ],
+      "cardCount": 4,
+      "tableCount": 2,
+      "unwrappedTableCount": 0,
+      "buttonCount": 32,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 99,
+      "headings": [
+        "Free Fire 1.39 Bulletin Board Simulator",
+        "Welcome to India V1!",
+        "In-Game Announcements Manager",
+        "Marquee Ticker Broadcast Queue"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_api",
+    "domain": "09 Logs & Monitoring",
+    "name": "API Wire Traffic",
+    "route": "#/logs/api",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_api_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 4,
+      "emojiSamples": [
+        "🔄",
+        "🗑",
+        "📥",
+        "⚡"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 193,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1332,
+      "headings": [
+        "API Live Monitor",
+        "Total Tracked",
+        "2xx Successful",
+        "4xx / 5xx Errors",
+        "Active Stream Interval"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_audit",
+    "domain": "09 Logs & Monitoring",
+    "name": "Audit Logs",
+    "route": "#/logs/audit",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_audit_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "🔄",
+        "📥"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 5,
+      "inputCount": 3,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 29,
+      "headings": [
+        "Administrative Audit Log",
+        "Total Audit Events",
+        "Economy Grants",
+        "Gacha Rolls & Exchanges",
+        "Config & Permissions"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_transactions",
+    "domain": "09 Logs & Monitoring",
+    "name": "Transaction History",
+    "route": "#/logs/transactions",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_transactions_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 55,
+      "emojiSamples": [
+        "➕",
+        "🔄",
+        "📥",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 56,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 528,
+      "headings": [
+        "Transaction Explorer",
+        "Total Transactions",
+        "Diamonds Burned",
+        "Gold Burned",
+        "Grand Prize Jackpots"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_settings",
+    "domain": "10 System",
+    "name": "Server Settings",
+    "route": "#/system/settings",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_settings_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "🔄",
+        "⚠"
+      ],
+      "cardCount": 7,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 6,
+      "inputCount": 6,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 39,
+      "headings": [
+        "Server Settings & Architecture",
+        "REST API & UI Gateway\n            ACTIVE",
+        "TCP Lobby Sync\n            LISTENING",
+        "UDP Dedicated Combat\n            STANDBY",
+        "Client Target Protocol\n            OB17 "
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_database",
+    "domain": "10 System",
+    "name": "Database Viewer",
+    "route": "#/system/database",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_database_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "📘",
+        "🔄",
+        "📥"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 53,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 533,
+      "headings": [
+        "Database Table Browser",
+        "Engine & Storage",
+        "Journal & Concurrency",
+        "Schema Tables",
+        "Integrity Verification"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_security",
+    "domain": "10 System",
+    "name": "Security & Access",
+    "route": "#/system/security",
+    "viewport": "1920x1080",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_security_1920x1080.png",
+    "metrics": {
+      "canvasWidth": 1650,
+      "canvasScrollWidth": 1650,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 6,
+      "emojiSamples": [
+        "🛡",
+        "🔄",
+        "👁",
+        "💾",
+        "🎲",
+        "📋"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 7,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 42,
+      "headings": [
+        "Security & Token Controls",
+        "Admin Auth State",
+        "Secrets Leak Policy",
+        "Wire Obfuscation",
+        "Rate Limiting"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "overview_main",
+    "domain": "01 Overview",
+    "name": "Main Dashboard",
+    "route": "#/overview/main",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\overview_main_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 10,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 12,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 170,
+      "headings": [
+        "Command Overview",
+        "Active Player Context",
+        "Account Population",
+        "Throughput Telemetry",
+        "Registered Game Assets"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "overview_monitoring",
+    "domain": "01 Overview",
+    "name": "Server Monitoring",
+    "route": "#/overview/monitoring",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\overview_monitoring_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 8,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 112,
+      "inputCount": 3,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1075,
+      "headings": [
+        "Server Monitoring & Telemetry",
+        "Throughput Rate",
+        "Wire Payload Volume",
+        "Active Player Telemetry",
+        "Buffer Saturation"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_directory",
+    "domain": "02 Player Management",
+    "name": "Player Directory",
+    "route": "#/players/directory",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_directory_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 33,
+      "emojiSamples": [
+        "👥",
+        "🎯",
+        "⚡",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 4,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 65,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 311,
+      "headings": [
+        "Player Directory & Account Fleet",
+        "Total Database Accounts\n          👥",
+        "Active Player Context\n          🎯",
+        "Direct Account Switcher\n            ⚡"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_inspector",
+    "domain": "02 Player Management",
+    "name": "Player Inspector",
+    "route": "#/players/inspector",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_inspector_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "👤",
+        "🎖",
+        "❤"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 10,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 65,
+      "headings": [
+        "Player Inspector: PushpaGG"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_account",
+    "domain": "02 Player Management",
+    "name": "Account Manager",
+    "route": "#/players/account",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_account_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 6,
+      "inputCount": 7,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 31,
+      "headings": [
+        "Account Manager & Provisioning"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_bans",
+    "domain": "02 Player Management",
+    "name": "Ban & Sanction Manager",
+    "route": "#/players/bans",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_bans_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 5,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 33,
+      "headings": [
+        "Ban Manager & Sanction Controls"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_sessions",
+    "domain": "02 Player Management",
+    "name": "Live Sessions",
+    "route": "#/players/sessions",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_sessions_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "⚠"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 2,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 7,
+      "headings": [],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_manager",
+    "domain": "03 Inventory & Collection",
+    "name": "Inventory Manager",
+    "route": "#/inventory/manager",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_manager_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "⚡"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 94,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 360,
+      "headings": [
+        "Vault & Item Studio (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_characters",
+    "domain": "03 Inventory & Collection",
+    "name": "Character Manager",
+    "route": "#/inventory/characters",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_characters_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 47,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 309,
+      "headings": [
+        "Character Manager (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_pets",
+    "domain": "03 Inventory & Collection",
+    "name": "Pet Manager",
+    "route": "#/inventory/pets",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_pets_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "🐾"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 27,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 99,
+      "headings": [
+        "Pet Companion Studio (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_wardrobe",
+    "domain": "03 Inventory & Collection",
+    "name": "Cosmetics & Wardrobe",
+    "route": "#/inventory/wardrobe",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_wardrobe_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 11,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 69,
+      "headings": [
+        "Cosmetics & Wardrobe (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "economy_currencies",
+    "domain": "04 Economy",
+    "name": "Currency Manager",
+    "route": "#/economy/currencies",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\economy_currencies_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 5,
+      "emojiSamples": [
+        "🔄",
+        "🪙",
+        "💎"
+      ],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 15,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 56,
+      "headings": [
+        "Currency Manager (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "economy_wallet",
+    "domain": "04 Economy",
+    "name": "Player Wallet",
+    "route": "#/economy/wallet",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\economy_wallet_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "💳",
+        "🪙",
+        "💎"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 7,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 53,
+      "headings": [
+        "Player Wallet Inspector (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_overview",
+    "domain": "05 Luck Royale Studio",
+    "name": "Studio Overview",
+    "route": "#/luck-royale/overview",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_overview_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 4,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Luck Royale Studio Overview"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_machines",
+    "domain": "05 Luck Royale Studio",
+    "name": "Machine Manager",
+    "route": "#/luck-royale/machines",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_machines_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 4,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Luck Royale Studio Overview"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_pools",
+    "domain": "05 Luck Royale Studio",
+    "name": "Reward Pool Editor",
+    "route": "#/luck-royale/pools",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_pools_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Reward Pool Editor"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_pity",
+    "domain": "05 Luck Royale Studio",
+    "name": "Lucky Meter & Pity",
+    "route": "#/luck-royale/pity",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_pity_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Lucky Meter & Pity Configuration"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_currencies",
+    "domain": "05 Luck Royale Studio",
+    "name": "Currencies & Vouchers",
+    "route": "#/luck-royale/currencies",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_currencies_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Vouchers & Spin Costs"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_forge",
+    "domain": "05 Luck Royale Studio",
+    "name": "Incubator Forge",
+    "route": "#/luck-royale/forge",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_forge_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Incubator Forge Recipes"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_events",
+    "domain": "05 Luck Royale Studio",
+    "name": "Events & Discounts",
+    "route": "#/luck-royale/events",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_events_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Events & Discounts"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_banners",
+    "domain": "05 Luck Royale Studio",
+    "name": "Banner Overrides",
+    "route": "#/luck-royale/banners",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_banners_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Gacha Banner Overrides"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_player",
+    "domain": "05 Luck Royale Studio",
+    "name": "Player Gacha State",
+    "route": "#/luck-royale/player",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_player_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Player Gacha State (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_transactions",
+    "domain": "05 Luck Royale Studio",
+    "name": "Spin Audit Ledger",
+    "route": "#/luck-royale/transactions",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_transactions_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 55,
+      "emojiSamples": [
+        "➕",
+        "🔄",
+        "📥",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 56,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 528,
+      "headings": [
+        "Transaction Explorer",
+        "Total Transactions",
+        "Diamonds Burned",
+        "Gold Burned",
+        "Grand Prize Jackpots"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_simulator",
+    "domain": "05 Luck Royale Studio",
+    "name": "Probability Simulator",
+    "route": "#/luck-royale/simulator",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_simulator_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 1,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 2,
+      "headings": [
+        "Probability Simulator (Monte Carlo)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_config",
+    "domain": "05 Luck Royale Studio",
+    "name": "Config Backup",
+    "route": "#/luck-royale/config",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_config_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "🧭"
+      ],
+      "cardCount": 0,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 1,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 0,
+      "headings": [],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_modes",
+    "domain": "06 Game Management",
+    "name": "Game Modes",
+    "route": "#/game/modes",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_modes_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 25,
+      "emojiSamples": [
+        "🔓",
+        "🔒",
+        "🔄",
+        "⚠",
+        "🎮",
+        "🏆",
+        "🎯",
+        "🔍",
+        "☰",
+        "⚙"
+      ],
+      "cardCount": 6,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 48,
+      "inputCount": 17,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 406,
+      "headings": [
+        "Game Modes Management",
+        "Total Modes\n          🎮",
+        "Active / Unlocked\n          ●",
+        "Locked / Disabled\n          ○",
+        "Ranked Modes\n          🏆"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_maps",
+    "domain": "06 Game Management",
+    "name": "Map Rotation",
+    "route": "#/game/maps",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_maps_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "🔄",
+        "🗺",
+        "📡"
+      ],
+      "cardCount": 7,
+      "tableCount": 2,
+      "unwrappedTableCount": 0,
+      "buttonCount": 10,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 238,
+      "headings": [
+        "Map Rotation & Territory Control",
+        "Active Territories\n          🗺️",
+        "Mode Allocation\n          ●",
+        "Combat Gateway\n          📡"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_matchmaking",
+    "domain": "06 Game Management",
+    "name": "Matchmaking Queue",
+    "route": "#/game/matchmaking",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_matchmaking_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 21,
+      "headings": [
+        "1.39 Matchmaking Protocol Architecture"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_rooms",
+    "domain": "06 Game Management",
+    "name": "Custom Rooms",
+    "route": "#/game/rooms",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_rooms_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 28,
+      "headings": [
+        "Custom Room Engine Specification & Modif"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_mail",
+    "domain": "07 Social & Communication",
+    "name": "Mailbox Manager",
+    "route": "#/social/mail",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_mail_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 9,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Mailbox (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_mail_compose",
+    "domain": "07 Social & Communication",
+    "name": "Compose Mail",
+    "route": "#/social/mail-compose",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_mail_compose_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 2,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 11,
+      "headings": [
+        "Compose System Mail"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_friends",
+    "domain": "07 Social & Communication",
+    "name": "Friends Manager",
+    "route": "#/social/friends",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_friends_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Friends & Social (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_squads",
+    "domain": "07 Social & Communication",
+    "name": "Squad Manager",
+    "route": "#/social/squads",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_squads_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Squad Lobby (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_banners",
+    "domain": "08 Content Management",
+    "name": "Billboard Banners",
+    "route": "#/cms/banners",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_banners_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 1,
+      "overflowingSamples": [
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 175,
+          "clientWidth": 172
+        }
+      ],
+      "emojiCount": 63,
+      "emojiSamples": [
+        "📁",
+        "⚡",
+        "🔄",
+        "📥",
+        "✕"
+      ],
+      "cardCount": 3,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 256,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 815,
+      "headings": [
+        "Free Fire 1.39 Lobby Billboard Simulator",
+        "Billboard Ad Rotation Queue",
+        "Banner Image Texture Repository"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_lobby",
+    "domain": "08 Content Management",
+    "name": "Lobby CMS & Splash",
+    "route": "#/cms/lobby",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_lobby_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 4,
+      "emojiSamples": [
+        "⚡",
+        "📁",
+        "✕",
+        "🔄"
+      ],
+      "cardCount": 2,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 20,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 65,
+      "headings": [
+        "Free Fire 1.39 Startup Splash Popup Simu",
+        "Login Splash Sequence Queue"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_announcements",
+    "domain": "08 Content Management",
+    "name": "Announcements",
+    "route": "#/cms/announcements",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_announcements_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 3,
+      "overflowingSamples": [
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 2627,
+          "clientWidth": 1280
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 415,
+          "clientWidth": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 405,
+          "clientWidth": 320
+        }
+      ],
+      "emojiCount": 5,
+      "emojiSamples": [
+        "✦",
+        "⚡",
+        "🔄"
+      ],
+      "cardCount": 4,
+      "tableCount": 2,
+      "unwrappedTableCount": 0,
+      "buttonCount": 32,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 99,
+      "headings": [
+        "Free Fire 1.39 Bulletin Board Simulator",
+        "Welcome to India V1!",
+        "In-Game Announcements Manager",
+        "Marquee Ticker Broadcast Queue"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_api",
+    "domain": "09 Logs & Monitoring",
+    "name": "API Wire Traffic",
+    "route": "#/logs/api",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_api_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 4,
+      "overflowingSamples": [
+        {
+          "tag": "td",
+          "className": "",
+          "scrollWidth": 514,
+          "clientWidth": 463
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "scrollWidth": 627,
+          "clientWidth": 463
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "scrollWidth": 514,
+          "clientWidth": 463
+        }
+      ],
+      "emojiCount": 4,
+      "emojiSamples": [
+        "🔄",
+        "🗑",
+        "📥",
+        "⚡"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 306,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 2153,
+      "headings": [
+        "API Live Monitor",
+        "Total Tracked",
+        "2xx Successful",
+        "4xx / 5xx Errors",
+        "Active Stream Interval"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_audit",
+    "domain": "09 Logs & Monitoring",
+    "name": "Audit Logs",
+    "route": "#/logs/audit",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_audit_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "🔄",
+        "📥"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 5,
+      "inputCount": 3,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 29,
+      "headings": [
+        "Administrative Audit Log",
+        "Total Audit Events",
+        "Economy Grants",
+        "Gacha Rolls & Exchanges",
+        "Config & Permissions"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_transactions",
+    "domain": "09 Logs & Monitoring",
+    "name": "Transaction History",
+    "route": "#/logs/transactions",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_transactions_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 55,
+      "emojiSamples": [
+        "➕",
+        "🔄",
+        "📥",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 56,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 528,
+      "headings": [
+        "Transaction Explorer",
+        "Total Transactions",
+        "Diamonds Burned",
+        "Gold Burned",
+        "Grand Prize Jackpots"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_settings",
+    "domain": "10 System",
+    "name": "Server Settings",
+    "route": "#/system/settings",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_settings_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "🔄",
+        "⚠"
+      ],
+      "cardCount": 7,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 6,
+      "inputCount": 6,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 39,
+      "headings": [
+        "Server Settings & Architecture",
+        "REST API & UI Gateway\n            ACTIVE",
+        "TCP Lobby Sync\n            LISTENING",
+        "UDP Dedicated Combat\n            STANDBY",
+        "Client Target Protocol\n            OB17 "
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_database",
+    "domain": "10 System",
+    "name": "Database Viewer",
+    "route": "#/system/database",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_database_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "📘",
+        "🔄",
+        "📥"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 53,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 533,
+      "headings": [
+        "Database Table Browser",
+        "Engine & Storage",
+        "Journal & Concurrency",
+        "Schema Tables",
+        "Integrity Verification"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_security",
+    "domain": "10 System",
+    "name": "Security & Access",
+    "route": "#/system/security",
+    "viewport": "1600x900",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_security_1600x900.png",
+    "metrics": {
+      "canvasWidth": 1330,
+      "canvasScrollWidth": 1330,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 6,
+      "emojiSamples": [
+        "🛡",
+        "🔄",
+        "👁",
+        "💾",
+        "🎲",
+        "📋"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 7,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 42,
+      "headings": [
+        "Security & Token Controls",
+        "Admin Auth State",
+        "Secrets Leak Policy",
+        "Wire Obfuscation",
+        "Rate Limiting"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "overview_main",
+    "domain": "01 Overview",
+    "name": "Main Dashboard",
+    "route": "#/overview/main",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\overview_main_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 10,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 12,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 170,
+      "headings": [
+        "Command Overview",
+        "Active Player Context",
+        "Account Population",
+        "Throughput Telemetry",
+        "Registered Game Assets"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "overview_monitoring",
+    "domain": "01 Overview",
+    "name": "Server Monitoring",
+    "route": "#/overview/monitoring",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\overview_monitoring_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 8,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 112,
+      "inputCount": 3,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1075,
+      "headings": [
+        "Server Monitoring & Telemetry",
+        "Throughput Rate",
+        "Wire Payload Volume",
+        "Active Player Telemetry",
+        "Buffer Saturation"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_directory",
+    "domain": "02 Player Management",
+    "name": "Player Directory",
+    "route": "#/players/directory",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_directory_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 33,
+      "emojiSamples": [
+        "👥",
+        "🎯",
+        "⚡",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 4,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 65,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 311,
+      "headings": [
+        "Player Directory & Account Fleet",
+        "Total Database Accounts\n          👥",
+        "Active Player Context\n          🎯",
+        "Direct Account Switcher\n            ⚡"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_inspector",
+    "domain": "02 Player Management",
+    "name": "Player Inspector",
+    "route": "#/players/inspector",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_inspector_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "👤",
+        "🎖",
+        "❤"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 10,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 65,
+      "headings": [
+        "Player Inspector: PushpaGG"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_account",
+    "domain": "02 Player Management",
+    "name": "Account Manager",
+    "route": "#/players/account",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_account_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 6,
+      "inputCount": 7,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 31,
+      "headings": [
+        "Account Manager & Provisioning"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_bans",
+    "domain": "02 Player Management",
+    "name": "Ban & Sanction Manager",
+    "route": "#/players/bans",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_bans_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 5,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 33,
+      "headings": [
+        "Ban Manager & Sanction Controls"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "players_sessions",
+    "domain": "02 Player Management",
+    "name": "Live Sessions",
+    "route": "#/players/sessions",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\players_sessions_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "⚠"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 2,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 7,
+      "headings": [],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_manager",
+    "domain": "03 Inventory & Collection",
+    "name": "Inventory Manager",
+    "route": "#/inventory/manager",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_manager_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "⚡"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 94,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 360,
+      "headings": [
+        "Vault & Item Studio (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_characters",
+    "domain": "03 Inventory & Collection",
+    "name": "Character Manager",
+    "route": "#/inventory/characters",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_characters_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 47,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 309,
+      "headings": [
+        "Character Manager (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_pets",
+    "domain": "03 Inventory & Collection",
+    "name": "Pet Manager",
+    "route": "#/inventory/pets",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_pets_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "🐾"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 27,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 99,
+      "headings": [
+        "Pet Companion Studio (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "inventory_wardrobe",
+    "domain": "03 Inventory & Collection",
+    "name": "Cosmetics & Wardrobe",
+    "route": "#/inventory/wardrobe",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\inventory_wardrobe_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 11,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 69,
+      "headings": [
+        "Cosmetics & Wardrobe (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "economy_currencies",
+    "domain": "04 Economy",
+    "name": "Currency Manager",
+    "route": "#/economy/currencies",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\economy_currencies_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 5,
+      "emojiSamples": [
+        "🔄",
+        "🪙",
+        "💎"
+      ],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 15,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 56,
+      "headings": [
+        "Currency Manager (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "economy_wallet",
+    "domain": "04 Economy",
+    "name": "Player Wallet",
+    "route": "#/economy/wallet",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\economy_wallet_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "💳",
+        "🪙",
+        "💎"
+      ],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 7,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 53,
+      "headings": [
+        "Player Wallet Inspector (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_overview",
+    "domain": "05 Luck Royale Studio",
+    "name": "Studio Overview",
+    "route": "#/luck-royale/overview",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_overview_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 4,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Luck Royale Studio Overview"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_machines",
+    "domain": "05 Luck Royale Studio",
+    "name": "Machine Manager",
+    "route": "#/luck-royale/machines",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_machines_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 4,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Luck Royale Studio Overview"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_pools",
+    "domain": "05 Luck Royale Studio",
+    "name": "Reward Pool Editor",
+    "route": "#/luck-royale/pools",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_pools_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Reward Pool Editor"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_pity",
+    "domain": "05 Luck Royale Studio",
+    "name": "Lucky Meter & Pity",
+    "route": "#/luck-royale/pity",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_pity_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Lucky Meter & Pity Configuration"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_currencies",
+    "domain": "05 Luck Royale Studio",
+    "name": "Currencies & Vouchers",
+    "route": "#/luck-royale/currencies",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_currencies_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Vouchers & Spin Costs"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_forge",
+    "domain": "05 Luck Royale Studio",
+    "name": "Incubator Forge",
+    "route": "#/luck-royale/forge",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_forge_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Incubator Forge Recipes"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_events",
+    "domain": "05 Luck Royale Studio",
+    "name": "Events & Discounts",
+    "route": "#/luck-royale/events",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_events_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Events & Discounts"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_banners",
+    "domain": "05 Luck Royale Studio",
+    "name": "Banner Overrides",
+    "route": "#/luck-royale/banners",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_banners_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Gacha Banner Overrides"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_player",
+    "domain": "05 Luck Royale Studio",
+    "name": "Player Gacha State",
+    "route": "#/luck-royale/player",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_player_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Player Gacha State (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_transactions",
+    "domain": "05 Luck Royale Studio",
+    "name": "Spin Audit Ledger",
+    "route": "#/luck-royale/transactions",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_transactions_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 55,
+      "emojiSamples": [
+        "➕",
+        "🔄",
+        "📥",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 56,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 528,
+      "headings": [
+        "Transaction Explorer",
+        "Total Transactions",
+        "Diamonds Burned",
+        "Gold Burned",
+        "Grand Prize Jackpots"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_simulator",
+    "domain": "05 Luck Royale Studio",
+    "name": "Probability Simulator",
+    "route": "#/luck-royale/simulator",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_simulator_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 1,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 2,
+      "headings": [
+        "Probability Simulator (Monte Carlo)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "luck_royale_config",
+    "domain": "05 Luck Royale Studio",
+    "name": "Config Backup",
+    "route": "#/luck-royale/config",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\luck_royale_config_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 1,
+      "emojiSamples": [
+        "🧭"
+      ],
+      "cardCount": 0,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 1,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 0,
+      "headings": [],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_modes",
+    "domain": "06 Game Management",
+    "name": "Game Modes",
+    "route": "#/game/modes",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_modes_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 25,
+      "emojiSamples": [
+        "🔓",
+        "🔒",
+        "🔄",
+        "⚠",
+        "🎮",
+        "🏆",
+        "🎯",
+        "🔍",
+        "☰",
+        "⚙"
+      ],
+      "cardCount": 6,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 48,
+      "inputCount": 17,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 406,
+      "headings": [
+        "Game Modes Management",
+        "Total Modes\n          🎮",
+        "Active / Unlocked\n          ●",
+        "Locked / Disabled\n          ○",
+        "Ranked Modes\n          🏆"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_maps",
+    "domain": "06 Game Management",
+    "name": "Map Rotation",
+    "route": "#/game/maps",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_maps_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "🔄",
+        "🗺",
+        "📡"
+      ],
+      "cardCount": 7,
+      "tableCount": 2,
+      "unwrappedTableCount": 0,
+      "buttonCount": 10,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 238,
+      "headings": [
+        "Map Rotation & Territory Control",
+        "Active Territories\n          🗺️",
+        "Mode Allocation\n          ●",
+        "Combat Gateway\n          📡"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_matchmaking",
+    "domain": "06 Game Management",
+    "name": "Matchmaking Queue",
+    "route": "#/game/matchmaking",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_matchmaking_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 21,
+      "headings": [
+        "1.39 Matchmaking Protocol Architecture"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "game_rooms",
+    "domain": "06 Game Management",
+    "name": "Custom Rooms",
+    "route": "#/game/rooms",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\game_rooms_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 28,
+      "headings": [
+        "Custom Room Engine Specification & Modif"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_mail",
+    "domain": "07 Social & Communication",
+    "name": "Mailbox Manager",
+    "route": "#/social/mail",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_mail_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 9,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 12,
+      "headings": [
+        "Mailbox (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_mail_compose",
+    "domain": "07 Social & Communication",
+    "name": "Compose Mail",
+    "route": "#/social/mail-compose",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_mail_compose_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 2,
+      "inputCount": 4,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 11,
+      "headings": [
+        "Compose System Mail"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_friends",
+    "domain": "07 Social & Communication",
+    "name": "Friends Manager",
+    "route": "#/social/friends",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_friends_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Friends & Social (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "social_squads",
+    "domain": "07 Social & Communication",
+    "name": "Squad Manager",
+    "route": "#/social/squads",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\social_squads_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 0,
+      "emojiSamples": [],
+      "cardCount": 1,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 0,
+      "inputCount": 0,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 1,
+      "headings": [
+        "Squad Lobby (Account: 10001)"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_banners",
+    "domain": "08 Content Management",
+    "name": "Billboard Banners",
+    "route": "#/cms/banners",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_banners_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 2,
+      "overflowingSamples": [
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 175,
+          "clientWidth": 166
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 169,
+          "clientWidth": 166
+        }
+      ],
+      "emojiCount": 63,
+      "emojiSamples": [
+        "📁",
+        "⚡",
+        "🔄",
+        "📥",
+        "✕"
+      ],
+      "cardCount": 3,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 256,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 815,
+      "headings": [
+        "Free Fire 1.39 Lobby Billboard Simulator",
+        "Billboard Ad Rotation Queue",
+        "Banner Image Texture Repository"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_lobby",
+    "domain": "08 Content Management",
+    "name": "Lobby CMS & Splash",
+    "route": "#/cms/lobby",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_lobby_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 4,
+      "emojiSamples": [
+        "⚡",
+        "📁",
+        "✕",
+        "🔄"
+      ],
+      "cardCount": 2,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 20,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 65,
+      "headings": [
+        "Free Fire 1.39 Startup Splash Popup Simu",
+        "Login Splash Sequence Queue"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "cms_announcements",
+    "domain": "08 Content Management",
+    "name": "Announcements",
+    "route": "#/cms/announcements",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\cms_announcements_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 3,
+      "overflowingSamples": [
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 2625,
+          "clientWidth": 1046
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 415,
+          "clientWidth": 320
+        },
+        {
+          "tag": "div",
+          "className": "",
+          "scrollWidth": 405,
+          "clientWidth": 320
+        }
+      ],
+      "emojiCount": 5,
+      "emojiSamples": [
+        "✦",
+        "⚡",
+        "🔄"
+      ],
+      "cardCount": 4,
+      "tableCount": 2,
+      "unwrappedTableCount": 0,
+      "buttonCount": 32,
+      "inputCount": 2,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 99,
+      "headings": [
+        "Free Fire 1.39 Bulletin Board Simulator",
+        "Welcome to India V1!",
+        "In-Game Announcements Manager",
+        "Marquee Ticker Broadcast Queue"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_api",
+    "domain": "09 Logs & Monitoring",
+    "name": "API Wire Traffic",
+    "route": "#/logs/api",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_api_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 53,
+      "overflowingSamples": [
+        {
+          "tag": "td",
+          "className": "",
+          "scrollWidth": 436,
+          "clientWidth": 378
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "scrollWidth": 387,
+          "clientWidth": 378
+        },
+        {
+          "tag": "td",
+          "className": "",
+          "scrollWidth": 387,
+          "clientWidth": 378
+        }
+      ],
+      "emojiCount": 4,
+      "emojiSamples": [
+        "🔄",
+        "🗑",
+        "📥",
+        "⚡"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 413,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 2932,
+      "headings": [
+        "API Live Monitor",
+        "Total Tracked",
+        "2xx Successful",
+        "4xx / 5xx Errors",
+        "Active Stream Interval"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_audit",
+    "domain": "09 Logs & Monitoring",
+    "name": "Audit Logs",
+    "route": "#/logs/audit",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_audit_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 1,
+      "overflowingSamples": [
+        {
+          "tag": "td",
+          "className": "",
+          "scrollWidth": 434,
+          "clientWidth": 362
+        }
+      ],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "🔄",
+        "📥"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 5,
+      "inputCount": 3,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 29,
+      "headings": [
+        "Administrative Audit Log",
+        "Total Audit Events",
+        "Economy Grants",
+        "Gacha Rolls & Exchanges",
+        "Config & Permissions"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "logs_transactions",
+    "domain": "09 Logs & Monitoring",
+    "name": "Transaction History",
+    "route": "#/logs/transactions",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\logs_transactions_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 55,
+      "emojiSamples": [
+        "➕",
+        "🔄",
+        "📥",
+        "💎",
+        "🪙"
+      ],
+      "cardCount": 6,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 56,
+      "inputCount": 5,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 528,
+      "headings": [
+        "Transaction Explorer",
+        "Total Transactions",
+        "Diamonds Burned",
+        "Gold Burned",
+        "Grand Prize Jackpots"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_settings",
+    "domain": "10 System",
+    "name": "Server Settings",
+    "route": "#/system/settings",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_settings_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 2,
+      "emojiSamples": [
+        "🔄",
+        "⚠"
+      ],
+      "cardCount": 7,
+      "tableCount": 0,
+      "unwrappedTableCount": 0,
+      "buttonCount": 6,
+      "inputCount": 6,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 39,
+      "headings": [
+        "Server Settings & Architecture",
+        "REST API & UI Gateway\n            ACTIVE",
+        "TCP Lobby Sync\n            LISTENING",
+        "UDP Dedicated Combat\n            STANDBY",
+        "Client Target Protocol\n            OB17 "
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_database",
+    "domain": "10 System",
+    "name": "Database Viewer",
+    "route": "#/system/database",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_database_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 3,
+      "emojiSamples": [
+        "📘",
+        "🔄",
+        "📥"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 53,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 533,
+      "headings": [
+        "Database Table Browser",
+        "Engine & Storage",
+        "Journal & Concurrency",
+        "Schema Tables",
+        "Integrity Verification"
+      ],
+      "hasContent": true
+    }
+  },
+  {
+    "id": "system_security",
+    "domain": "10 System",
+    "name": "Security & Access",
+    "route": "#/system/security",
+    "viewport": "1366x768",
+    "screenshotPath": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\docs\\dashboard\\audit_screenshots\\system_security_1366x768.png",
+    "metrics": {
+      "canvasWidth": 1096,
+      "canvasScrollWidth": 1096,
+      "rootOverflowX": false,
+      "canvasOverflowX": false,
+      "overflowingCount": 0,
+      "overflowingSamples": [],
+      "emojiCount": 6,
+      "emojiSamples": [
+        "🛡",
+        "🔄",
+        "👁",
+        "💾",
+        "🎲",
+        "📋"
+      ],
+      "cardCount": 7,
+      "tableCount": 1,
+      "unwrappedTableCount": 0,
+      "buttonCount": 7,
+      "inputCount": 1,
+      "emptyStateCount": 0,
+      "inlineStyleCount": 42,
+      "headings": [
+        "Security & Token Controls",
+        "Admin Auth State",
+        "Secrets Leak Policy",
+        "Wire Obfuscation",
+        "Rate Limiting"
+      ],
+      "hasContent": true
+    }
+  }
+]

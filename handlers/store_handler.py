@@ -33,11 +33,15 @@ item, character, pet, and mail unlocks.
 from __future__ import annotations
 
 import copy
+import logging
 import random
 import threading
 import time
 from typing import Any, Dict, List, Optional, Tuple
 
+logger = logging.getLogger("store_handler")
+
+from core.database import db
 from core.state import DEFAULT_ACCOUNT_ID, state
 from proto.store_models import (
     BUNDLE_DEFINITIONS,
@@ -332,31 +336,101 @@ class StoreService:
         return encode_send_gift_res(remove_ids=receivers, send_gift_times_today=today)
 
     def exchange_purchase(self, req: Dict[str, Any], account_id: int = DEFAULT_ACCOUNT_ID) -> bytes:
-        """Handle /ExchangeStorePurchase -> grants redeemed item and keeps wallet infinite."""
+        """Handle /ExchangeStorePurchase -> validates token balances, deducts tokens, and grants redeemed items."""
         store_id = int(req.get("store_id", 1))
         commodity_id = int(req.get("commodity_id", 0))
         cnt = max(1, int(req.get("cnt", 1)))
         trans_id = self._alloc_trans_id(int(req.get("trans_id", 0)))
 
         with self._lock:
-            item_id = 700000001
+            target_item = None
             for st in self._exchange_stores:
                 if int(st["exchange_store_desc"]["store_id"]) == store_id or store_id == 0:
                     for it in st.get("exchange_store_items", []):
                         if int(it["commodity_id"]) == commodity_id:
-                            item_id = int(it["item_id"])
+                            target_item = it
                             break
+                    if target_item:
+                        break
+
+            if not target_item:
+                item_id = 700000001
+                granted = self._grant_unlocked_item(item_id, cnt)
+                change_data = encode_exchange_change_data(
+                    trans_id=trans_id,
+                    add_item_list=[granted],
+                    reason=TransReason.EXCHANGESTORE_PURCHASE,
+                )
+                return encode_exchange_store_purchase_res(change_data=change_data, purchase_times=1)
+
+            item_id = int(target_item["item_id"])
+            currency_id = int(target_item.get("currency_id", 110200001))
+            currency_price = int(target_item.get("currency_price", 0))
+            total_cost = currency_price * cnt
+
+            # Check token balance (including legacy aliases)
+            if total_cost > 0:
+                cur_tokens = state.get_item_count(currency_id, account_id=account_id)
+                alias_id = 801000001 if currency_id == 110200001 else None
+                if alias_id and cur_tokens < total_cost:
+                    cur_tokens += state.get_item_count(alias_id, account_id=account_id)
+
+                if cur_tokens < total_cost:
+                    logger.warning(
+                        "ExchangeStorePurchase insufficient tokens account=%s need=%s have=%s",
+                        account_id,
+                        total_cost,
+                        cur_tokens,
+                    )
+                    acc_counts = self._exchange_purchases.get(account_id, {})
+                    change_data = encode_exchange_change_data(
+                        trans_id=trans_id,
+                        reason=TransReason.EXCHANGESTORE_PURCHASE,
+                    )
+                    return encode_exchange_store_purchase_res(
+                        change_data=change_data,
+                        purchase_times=acc_counts.get((store_id, commodity_id), 0),
+                    )
+
+                # Deduct token items atomically
+                ok = state.consume_item(currency_id, total_cost, account_id=account_id)
+                if not ok and alias_id:
+                    ok = state.consume_item(alias_id, total_cost, account_id=account_id)
+                if not ok:
+                    acc_counts = self._exchange_purchases.get(account_id, {})
+                    change_data = encode_exchange_change_data(
+                        trans_id=trans_id,
+                        reason=TransReason.EXCHANGESTORE_PURCHASE,
+                    )
+                    return encode_exchange_store_purchase_res(
+                        change_data=change_data,
+                        purchase_times=acc_counts.get((store_id, commodity_id), 0),
+                    )
 
             granted = self._grant_unlocked_item(item_id, cnt)
+            state.add_item(item_id, cnt, account_id=account_id)
             acc_counts = self._exchange_purchases.setdefault(account_id, {})
             key = (store_id, commodity_id)
             acc_counts[key] = acc_counts.get(key, 0) + cnt
             ptimes = acc_counts[key]
-            self._ensure_infinite_wallet(account_id)
+
+            db.log_action(
+                account_id,
+                "GACHA_TOKEN_EXCHANGE",
+                f"Exchanged {total_cost} tokens for item {item_id} x{cnt} (store={store_id}, commodity={commodity_id})",
+                {
+                    "store_id": store_id,
+                    "commodity_id": commodity_id,
+                    "item_id": item_id,
+                    "token_cost": total_cost,
+                    "purchase_times": ptimes,
+                },
+            )
 
         change_data = encode_exchange_change_data(
             trans_id=trans_id,
             add_item_list=[granted],
+            del_item_list=[{"item_id": currency_id, "cnt": total_cost}] if total_cost > 0 else [],
             coins_delta=0,
             gems_delta=0,
             reason=TransReason.EXCHANGESTORE_PURCHASE,

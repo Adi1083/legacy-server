@@ -84,18 +84,36 @@ def _get_selected_avatar_id(account_id: int = DEFAULT_ACCOUNT_ID) -> int:
 
 
 def _sync_selected_profile(char: Dict[str, Any], account_id: int = DEFAULT_ACCOUNT_ID) -> None:
-    """Propagate active character visuals/skills into the account profile."""
+    """Propagate active character visuals/skills into the account profile and push TCP sync."""
     if not char.get("is_selected"):
         return
+    aid = int(char["avatar_id"])
+    skin_color = int(char.get("skin_color", 0))
+    clothes = list(char.get("clothes") or [])
     state.update_profile(
         account_id,
-        avatar_id=int(char["avatar_id"]),
-        skin_color=int(char.get("skin_color", 0)),
-        clothes=list(char.get("clothes") or []),
+        avatar_id=aid,
+        skin_color=skin_color,
+        clothes=clothes,
         equiped_skills=list(char.get("equiped_skills") or []),
         unlocked_level=int(char.get("unlocked_level", 8)),
         pve_primary_weapon=int(char.get("pve_primary_weapon", 0)),
     )
+    try:
+        from core.player import player_manager
+        p = player_manager.get_player(account_id)
+        if p:
+            p.avatar_id = aid
+            p.skin_color = skin_color
+            p.clothes = list(clothes)
+    except Exception:
+        pass
+
+    try:
+        from handlers.inventory_handler import inventory_service
+        inventory_service.notify_lobby_change(account_id)
+    except Exception:
+        pass
 
 
 def _resolve_selected_pet(account_id: int = DEFAULT_ACCOUNT_ID) -> Optional[Dict[str, Any]]:
@@ -342,6 +360,11 @@ def _handle_change_clothes(
         char = state.get_character(aid) or char
 
     _sync_selected_profile(char, account_id=account_id)
+    try:
+        from handlers.inventory_handler import inventory_service
+        inventory_service.notify_lobby_change(account_id)
+    except Exception:
+        pass
     handler.send_proto(
         "CSChangeClothesRes",
         encode_change_clothes_res(char),

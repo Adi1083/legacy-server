@@ -7,29 +7,30 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css">
   <style>
     /* ==========================================================================
        CSS VARIABLES & THEME TOKENS
        ========================================================================== */
     :root {
-      --tr-bg-base: #06090f;
-      --tr-bg-surface: rgba(12, 18, 29, 0.85);
-      --tr-bg-surface-elevated: rgba(18, 26, 41, 0.92);
-      --tr-bg-card: rgba(15, 23, 42, 0.72);
-      --tr-bg-card-hover: rgba(22, 33, 59, 0.82);
-      --tr-bg-input: rgba(8, 13, 22, 0.88);
+      --tr-bg-base: #f5f5f7;
+      --tr-bg-surface: #ffffff;
+      --tr-bg-surface-elevated: #fbfbfd;
+      --tr-bg-card: #ffffff;
+      --tr-bg-card-hover: #f4f4f7;
+      --tr-bg-input: #f2f2f7;
       
-      --tr-border: rgba(255, 255, 255, 0.08);
-      --tr-border-subtle: rgba(255, 255, 255, 0.04);
+      --tr-border: #e5e5ea;
+      --tr-border-subtle: #f2f2f7;
       --tr-border-hover: rgba(56, 189, 248, 0.35);
-      --tr-border-accent: #38bdf8;
+      --tr-border-accent: #0071e3;
 
-      --tr-text-primary: #f8fafc;
-      --tr-text-secondary: #94a3b8;
-      --tr-text-muted: #64748b;
-      --tr-text-dim: #475569;
+      --tr-text-primary: #1d1d1f;
+      --tr-text-secondary: #6e6e73;
+      --tr-text-muted: #6e6e73;
+      --tr-text-dim: #86868b;
 
-      --tr-cyan: #38bdf8;
+      --tr-cyan: #0071e3;
       --tr-cyan-glow: rgba(56, 189, 248, 0.2);
       --tr-indigo: #818cf8;
       --tr-indigo-glow: rgba(129, 140, 248, 0.2);
@@ -46,6 +47,7 @@
       --tr-radius-md: 10px;
       --tr-radius-lg: 14px;
       --tr-shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      --apple-spring: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,11 +55,9 @@
     html, body {
       height: 100%;
       width: 100%;
-      background: radial-gradient(circle at 10% 10%, #0d172e 0%, transparent 45%),
-                  radial-gradient(circle at 90% 90%, #0a1120 0%, transparent 45%),
-                  var(--tr-bg-base);
+      background: #f5f5f7;
       color: var(--tr-text-primary);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 'Plus Jakarta Sans', sans-serif;
       font-size: 13px;
       line-height: 1.5;
       overflow: hidden; /* Strict viewport-fitted workspace */
@@ -190,10 +190,11 @@
       cursor: pointer;
       user-select: none;
       white-space: nowrap;
-      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 120ms var(--apple-spring), background 120ms var(--apple-spring), border-color 120ms var(--apple-spring), box-shadow 120ms var(--apple-spring);
+      will-change: transform;
     }
     .tr-btn:hover { transform: translateY(-1px); }
-    .tr-btn:active { transform: translateY(0); }
+    .tr-btn:active { transform: scale(0.97); }
 
     .tr-btn-primary {
       background: linear-gradient(135deg, #0284c7, #38bdf8);
@@ -1106,6 +1107,7 @@
       transform: translateY(0);
     }
   </style>
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css?v=3">
 </head>
 <body>
 

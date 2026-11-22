@@ -1,0 +1,418 @@
+/* ==========================================================================
+   APPLE LIGHT HIG THEME OVERRIDES FOR ALL DASHBOARD MODULES
+   Zero Emojis — Clean San Francisco Aesthetics & Light Palette
+   ========================================================================== */
+
+:root {
+  --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", sans-serif;
+  --apple-mono: "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+
+  /* Base Common Tokens */
+  --bg-base: #f5f5f7 !important;
+  --bg-surface: #ffffff !important;
+  --bg-surface-elevated: #fbfbfd !important;
+  --bg-card: #ffffff !important;
+  --bg-card-hover: #f4f4f7 !important;
+  --bg-input: #f2f2f7 !important;
+  --border: #e5e5ea !important;
+  --border-subtle: #f2f2f7 !important;
+  --border-accent: #0071e3 !important;
+  --border-hover: #0071e3 !important;
+  --text-primary: #1d1d1f !important;
+  --text-secondary: #6e6e73 !important;
+  --text-tertiary: #86868b !important;
+  --text-main: #1d1d1f !important;
+  --text-muted: #6e6e73 !important;
+  --text-dim: #86868b !important;
+  --accent: #0071e3 !important;
+  --accent-glow: rgba(0, 113, 227, 0.15) !important;
+  --cyan: #0071e3 !important;
+  --cyan-glow: rgba(0, 113, 227, 0.15) !important;
+  --green: #34c759 !important;
+  --green-glow: rgba(52, 199, 89, 0.15) !important;
+  --gold: #ff9500 !important;
+  --gold-glow: rgba(255, 149, 0, 0.15) !important;
+  --rose: #ff3b30 !important;
+  --rose-glow: rgba(255, 59, 48, 0.15) !important;
+
+  /* banners.html tokens (--b-*) */
+  --b-bg-base: #f5f5f7 !important;
+  --b-bg-surface: #ffffff !important;
+  --b-bg-surface-elevated: #fbfbfd !important;
+  --b-bg-input: #f2f2f7 !important;
+  --b-border: #e5e5ea !important;
+  --b-border-hover: #0071e3 !important;
+  --b-border-active: #0071e3 !important;
+  --b-text-main: #1d1d1f !important;
+  --b-text-muted: #6e6e73 !important;
+  --b-text-dim: #86868b !important;
+  --b-cyan: #0071e3 !important;
+  --b-cyan-glow: rgba(0, 113, 227, 0.15) !important;
+  --b-indigo: #5856d6 !important;
+  --b-green: #34c759 !important;
+  --b-gold: #ff9500 !important;
+  --b-rose: #ff3b30 !important;
+  --b-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02) !important;
+
+  /* tracker.html tokens (--tr-*) */
+  --tr-bg-base: #f5f5f7 !important;
+  --tr-bg-surface: #ffffff !important;
+  --tr-bg-surface-elevated: #fbfbfd !important;
+  --tr-bg-card: #ffffff !important;
+  --tr-bg-card-hover: #f4f4f7 !important;
+  --tr-bg-input: #f2f2f7 !important;
+  --tr-border: #e5e5ea !important;
+  --tr-border-subtle: #f2f2f7 !important;
+  --tr-border-hover: #0071e3 !important;
+  --tr-border-accent: #0071e3 !important;
+  --tr-text-primary: #1d1d1f !important;
+  --tr-text-secondary: #6e6e73 !important;
+  --tr-text-muted: #86868b !important;
+  --tr-text-dim: #aeaeb2 !important;
+  --tr-cyan: #0071e3 !important;
+  --tr-cyan-glow: rgba(0, 113, 227, 0.15) !important;
+
+  /* social.html tokens (--s-*) */
+  --s-bg-base: #f5f5f7 !important;
+  --s-bg-surface: #ffffff !important;
+  --s-bg-surface-elevated: #fbfbfd !important;
+  --s-bg-input: #f2f2f7 !important;
+  --s-border: #e5e5ea !important;
+  --s-border-hover: #0071e3 !important;
+  --s-border-active: #0071e3 !important;
+  --s-text-main: #1d1d1f !important;
+  --s-text-muted: #6e6e73 !important;
+  --s-text-dim: #86868b !important;
+  --s-cyan: #0071e3 !important;
+  --s-indigo: #5856d6 !important;
+  --s-green: #34c759 !important;
+  --s-gold: #ff9500 !important;
+
+  /* vault.html tokens (--v-*) */
+  --v-bg-base: #f5f5f7 !important;
+  --v-bg-surface: #ffffff !important;
+  --v-bg-surface-elevated: #fbfbfd !important;
+  --v-bg-card: #ffffff !important;
+  --v-bg-input: #f2f2f7 !important;
+  --v-border: #e5e5ea !important;
+  --v-border-subtle: #f2f2f7 !important;
+  --v-border-hover: #0071e3 !important;
+  --v-border-active: #0071e3 !important;
+  --v-text-main: #1d1d1f !important;
+  --v-text-muted: #6e6e73 !important;
+  --v-text-dim: #86868b !important;
+  --v-cyan: #0071e3 !important;
+
+  /* luck_royale.html tokens (--lr-*) */
+  --lr-bg-base: #f5f5f7 !important;
+  --lr-bg-surface: #ffffff !important;
+  --lr-bg-surface-elevated: #fbfbfd !important;
+  --lr-bg-card: #ffffff !important;
+  --lr-bg-input: #f2f2f7 !important;
+  --lr-border: #e5e5ea !important;
+  --lr-border-subtle: #f2f2f7 !important;
+  --lr-border-strong: #d1d1d6 !important;
+  --lr-text-primary: #1d1d1f !important;
+  --lr-text-secondary: #6e6e73 !important;
+  --lr-text-tertiary: #86868b !important;
+  --lr-blue: #0071e3 !important;
+  --lr-green: #34c759 !important;
+  --lr-gold: #ff9500 !important;
+}
+
+/* ==========================================================================
+   GLOBAL CANVAS & TYPOGRAPHY
+   ========================================================================== */
+html, body {
+  background: #f5f5f7 !important;
+  background-image: none !important;
+  color: #1d1d1f !important;
+  font-family: var(--apple-font) !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Root Layout Containers */
+.evt-root, .tr-app-shell, .s-workspace, .v-workspace, .modes-root, 
+.container, .main-layout, .app-container, .wrapper {
+  background: #f5f5f7 !important;
+  background-image: none !important;
+  color: #1d1d1f !important;
+}
+
+/* ==========================================================================
+   SURFACES, CARDS & CONTAINERS
+   ========================================================================== */
+.b-card, .tr-card, .tr-metric-card, .card, .panel, .module-box,
+.b-card.flex-1, .s-card, .v-card, .evt-card, .modes-card,
+.b-gallery-card, .b-splash-card, .b-mq-card, .preset-card,
+.slot-card, .stat-card, .detail-card, .v-item-card, .s-squad-card {
+  background: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid #e5e5ea !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02) !important;
+  color: #1d1d1f !important;
+}
+
+.b-gallery-card:hover, .b-splash-card:hover, .card:hover, .v-item-card:hover {
+  background: #ffffff !important;
+  border-color: #0071e3 !important;
+  box-shadow: 0 4px 16px rgba(0, 113, 227, 0.12) !important;
+}
+
+/* Header Bars & Topbars in Modules */
+.b-topbar, .tr-topbar, .header-bar, .b-subtabs-nav, .app-header,
+.evt-header, .s-topbar, .v-topbar, .modes-header, .branding-header {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-bottom: 1px solid #e5e5ea !important;
+  color: #1d1d1f !important;
+}
+
+/* Sidebar & Navigation Panels */
+.b-filter-bar, .tr-subnav, .evt-filter-bar, .filter-bar, .subnav, .nav-bar {
+  background: #ffffff !important;
+  border: 1px solid #e5e5ea !important;
+  border-radius: 10px !important;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY OVERRIDES
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6,
+.b-title, .tr-brand-info h1, .card-title, .b-card-title,
+.tr-metric-val, .stat-val, .evt-title, .modes-title {
+  color: #1d1d1f !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+}
+
+p, label, .text-muted, .b-card-desc, .tr-metric-label, .tr-metric-sub,
+.stat-sub, .form-label, .field-desc, .caption {
+  color: #6e6e73 !important;
+}
+
+.monospace, code, pre, .font-mono {
+  font-family: var(--apple-mono) !important;
+}
+
+/* ==========================================================================
+   INPUTS, SELECTS, TEXTAREAS & CONTROLS
+   ========================================================================== */
+input, select, textarea,
+.tr-input, .tr-select, .b-input, .b-select, .s-input, .v-input,
+.text-input, .form-control {
+  background: #f2f2f7 !important;
+  background-image: none !important;
+  color: #1d1d1f !important;
+  border: 1px solid #e5e5ea !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  outline: none !important;
+  transition: all 120ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+input:focus, select:focus, textarea:focus,
+.tr-input:focus, .tr-select:focus, .b-input:focus, .b-select:focus {
+  background: #ffffff !important;
+  border-color: #0071e3 !important;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15) !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #86868b !important;
+}
+
+/* ==========================================================================
+   TABLES & DATA GRIDS
+   ========================================================================== */
+table, .b-data-table, .tr-table, .s-table, .v-table, .data-table {
+  background: #ffffff !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid #e5e5ea !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+table th, .b-data-table th, .table-header th {
+  background: #fafafc !important;
+  color: #6e6e73 !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  border-bottom: 1px solid #e5e5ea !important;
+  padding: 10px 14px !important;
+}
+
+table td, .b-data-table td {
+  background: #ffffff !important;
+  color: #1d1d1f !important;
+  border-bottom: 1px solid #f2f2f7 !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+}
+
+table tr:last-child td {
+  border-bottom: none !important;
+}
+
+table tr:hover td {
+  background: #f4f4f7 !important;
+}
+
+/* ==========================================================================
+   BUTTONS & ACTION CONTROLS
+   ========================================================================== */
+.btn-primary, .b-btn-primary, .btn-action.primary, .btn-submit {
+  background: #0071e3 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  padding: 7px 16px !important;
+  box-shadow: 0 1px 2px rgba(0, 113, 227, 0.2) !important;
+  cursor: pointer !important;
+  transition: all 120ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-primary:hover, .b-btn-primary:hover, .btn-action.primary:hover {
+  background: #0077ed !important;
+  transform: translateY(-0.5px) !important;
+}
+
+.btn-secondary, .b-btn-secondary, .btn-action, .btn-default {
+  background: #ffffff !important;
+  color: #1d1d1f !important;
+  border: 1px solid #e5e5ea !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  padding: 7px 14px !important;
+  cursor: pointer !important;
+  transition: all 120ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-secondary:hover, .b-btn-secondary:hover, .btn-action:hover {
+  background: #f2f2f7 !important;
+  border-color: #d1d1d6 !important;
+}
+
+/* Sub-nav Buttons & Filter Pills */
+.b-subtab-btn, .tr-subnav-btn, .evt-subnav-btn, .filter-pill, .b-filter-pill {
+  background: transparent !important;
+  color: #6e6e73 !important;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+.b-subtab-btn.active, .tr-subnav-btn.active, .evt-subnav-btn.active,
+.filter-pill.active, .b-filter-pill.active {
+  background: #ffffff !important;
+  color: #0071e3 !important;
+  border-color: #e5e5ea !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   BADGES, TAGS & STATUS PILLS
+   ========================================================================== */
+.badge, .tag, .chip, .b-badge, .status-pill, .status-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 3px 8px !important;
+  border-radius: 9999px !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+}
+
+.badge-green, .b-badge-green, .tag-pill.green, .chip-success {
+  background: #edf9f0 !important;
+  color: #1b813e !important;
+  border: 1px solid rgba(52, 199, 89, 0.25) !important;
+}
+
+.badge-blue, .b-badge-cyan, .chip-info, .tag-pill.blue {
+  background: #e8f2fc !important;
+  color: #0071e3 !important;
+  border: 1px solid rgba(0, 113, 227, 0.25) !important;
+}
+
+.badge-orange, .b-badge-gold, .chip-warning, .tag-pill.orange {
+  background: #fff4e5 !important;
+  color: #b25000 !important;
+  border: 1px solid rgba(255, 149, 0, 0.25) !important;
+}
+
+.badge-red, .b-badge-rose, .chip-danger, .tag-pill.red {
+  background: #feeceb !important;
+  color: #d70015 !important;
+  border: 1px solid rgba(255, 59, 48, 0.25) !important;
+}
+
+.badge-dim, .b-badge-dim, .chip-neutral {
+  background: #f2f2f7 !important;
+  color: #6e6e73 !important;
+  border: 1px solid #e5e5ea !important;
+}
+
+/* ==========================================================================
+   MODALS, DRAWERS & OVERLAYS
+   ========================================================================== */
+.modal-overlay, .modal-backdrop, .b-drawer-overlay, .overlay {
+  background: rgba(0, 0, 0, 0.35) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.modal-content, .b-modal-card, .b-drawer, .modal-dialog,
+.b-drawer-body, .b-drawer-header, .b-drawer-footer,
+.b-modal-body, .b-modal-header, .b-modal-footer {
+  background: #ffffff !important;
+  color: #1d1d1f !important;
+  border-color: #e5e5ea !important;
+}
+
+.b-drawer {
+  border-left: 1px solid #e5e5ea !important;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.b-modal-card, .modal-content {
+  border: 1px solid #e5e5ea !important;
+  border-radius: 14px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ==========================================================================
+   DROPZONES, THUMBNAILS & PREVIEWS
+   ========================================================================== */
+.b-dropzone, .dropzone, .upload-box, .b-drawer-thumb-preview {
+  background: #fbfbfd !important;
+  border: 1.5px dashed #d1d1d6 !important;
+  border-radius: 10px !important;
+  color: #6e6e73 !important;
+}
+
+.b-dropzone:hover, .dropzone:hover {
+  background: #f2f2f7 !important;
+  border-color: #0071e3 !important;
+}
+
+/* ==========================================================================
+   SCROLLBARS
+   ========================================================================== */
+::-webkit-scrollbar { width: 6px !important; height: 6px !important; }
+::-webkit-scrollbar-track { background: transparent !important; }
+::-webkit-scrollbar-thumb { background: #d1d1d6 !important; border-radius: 3px !important; }
+::-webkit-scrollbar-thumb:hover { background: #aeaeb2 !important; }

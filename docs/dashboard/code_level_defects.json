@@ -1,0 +1,1224 @@
+{
+  "announcements.js": {
+    "path": "server/static/dashboard/src/modules\\cms\\announcements.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\cms\\announcements.js",
+    "inline_style_count": 101,
+    "unique_styles_sample": [
+      "display: flex; flex-direction: column; gap: 14px;",
+      "font-size: 22px; font-weight: 700; color: var(--accent-emerald); margin: 3px 0;",
+      "background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 12px;",
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;",
+      "font-family: var(--font-mono); font-size: 11.5px; color: var(--text-tertiary); width: 40px; text-align: center;"
+    ],
+    "emoji_count": 4,
+    "unique_emojis": [
+      "\u26a1",
+      "\ud83d\udd04",
+      "\u2726"
+    ],
+    "hardcoded_color_count": 19,
+    "color_samples": [
+      "rgba(255,255,255,0.04)",
+      "rgba(10, 16, 28, 0.7)",
+      "rgba(56, 189, 248, 0.08)",
+      "#000",
+      "rgba(10, 16, 28, 0.45)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "glass-card-body",
+      "glass-card-subtitle"
+    ],
+    "table_count": 2
+  },
+  "banners.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\banners.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\banners.js",
+    "inline_style_count": 26,
+    "unique_styles_sample": [
+      "padding: 6px 12px; font-size: 11.5px; white-space: nowrap;",
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "width: 100%; height: 100%; object-fit: cover;",
+      "display: flex; gap: 8px; align-items: center;",
+      "margin-bottom: 28px;"
+    ],
+    "emoji_count": 1,
+    "unique_emojis": [
+      "\ud83d\udd04"
+    ],
+    "hardcoded_color_count": 9,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(0,0,0,0.4)",
+      "rgba(244, 63, 94, 0.4)",
+      "rgba(10, 16, 28, 0.5)",
+      "#fff"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 0
+  },
+  "events.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\events.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\events.js",
+    "inline_style_count": 23,
+    "unique_styles_sample": [
+      "padding: 3px 8px; font-size: 11px;",
+      "display: block; font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;",
+      "color: var(--text-secondary); font-size: 12px;",
+      "font-family: var(--font-mono); font-weight: 700; color: var(--accent-cyan);",
+      "border-color: rgba(244, 63, 94, 0.4);"
+    ],
+    "emoji_count": 2,
+    "unique_emojis": [
+      "\u2795",
+      "\ud83d\udd04"
+    ],
+    "hardcoded_color_count": 3,
+    "color_samples": [
+      "rgba(244, 63, 94, 0.4)",
+      "#fff"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "index.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\index.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\index.js",
+    "inline_style_count": 0,
+    "unique_styles_sample": [],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 0,
+    "color_samples": [],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "lobby.js": {
+    "path": "server/static/dashboard/src/modules\\cms\\lobby.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\cms\\lobby.js",
+    "inline_style_count": 81,
+    "unique_styles_sample": [
+      "display: flex; flex-direction: column; gap: 14px;",
+      "font-size: 13.5px; font-weight: 500; color: #fff;",
+      "display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-tertiary); padding: 40px;",
+      "background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 12px;",
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;"
+    ],
+    "emoji_count": 6,
+    "unique_emojis": [
+      "\ud83d\udcc1",
+      "\ud83d\udd04",
+      "\ud83d\udcfa",
+      "\u26a1",
+      "\ud83d\uddbc",
+      "\u2715"
+    ],
+    "hardcoded_color_count": 18,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(10, 16, 28, 0.95)",
+      "rgba(0,0,0,0.7)",
+      "rgba(255,255,255,0.15)",
+      "rgba(0,0,0,0.8)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "glass-card-body",
+      "glass-card-subtitle"
+    ],
+    "table_count": 1
+  },
+  "currencies.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\currencies.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\currencies.js",
+    "inline_style_count": 45,
+    "unique_styles_sample": [
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "font-size: 11px; color: var(--text-tertiary);",
+      "flex: 1; padding: 4px 6px; font-size: 11px;",
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;",
+      "font-family: var(--font-mono); font-size: 12px; color: #fff;"
+    ],
+    "emoji_count": 18,
+    "unique_emojis": [
+      "\ud83e\uddca",
+      "\ud83d\udd04",
+      "\ud83d\udd2b",
+      "\ud83d\udd28",
+      "\ud83c\udf9f",
+      "\ud83d\udc8e",
+      "\ud83e\ude99",
+      "\ud83d\udcdc",
+      "\ud83c\udccf"
+    ],
+    "hardcoded_color_count": 14,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "#fff",
+      "rgba(245, 158, 11, 0.3)",
+      "rgba(244, 63, 94, 0.4)",
+      "rgba(56, 189, 248, 0.3)"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "wallet.js": {
+    "path": "server/static/dashboard/src/modules\\economy\\wallet.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\economy\\wallet.js",
+    "inline_style_count": 53,
+    "unique_styles_sample": [
+      "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-subtle);",
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px;",
+      "display: flex; align-items: center; gap: 16px;",
+      "font-size: 11px; color: var(--accent-cyan); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;",
+      "font-size: 11px; color: var(--text-tertiary);"
+    ],
+    "emoji_count": 3,
+    "unique_emojis": [
+      "\ud83d\udcb3",
+      "\ud83e\ude99",
+      "\ud83d\udc8e"
+    ],
+    "hardcoded_color_count": 31,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(255, 255, 255, 0.01)",
+      "rgba(56, 189, 248, 0.35)",
+      "rgba(255, 255, 255, 0.05)",
+      "#fbbf24"
+    ],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "maps.js": {
+    "path": "server/static/dashboard/src/modules\\game\\maps.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\game\\maps.js",
+    "inline_style_count": 44,
+    "unique_styles_sample": [
+      "font-family: var(--font-mono); font-size: 11.5px;",
+      "font-size: 12px; color: var(--text-tertiary); margin-bottom: 12px;",
+      "font-size: 10.5px; background: rgba(255,255,255,0.05); color: var(--text-secondary); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border-subtle);",
+      "font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;",
+      "font-family: var(--font-mono); font-size: 11px;"
+    ],
+    "emoji_count": 3,
+    "unique_emojis": [
+      "\ud83d\uddfa",
+      "\ud83d\udd04",
+      "\ud83d\udce1"
+    ],
+    "hardcoded_color_count": 3,
+    "color_samples": [
+      "#039",
+      "rgba(0,0,0,0.25)",
+      "rgba(255,255,255,0.05)"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 2
+  },
+  "matchmaking.js": {
+    "path": "server/static/dashboard/src/modules\\game\\matchmaking.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\game\\matchmaking.js",
+    "inline_style_count": 20,
+    "unique_styles_sample": [
+      "font-size: 12px; font-weight: 600; color: var(--accent-amber); margin-bottom: 6px;",
+      "font-size: 12px; font-weight: 600; color: var(--accent-emerald); margin-bottom: 6px;",
+      "font-family: var(--font-mono); color: var(--text-primary);",
+      "font-size: 12px; font-weight: 600; color: var(--accent-cyan); margin-bottom: 6px;",
+      "color: var(--accent-cyan);"
+    ],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 3,
+    "color_samples": [
+      "rgba(0,0,0,0.25)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "glass-card-body",
+      "glass-card-subtitle"
+    ],
+    "table_count": 1
+  },
+  "modes.js": {
+    "path": "server/static/dashboard/src/modules\\game\\modes.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\game\\modes.js",
+    "inline_style_count": 58,
+    "unique_styles_sample": [
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;",
+      "display: flex; flex-direction: column; gap: 14px;",
+      "border-color: rgba(244, 63, 94, 0.4); max-width: 600px; margin: 40px auto; text-align: center;",
+      "font-size: 11.5px; color: var(--text-secondary); line-height: 1.45; min-height: 32px; background: rgba(0,0,0,0.2); padding: 8px 10px; border-radius: var(--radius-xs);",
+      "display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"
+    ],
+    "emoji_count": 12,
+    "unique_emojis": [
+      "\ud83d\udd13",
+      "\ud83d\udd0d",
+      "\u26a0",
+      "\ud83d\udd04",
+      "\ud83d\udd12",
+      "\ud83c\udfc6",
+      "\u2630",
+      "\ud83c\udfae",
+      "\u2699",
+      "\ud83c\udfaf"
+    ],
+    "hardcoded_color_count": 7,
+    "color_samples": [
+      "rgba(0,0,0,0.2)",
+      "rgba(0,0,0,0.3)",
+      "rgba(244, 63, 94, 0.4)",
+      "rgba(255, 255, 255, 0.2)",
+      "rgba(0,0,0,0.15)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "mode-glass-card ${isEnabled ? "
+    ],
+    "table_count": 1
+  },
+  "rooms.js": {
+    "path": "server/static/dashboard/src/modules\\game\\rooms.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\game\\rooms.js",
+    "inline_style_count": 27,
+    "unique_styles_sample": [
+      "font-size: 11px; text-transform: uppercase; color: var(--accent-emerald); font-weight: 600; margin-bottom: 4px;",
+      "font-size: 11.5px; color: var(--text-secondary); line-height: 1.4;",
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 20px;",
+      "max-width: 1400px; margin: 0 auto;",
+      "color: var(--accent-cyan);"
+    ],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 4,
+    "color_samples": [
+      "rgba(0,0,0,0.25)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "glass-card-body",
+      "glass-card-subtitle"
+    ],
+    "table_count": 1
+  },
+  "characters.js": {
+    "path": "server/static/dashboard/src/modules\\inventory\\characters.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\inventory\\characters.js",
+    "inline_style_count": 29,
+    "unique_styles_sample": [
+      "display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 16px;",
+      "display: flex; align-items: center; gap: 16px;",
+      "background: ${isSelected ? ",
+      "font-size: 11px; color: var(--text-secondary); line-height: 1.45;",
+      "font-size: 10.5px; color: var(--text-tertiary);"
+    ],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 29,
+    "color_samples": [
+      "rgba(8, 14, 26, 0.75)",
+      "rgba(0, 0, 0, 0.25)",
+      "#a855f7",
+      "#64748b",
+      "#14b8a6"
+    ],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "manager.js": {
+    "path": "server/static/dashboard/src/modules\\inventory\\manager.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\inventory\\manager.js",
+    "inline_style_count": 44,
+    "unique_styles_sample": [
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;",
+      "display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 16px;",
+      "font-size: 18px; font-weight: 700; color: var(--accent-amber); margin: 3px 0;",
+      "display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;",
+      "padding: 2px 8px; font-size: 11px;"
+    ],
+    "emoji_count": 1,
+    "unique_emojis": [
+      "\u26a1"
+    ],
+    "hardcoded_color_count": 25,
+    "color_samples": [
+      "rgba(244, 63, 94, 0.12)",
+      "rgba(255, 255, 255, 0.01)",
+      "rgba(255, 255, 255, 0.08)",
+      "rgba(255, 255, 255, 0.04)",
+      "rgba(16, 185, 129, 0.45)"
+    ],
+    "card_classes": [
+      "vault-card"
+    ],
+    "table_count": 1
+  },
+  "pets.js": {
+    "path": "server/static/dashboard/src/modules\\inventory\\pets.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\inventory\\pets.js",
+    "inline_style_count": 23,
+    "unique_styles_sample": [
+      "font-size: 10.5px; color: var(--text-tertiary); text-transform: uppercase; font-weight: 600; margin-bottom: 6px;",
+      "width: 100%; font-size: 11.5px;",
+      "display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 600; color: var(--accent-emerald); margin-bottom: 4px;",
+      "font-size: 11px; color: var(--text-secondary); line-height: 1.45;",
+      "font-size: 11px; color: var(--accent-cyan); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;"
+    ],
+    "emoji_count": 1,
+    "unique_emojis": [
+      "\ud83d\udc3e"
+    ],
+    "hardcoded_color_count": 35,
+    "color_samples": [
+      "rgba(8, 14, 26, 0.75)",
+      "rgba(0, 0, 0, 0.25)",
+      "#64748b",
+      "rgba(56, 189, 248, 0.08)",
+      "#1e293b"
+    ],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "wardrobe.js": {
+    "path": "server/static/dashboard/src/modules\\inventory\\wardrobe.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\inventory\\wardrobe.js",
+    "inline_style_count": 20,
+    "unique_styles_sample": [
+      "background: rgba(10, 16, 28, 0.4); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px;",
+      "font-size: 11px; color: var(--accent-cyan); text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em;",
+      "width: 100%; font-size: 11px;",
+      "background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px; margin-bottom: 12px; font-family: var(--font-mono); font-size: 10.5px; color: var(--accent-amber);",
+      "background: rgba(10, 16, 28, 0.45); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; justify-content: space-between;"
+    ],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 9,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(8, 14, 26, 0.75)",
+      "rgba(14, 28, 54, 0.65)",
+      "rgba(10, 16, 28, 0.45)",
+      "rgba(0,0,0,0.3)"
+    ],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "api.js": {
+    "path": "server/static/dashboard/src/modules\\logs\\api.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\logs\\api.js",
+    "inline_style_count": 68,
+    "unique_styles_sample": [
+      "font-family: var(--font-mono); color: var(--text-tertiary); font-size: 11px;",
+      "color: var(--text-tertiary);",
+      "height: 140px; overflow: auto; padding: 12px; font-family: var(--font-mono); font-size: 11px; line-height: 1.5; color: #d4d4d4; margin: 0; white-space: pre-wrap;",
+      "display: flex; gap: 8px; align-items: center;",
+      "font-size: 11px; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase;"
+    ],
+    "emoji_count": 4,
+    "unique_emojis": [
+      "\ud83d\udce5",
+      "\ud83d\uddd1",
+      "\ud83d\udd04",
+      "\u26a1"
+    ],
+    "hardcoded_color_count": 21,
+    "color_samples": [
+      "rgba(0,0,0,0.45)",
+      "#4ec9b0",
+      "#ce9178",
+      "#9cdcfe",
+      "#d4d4d4"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "stat-card",
+      "glass-card-subtitle",
+      "glass-card-actions"
+    ],
+    "table_count": 1
+  },
+  "audit.js": {
+    "path": "server/static/dashboard/src/modules\\logs\\audit.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\logs\\audit.js",
+    "inline_style_count": 47,
+    "unique_styles_sample": [
+      "color: var(--text-secondary); max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+      "font-family: var(--font-mono); color: var(--text-tertiary); font-size: 11px;",
+      "color: var(--text-tertiary);",
+      "display: flex; gap: 8px; align-items: center;",
+      "font-size: 11px; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase;"
+    ],
+    "emoji_count": 4,
+    "unique_emojis": [
+      "\ud83d\udce5",
+      "\ud83e\ude99",
+      "\ud83d\udd04",
+      "\ud83d\udc8e"
+    ],
+    "hardcoded_color_count": 9,
+    "color_samples": [
+      "rgba(0,0,0,0.45)",
+      "rgba(0,0,0,0.3)",
+      "rgba(0,0,0,0.25)",
+      "#fff"
+    ],
+    "card_classes": [
+      "stat-card",
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "transactions.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\transactions.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\transactions.js",
+    "inline_style_count": 29,
+    "unique_styles_sample": [
+      "font-family: var(--font-mono); color: var(--text-tertiary); font-size: 11px;",
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "font-family: var(--font-mono); font-size: 11.5px;",
+      "font-size: 11px; padding: 4px 10px;",
+      "font-family: var(--font-mono); font-weight: 600; font-size: 12px;"
+    ],
+    "emoji_count": 6,
+    "unique_emojis": [
+      "\ud83c\udd93",
+      "\ud83d\udd04",
+      "\ud83d\udce5",
+      "\ud83c\udf9f",
+      "\ud83d\udc8e",
+      "\ud83e\ude99"
+    ],
+    "hardcoded_color_count": 5,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(244, 63, 94, 0.4)",
+      "#fff",
+      "rgba(255,255,255,0.06)"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "config.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\config.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\config.js",
+    "inline_style_count": 18,
+    "unique_styles_sample": [
+      "width: 100%; height: 320px; background: rgba(5, 8, 17, 0.85); color: #38bdf8; font-family: var(--font-mono); font-size: 11.5px; border: 1px solid var(--border-default); border-radius: var(--radius-sm); padding: 12px; resize: vertical; line-height: 1.45;",
+      "font-size: 14px; font-weight: 600; color: #fff;",
+      "display: flex; gap: 8px;",
+      "font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 10px;",
+      "margin: 8px 0 8px 20px; font-size: 12px; color: var(--text-primary);"
+    ],
+    "emoji_count": 6,
+    "unique_emojis": [
+      "\u2705",
+      "\ud83d\udccb",
+      "\ud83d\udd04",
+      "\ud83d\udcbe"
+    ],
+    "hardcoded_color_count": 11,
+    "color_samples": [
+      "rgba(16, 185, 129, 0.3)",
+      "rgba(16, 185, 129, 0.08)",
+      "#38bdf8",
+      "rgba(10, 16, 28, 0.5)",
+      "rgba(5, 8, 17, 0.85)"
+    ],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "forge.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\forge.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\forge.js",
+    "inline_style_count": 54,
+    "unique_styles_sample": [
+      "display: grid; grid-template-columns: 2fr 1fr; gap: 8px;",
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "color: var(--text-tertiary);",
+      "display: inline-block; padding: 2px 8px; background: rgba(255, 255, 255, 0.06); border-radius: 4px; margin-right: 4px; font-size: 11px;",
+      "display: grid; grid-template-columns: 2fr 1fr; gap: 10px;"
+    ],
+    "emoji_count": 3,
+    "unique_emojis": [
+      "\u2795",
+      "\ud83d\udd04",
+      "\u2715"
+    ],
+    "hardcoded_color_count": 6,
+    "color_samples": [
+      "rgba(255, 255, 255, 0.06)",
+      "rgba(0,0,0,0.25)",
+      "rgba(244, 63, 94, 0.4)",
+      "#fff"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "machines.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\machines.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\machines.js",
+    "inline_style_count": 50,
+    "unique_styles_sample": [
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "display: grid; grid-template-columns: 1fr 1fr; gap: 12px;",
+      "display: block; font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;",
+      "color: var(--text-secondary); font-size: 12px;",
+      "font-family: var(--font-mono); font-weight: 600; color: var(--accent-cyan);"
+    ],
+    "emoji_count": 5,
+    "unique_emojis": [
+      "\ud83d\udd04",
+      "\u2795",
+      "\ud83d\udc8e",
+      "\ud83e\ude99",
+      "\u2715"
+    ],
+    "hardcoded_color_count": 4,
+    "color_samples": [
+      "rgba(244, 63, 94, 0.4)",
+      "#fff"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "overview.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\overview.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\overview.js",
+    "inline_style_count": 61,
+    "unique_styles_sample": [
+      "font-size: 16px; font-weight: 600; color: #fff; margin-top: 2px;",
+      "font-family: var(--font-mono); color: var(--text-tertiary); font-size: 11px;",
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "font-family: var(--font-mono); font-size: 11.5px;",
+      "color: var(--text-tertiary);"
+    ],
+    "emoji_count": 14,
+    "unique_emojis": [
+      "\ud83d\udd04",
+      "\ud83c\udf81",
+      "\ud83d\udcc8",
+      "\ud83c\udfc6",
+      "\ud83d\udd28",
+      "\ud83c\udfb2",
+      "\ud83c\udf9f",
+      "\ud83d\udc8e",
+      "\ud83e\ude99",
+      "\u2699",
+      "\ud83d\udcdc"
+    ],
+    "hardcoded_color_count": 13,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "#fff",
+      "rgba(244, 63, 94, 0.4)",
+      "rgba(255,255,255,0.06)",
+      "rgba(10, 16, 28, 0.5)"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "pity.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\pity.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\pity.js",
+    "inline_style_count": 37,
+    "unique_styles_sample": [
+      "font-size: 16px; font-weight: 600; color: #fff; margin-top: 2px;",
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "background: rgba(10, 16, 28, 0.5); border: 1px solid var(--border-default); border-radius: var(--radius-md); padding: 18px; display: flex; flex-direction: column; justify-content: space-between;",
+      "width: ${pct}%; height: 100%; background: ${isAtCap ? ",
+      "display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;"
+    ],
+    "emoji_count": 5,
+    "unique_emojis": [
+      "\ud83d\udd04",
+      "\u2699",
+      "\ud83c\udfaf",
+      "\ud83c\udfc6"
+    ],
+    "hardcoded_color_count": 7,
+    "color_samples": [
+      "rgba(255, 255, 255, 0.08)",
+      "rgba(244, 63, 94, 0.4)",
+      "rgba(0, 0, 0, 0.25)",
+      "rgba(10, 16, 28, 0.5)",
+      "#fff"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 0
+  },
+  "player.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\player.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\player.js",
+    "inline_style_count": 45,
+    "unique_styles_sample": [
+      "font-family: var(--font-mono); color: var(--text-tertiary); font-size: 11px;",
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "font-family: var(--font-mono); font-weight: 600; color: var(--accent-amber);",
+      "width: ${pct}%; height: 100%; background: ${isReady ? ",
+      "font-size: 12px; color: var(--text-tertiary); margin-top: 4px;"
+    ],
+    "emoji_count": 1,
+    "unique_emojis": [
+      "\ud83d\udd04"
+    ],
+    "hardcoded_color_count": 15,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(255, 255, 255, 0.08)",
+      "rgba(244, 63, 94, 0.4)",
+      "rgba(255,255,255,0.06)",
+      "rgba(10, 16, 28, 0.5)"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 2
+  },
+  "pools.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\pools.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\pools.js",
+    "inline_style_count": 55,
+    "unique_styles_sample": [
+      "font-family: var(--font-mono); font-weight: 600; color: var(--text-primary);",
+      "padding: 8px 12px; color: var(--text-tertiary); font-size: 11px;",
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px;",
+      "font-size: 11px; color: var(--text-tertiary);",
+      "font-size: 11px; color: var(--text-secondary);"
+    ],
+    "emoji_count": 5,
+    "unique_emojis": [
+      "\ud83d\udd04",
+      "\ud83e\udde9",
+      "\u2795",
+      "\u26a1",
+      "\u2715"
+    ],
+    "hardcoded_color_count": 9,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(245, 158, 11, 0.3)",
+      "rgba(56, 189, 248, 0.3)",
+      "#fff"
+    ],
+    "card_classes": [],
+    "table_count": 1
+  },
+  "simulator.js": {
+    "path": "server/static/dashboard/src/modules\\luck-royale\\simulator.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\luck-royale\\simulator.js",
+    "inline_style_count": 40,
+    "unique_styles_sample": [
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;",
+      "border-color: rgba(244, 63, 94, 0.4);",
+      "width: 100%; padding: 8px 14px;",
+      "font-size: 14px; font-weight: 500; color: var(--text-secondary);",
+      "font-size: 24px; font-weight: 700; color: var(--accent-emerald); margin: 4px 0;"
+    ],
+    "emoji_count": 3,
+    "unique_emojis": [
+      "\ud83d\udee1",
+      "\ud83c\udfb2"
+    ],
+    "hardcoded_color_count": 12,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "#fff",
+      "rgba(245, 158, 11, 0.3)",
+      "rgba(244, 63, 94, 0.4)",
+      "rgba(56, 189, 248, 0.3)"
+    ],
+    "card_classes": [
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "main.js": {
+    "path": "server/static/dashboard/src/modules\\overview\\main.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\overview\\main.js",
+    "inline_style_count": 141,
+    "unique_styles_sample": [
+      "font-family: var(--font-mono); color: var(--text-primary); font-size: 11px;",
+      "display: flex; gap: 20px; align-items: center; margin-bottom: 12px;",
+      "color: var(--accent-rose); font-weight: 600; font-size: 13px;",
+      "color: var(--text-tertiary); display: block;",
+      "display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; margin-bottom: 24px;"
+    ],
+    "emoji_count": 4,
+    "unique_emojis": [
+      "\ud83e\ude99",
+      "\ud83d\udce1",
+      "\ud83d\udc8e"
+    ],
+    "hardcoded_color_count": 23,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(244, 63, 94, 0.08)",
+      "#fff",
+      "#fbbf24",
+      "rgba(244, 63, 94, 0.4)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "stat-card",
+      "glass-card-subtitle"
+    ],
+    "table_count": 1
+  },
+  "monitoring.js": {
+    "path": "server/static/dashboard/src/modules\\overview\\monitoring.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\overview\\monitoring.js",
+    "inline_style_count": 112,
+    "unique_styles_sample": [
+      "display: flex; flex-direction: column; gap: 14px;",
+      "margin-bottom: 0; padding: 14px 18px; border-left: 3px solid var(--accent-cyan);",
+      "font-family: var(--font-mono); color: var(--text-tertiary); font-size: 11px;",
+      "color: var(--text-secondary); font-size: 11.5px;",
+      "display: flex; align-items: center; gap: 10px; margin-bottom: 4px;"
+    ],
+    "emoji_count": 2,
+    "unique_emojis": [
+      "\u26a1"
+    ],
+    "hardcoded_color_count": 22,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(244, 63, 94, 0.08)",
+      "#a7f3d0",
+      "#fff",
+      "rgba(0, 0, 0, 0.6)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "stat-card",
+      "glass-card-subtitle"
+    ],
+    "table_count": 1
+  },
+  "account.js": {
+    "path": "server/static/dashboard/src/modules\\players\\account.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\players\\account.js",
+    "inline_style_count": 31,
+    "unique_styles_sample": [
+      "font-size: 12px; color: var(--accent-cyan); font-family: var(--font-mono);",
+      "background: rgba(15, 23, 42, 0.6); padding: 14px; border-radius: 6px; border: 1px solid var(--border-subtle); margin-bottom: 14px;",
+      "font-size: 15px; font-weight: 700; color: #fff;",
+      "width: 100%; height: 36px;",
+      "display: block; font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;"
+    ],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 8,
+    "color_samples": [
+      "rgba(15, 23, 42, 0.6)",
+      "rgba(244, 63, 94, 0.05)",
+      "rgba(244, 63, 94, 0.25)",
+      "rgba(10, 16, 28, 0.5)",
+      "#fff"
+    ],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "bans.js": {
+    "path": "server/static/dashboard/src/modules\\players\\bans.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\players\\bans.js",
+    "inline_style_count": 37,
+    "unique_styles_sample": [
+      "font-size: 12px; color: var(--accent-cyan); font-family: var(--font-mono);",
+      "margin-top: 10px;",
+      "font-size: 11px; color: var(--text-tertiary);",
+      "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;",
+      "display: flex; gap: 12px; font-size: 11.5px; color: var(--text-tertiary);"
+    ],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 11,
+    "color_samples": [
+      "rgba(15, 23, 42, 0.6)",
+      "rgba(244, 63, 94, 0.08)",
+      "rgba(10, 16, 28, 0.5)",
+      "#039",
+      "#fff"
+    ],
+    "card_classes": [],
+    "table_count": 1
+  },
+  "directory.js": {
+    "path": "server/static/dashboard/src/modules\\players\\directory.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\players\\directory.js",
+    "inline_style_count": 58,
+    "unique_styles_sample": [
+      "display: flex; flex-wrap: wrap; gap: 8px; align-items: center; flex: 1; min-width: 280px;",
+      "opacity: 0.4; cursor: not-allowed;",
+      "display: flex; align-items: center; gap: 8px;",
+      "font-size: 12.5px; color: var(--text-secondary); margin-bottom: 16px;",
+      "height: 32px; padding: 4px 12px; font-size: 11px;"
+    ],
+    "emoji_count": 5,
+    "unique_emojis": [
+      "\ud83d\udc65",
+      "\u26a1",
+      "\ud83d\udc8e",
+      "\ud83e\ude99",
+      "\ud83c\udfaf"
+    ],
+    "hardcoded_color_count": 10,
+    "color_samples": [
+      "rgba(15, 23, 42, 0.4)",
+      "#fbbf24",
+      "rgba(56, 189, 248, 0.08)",
+      "rgba(10, 16, 28, 0.45)",
+      "#039"
+    ],
+    "card_classes": [
+      "stat-card"
+    ],
+    "table_count": 1
+  },
+  "inspector.js": {
+    "path": "server/static/dashboard/src/modules\\players\\inspector.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\players\\inspector.js",
+    "inline_style_count": 132,
+    "unique_styles_sample": [
+      "display: flex; flex-direction: column; gap: 14px;",
+      "margin-top: 16px;",
+      "font-size: 11px; color: var(--accent-amber); text-transform: uppercase;",
+      "display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; background: rgba(15, 23, 42, 0.5); padding: 18px; border-radius: 12px; border: 1px solid var(--border-default);",
+      "font-weight: 600; color: #fff; font-size: 14px; margin-bottom: 6px;"
+    ],
+    "emoji_count": 6,
+    "unique_emojis": [
+      "\u2764",
+      "\ud83d\udc64",
+      "\ud83d\udc8e",
+      "\ud83c\udf96",
+      "\ud83d\udc55",
+      "\ud83e\ude99"
+    ],
+    "hardcoded_color_count": 41,
+    "color_samples": [
+      "rgba(0, 0, 0, 0.3)",
+      "rgba(10, 16, 28, 0.7)",
+      "#039",
+      "rgba(15, 23, 42, 0.5)",
+      "rgba(56, 189, 248, 0.08)"
+    ],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "sessions.js": {
+    "path": "server/static/dashboard/src/modules\\players\\sessions.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\players\\sessions.js",
+    "inline_style_count": 21,
+    "unique_styles_sample": [
+      "font-size: 11.5px; color: var(--text-secondary);",
+      "font-size: 20px; font-weight: 700; color: #fff; margin-top: 4px;",
+      "font-family: var(--font-mono); font-size: 11px;",
+      "font-size: 11px; color: var(--text-secondary); margin-top: 2px;",
+      "background: rgba(10, 16, 28, 0.45); padding: 14px 16px; border-radius: 8px; border: 1px solid var(--border-default);"
+    ],
+    "emoji_count": 3,
+    "unique_emojis": [
+      "\ud83c\udf10",
+      "\ud83d\udce1",
+      "\u2694"
+    ],
+    "hardcoded_color_count": 7,
+    "color_samples": [
+      "#039",
+      "#fff",
+      "rgba(10, 16, 28, 0.45)"
+    ],
+    "card_classes": [],
+    "table_count": 2
+  },
+  "friends.js": {
+    "path": "server/static/dashboard/src/modules\\social\\friends.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\social\\friends.js",
+    "inline_style_count": 73,
+    "unique_styles_sample": [
+      "font-size: 11.5px; color: var(--text-secondary); cursor: pointer;",
+      "background: rgba(10, 16, 28, 0.4); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; gap: 8px;",
+      "font-weight: 600; color: #fff; font-size: 12px;",
+      "font-size: 10.5px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; display: block; margin-bottom: 4px;",
+      "display: flex; align-items: center; gap: 12px; min-width: 0;"
+    ],
+    "emoji_count": 2,
+    "unique_emojis": [
+      "\ud83d\udd04",
+      "\u2715"
+    ],
+    "hardcoded_color_count": 12,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(99, 102, 241, 0.3)",
+      "rgba(10, 16, 28, 0.45)",
+      "rgba(56, 189, 248, 0.2)",
+      "rgba(56, 189, 248, 0.4)"
+    ],
+    "card_classes": [
+      "glass-card-subtitle",
+      "glass-card",
+      "glass-card-title",
+      "glass-card-header"
+    ],
+    "table_count": 0
+  },
+  "mail-compose.js": {
+    "path": "server/static/dashboard/src/modules\\social\\mail-compose.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\social\\mail-compose.js",
+    "inline_style_count": 79,
+    "unique_styles_sample": [
+      "\n          background: rgba(15, 23, 42, 0.75);\n          backdrop-filter: var(--blur-sm);\n          border: 1px solid rgba(56, 189, 248, 0.35);\n          border-radius: var(--radius-sm);\n          padding: 6px 10px;\n          display: inline-flex;\n          align-items: center;\n          gap: 8px;\n          font-size: 11.5px;\n          color: var(--text-primary);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);\n        ",
+      "display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px; margin-bottom: 14px;",
+      "font-size: 10.5px; font-weight: 600; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 8px;",
+      "font-size: 11px; color: var(--accent-cyan); font-weight: 600;",
+      "font-size: 11px; color: var(--text-tertiary);"
+    ],
+    "emoji_count": 12,
+    "unique_emojis": [
+      "\ud83c\udf81",
+      "\ud83c\udfc6",
+      "\ud83d\ude80",
+      "\ud83d\udce6",
+      "\ud83d\udc8e",
+      "\ud83d\udc51",
+      "\ud83e\ude99",
+      "\ud83d\udee0",
+      "\u2715"
+    ],
+    "hardcoded_color_count": 15,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(15, 23, 42, 0.75)",
+      "rgba(8, 13, 24, 0.95)",
+      "rgba(56, 189, 248, 0.35)",
+      "rgba(0, 0, 0, 0.3)"
+    ],
+    "card_classes": [
+      "glass-card-subtitle",
+      "glass-card",
+      "glass-card-title",
+      "glass-card-header"
+    ],
+    "table_count": 0
+  },
+  "mail.js": {
+    "path": "server/static/dashboard/src/modules\\social\\mail.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\social\\mail.js",
+    "inline_style_count": 82,
+    "unique_styles_sample": [
+      "font-size: 18px;",
+      "color: var(--text-tertiary); font-size: 12px; padding: 10px 0;",
+      "font-size: 11px; font-family: var(--font-mono); color: var(--accent-cyan);",
+      "background: rgba(139, 92, 246, 0.12); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius-sm); padding: 8px 14px; display: flex; align-items: center; gap: 8px;",
+      "font-size: 14px; font-weight: 500; color: var(--text-secondary);"
+    ],
+    "emoji_count": 6,
+    "unique_emojis": [
+      "\ud83d\udd04",
+      "\u2709",
+      "\ud83d\udce6",
+      "\ud83d\udc8e",
+      "\ud83e\ude99",
+      "\u2715"
+    ],
+    "hardcoded_color_count": 16,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.4)",
+      "rgba(56, 189, 248, 0.10)",
+      "rgba(139, 92, 246, 0.3)",
+      "rgba(0, 0, 0, 0.3)",
+      "rgba(245, 158, 11, 0.3)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "glass-card-subtitle",
+      "mail-item-card"
+    ],
+    "table_count": 0
+  },
+  "social-module.js": {
+    "path": "server/static/dashboard/src/modules\\social\\social-module.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\social\\social-module.js",
+    "inline_style_count": 0,
+    "unique_styles_sample": [],
+    "emoji_count": 0,
+    "unique_emojis": [],
+    "hardcoded_color_count": 0,
+    "color_samples": [],
+    "card_classes": [],
+    "table_count": 0
+  },
+  "squads.js": {
+    "path": "server/static/dashboard/src/modules\\social\\squads.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\social\\squads.js",
+    "inline_style_count": 66,
+    "unique_styles_sample": [
+      "font-size: 18px;",
+      "font-weight: 700; color: #fff; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+      "overflow-wrap: anywhere;",
+      "font-size: 11px; padding: 4px 10px;",
+      "font-size: 10.5px; text-transform: uppercase; color: var(--text-tertiary); font-weight: 600; display: block; margin-bottom: 4px;"
+    ],
+    "emoji_count": 4,
+    "unique_emojis": [
+      "\u2715",
+      "\u2705",
+      "\ud83d\udd04",
+      "\u26a1"
+    ],
+    "hardcoded_color_count": 12,
+    "color_samples": [
+      "rgba(56, 189, 248, 0.35)",
+      "rgba(0, 0, 0, 0.3)",
+      "rgba(0, 0, 0, 0.2)",
+      "#02040a",
+      "rgba(255, 255, 255, 0.2)"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "glass-card squad-slot-card-empty",
+      "glass-card-subtitle",
+      "glass-card squad-slot-card"
+    ],
+    "table_count": 0
+  },
+  "database.js": {
+    "path": "server/static/dashboard/src/modules\\system\\database.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\system\\database.js",
+    "inline_style_count": 43,
+    "unique_styles_sample": [
+      "font-size: 18px;",
+      "width: 220px; padding: 6px 10px;",
+      "font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: #fff;",
+      "display: flex; align-items: center; gap: 8px;",
+      "font-family: var(--font-mono); font-weight: 600; font-size: 12.5px; color: ${tbl.name === activeSelectedTable ? "
+    ],
+    "emoji_count": 3,
+    "unique_emojis": [
+      "\ud83d\udce5",
+      "\ud83d\udcd8",
+      "\ud83d\udd04"
+    ],
+    "hardcoded_color_count": 12,
+    "color_samples": [
+      "rgba(0,0,0,0.45)",
+      "rgba(56, 189, 248, 0.35)",
+      "rgba(56, 189, 248, 0.15)",
+      "rgba(0,0,0,0.25)",
+      "#fff"
+    ],
+    "card_classes": [
+      "stat-card",
+      "glass-card"
+    ],
+    "table_count": 1
+  },
+  "security.js": {
+    "path": "server/static/dashboard/src/modules\\system\\security.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\system\\security.js",
+    "inline_style_count": 35,
+    "unique_styles_sample": [
+      "color: var(--text-secondary); font-size: 12px; line-height: 1.4;",
+      "font-weight: 600; color: #fff; font-size: 12px;",
+      "display: flex; gap: 8px; align-items: center;",
+      "font-size: 11px; color: var(--text-tertiary);",
+      "margin-bottom: 30px;"
+    ],
+    "emoji_count": 10,
+    "unique_emojis": [
+      "\ud83d\udccb",
+      "\ud83d\udc41",
+      "\ud83d\udd04",
+      "\ud83d\udd12",
+      "\ud83d\udee1",
+      "\ud83c\udfb2",
+      "\ud83d\udcbe"
+    ],
+    "hardcoded_color_count": 12,
+    "color_samples": [
+      "rgba(0,0,0,0.25)",
+      "#fff"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "stat-card",
+      "glass-card-subtitle",
+      "glass-card-actions"
+    ],
+    "table_count": 1
+  },
+  "settings.js": {
+    "path": "server/static/dashboard/src/modules\\system\\settings.js",
+    "rel_path": "server\\static\\dashboard\\src\\modules\\system\\settings.js",
+    "inline_style_count": 39,
+    "unique_styles_sample": [
+      "display: flex; flex-direction: column; gap: 14px;",
+      "font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px;",
+      "font-weight: 600; color: #fff; font-size: 12px;",
+      "display: flex; gap: 8px; align-items: center;",
+      "font-size: 11px; color: var(--text-tertiary);"
+    ],
+    "emoji_count": 2,
+    "unique_emojis": [
+      "\ud83d\udd04",
+      "\u26a0"
+    ],
+    "hardcoded_color_count": 11,
+    "color_samples": [
+      "rgba(10, 16, 28, 0.7)",
+      "rgba(56, 189, 248, 0.15)",
+      "rgba(0, 0, 0, 0.35)",
+      "rgba(0,0,0,0.25)",
+      "#fff"
+    ],
+    "card_classes": [
+      "glass-card",
+      "glass-card-header",
+      "glass-card-title",
+      "stat-card",
+      "glass-card-subtitle",
+      "glass-card-actions"
+    ],
+    "table_count": 0
+  }
+}

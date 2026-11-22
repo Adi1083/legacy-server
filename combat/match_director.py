@@ -15,11 +15,15 @@ from __future__ import annotations
 import enum
 import math
 import random
+import threading
 import time
 from typing import Dict, Any, List, Optional, Tuple, Callable
 
 from .world_constants import (
     BERMUDA_LANDMARKS,
+    BERMUDA_WAITING_ISLAND_CENTER,
+    BERMUDA_WAITING_ISLAND_RADIUS,
+    BERMUDA_WAITING_ISLAND_SPAWN_RADIUS,
     MAP_MIN_X, MAP_MAX_X, MAP_MIN_Z, MAP_MAX_Z, MAP_CENTER_X, MAP_CENTER_Z
 )
 from .world_engine import WorldEngine, CombatPlayer
@@ -29,6 +33,9 @@ from .combat_packet_codec import (
     S2C_BattleStart,
     S2C_ParachuteSync,
     RUDP_SafeZoneChange,
+    PlayerPosItem,
+    UDP_PlayerPositionBatch,
+    UDP_PlayerPositionOnly,
 )
 
 
@@ -124,7 +131,7 @@ class MatchInstance:
                  match_mode: int = 1,
                  server_addr: str = "10.0.2.2:39800",
                  waiting_duration: float = 60.0,
-                 bot_count: int = 2,
+                 bot_count: int = 49,
                  prepare_token: Optional[str] = None,
                  secret: Optional[str] = None):
         self.match_id: int = match_id
@@ -156,9 +163,10 @@ class MatchInstance:
         self.human_player_ids: List[str] = []
         self.drop_states: Dict[str, PlayerDropState] = {}
         
-        # Spawn Island Definition
-        self.spawn_island_center = (-500.0, 10.0, 800.0)
-        self.spawn_island_radius = 60.0
+        # Spawn Island Definition: Authentic Bermuda Waiting Island
+        self.spawn_island_center = BERMUDA_WAITING_ISLAND_CENTER  # (-500.0, 10.0, 800.0)
+        self.spawn_island_radius = BERMUDA_WAITING_ISLAND_RADIUS  # 60.0
+        self._pos_sync_timer: float = 0.0
         
         # Trajectory
         self.trajectory: Optional[AirplaneTrajectory] = None
@@ -200,35 +208,74 @@ class MatchInstance:
             self._enter_game_over()
 
     def _enter_spawn_island(self) -> None:
-        """State 2: Initialize Spawn Island waiting area & spawn 49 bots."""
-        # 1. Teleport human players to Spawn Island
+        """State 2: Initialize Spawn Island waiting area, place human player & 49 bots."""
         sx, sy, sz = self.spawn_island_center
-        for pid in self.human_player_ids:
-            player = self.world.players.get(pid)
+
+        # 1. Teleport and position human player on Main Pedestal 1 (-500.0, 10.0, 800.0)
+        for idx, pid in enumerate(self.human_player_ids, start=1):
+            player = self.world.get_player(pid) or self.world.players.get(pid)
             if player:
-                player.x = sx + random.uniform(-20.0, 20.0)
+                player.x = sx
                 player.y = sy
-                player.z = sz + random.uniform(-20.0, 20.0)
+                player.z = sz
                 player.hp = 200.0
                 player.is_alive = True
+                player.yaw = 0.0
+                player.pitch = 0.0
+                player.speed = 0.0
+                player.physx_state = 0
+                player.physx_pose = 0
+                player.entity_id = idx
 
         # 2. Attach WorldEngine to BotController and spawn authentic bots
         self.bot_controller.attach_world_engine(self.world)
         self.bot_controller.spawn_bots(count=self.bot_count)
         self.bot_controller.start_island_phase()
 
-        # Ensure all bots are in world.players
+        # 3. Register all bots with authentic entity_id / player_id (2..50)
         for bot in self.bot_controller.bots.values():
-            bid = str(bot.bot_id)
+            bot_pid = getattr(bot, "player_id", 0) or (bot.bot_id + 1)
+            bid = str(bot_pid)
             if bid not in self.world.players:
-                self.world.register_player(
+                p = self.world.register_player(
                     player_id=bid,
                     nickname=bot.profile.nickname,
                     is_bot=True,
                     x=bot.position.x,
                     y=bot.position.y,
-                    z=bot.position.z
+                    z=bot.position.z,
+                    entity_id=bot_pid,
+                    account_id=bot.account_id
                 )
+                p.entity_id = bot_pid
+                p.account_id = bot.account_id
+            else:
+                p = self.world.players[bid]
+                p.x = bot.position.x
+                p.y = bot.position.y
+                p.z = bot.position.z
+                p.hp = 200.0
+                p.is_alive = True
+                p.entity_id = bot_pid
+                p.account_id = bot.account_id
+
+        # 4. Populate Waiting Island practice ground loot
+        self.world.loot_spawner.populate_waiting_island_loot(center=self.spawn_island_center)
+
+        # 5. Broadcast initial Waiting Island position batch (Opcode 1014) and scene countdown (Opcode 116)
+        initial_pos_bytes = self.build_waiting_island_position_batch_bytes()
+        self.pending_broadcasts.append({
+            "type": "INITIAL_SPAWN_POSITION",
+            "opcode": 1014,
+            "data": initial_pos_bytes,
+            "timestamp": time.time()
+        })
+        self.pending_broadcasts.append({
+            "type": "WAITING_COUNTDOWN",
+            "remaining_seconds": int(self.waiting_duration),
+            "total_seconds": int(self.waiting_duration),
+            "timestamp": time.time()
+        })
 
     def _enter_airplane_flight(self) -> None:
         """State 3: Generate authentic Bermuda cross-island flight trajectory."""
@@ -254,6 +301,8 @@ class MatchInstance:
             drop.x, drop.y, drop.z = self.trajectory.start_pos
             drop.yaw = self.trajectory.yaw
             self.drop_states[pid] = drop
+            self.world.update_player_pos(pid, drop.x, drop.y, drop.z, yaw=drop.yaw, speed=65.0, physx_state=3)
+            self.world.update_player_pos("1", drop.x, drop.y, drop.z, yaw=drop.yaw, speed=65.0, physx_state=3)
 
         # Board bots aboard airplane via BotController
         start_vec = Vector3(start_x, airplane_altitude, start_z)
@@ -307,7 +356,7 @@ class MatchInstance:
             
         drop.phase = ParachutePhase.PARACHUTING
         drop.deploy_time = time.time()
-        drop.velocity_y = -8.0  # Decelerate to gentle glide
+        drop.velocity_y = -7.5  # Decelerate to gentle glide
         drop.forward_speed = 10.0
         return True
 
@@ -340,12 +389,12 @@ class MatchInstance:
         # -------------------------------------------------------------
         elif self.state == MatchState.STATE_2_SPAWN_ISLAND:
             remaining_waiting = max(self.waiting_duration - self.elapsed_in_state, 0.0)
-            if remaining_waiting <= 0.0:
+            if self.waiting_duration > 0 and remaining_waiting <= 0.0:
                 self.transition_to(MatchState.STATE_3_AIRPLANE_FLIGHT)
             else:
                 events.append({
                     "type": "WAITING_COUNTDOWN",
-                    "remaining_seconds": int(remaining_waiting),
+                    "remaining_seconds": max(int(remaining_waiting), 1),
                     "total_seconds": int(self.waiting_duration)
                 })
 
@@ -358,12 +407,28 @@ class MatchInstance:
                 # Sync bot positions into WorldEngine
                 for bot_state in bot_tick.get("bot_states", []):
                     pos = bot_state["position"]
-                    bid = str(bot_state.get("entity_id", bot_state.get("account_id")))
+                    bot_pid = bot_state.get("player_id", bot_state.get("entity_id", 0) + 1)
+                    bid = str(bot_pid)
                     self.world.update_player_pos(
                         player_id=bid,
                         x=pos["x"], y=pos["y"], z=pos["z"],
-                        yaw=bot_state.get("yaw", 0.0)
+                        yaw=bot_state.get("yaw", 0.0),
+                        pitch=bot_state.get("pitch", 0.0),
+                        speed=bot_state.get("speed", 0.0),
+                        physx_state=bot_state.get("physx_state", 0),
+                        physx_pose=bot_state.get("physx_pose", 0)
                     )
+
+                # Periodic high-frequency Opcode 1014 broadcast (10 Hz)
+                self._pos_sync_timer += delta_time
+                if self._pos_sync_timer >= 0.1:
+                    self._pos_sync_timer = 0.0
+                    events.append({
+                        "type": "PLAYER_POSITION_SYNC",
+                        "opcode": 1014,
+                        "data": self.build_player_position_batch_bytes(),
+                        "timestamp": time.time()
+                    })
 
         # -------------------------------------------------------------
         # STATE 3 & 4: AIRPLANE FLIGHT & PARACHUTE DROP
@@ -400,11 +465,16 @@ class MatchInstance:
                 )
                 for bot_state in bot_tick.get("bot_states", []):
                     pos = bot_state["position"]
-                    bid = str(bot_state.get("entity_id", bot_state.get("account_id")))
+                    bot_pid = bot_state.get("player_id", bot_state.get("entity_id", 0) + 1)
+                    bid = str(bot_pid)
                     self.world.update_player_pos(
                         player_id=bid,
                         x=pos["x"], y=pos["y"], z=pos["z"],
-                        yaw=bot_state.get("yaw", 0.0)
+                        yaw=bot_state.get("yaw", 0.0),
+                        pitch=bot_state.get("pitch", 0.0),
+                        speed=bot_state.get("speed", 0.0),
+                        physx_state=bot_state.get("physx_state", 0),
+                        physx_pose=bot_state.get("physx_pose", 0)
                     )
 
                 # Update human descending physics
@@ -490,14 +560,20 @@ class MatchInstance:
 
             # 5. Sync bot positions and health into WorldEngine
             for bot_state in bot_tick.get("bot_states", []):
-                bid = str(bot_state.get("entity_id", bot_state.get("account_id")))
+                bot_pid = bot_state.get("player_id", bot_state.get("entity_id", 0) + 1)
+                bid = str(bot_pid)
                 pos = bot_state["position"]
                 p = self.world.players.get(bid) or self.world.players.get(str(bot_state.get("account_id")))
                 if p:
                     p.x = pos["x"]
                     p.y = pos["y"]
                     p.z = pos["z"]
-                    bot_ref = self.bot_controller.get_bot(bot_state.get("account_id")) or self.bot_controller.get_bot(bot_state.get("entity_id"))
+                    p.yaw = bot_state.get("yaw", 0.0)
+                    p.pitch = bot_state.get("pitch", 0.0)
+                    p.speed = bot_state.get("speed", 0.0)
+                    p.physx_state = bot_state.get("physx_state", 0)
+                    p.physx_pose = bot_state.get("physx_pose", 0)
+                    bot_ref = self.bot_controller.get_bot(bot_state.get("account_id")) or self.bot_controller.get_bot(bot_state.get("bot_id", bot_state.get("entity_id")))
                     if not p.is_alive or p.hp <= 0:
                         if bot_ref and bot_ref.lifecycle_state != BotLifecycleState.DEAD:
                             bot_ref.hp = 0
@@ -509,7 +585,18 @@ class MatchInstance:
                         p.hp = bot_state["hp"]
                         p.is_alive = bot_state["is_alive"]
 
-            # 6. Check match termination condition
+            # 6. Periodic high-frequency Opcode 1014 broadcast (10 Hz) during Combat
+            self._pos_sync_timer += delta_time
+            if self._pos_sync_timer >= 0.1:
+                self._pos_sync_timer = 0.0
+                events.append({
+                    "type": "PLAYER_POSITION_SYNC",
+                    "opcode": 1014,
+                    "data": self.build_player_position_batch_bytes(),
+                    "timestamp": time.time()
+                })
+
+            # 7. Check match termination condition
             alive_count = self.world.alive_player_count
             human_alive = any(
                 p.is_alive for pid, p in self.world.players.items()
@@ -524,6 +611,11 @@ class MatchInstance:
         # -------------------------------------------------------------
         elif self.state == MatchState.STATE_6_GAME_OVER:
             pass
+
+        # Flush any broadcasts generated during this tick's transitions
+        if self.pending_broadcasts:
+            events.extend(self.pending_broadcasts)
+            self.pending_broadcasts.clear()
 
         return {
             "match_id": self.match_id,
@@ -547,6 +639,142 @@ class MatchInstance:
             spawn_island_z=self.spawn_island_center[2],
             spawn_island_radius=self.spawn_island_radius
         ).serialize()
+
+    def build_waiting_island_position_batch_bytes(self) -> bytes:
+        """
+        Serialize initial authoritative Waiting Island entity positions (Opcode 1014).
+        Positions human player at Waiting Island center pedestal (-500.0, 10.0, 800.0),
+        top bots on flanking pedestals 2-5, and perimeter bots across 3 concentric rings (6-50).
+        """
+        sx, sy, sz = self.spawn_island_center
+        items: List[PlayerPosItem] = []
+
+        # Pedestal 1: Human player at Waiting Island center
+        items.append(PlayerPosItem(
+            player_id=1,
+            x=sx,
+            y=sy,
+            z=sz,
+            physx_state=0,
+            physx_pose=0
+        ))
+
+        # Pedestals 2-5: Top rank bots (Kelly, Andrew, and flank podiums)
+        pedestals = [
+            (-502.5, 10.3, 799.0),
+            (-497.5, 10.3, 799.0),
+            (-505.0, 10.1, 797.5),
+            (-495.0, 10.1, 797.5)
+        ]
+        for i, (px, py, pz) in enumerate(pedestals, start=2):
+            items.append(PlayerPosItem(
+                player_id=i,
+                x=px,
+                y=py,
+                z=pz,
+                physx_state=0,
+                physx_pose=0
+            ))
+
+        # Perimeter bots (entities 6..50, 45 bots across 3 concentric rings)
+        for idx in range(6, 51):
+            k = (idx - 6) % 15
+            ring = (idx - 6) // 15
+            radius = 12.0 if ring == 0 else (24.0 if ring == 1 else 38.0)
+            angle = k * (2.0 * math.pi / 15.0) + (math.pi / 15.0 if ring == 1 else 0.0)
+            bx = sx + radius * math.cos(angle)
+            bz = sz + radius * math.sin(angle)
+            items.append(PlayerPosItem(
+                player_id=idx,
+                x=bx,
+                y=sy,
+                z=bz,
+                physx_state=0,
+                physx_pose=0
+            ))
+
+        items.sort(key=lambda it: it.player_id)
+        ts = int(time.time() * 1000) & 0x7FFFFFFF
+        return UDP_PlayerPositionBatch(players=items, timestamp=ts).serialize()
+
+    def build_player_position_batch_bytes(self) -> bytes:
+        """
+        Serialize Opcode 1014 UDP_PLAYER_POSITION_ONLY batch for all living entities:
+        includes human player (entity 1) and all bots (entities 2..50).
+        Strictly sorted by player_id and guaranteed to contain all 50 combatants.
+        """
+        items: List[PlayerPosItem] = []
+
+        # 1. Human player(s)
+        for idx, pid in enumerate(self.human_player_ids, start=1):
+            p = self.world.get_player(pid) or self.world.get_player(str(idx))
+            if p and p.is_alive:
+                items.append(PlayerPosItem(
+                    player_id=getattr(p, "entity_id", idx),
+                    x=p.x,
+                    y=p.y,
+                    z=p.z,
+                    physx_state=getattr(p, "physx_state", 0),
+                    physx_pose=getattr(p, "physx_pose", 0)
+                ))
+
+        # 2. Bots (entities 2..50)
+        for bot in self.bot_controller.bots.values():
+            if bot.hp > 0:
+                bot_pid = getattr(bot, "player_id", 0) or (bot.bot_id + 1)
+                items.append(PlayerPosItem(
+                    player_id=bot_pid,
+                    x=bot.position.x,
+                    y=bot.position.y,
+                    z=bot.position.z,
+                    physx_state=int(bot.physx_state),
+                    physx_pose=int(bot.physx_pose)
+                ))
+
+        # 3. Ensure all 50 slots are populated during Spawn Island states
+        existing_pids = {item.player_id for item in items}
+        if self.state in (MatchState.STATE_0_MATCHMAKING, MatchState.STATE_1_UDP_CONNECT, MatchState.STATE_2_SPAWN_ISLAND):
+            sx, sy, sz = self.spawn_island_center
+            pedestals = {
+                1: (sx, sy, sz),
+                2: (-502.5, 10.3, 799.0),
+                3: (-497.5, 10.3, 799.0),
+                4: (-505.0, 10.1, 797.5),
+                5: (-495.0, 10.1, 797.5)
+            }
+            for idx in range(1, 51):
+                if idx not in existing_pids:
+                    if idx in pedestals:
+                        px, py, pz = pedestals[idx]
+                        items.append(PlayerPosItem(player_id=idx, x=px, y=py, z=pz, physx_state=0, physx_pose=0))
+                    else:
+                        k = (idx - 6) % 15
+                        ring = (idx - 6) // 15
+                        radius = 12.0 if ring == 0 else (24.0 if ring == 1 else 38.0)
+                        angle = k * (2.0 * math.pi / 15.0) + (math.pi / 15.0 if ring == 1 else 0.0)
+                        bx = sx + radius * math.cos(angle)
+                        bz = sz + radius * math.sin(angle)
+                        items.append(PlayerPosItem(player_id=idx, x=bx, y=sy, z=bz, physx_state=0, physx_pose=0))
+
+        items.sort(key=lambda it: it.player_id)
+        ts = int(time.time() * 1000) & 0x7FFFFFFF
+        return UDP_PlayerPositionBatch(players=items, timestamp=ts).serialize()
+
+    def build_player_position_bytes(self, player_id: Optional[str] = None) -> bytes:
+        """Serialize Opcode 1014 for a single player or all players."""
+        if player_id is not None:
+            p = self.world.get_player(player_id)
+            if p:
+                return UDP_PlayerPositionOnly(
+                    player_id=getattr(p, "entity_id", 1),
+                    x=p.x,
+                    y=p.y,
+                    z=p.z,
+                    speed=getattr(p, "speed", 0.0),
+                    physx_state=getattr(p, "physx_state", 0),
+                    physx_pose=getattr(p, "physx_pose", 0)
+                ).serialize()
+        return self.build_player_position_batch_bytes()
 
     def build_battle_start_bytes(self) -> bytes:
         """Serialize State 3 Battle Start / Airplane flight trajectory frame."""
@@ -736,6 +964,7 @@ class MatchDirector:
 
     def __init__(self, default_server_addr: str = "10.0.2.2:39800"):
         self.default_server_addr = default_server_addr
+        self.lock = threading.RLock()
         self.active_matches: Dict[int, MatchInstance] = {}
         self.player_to_match: Dict[str, int] = {}
 
@@ -766,20 +995,35 @@ class MatchDirector:
         )
         
         match.human_player_ids.append(host_player_id)
-        match.world.register_player(host_player_id, host_nickname, is_bot=False)
-        self.player_to_match[host_player_id] = match_id
-        
-        self.active_matches[match_id] = match
+        # Authoritatively place host player on Waiting Island immediately upon creation
+        sx, sy, sz = match.spawn_island_center
+        hp = match.world.register_player(
+            player_id=host_player_id,
+            nickname=host_nickname,
+            is_bot=False,
+            x=sx,
+            y=sy,
+            z=sz,
+            entity_id=1,
+            account_id=int(host_player_id) if host_player_id.isdigit() else 0
+        )
+        match.world.players["1"] = hp
+        with self.lock:
+            self.player_to_match[host_player_id] = match_id
+            self.player_to_match["1"] = match_id
+            self.active_matches[match_id] = match
         return match
 
     def get_match(self, match_id: int) -> Optional[MatchInstance]:
         """Look up match instance by ID."""
-        return self.active_matches.get(match_id)
+        with self.lock:
+            return self.active_matches.get(match_id)
 
     def get_match_for_player(self, player_id: str) -> Optional[MatchInstance]:
         """Look up match instance currently containing a player."""
-        mid = self.player_to_match.get(player_id)
-        return self.active_matches.get(mid) if mid else None
+        with self.lock:
+            mid = self.player_to_match.get(player_id)
+            return self.active_matches.get(mid) if mid else None
 
     def handle_udp_handshake(self, match_id: int, player_id: str, token: str, client_endpoint: Tuple[str, int], session_key: Optional[int] = None) -> bool:
         """Authenticate and link a connecting UDP client to a match instance."""
@@ -790,12 +1034,13 @@ class MatchDirector:
         if match.prepare_token and token and token != match.prepare_token and not match.prepare_token.startswith(token) and not token.startswith(match.prepare_token):
             return False
 
-        match.connected_tokens[player_id] = token
-        match.client_endpoints[player_id] = client_endpoint
-        if session_key is not None:
-            match.client_session_keys[player_id] = session_key
+        with self.lock:
+            match.connected_tokens[player_id] = token
+            match.client_endpoints[player_id] = client_endpoint
+            if session_key is not None:
+                match.client_session_keys[player_id] = session_key
         
-        if match.state == MatchState.STATE_1_UDP_CONNECT:
+        if match.state in (MatchState.STATE_0_MATCHMAKING, MatchState.STATE_1_UDP_CONNECT):
             match.transition_to(MatchState.STATE_2_SPAWN_ISLAND)
             
         return True
@@ -803,7 +1048,9 @@ class MatchDirector:
     def tick_all(self, delta_time: float) -> List[Dict[str, Any]]:
         """Advance authoritative simulation for all active matches."""
         results = []
-        for mid, match in list(self.active_matches.items()):
+        with self.lock:
+            matches = list(self.active_matches.values())
+        for match in matches:
             res = match.tick(delta_time)
             results.append(res)
         return results

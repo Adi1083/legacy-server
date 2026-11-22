@@ -4,7 +4,7 @@ Extracted directly from Barbosa IL2CPP Metadata v23 (TypeDef [9777]: GCommon.UDP
 """
 
 import struct
-from typing import Optional, Tuple, NamedTuple
+from typing import Optional, Tuple, NamedTuple, Any
 
 # Authentic Free Fire 1.39 CRC-7 Table (Polynomial 0x09: x^7 + x^3 + 1)
 # Extracted directly from Barbosa IL2CPP Metadata v23 (Field [55626], offset 0x643DCB)
@@ -76,6 +76,7 @@ class PacketFlags:
     NONE = 0
     ENCRYPTION = 1
     ZIP = 2
+    GAME_DISPATCH = 4  # (flags & 0xfe) == 4 required by MatchGameClient.HandleRecvPacket (0x0204053d / 0x19a466c)
 
 class UDMPacket:
     def __init__(
@@ -83,7 +84,7 @@ class UDMPacket:
         send_option: int,
         cmd: int,
         seq_id: int = 0,
-        order_id: int = 0,
+        order_id: Optional[int] = None,
         flags: int = 0,
         data: bytes = b"",
         msg_key: int = UDPMESSAGE_MSGKEY,
@@ -94,8 +95,9 @@ class UDMPacket:
         self.send_option = send_option
         self.cmd = cmd
         self.seq_id = seq_id
-        self.order_id = order_id
-        self.flags = flags
+        self.order_id = 0 if order_id is None else (order_id & 0xffff)
+        self._order_id_explicit = (order_id is not None)
+        self.flags = flags & 0xff
         self.data = data
         self.length = len(data)
 
@@ -141,7 +143,8 @@ class UDMPacket:
 
         # Compute CRC7 over payload and header starting after CRC7 byte (buf[2:])
         crc = calculate_crc7(bytes(buf[2:]))
-        buf[1] = crc & 0x7f
+        self.crc7 = crc & 0x7f
+        buf[1] = self.crc7
         return bytes(buf)
 
     @classmethod
@@ -193,21 +196,31 @@ class UDMPacket:
 class S2C_Hello_Res:
     """
     S2C_Hello_Res (TypeDef [9771]):
-    SessionKey: uint32
-    OrderID: uint16
-    RequiredID: uint16
+    SessionKey: string (ReadString: 4-byte uint32 length + UTF-8 payload)
+    5 bytes: 1B null/padding + uint16 order_id + uint16 required_id
+    Total authentic wire payload = 28 bytes.
     """
-    def __init__(self, session_key: int, order_id: int = 1, required_id: int = 1):
-        self.session_key = session_key
+    def __init__(self, session_key: Any = "mk-9d10bffc98767f2f", order_id: int = 0, required_id: int = 0):
+        if isinstance(session_key, int):
+            self.session_key = f"{session_key:08x}"
+        else:
+            self.session_key = str(session_key)
         self.order_id = order_id
         self.required_id = required_id
 
     def serialize(self) -> bytes:
-        return struct.pack("<IHH", self.session_key, self.order_id, self.required_id)
+        raw_key = self.session_key.encode("utf-8")
+        # Format: 4B string len + raw_key + 1B null/padding + 2B order_id + 2B required_id
+        res = struct.pack("<I", len(raw_key)) + raw_key + b"\x00" + struct.pack("<HH", self.order_id, self.required_id)
+        if len(res) < 28:
+            res = res + b"\x00" * (28 - len(res))
+        return res[:28]
 
     @classmethod
     def unserialize(cls, data: bytes) -> "S2C_Hello_Res":
-        session_key, order_id, required_id = struct.unpack("<IHH", data[:8])
+        str_len = struct.unpack("<I", data[:4])[0]
+        session_key = data[4:4+str_len].decode("utf-8", errors="ignore")
+        order_id, required_id = struct.unpack("<HH", data[4+str_len+1:8+str_len+1])
         return cls(session_key, order_id, required_id)
 
 

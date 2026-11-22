@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>India V1 1.39 - Mail Dispatch &amp; Social Operations</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css">
   <style>
     /* ==========================================================================
        CSS VARIABLES & THEME TOKENS
        ========================================================================== */
     :root {
-      --s-bg-base: #070a12;
-      --s-bg-surface: rgba(15, 23, 42, 0.78);
-      --s-bg-surface-elevated: rgba(22, 33, 59, 0.88);
-      --s-bg-input: rgba(10, 15, 29, 0.85);
-      --s-border: rgba(255, 255, 255, 0.08);
+      --s-bg-base: #f5f5f7;
+      --s-bg-surface: #ffffff;
+      --s-bg-surface-elevated: #fbfbfd;
+      --s-bg-input: #f2f2f7;
+      --s-border: #e5e5ea;
       --s-border-hover: rgba(56, 189, 248, 0.35);
       --s-border-active: #38bdf8;
 
-      --s-text-main: #f8fafc;
-      --s-text-muted: #94a3b8;
-      --s-text-dim: #64748b;
+      --s-text-main: #1d1d1f;
+      --s-text-muted: #6e6e73;
+      --s-text-dim: #86868b;
 
-      --s-cyan: #38bdf8;
+      --s-cyan: #0071e3;
       --s-cyan-glow: rgba(56, 189, 248, 0.22);
       --s-indigo: #818cf8;
       --s-green: #10b981;
@@ -40,28 +44,46 @@
       --s-shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      background: radial-gradient(circle at 10% 10%, #0d172e 0%, transparent 45%),
-                  radial-gradient(circle at 90% 90%, #111827 0%, transparent 45%),
-                  var(--s-bg-base);
+      background: #f5f5f7;
       color: var(--s-text-main);
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 13px;
       line-height: 1.5;
       min-height: 100vh;
       overflow-x: hidden;
-      overflow-y: hidden; /* Viewport-fitted workspace */
+      overflow-y: hidden;
+      /* Viewport-fitted workspace */
     }
 
     /* Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: rgba(7, 10, 18, 0.5); }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
 
-    .monospace { font-family: 'JetBrains Mono', monospace; }
+    ::-webkit-scrollbar-track {
+      background: rgba(7, 10, 18, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    .monospace {
+      font-family: 'JetBrains Mono', monospace;
+    }
 
     /* ==========================================================================
        TOP COMPONENT HEADER & SUB-TABS (COMPACT & VIEWPORT-FITTED)
@@ -188,9 +210,20 @@
     }
 
     @keyframes sPulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.35; transform: scale(1.25); }
-      100% { opacity: 1; transform: scale(1); }
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.35;
+        transform: scale(1.25);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     /* ==========================================================================
@@ -210,8 +243,15 @@
     }
 
     @keyframes sFadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* 2-Column Split Panes */
@@ -332,7 +372,9 @@
       justify-content: space-between;
     }
 
-    .s-form-input, .s-form-select, .s-form-textarea {
+    .s-form-input,
+    .s-form-select,
+    .s-form-textarea {
       background: var(--s-bg-input);
       border: 1px solid var(--s-border);
       color: var(--s-text-main);
@@ -343,7 +385,9 @@
       transition: all 0.2s;
     }
 
-    .s-form-input:focus, .s-form-select:focus, .s-form-textarea:focus {
+    .s-form-input:focus,
+    .s-form-select:focus,
+    .s-form-textarea:focus {
       outline: none;
       border-color: var(--s-cyan);
       box-shadow: 0 0 0 3px var(--s-cyan-glow);
@@ -987,584 +1031,745 @@
     }
 
     @keyframes sToastSlide {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css?v=3">
 </head>
+
 <body>
 
-<div class="s-workspace">
-  <!-- TOPBAR & SUBTABS NAVIGATION -->
-  <header class="s-topbar">
-    <div class="s-title-cluster">
-      <span class="s-module-badge">SYSTEM OPERATIONS</span>
-      <h1 class="s-title">Mail Dispatch &amp; Social Operations</h1>
-    </div>
-
-    <!-- SUB-TABS (CRITICAL: ZERO ENDLESS SCROLLING) -->
-    <nav class="s-subtabs-nav" aria-label="Social Operations Subtabs">
-      <button class="s-subtab-btn active" id="tabbtn-mail-composer" onclick="SocialSection.switchSubTab('mail-composer')">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-        Mail Composer
-      </button>
-      <button class="s-subtab-btn" id="tabbtn-mailbox-inspector" onclick="SocialSection.switchSubTab('mailbox-inspector')">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-        Mailbox Inspector
-      </button>
-      <button class="s-subtab-btn" id="tabbtn-friends-roster" onclick="SocialSection.switchSubTab('friends-roster')">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Friends &amp; Social
-      </button>
-      <button class="s-subtab-btn" id="tabbtn-squad-lobby" onclick="SocialSection.switchSubTab('squad-lobby')">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
-        Squad &amp; TCP Invites
-      </button>
-    </nav>
-
-    <!-- STATUS CHIPS -->
-    <div class="s-header-actions">
-      <div class="s-stat-chip live">
-        <span class="s-pulse-dot"></span>
-        <span>TCP 8081 Active</span>
+  <div class="s-workspace">
+    <!-- TOPBAR & SUBTABS NAVIGATION -->
+    <header class="s-topbar">
+      <div class="s-title-cluster">
+        <span class="s-module-badge">SYSTEM OPERATIONS</span>
+        <h1 class="s-title">Mail Dispatch &amp; Social Operations</h1>
       </div>
-      <div class="s-stat-chip">
-        <span>Target:</span>
-        <strong id="hdr-target-uid">UID 10001</strong>
-      </div>
-      <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.refreshCurrentTab()">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
-        Sync
-      </button>
-    </div>
-  </header>
 
-  <!-- =========================================================================
+      <!-- SUB-TABS (CRITICAL: ZERO ENDLESS SCROLLING) -->
+      <nav class="s-subtabs-nav" aria-label="Social Operations Subtabs">
+        <button class="s-subtab-btn active" id="tabbtn-mail-composer"
+          onclick="SocialSection.switchSubTab('mail-composer')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" viewBox="0 0 24 24">
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+          </svg>
+          Mail Composer
+        </button>
+        <button class="s-subtab-btn" id="tabbtn-mailbox-inspector"
+          onclick="SocialSection.switchSubTab('mailbox-inspector')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" viewBox="0 0 24 24">
+            <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+            <path
+              d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+          </svg>
+          Mailbox Inspector
+        </button>
+        <button class="s-subtab-btn" id="tabbtn-friends-roster" onclick="SocialSection.switchSubTab('friends-roster')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          Friends &amp; Social
+        </button>
+        <button class="s-subtab-btn" id="tabbtn-squad-lobby" onclick="SocialSection.switchSubTab('squad-lobby')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="2" />
+            <path
+              d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14" />
+          </svg>
+          Squad &amp; TCP Invites
+        </button>
+      </nav>
+
+      <!-- STATUS CHIPS -->
+      <div class="s-header-actions">
+        <div class="s-stat-chip live">
+          <span class="s-pulse-dot"></span>
+          <span>TCP 8081 Active</span>
+        </div>
+        <div class="s-stat-chip">
+          <span>Target:</span>
+          <strong id="hdr-target-uid">UID 10001</strong>
+        </div>
+        <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.refreshCurrentTab()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+            <path d="M16 21h5v-5" />
+          </svg>
+          Sync
+        </button>
+      </div>
+    </header>
+
+    <!-- =========================================================================
        SUB-TAB 1: MAIL COMPOSER & DIRECT DISPATCH
        ========================================================================= -->
-  <section id="pane-mail-composer" class="s-subtab-pane active">
-    <!-- LEFT COLUMN: RICH COMPOSER -->
-    <div class="s-col-left">
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            Rich Mail Dispatch Composer
-          </div>
-          <span class="s-card-badge" id="composer-account-badge">Target: 10001</span>
-        </div>
-
-        <div class="s-card-body-scroll">
-          <!-- Recipient & Category -->
-          <div class="s-form-row">
-            <div class="s-form-group">
-              <label class="s-form-label">Recipient Account UID</label>
-              <input type="number" id="comp-recipient-uid" class="s-form-input monospace" value="10001" onchange="SocialSection.onComposerFieldChange()">
+    <section id="pane-mail-composer" class="s-subtab-pane active">
+      <!-- LEFT COLUMN: RICH COMPOSER -->
+      <div class="s-col-left">
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              Rich Mail Dispatch Composer
             </div>
-            <div class="s-form-group">
-              <label class="s-form-label">Sender Display Name</label>
-              <input type="text" id="comp-sender-nick" class="s-form-input" value="India V1 Operations" oninput="SocialSection.onComposerFieldChange()">
-            </div>
-            <div class="s-form-group">
-              <label class="s-form-label">Mail Classification</label>
-              <select id="comp-mail-type" class="s-form-select" onchange="SocialSection.onComposerFieldChange()">
-                <option value="1">1 - System Notice / General</option>
-                <option value="2">2 - Reward Drop / Grants</option>
-                <option value="3" selected>3 - Exclusive Elite Care Package</option>
-                <option value="4">4 - Clan / Tournament Dispatch</option>
-              </select>
-            </div>
+            <span class="s-card-badge" id="composer-account-badge">Target: 10001</span>
           </div>
 
-          <!-- Mail Subject & Body -->
-          <div class="s-form-group">
-            <label class="s-form-label">Mail Title (Subject Line)</label>
-            <input type="text" id="comp-mail-title" class="s-form-input" value="Welcome Care Package &amp; Elite Pass Drop" oninput="SocialSection.onComposerFieldChange()">
-          </div>
-
-          <div class="s-form-group">
-            <label class="s-form-label">Message Content</label>
-            <textarea id="comp-mail-body" class="s-form-textarea" oninput="SocialSection.onComposerFieldChange()">Welcome to India V1 1.39 Server! Claim your exclusive gold, diamonds, and rare cosmetic loadout below. Ready up and join the squad!</textarea>
-          </div>
-
-          <!-- Claimable Currency Controls -->
-          <div class="s-form-row">
-            <div class="s-form-group">
-              <label class="s-form-label">
-                <span>Claimable Gold (Coins)</span>
-                <span id="gold-preview-formatted" class="monospace" style="color:var(--s-gold)">+50,000</span>
-              </label>
-              <input type="number" id="comp-coins" class="s-form-input monospace" value="50000" min="0" step="5000" oninput="SocialSection.onComposerFieldChange()">
-              <div class="s-step-pills">
-                <button type="button" class="s-step-btn" onclick="SocialSection.addCurrency('coins', 10000)">+10K</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.addCurrency('coins', 50000)">+50K</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.addCurrency('coins', 100000)">+100K</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('coins', 1000000)">1M MAX</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('coins', 0)">0</button>
-              </div>
-            </div>
-
-            <div class="s-form-group">
-              <label class="s-form-label">
-                <span>Claimable Diamonds</span>
-                <span id="gems-preview-formatted" class="monospace" style="color:var(--s-cyan)">+2,500</span>
-              </label>
-              <input type="number" id="comp-gems" class="s-form-input monospace" value="2500" min="0" step="500" oninput="SocialSection.onComposerFieldChange()">
-              <div class="s-step-pills">
-                <button type="button" class="s-step-btn" onclick="SocialSection.addCurrency('gems', 1000)">+1K</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.addCurrency('gems', 5000)">+5K</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.addCurrency('gems', 25000)">+25K</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('gems', 100000)">100K MAX</button>
-                <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('gems', 0)">0</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Claimable Item Attachments Builder -->
-          <div class="s-form-group">
-            <label class="s-form-label">
-              <span>Attached Items &amp; Loot Crates</span>
-              <span id="attachments-count-label" class="monospace">2 Items Attached</span>
-            </label>
-            <div class="s-form-row" style="grid-template-columns: 2fr 1fr auto;">
-              <select id="comp-item-preset" class="s-form-select" onchange="SocialSection.onItemPresetSelected()">
-                <option value="">-- Quick Pick Preset Item --</option>
-                <option value="907100001">907100001 - Weapon Royale Crate</option>
-                <option value="700000001">700000001 - Elite Pass Badge Token</option>
-                <option value="901000001">901000001 - Season Founder Banner</option>
-                <option value="902000001">902000001 - Cyber Soldier Avatar</option>
-                <option value="203000001">203000001 - Tactical Combat Jacket</option>
-                <option value="204000001">204000001 - Spec-Ops Tactical Pants</option>
-                <option value="205000001">205000001 - High-Top Combat Sneakers</option>
-                <option value="908000001">908000001 - Level 3 Tactical Backpack</option>
-                <option value="910000001">910000001 - Neon Surfboard</option>
-                <option value="909000001">909000001 - Blackout Parachute</option>
-              </select>
-              <input type="number" id="comp-item-count" class="s-form-input monospace" value="1" min="1" placeholder="Qty">
-              <button type="button" class="s-btn s-btn-secondary" onclick="SocialSection.addAttachmentItem()">
-                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Attach
-              </button>
-            </div>
-
-            <!-- Active Attachment Chips -->
-            <div class="s-attachment-pills-list" id="comp-attachment-chips">
-              <!-- Rendered via JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Composer Action Bar -->
-        <div class="s-card-header" style="border-top: 1px solid var(--s-border); border-bottom: none; padding-top: 12px; padding-bottom: 0;">
-          <div class="s-btn-cluster">
-            <button class="s-btn s-btn-primary" onclick="SocialSection.dispatchMail()">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-              Dispatch In-Game Mail
-            </button>
-            <button class="s-btn s-btn-secondary" onclick="SocialSection.resetComposer()">Reset</button>
-          </div>
-          <span style="font-size: 11px; color: var(--s-text-dim);">Sends instantly to player inbox via state store</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN: QUICK PRESETS & LIVE ENVELOPE SIMULATOR -->
-    <div class="s-col-right">
-      <!-- Quick Dispatch Presets -->
-      <div class="s-card" style="flex: 0 0 auto;">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            One-Click Preset Packages
-          </div>
-          <span style="font-size:11px; color:var(--s-text-dim);">Apply Template</span>
-        </div>
-        <div class="s-templates-grid">
-          <div class="s-template-card" onclick="SocialSection.applyTemplate('welcome')">
-            <div class="s-template-title">Welcome Recruit</div>
-            <div class="s-template-rewards">50K Gold / 2.5K Gems</div>
-            <span class="s-tag s-tag-cyan" style="align-self:flex-start;">Banner + Avatar</span>
-          </div>
-          <div class="s-template-card" onclick="SocialSection.applyTemplate('compensation')">
-            <div class="s-template-title">Hotfix Compensation</div>
-            <div class="s-template-rewards">100K Gold / 5K Gems</div>
-            <span class="s-tag s-tag-amber" style="align-self:flex-start;">Weapon Crate</span>
-          </div>
-          <div class="s-template-card" onclick="SocialSection.applyTemplate('ranked')">
-            <div class="s-template-title">Ranked Grandmaster</div>
-            <div class="s-template-rewards">250K Gold / 15K Gems</div>
-            <span class="s-tag s-tag-green" style="align-self:flex-start;">Combat Suit Set</span>
-          </div>
-          <div class="s-template-card" onclick="SocialSection.applyTemplate('whale')">
-            <div class="s-template-title">Infinite Ops Drop</div>
-            <div class="s-template-rewards">1M Gold / 100K Gems</div>
-            <span class="s-tag s-tag-rose" style="align-self:flex-start;">Elite Pass Token</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Envelope Preview -->
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 12h20M2 12l5-5m-5 5 5 5"/></svg>
-            In-Game Mailbox Letterhead Preview
-          </div>
-          <span class="s-tag s-tag-cyan" id="preview-type-tag">TYPE 3</span>
-        </div>
-
-        <div class="s-card-body-scroll">
-          <div class="s-mail-envelope-simulator">
-            <div class="s-envelope-header">
-              <div class="s-envelope-sender">
-                <div class="s-envelope-avatar" id="prev-sender-avatar">OP</div>
-                <div>
-                  <div style="font-weight:700; color:#fff; font-size:12.5px;" id="prev-sender-nick">India V1 Operations</div>
-                  <div style="font-size:10.5px; color:var(--s-text-dim);" id="prev-date-stamp">Just now &bull; Direct System Push</div>
-                </div>
-              </div>
-              <span class="s-tag s-tag-amber" id="prev-status-badge">UNCLAIMED</span>
-            </div>
-
-            <div class="s-envelope-title" id="prev-mail-title">Welcome Care Package &amp; Elite Pass Drop</div>
-            <div class="s-envelope-body" id="prev-mail-body">Welcome to India V1 1.39 Server! Claim your exclusive gold, diamonds, and rare cosmetic loadout below. Ready up and join the squad!</div>
-
-            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:2px;">
-              Claimable Rewards Payload
-            </div>
-            <div class="s-envelope-rewards" id="prev-rewards-container">
-              <!-- Rendered via JS -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       SUB-TAB 2: IN-GAME MAILBOX INSPECTOR
-       ========================================================================= -->
-  <section id="pane-mailbox-inspector" class="s-subtab-pane">
-    <!-- LEFT COLUMN: INBOX ROSTER -->
-    <div class="s-col-left">
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-            Inbox Repository
-          </div>
-          <div class="s-btn-cluster">
-            <button class="s-btn s-btn-gold s-btn-sm" onclick="SocialSection.claimAllMails()">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-              Claim All Mails
-            </button>
-            <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.loadMailbox()">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              Refresh
-            </button>
-          </div>
-        </div>
-
-        <!-- Filter bar -->
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="text" id="mailbox-search-input" class="s-form-input" style="flex:1;" placeholder="Filter mails by subject or sender..." oninput="SocialSection.filterMailList()">
-          <select id="mailbox-status-filter" class="s-form-select" style="width:130px;" onchange="SocialSection.filterMailList()">
-            <option value="all">All Mails</option>
-            <option value="unclaimed" selected>Unclaimed Only</option>
-            <option value="claimed">Claimed Only</option>
-          </select>
-        </div>
-
-        <!-- Mail Items List -->
-        <div class="s-card-body-scroll" id="mailbox-items-container">
-          <!-- Rendered via JS -->
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN: ACTIVE MAIL TERMINAL -->
-    <div class="s-col-right">
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            Mail Detail Terminal
-          </div>
-          <span class="s-tag s-tag-cyan" id="inspect-mail-id-tag">Select a Mail</span>
-        </div>
-
-        <div class="s-card-body-scroll" id="mail-detail-container">
-          <div style="color:var(--s-text-dim); text-align:center; padding:48px 16px;">
-            Click any mail on the left list to inspect its contents, claim attached rewards, or delete it from the server.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       SUB-TAB 3: ONLINE FRIENDS & SOCIAL ROSTER
-       ========================================================================= -->
-  <section id="pane-friends-roster" class="s-subtab-pane">
-    <!-- LEFT COLUMN: ACTIVE FRIENDS DIRECTORY -->
-    <div class="s-col-left">
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Social Friends Directory &amp; Live Status Controller
-          </div>
-          <div class="s-btn-cluster">
-            <span class="s-card-badge" id="friends-online-badge">0 Online</span>
-            <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.loadFriends()">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              Refresh
-            </button>
-          </div>
-        </div>
-
-        <!-- Filter & Search Toolbar -->
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="text" id="friends-search-input" class="s-form-input" style="flex:1;" placeholder="Search friends by nickname or UID..." oninput="SocialSection.filterFriendsList()">
-          <select id="friends-status-filter" class="s-form-select" style="width:140px;" onchange="SocialSection.filterFriendsList()">
-            <option value="all">All Friends</option>
-            <option value="1" selected>Online / In Lobby</option>
-            <option value="2">In Squad</option>
-            <option value="3">In Match</option>
-            <option value="0">Offline</option>
-          </select>
-        </div>
-
-        <!-- Friends List -->
-        <div class="s-card-body-scroll" id="friends-list-container">
-          <!-- Rendered via JS -->
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN: DISCOVERY & INJECTOR -->
-    <div class="s-col-right">
-      <!-- Pending Requests -->
-      <div class="s-card" style="flex:0 0 auto; max-height:210px;">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-            Pending Friend Requests
-          </div>
-          <span class="s-tag s-tag-cyan" id="friend-requests-count">0 Requests</span>
-        </div>
-        <div class="s-card-body-scroll" id="friend-requests-container" style="max-height:130px;">
-          <div style="color:var(--s-text-dim); text-align:center; padding:18px;">No pending incoming requests.</div>
-        </div>
-      </div>
-
-      <!-- Add Friend / Bot Injector -->
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            Add Friend or Inject Bot
-          </div>
-          <span class="s-tag s-tag-green">INSTANT LINK</span>
-        </div>
-
-        <div class="s-card-body-scroll">
-          <div class="s-form-group">
-            <label class="s-form-label">Player Account UID</label>
-            <input type="number" id="add-friend-uid" class="s-form-input monospace" placeholder="e.g. 20008">
-          </div>
-          <div class="s-form-group">
-            <label class="s-form-label">Display Nickname</label>
-            <input type="text" id="add-friend-nick" class="s-form-input" placeholder="e.g. Rafael_Silent">
-          </div>
-          <div class="s-form-group">
-            <label class="s-form-label" style="text-transform:none;">
-              <input type="checkbox" id="add-friend-autoaccept" checked style="margin-right:6px;">
-              Auto-Accept (Bypasses invitation queue, immediate bidirectional link)
-            </label>
-          </div>
-          <button class="s-btn s-btn-primary" onclick="SocialSection.submitAddFriend()">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add To Friends List
-          </button>
-
-          <!-- Pre-Seeded Recommended Bots List -->
-          <div style="margin-top:10px;">
-            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-bottom:8px;">
-              Pre-Seeded Server Bots
-            </div>
-            <div id="recommended-bots-list" style="display:flex; flex-direction:column; gap:6px;">
-              <!-- Rendered via JS -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       SUB-TAB 4: SQUAD LOBBY & TCP INVITE TRIGGER
-       ========================================================================= -->
-  <section id="pane-squad-lobby" class="s-subtab-pane">
-    <!-- LEFT COLUMN: ACTIVE SQUAD SESSION -->
-    <div class="s-col-equal">
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Active Squad Session
-          </div>
-          <div class="s-btn-cluster">
-            <span class="s-tag s-tag-cyan" id="squad-status-badge">SOLO LOBBY</span>
-            <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.loadSquad()">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-              Refresh
-            </button>
-          </div>
-        </div>
-
-        <div class="s-card-body-scroll">
-          <!-- Squad Overview Info -->
-          <div style="background:rgba(10,15,29,0.7); border:1px solid var(--s-border); border-radius:var(--s-radius-sm); padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <div style="font-size:13.5px; font-weight:700; color:#fff;" id="squad-name-display">India V1 Battle Squad</div>
-              <div style="font-size:11px; color:var(--s-text-dim); margin-top:2px;" id="squad-meta-display">Squad ID: 10001 &bull; Mode: 4-Man Squad &bull; Map: Bermuda</div>
-            </div>
-            <div class="s-btn-cluster">
-              <button class="s-btn s-btn-green s-btn-sm" id="squad-ready-btn" onclick="SocialSection.toggleSquadReady()">Ready Up</button>
-              <button class="s-btn s-btn-danger s-btn-sm" id="squad-leave-btn" onclick="SocialSection.leaveSquad()">Leave Squad</button>
-            </div>
-          </div>
-
-          <!-- 4-Slot Squad Roster -->
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:4px;">
-            Squad Roster (4 Slots)
-          </div>
-          <div class="s-squad-slots-grid" id="squad-slots-grid">
-            <!-- Rendered via JS -->
-          </div>
-
-          <!-- Create Squad Controls -->
-          <div style="background:rgba(10,15,29,0.5); border:1px dashed var(--s-border); border-radius:var(--s-radius-sm); padding:12px; margin-top:8px;">
-            <div style="font-size:12px; font-weight:700; color:#fff; margin-bottom:8px;">Form New Squad Session</div>
+          <div class="s-card-body-scroll">
+            <!-- Recipient & Category -->
             <div class="s-form-row">
               <div class="s-form-group">
-                <label class="s-form-label">Squad Mode</label>
-                <select id="create-squad-mode" class="s-form-select">
-                  <option value="squad" selected>4-Man Squad</option>
-                  <option value="duo">2-Man Duo</option>
-                  <option value="solo">Solo Queue</option>
-                </select>
+                <label class="s-form-label">Recipient Account UID</label>
+                <input type="number" id="comp-recipient-uid" class="s-form-input monospace" value="10001"
+                  onchange="SocialSection.onComposerFieldChange()">
               </div>
               <div class="s-form-group">
-                <label class="s-form-label">Battleground Map</label>
-                <select id="create-squad-map" class="s-form-select">
-                  <option value="1" selected>Bermuda (Classic)</option>
-                  <option value="2">Purgatory</option>
-                  <option value="3">Kalahari</option>
+                <label class="s-form-label">Sender Display Name</label>
+                <input type="text" id="comp-sender-nick" class="s-form-input" value="India V1 Operations"
+                  oninput="SocialSection.onComposerFieldChange()">
+              </div>
+              <div class="s-form-group">
+                <label class="s-form-label">Mail Classification</label>
+                <select id="comp-mail-type" class="s-form-select" onchange="SocialSection.onComposerFieldChange()">
+                  <option value="1">1 - System Notice / General</option>
+                  <option value="2">2 - Reward Drop / Grants</option>
+                  <option value="3" selected>3 - Exclusive Elite Care Package</option>
+                  <option value="4">4 - Clan / Tournament Dispatch</option>
                 </select>
               </div>
             </div>
-            <div class="s-btn-cluster" style="margin-top:8px;">
-              <button class="s-btn s-btn-primary s-btn-sm" onclick="SocialSection.createNewSquad()">
-                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                Create Squad Lobby
+
+            <!-- Mail Subject & Body -->
+            <div class="s-form-group">
+              <label class="s-form-label">Mail Title (Subject Line)</label>
+              <input type="text" id="comp-mail-title" class="s-form-input"
+                value="Welcome Care Package &amp; Elite Pass Drop" oninput="SocialSection.onComposerFieldChange()">
+            </div>
+
+            <div class="s-form-group">
+              <label class="s-form-label">Message Content</label>
+              <textarea id="comp-mail-body" class="s-form-textarea"
+                oninput="SocialSection.onComposerFieldChange()">Welcome to India V1 1.39 Server! Claim your exclusive gold, diamonds, and rare cosmetic loadout below. Ready up and join the squad!</textarea>
+            </div>
+
+            <!-- Claimable Currency Controls -->
+            <div class="s-form-row">
+              <div class="s-form-group">
+                <label class="s-form-label">
+                  <span>Claimable Gold (Coins)</span>
+                  <span id="gold-preview-formatted" class="monospace" style="color:var(--s-gold)">+50,000</span>
+                </label>
+                <input type="number" id="comp-coins" class="s-form-input monospace" value="50000" min="0" step="5000"
+                  oninput="SocialSection.onComposerFieldChange()">
+                <div class="s-step-pills">
+                  <button type="button" class="s-step-btn"
+                    onclick="SocialSection.addCurrency('coins', 10000)">+10K</button>
+                  <button type="button" class="s-step-btn"
+                    onclick="SocialSection.addCurrency('coins', 50000)">+50K</button>
+                  <button type="button" class="s-step-btn"
+                    onclick="SocialSection.addCurrency('coins', 100000)">+100K</button>
+                  <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('coins', 1000000)">1M
+                    MAX</button>
+                  <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('coins', 0)">0</button>
+                </div>
+              </div>
+
+              <div class="s-form-group">
+                <label class="s-form-label">
+                  <span>Claimable Diamonds</span>
+                  <span id="gems-preview-formatted" class="monospace" style="color:var(--s-cyan)">+2,500</span>
+                </label>
+                <input type="number" id="comp-gems" class="s-form-input monospace" value="2500" min="0" step="500"
+                  oninput="SocialSection.onComposerFieldChange()">
+                <div class="s-step-pills">
+                  <button type="button" class="s-step-btn"
+                    onclick="SocialSection.addCurrency('gems', 1000)">+1K</button>
+                  <button type="button" class="s-step-btn"
+                    onclick="SocialSection.addCurrency('gems', 5000)">+5K</button>
+                  <button type="button" class="s-step-btn"
+                    onclick="SocialSection.addCurrency('gems', 25000)">+25K</button>
+                  <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('gems', 100000)">100K
+                    MAX</button>
+                  <button type="button" class="s-step-btn" onclick="SocialSection.setCurrency('gems', 0)">0</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Claimable Item Attachments Builder -->
+            <div class="s-form-group">
+              <label class="s-form-label">
+                <span>Attached Items &amp; Loot Crates</span>
+                <span id="attachments-count-label" class="monospace">2 Items Attached</span>
+              </label>
+              <div class="s-form-row" style="grid-template-columns: 2fr 1fr auto;">
+                <select id="comp-item-preset" class="s-form-select" onchange="SocialSection.onItemPresetSelected()">
+                  <option value="">-- Quick Pick Preset Item --</option>
+                  <option value="907100001">907100001 - Weapon Royale Crate</option>
+                  <option value="700000001">700000001 - Elite Pass Badge Token</option>
+                  <option value="901000001">901000001 - Season Founder Banner</option>
+                  <option value="902000001">902000001 - Cyber Soldier Avatar</option>
+                  <option value="203000001">203000001 - Tactical Combat Jacket</option>
+                  <option value="204000001">204000001 - Spec-Ops Tactical Pants</option>
+                  <option value="205000001">205000001 - High-Top Combat Sneakers</option>
+                  <option value="908000001">908000001 - Level 3 Tactical Backpack</option>
+                  <option value="910000001">910000001 - Neon Surfboard</option>
+                  <option value="909000001">909000001 - Blackout Parachute</option>
+                </select>
+                <input type="number" id="comp-item-count" class="s-form-input monospace" value="1" min="1"
+                  placeholder="Qty">
+                <button type="button" class="s-btn s-btn-secondary" onclick="SocialSection.addAttachmentItem()">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  Attach
+                </button>
+              </div>
+
+              <!-- Active Attachment Chips -->
+              <div class="s-attachment-pills-list" id="comp-attachment-chips">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Composer Action Bar -->
+          <div class="s-card-header"
+            style="border-top: 1px solid var(--s-border); border-bottom: none; padding-top: 12px; padding-bottom: 0;">
+            <div class="s-btn-cluster">
+              <button class="s-btn s-btn-primary" onclick="SocialSection.dispatchMail()">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="m22 2-7 20-4-9-9-4Z" />
+                  <path d="M22 2 11 13" />
+                </svg>
+                Dispatch In-Game Mail
               </button>
+              <button class="s-btn s-btn-secondary" onclick="SocialSection.resetComposer()">Reset</button>
+            </div>
+            <span style="font-size: 11px; color: var(--s-text-dim);">Sends instantly to player inbox via state
+              store</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: QUICK PRESETS & LIVE ENVELOPE SIMULATOR -->
+      <div class="s-col-right">
+        <!-- Quick Dispatch Presets -->
+        <div class="s-card" style="flex: 0 0 auto;">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+              One-Click Preset Packages
+            </div>
+            <span style="font-size:11px; color:var(--s-text-dim);">Apply Template</span>
+          </div>
+          <div class="s-templates-grid">
+            <div class="s-template-card" onclick="SocialSection.applyTemplate('welcome')">
+              <div class="s-template-title">Welcome Recruit</div>
+              <div class="s-template-rewards">50K Gold / 2.5K Gems</div>
+              <span class="s-tag s-tag-cyan" style="align-self:flex-start;">Banner + Avatar</span>
+            </div>
+            <div class="s-template-card" onclick="SocialSection.applyTemplate('compensation')">
+              <div class="s-template-title">Hotfix Compensation</div>
+              <div class="s-template-rewards">100K Gold / 5K Gems</div>
+              <span class="s-tag s-tag-amber" style="align-self:flex-start;">Weapon Crate</span>
+            </div>
+            <div class="s-template-card" onclick="SocialSection.applyTemplate('ranked')">
+              <div class="s-template-title">Ranked Grandmaster</div>
+              <div class="s-template-rewards">250K Gold / 15K Gems</div>
+              <span class="s-tag s-tag-green" style="align-self:flex-start;">Combat Suit Set</span>
+            </div>
+            <div class="s-template-card" onclick="SocialSection.applyTemplate('whale')">
+              <div class="s-template-title">Infinite Ops Drop</div>
+              <div class="s-template-rewards">1M Gold / 100K Gems</div>
+              <span class="s-tag s-tag-rose" style="align-self:flex-start;">Elite Pass Token</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Envelope Preview -->
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M2 12h20M2 12l5-5m-5 5 5 5" />
+              </svg>
+              In-Game Mailbox Letterhead Preview
+            </div>
+            <span class="s-tag s-tag-cyan" id="preview-type-tag">TYPE 3</span>
+          </div>
+
+          <div class="s-card-body-scroll">
+            <div class="s-mail-envelope-simulator">
+              <div class="s-envelope-header">
+                <div class="s-envelope-sender">
+                  <div class="s-envelope-avatar" id="prev-sender-avatar">OP</div>
+                  <div>
+                    <div style="font-weight:700; color:#fff; font-size:12.5px;" id="prev-sender-nick">India V1
+                      Operations</div>
+                    <div style="font-size:10.5px; color:var(--s-text-dim);" id="prev-date-stamp">Just now &bull; Direct
+                      System Push</div>
+                  </div>
+                </div>
+                <span class="s-tag s-tag-amber" id="prev-status-badge">UNCLAIMED</span>
+              </div>
+
+              <div class="s-envelope-title" id="prev-mail-title">Welcome Care Package &amp; Elite Pass Drop</div>
+              <div class="s-envelope-body" id="prev-mail-body">Welcome to India V1 1.39 Server! Claim your exclusive
+                gold, diamonds, and rare cosmetic loadout below. Ready up and join the squad!</div>
+
+              <div
+                style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:2px;">
+                Claimable Rewards Payload
+              </div>
+              <div class="s-envelope-rewards" id="prev-rewards-container">
+                <!-- Rendered via JS -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- RIGHT COLUMN: INSTANT TCP INVITE TRIGGER -->
-    <div class="s-col-equal">
-      <div class="s-card s-card-grow">
-        <div class="s-card-header">
-          <div class="s-card-title">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
-            Instant TCP Squad Invite Trigger (Port 8081)
+    <!-- =========================================================================
+       SUB-TAB 2: IN-GAME MAILBOX INSPECTOR
+       ========================================================================= -->
+    <section id="pane-mailbox-inspector" class="s-subtab-pane">
+      <!-- LEFT COLUMN: INBOX ROSTER -->
+      <div class="s-col-left">
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                <path
+                  d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+              </svg>
+              Inbox Repository
+            </div>
+            <div class="s-btn-cluster">
+              <button class="s-btn s-btn-gold s-btn-sm" onclick="SocialSection.claimAllMails()">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" viewBox="0 0 24 24">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Claim All Mails
+              </button>
+              <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.loadMailbox()">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+                Refresh
+              </button>
+            </div>
           </div>
-          <span class="s-tag s-tag-green">PACKET: 0x07 / GroupInviteNtf</span>
-        </div>
 
-        <div class="s-card-body-scroll">
-          <div style="font-size:12px; color:var(--s-text-muted); background:rgba(0,0,0,0.25); border-radius:var(--s-radius-sm); padding:10px; border-left:3px solid var(--s-cyan);">
-            Directly pushes a protobuf wire payload (EGroupProto.INVITE_NTF) over TCP socket port 8081. Connected game client will immediately display an on-screen squad invite dialog.
-          </div>
-
-          <!-- Trigger Mode -->
-          <div class="s-form-group">
-            <label class="s-form-label">Transmission Direction</label>
-            <select id="invite-direction-select" class="s-form-select" onchange="SocialSection.onInviteDirectionChange()">
-              <option value="to_player" selected>Bot / Friend Invites Player (Client Receives Invite)</option>
-              <option value="from_player">Player Invites Bot / Friend to Squad</option>
+          <!-- Filter bar -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="text" id="mailbox-search-input" class="s-form-input" style="flex:1;"
+              placeholder="Filter mails by subject or sender..." oninput="SocialSection.filterMailList()">
+            <select id="mailbox-status-filter" class="s-form-select" style="width:130px;"
+              onchange="SocialSection.filterMailList()">
+              <option value="all">All Mails</option>
+              <option value="unclaimed" selected>Unclaimed Only</option>
+              <option value="claimed">Claimed Only</option>
             </select>
           </div>
 
-          <!-- Inviter / Target Selector -->
-          <div class="s-form-row">
-            <div class="s-form-group" id="invite-bot-group">
-              <label class="s-form-label">Inviting Bot / Friend</label>
-              <select id="invite-bot-select" class="s-form-select">
-                <option value="20003">20003 - Hayato_Blade (Leader)</option>
-                <option value="20002">20002 - Kelly_Dash</option>
-                <option value="20001">20001 - IndiaV1_Bot</option>
-                <option value="20004">20004 - Kla_OnePunch</option>
-                <option value="20005">20005 - Paloma_Arms</option>
-                <option value="20008">20008 - Alok_DJ</option>
-              </select>
-            </div>
-            <div class="s-form-group" id="invite-target-group" style="display:none;">
-              <label class="s-form-label">Target Friend / Bot UID</label>
-              <input type="number" id="invite-target-uid" class="s-form-input monospace" value="20002">
-            </div>
-            <div class="s-form-group">
-              <label class="s-form-label">Match Mode</label>
-              <select id="invite-gamemode-select" class="s-form-select">
-                <option value="1">1 - Battle Royale Classic</option>
-                <option value="2">2 - Clash Squad</option>
-                <option value="3">3 - Ranked Game</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Instant Trigger Button -->
-          <div class="s-btn-cluster" style="margin-top:4px;">
-            <button class="s-btn s-btn-primary" style="padding:10px 20px; font-size:13px;" onclick="SocialSection.triggerTcpSquadInvite()">
-              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              Transmit Instant TCP Squad Invite
-            </button>
-          </div>
-
-          <!-- Telemetry & Dispatch Log -->
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:8px;">
-            TCP Telemetry &amp; Invite Log
-          </div>
-          <div class="s-tcp-telemetry-box" id="tcp-log-container">
-            <div class="s-tcp-log-line">
-              <span class="s-tcp-time">[SYSTEM]</span>
-              <span>TCP Server initialized on port 8081. Ready for GroupInviteNtf push.</span>
-            </div>
-          </div>
-
-          <!-- Pending Incoming Squad Invitations -->
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:8px;">
-            Incoming Squad Invitations
-          </div>
-          <div id="incoming-invitations-container" style="display:flex; flex-direction:column; gap:6px;">
-            <div style="color:var(--s-text-dim); font-size:11.5px; padding:8px 0;">No pending squad invites for UID 10001.</div>
+          <!-- Mail Items List -->
+          <div class="s-card-body-scroll" id="mailbox-items-container">
+            <!-- Rendered via JS -->
           </div>
         </div>
       </div>
-    </div>
-  </section>
-</div>
 
-<!-- FLOATING TOAST NOTIFICATIONS -->
-<div id="s-toast-box"></div>
+      <!-- RIGHT COLUMN: ACTIVE MAIL TERMINAL -->
+      <div class="s-col-right">
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              Mail Detail Terminal
+            </div>
+            <span class="s-tag s-tag-cyan" id="inspect-mail-id-tag">Select a Mail</span>
+          </div>
 
-<!-- COMPONENT LOGIC SCRIPT -->
-<script src="social.js"></script>
+          <div class="s-card-body-scroll" id="mail-detail-container">
+            <div style="color:var(--s-text-dim); text-align:center; padding:48px 16px;">
+              Click any mail on the left list to inspect its contents, claim attached rewards, or delete it from the
+              server.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+       SUB-TAB 3: ONLINE FRIENDS & SOCIAL ROSTER
+       ========================================================================= -->
+    <section id="pane-friends-roster" class="s-subtab-pane">
+      <!-- LEFT COLUMN: ACTIVE FRIENDS DIRECTORY -->
+      <div class="s-col-left">
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              Social Friends Directory &amp; Live Status Controller
+            </div>
+            <div class="s-btn-cluster">
+              <span class="s-card-badge" id="friends-online-badge">0 Online</span>
+              <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.loadFriends()">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+                Refresh
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter & Search Toolbar -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="text" id="friends-search-input" class="s-form-input" style="flex:1;"
+              placeholder="Search friends by nickname or UID..." oninput="SocialSection.filterFriendsList()">
+            <select id="friends-status-filter" class="s-form-select" style="width:140px;"
+              onchange="SocialSection.filterFriendsList()">
+              <option value="all">All Friends</option>
+              <option value="1" selected>Online / In Lobby</option>
+              <option value="2">In Squad</option>
+              <option value="3">In Match</option>
+              <option value="0">Offline</option>
+            </select>
+          </div>
+
+          <!-- Friends List -->
+          <div class="s-card-body-scroll" id="friends-list-container">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: DISCOVERY & INJECTOR -->
+      <div class="s-col-right">
+        <!-- Pending Requests -->
+        <div class="s-card" style="flex:0 0 auto; max-height:210px;">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <line x1="19" y1="8" x2="19" y2="14" />
+                <line x1="22" y1="11" x2="16" y2="11" />
+              </svg>
+              Pending Friend Requests
+            </div>
+            <span class="s-tag s-tag-cyan" id="friend-requests-count">0 Requests</span>
+          </div>
+          <div class="s-card-body-scroll" id="friend-requests-container" style="max-height:130px;">
+            <div style="color:var(--s-text-dim); text-align:center; padding:18px;">No pending incoming requests.</div>
+          </div>
+        </div>
+
+        <!-- Add Friend / Bot Injector -->
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="16" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+              </svg>
+              Add Friend or Inject Bot
+            </div>
+            <span class="s-tag s-tag-green">INSTANT LINK</span>
+          </div>
+
+          <div class="s-card-body-scroll">
+            <div class="s-form-group">
+              <label class="s-form-label">Player Account UID</label>
+              <input type="number" id="add-friend-uid" class="s-form-input monospace" placeholder="e.g. 20008">
+            </div>
+            <div class="s-form-group">
+              <label class="s-form-label">Display Nickname</label>
+              <input type="text" id="add-friend-nick" class="s-form-input" placeholder="e.g. Rafael_Silent">
+            </div>
+            <div class="s-form-group">
+              <label class="s-form-label" style="text-transform:none;">
+                <input type="checkbox" id="add-friend-autoaccept" checked style="margin-right:6px;">
+                Auto-Accept (Bypasses invitation queue, immediate bidirectional link)
+              </label>
+            </div>
+            <button class="s-btn s-btn-primary" onclick="SocialSection.submitAddFriend()">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add To Friends List
+            </button>
+
+            <!-- Pre-Seeded Recommended Bots List -->
+            <div style="margin-top:10px;">
+              <div
+                style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-bottom:8px;">
+                Pre-Seeded Server Bots
+              </div>
+              <div id="recommended-bots-list" style="display:flex; flex-direction:column; gap:6px;">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+       SUB-TAB 4: SQUAD LOBBY & TCP INVITE TRIGGER
+       ========================================================================= -->
+    <section id="pane-squad-lobby" class="s-subtab-pane">
+      <!-- LEFT COLUMN: ACTIVE SQUAD SESSION -->
+      <div class="s-col-equal">
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              Active Squad Session
+            </div>
+            <div class="s-btn-cluster">
+              <span class="s-tag s-tag-cyan" id="squad-status-badge">SOLO LOBBY</span>
+              <button class="s-btn s-btn-secondary s-btn-sm" onclick="SocialSection.loadSquad()">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+                Refresh
+              </button>
+            </div>
+          </div>
+
+          <div class="s-card-body-scroll">
+            <!-- Squad Overview Info -->
+            <div
+              style="background:rgba(10,15,29,0.7); border:1px solid var(--s-border); border-radius:var(--s-radius-sm); padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:13.5px; font-weight:700; color:#fff;" id="squad-name-display">India V1 Battle
+                  Squad</div>
+                <div style="font-size:11px; color:var(--s-text-dim); margin-top:2px;" id="squad-meta-display">Squad ID:
+                  10001 &bull; Mode: 4-Man Squad &bull; Map: Bermuda</div>
+              </div>
+              <div class="s-btn-cluster">
+                <button class="s-btn s-btn-green s-btn-sm" id="squad-ready-btn"
+                  onclick="SocialSection.toggleSquadReady()">Ready Up</button>
+                <button class="s-btn s-btn-danger s-btn-sm" id="squad-leave-btn"
+                  onclick="SocialSection.leaveSquad()">Leave Squad</button>
+              </div>
+            </div>
+
+            <!-- 4-Slot Squad Roster -->
+            <div
+              style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:4px;">
+              Squad Roster (4 Slots)
+            </div>
+            <div class="s-squad-slots-grid" id="squad-slots-grid">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Create Squad Controls -->
+            <div
+              style="background:rgba(10,15,29,0.5); border:1px dashed var(--s-border); border-radius:var(--s-radius-sm); padding:12px; margin-top:8px;">
+              <div style="font-size:12px; font-weight:700; color:#fff; margin-bottom:8px;">Form New Squad Session</div>
+              <div class="s-form-row">
+                <div class="s-form-group">
+                  <label class="s-form-label">Squad Mode</label>
+                  <select id="create-squad-mode" class="s-form-select">
+                    <option value="squad" selected>4-Man Squad</option>
+                    <option value="duo">2-Man Duo</option>
+                    <option value="solo">Solo Queue</option>
+                  </select>
+                </div>
+                <div class="s-form-group">
+                  <label class="s-form-label">Battleground Map</label>
+                  <select id="create-squad-map" class="s-form-select">
+                    <option value="1" selected>Bermuda (Classic)</option>
+                    <option value="2">Purgatory</option>
+                    <option value="3">Kalahari</option>
+                  </select>
+                </div>
+              </div>
+              <div class="s-btn-cluster" style="margin-top:8px;">
+                <button class="s-btn s-btn-primary s-btn-sm" onclick="SocialSection.createNewSquad()">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                  Create Squad Lobby
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: INSTANT TCP INVITE TRIGGER -->
+      <div class="s-col-equal">
+        <div class="s-card s-card-grow">
+          <div class="s-card-header">
+            <div class="s-card-title">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="2" />
+                <path
+                  d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14" />
+              </svg>
+              Instant TCP Squad Invite Trigger (Port 8081)
+            </div>
+            <span class="s-tag s-tag-green">PACKET: 0x07 / GroupInviteNtf</span>
+          </div>
+
+          <div class="s-card-body-scroll">
+            <div
+              style="font-size:12px; color:var(--s-text-muted); background:rgba(0,0,0,0.25); border-radius:var(--s-radius-sm); padding:10px; border-left:3px solid var(--s-cyan);">
+              Directly pushes a protobuf wire payload (EGroupProto.INVITE_NTF) over TCP socket port 8081. Connected game
+              client will immediately display an on-screen squad invite dialog.
+            </div>
+
+            <!-- Trigger Mode -->
+            <div class="s-form-group">
+              <label class="s-form-label">Transmission Direction</label>
+              <select id="invite-direction-select" class="s-form-select"
+                onchange="SocialSection.onInviteDirectionChange()">
+                <option value="to_player" selected>Bot / Friend Invites Player (Client Receives Invite)</option>
+                <option value="from_player">Player Invites Bot / Friend to Squad</option>
+              </select>
+            </div>
+
+            <!-- Inviter / Target Selector -->
+            <div class="s-form-row">
+              <div class="s-form-group" id="invite-bot-group">
+                <label class="s-form-label">Inviting Bot / Friend</label>
+                <select id="invite-bot-select" class="s-form-select">
+                  <option value="20003">20003 - Hayato_Blade (Leader)</option>
+                  <option value="20002">20002 - Kelly_Dash</option>
+                  <option value="20001">20001 - IndiaV1_Bot</option>
+                  <option value="20004">20004 - Kla_OnePunch</option>
+                  <option value="20005">20005 - Paloma_Arms</option>
+                  <option value="20008">20008 - Alok_DJ</option>
+                </select>
+              </div>
+              <div class="s-form-group" id="invite-target-group" style="display:none;">
+                <label class="s-form-label">Target Friend / Bot UID</label>
+                <input type="number" id="invite-target-uid" class="s-form-input monospace" value="20002">
+              </div>
+              <div class="s-form-group">
+                <label class="s-form-label">Match Mode</label>
+                <select id="invite-gamemode-select" class="s-form-select">
+                  <option value="1">1 - Battle Royale Classic</option>
+                  <option value="2">2 - Clash Squad</option>
+                  <option value="3">3 - Ranked Game</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Instant Trigger Button -->
+            <div class="s-btn-cluster" style="margin-top:4px;">
+              <button class="s-btn s-btn-primary" style="padding:10px 20px; font-size:13px;"
+                onclick="SocialSection.triggerTcpSquadInvite()">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" viewBox="0 0 24 24">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                Transmit Instant TCP Squad Invite
+              </button>
+            </div>
+
+            <!-- Telemetry & Dispatch Log -->
+            <div
+              style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:8px;">
+              TCP Telemetry &amp; Invite Log
+            </div>
+            <div class="s-tcp-telemetry-box" id="tcp-log-container">
+              <div class="s-tcp-log-line">
+                <span class="s-tcp-time">[SYSTEM]</span>
+                <span>TCP Server initialized on port 8081. Ready for GroupInviteNtf push.</span>
+              </div>
+            </div>
+
+            <!-- Pending Incoming Squad Invitations -->
+            <div
+              style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:var(--s-text-muted); margin-top:8px;">
+              Incoming Squad Invitations
+            </div>
+            <div id="incoming-invitations-container" style="display:flex; flex-direction:column; gap:6px;">
+              <div style="color:var(--s-text-dim); font-size:11.5px; padding:8px 0;">No pending squad invites for UID
+                10001.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FLOATING TOAST NOTIFICATIONS -->
+  <div id="s-toast-box"></div>
+
+  <!-- COMPONENT LOGIC SCRIPT -->
+  <script src="social.js"></script>
 
 </body>
+
 </html>

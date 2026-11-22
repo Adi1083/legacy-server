@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>India V1 1.39 - Boot, Login &amp; Branding CMS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css">
   <style>
     :root {
-      --bg-base: #070a12;
-      --bg-surface: rgba(15, 23, 42, 0.78);
-      --bg-surface-elevated: rgba(22, 33, 59, 0.88);
-      --bg-input: rgba(10, 15, 29, 0.85);
-      --border: rgba(255, 255, 255, 0.08);
+      --bg-base: #f5f5f7;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #fbfbfd;
+      --bg-input: #f2f2f7;
+      --border: #e5e5ea;
       --border-hover: rgba(56, 189, 248, 0.35);
       --border-active: #38bdf8;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --cyan: #38bdf8;
+      --text-main: #1d1d1f;
+      --text-muted: #6e6e73;
+      --text-dim: #86868b;
+      --cyan: #0071e3;
       --cyan-glow: rgba(56, 189, 248, 0.22);
       --green: #10b981;
       --green-glow: rgba(16, 185, 129, 0.22);
@@ -32,11 +36,14 @@
       --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background: radial-gradient(circle at 10% 10%, #0d172e 0%, transparent 45%),
-                  radial-gradient(circle at 90% 90%, #111827 0%, transparent 45%),
-                  var(--bg-base);
+      background: #f5f5f7;
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       font-size: 13px;
@@ -46,10 +53,23 @@
       padding: 24px;
     }
 
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: rgba(7, 10, 18, 0.5); }
-    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.25); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.45); }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(7, 10, 18, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, 0.25);
+      border-radius: 999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.45);
+    }
 
     .header-bar {
       display: flex;
@@ -59,6 +79,7 @@
       padding-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
+
     .header-title h2 {
       font-size: 20px;
       font-weight: 800;
@@ -68,6 +89,7 @@
       align-items: center;
       gap: 10px;
     }
+
     .header-title p {
       font-size: 12.5px;
       color: var(--text-muted);
@@ -79,6 +101,7 @@
       gap: 12px;
       align-items: center;
     }
+
     .stat-chip {
       padding: 6px 14px;
       border-radius: 999px;
@@ -90,14 +113,34 @@
       align-items: center;
       gap: 6px;
     }
-    .stat-chip.live { border-color: rgba(16, 185, 129, 0.4); color: #34d399; }
+
+    .stat-chip.live {
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
     .pulse-dot {
-      width: 7px; height: 7px; border-radius: 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
       background: var(--green);
       box-shadow: 0 0 8px var(--green);
       animation: pulse 1.8s infinite;
     }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+      }
+    }
 
     .btn {
       padding: 8px 16px;
@@ -113,25 +156,43 @@
       transition: all 0.2s ease;
       user-select: none;
     }
+
     .btn-primary {
       background: linear-gradient(135deg, #0284c7, #38bdf8);
       color: #031326;
       box-shadow: 0 4px 12px var(--cyan-glow);
     }
-    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
     .btn-secondary {
       background: rgba(30, 41, 59, 0.7);
       color: var(--text-main);
       border-color: var(--border);
     }
-    .btn-secondary:hover { background: rgba(51, 65, 85, 0.8); border-color: rgba(255, 255, 255, 0.2); }
+
+    .btn-secondary:hover {
+      background: rgba(51, 65, 85, 0.8);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
     .btn-gold {
       background: linear-gradient(135deg, #d97706, #f59e0b);
       color: #1a0f00;
       box-shadow: 0 4px 12px var(--gold-glow);
     }
-    .btn-gold:hover { filter: brightness(1.1); }
-    .btn-sm { padding: 6px 12px; font-size: 11.5px; }
+
+    .btn-gold:hover {
+      filter: brightness(1.1);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 11.5px;
+    }
 
     /* Category Filter Tabs */
     .filter-tabs {
@@ -139,6 +200,7 @@
       gap: 8px;
       margin-bottom: 20px;
     }
+
     .filter-tab {
       padding: 7px 16px;
       border-radius: var(--radius-sm);
@@ -150,7 +212,12 @@
       font-size: 12px;
       transition: all 0.15s;
     }
-    .filter-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+
+    .filter-tab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
     .filter-tab.active {
       color: #fff;
       background: rgba(56, 189, 248, 0.15);
@@ -177,6 +244,7 @@
       transition: all 0.2s ease;
       position: relative;
     }
+
     .slot-card:hover {
       border-color: var(--border-hover);
       transform: translateY(-2px);
@@ -188,16 +256,19 @@
       align-items: flex-start;
       gap: 10px;
     }
+
     .slot-title {
       font-size: 14px;
       font-weight: 700;
       color: #fff;
     }
+
     .slot-desc {
       font-size: 11.5px;
       color: var(--text-muted);
       margin-top: 2px;
     }
+
     .badge {
       padding: 3px 8px;
       border-radius: 999px;
@@ -206,9 +277,24 @@
       letter-spacing: 0.04em;
       white-space: nowrap;
     }
-    .badge-boot { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-    .badge-login { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
-    .badge-lobby { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .badge-boot {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-login {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .badge-lobby {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
 
     /* Preview Canvas Area */
     .preview-box {
@@ -222,23 +308,26 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-image: 
-        linear-gradient(45deg, #0b1120 25%, transparent 25%), 
-        linear-gradient(-45deg, #0b1120 25%, transparent 25%), 
-        linear-gradient(45deg, transparent 75%, #0b1120 75%), 
+      background-image:
+        linear-gradient(45deg, #0b1120 25%, transparent 25%),
+        linear-gradient(-45deg, #0b1120 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #0b1120 75%),
         linear-gradient(-45deg, transparent 75%, #0b1120 75%);
       background-size: 16px 16px;
       background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
     }
+
     .preview-img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
       transition: transform 0.2s;
     }
+
     .preview-box:hover .preview-img {
       transform: scale(1.02);
     }
+
     .res-overlay {
       position: absolute;
       bottom: 8px;
@@ -275,7 +364,9 @@
       background: rgba(56, 189, 248, 0.04);
       transition: all 0.2s;
     }
-    .drop-trigger:hover, .drop-trigger.dragover {
+
+    .drop-trigger:hover,
+    .drop-trigger.dragover {
       background: rgba(56, 189, 248, 0.12);
       border-color: var(--cyan);
     }
@@ -287,6 +378,7 @@
       overflow-x: auto;
       padding-bottom: 2px;
     }
+
     .preset-chip {
       padding: 3px 8px;
       background: rgba(255, 255, 255, 0.04);
@@ -298,6 +390,7 @@
       white-space: nowrap;
       transition: all 0.15s;
     }
+
     .preset-chip:hover {
       background: rgba(56, 189, 248, 0.1);
       color: #fff;
@@ -323,24 +416,28 @@
       transition: all 0.25s ease;
       pointer-events: none;
     }
+
     #toast.show {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
     }
   </style>
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css?v=3">
 </head>
+
 <body>
 
   <!-- Top Bar -->
   <div class="header-bar">
     <div class="header-title">
-      <h2>🎨 Game Branding &amp; Boot Visuals CMS</h2>
-      <p>Instant live control for Splash Logos, Launcher Backgrounds, OB17 Login Wallpapers, and Lobby Banners. Zero APK repacking.</p>
+      <h2>Game Branding &amp; Boot Visuals CMS</h2>
+      <p>Instant live control for Splash Logos, Launcher Backgrounds, OB17 Login Wallpapers, and Lobby Banners. Zero APK
+        repacking.</p>
     </div>
     <div class="status-cluster">
       <div class="stat-chip live"><span class="pulse-dot"></span> Dynamic HTTP CMS Active</div>
-      <button class="btn btn-secondary btn-sm" onclick="loadSlots()">🔄 Refresh Slots</button>
+      <button class="btn btn-secondary btn-sm" onclick="loadSlots()">Refresh Slots</button>
     </div>
   </div>
 
@@ -387,8 +484,8 @@
 
     function renderSlots() {
       const container = document.getElementById('slots-container');
-      const filtered = currentCategory === 'all' 
-        ? allSlots 
+      const filtered = currentCategory === 'all'
+        ? allSlots
         : allSlots.filter(s => s.category === currentCategory);
 
       if (!filtered.length) {
@@ -426,9 +523,9 @@
                  ondragover="event.preventDefault(); this.classList.add('dragover')"
                  ondragleave="this.classList.remove('dragover')"
                  ondrop="handleDrop('${s.key}', event)">
-              📁 Upload / Drop New Image
+              Upload / Drop New Image
             </div>
-            <button class="btn btn-primary btn-sm" onclick="document.getElementById('file-${s.key}').click()">⚡ Apply</button>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('file-${s.key}').click()">Apply</button>
           </div>
         </div>
       `).join('');
@@ -472,13 +569,13 @@
           });
           const data = await res.json();
           if (data && data.ok) {
-            showToast('✅ ' + data.name + ' updated in static/banners/ and live!');
+            showToast('' + data.name + ' updated in static/banners/ and live!');
             // Update preview image immediately
             const imgEl = document.getElementById('img-' + key);
             if (imgEl) imgEl.src = data.preview_url;
             loadSlots();
           } else {
-            showToast('❌ Error: ' + (data.error || 'Update failed'));
+            showToast('Error: ' + (data.error || 'Update failed'));
           }
         } catch (err) {
           showToast('Network error: ' + err.message);
@@ -498,4 +595,5 @@
     loadSlots();
   </script>
 </body>
+
 </html>

@@ -10,6 +10,7 @@ from typing import Dict, Any, List, Optional, Tuple
 
 from .world_constants import (
     BERMUDA_LANDMARKS, WEAPON_REGISTRY, GEAR_REGISTRY, CONSUMABLES_REGISTRY,
+    BERMUDA_WAITING_ISLAND_CENTER, BERMUDA_WAITING_ISLAND_RADIUS, BERMUDA_WAITING_ISLAND_SPAWN_RADIUS,
     WeaponCategory, AmmoType
 )
 from .safe_zone import SafeZoneManager, ZoneState
@@ -23,17 +24,23 @@ class CombatPlayer:
     """Represents an active human or simulated bot combatant in the Bermuda world."""
 
     def __init__(self, player_id: str, nickname: str, is_bot: bool = False,
-                 x: float = 0.0, y: float = 20.0, z: float = 0.0):
+                 x: float = -500.0, y: float = 10.0, z: float = 800.0,
+                 entity_id: int = 1, account_id: int = 0):
         self.player_id: str = player_id
         self.nickname: str = nickname
         self.is_bot: bool = is_bot
+        self.entity_id: int = entity_id
+        self.account_id: int = account_id
         
-        # Position & Orientation
+        # Position & Orientation (defaults to authentic Bermuda Waiting Island)
         self.x: float = x
         self.y: float = y
         self.z: float = z
         self.yaw: float = 0.0
         self.pitch: float = 0.0
+        self.speed: float = 0.0
+        self.physx_state: int = 0  # 0 = WALKING / IDLE
+        self.physx_pose: int = 0   # 0 = STANDING
         self.is_indoors: bool = False  # Set to True when inside a building
         
         # Health & State
@@ -136,6 +143,11 @@ class WorldEngine:
         # Initial population of Bermuda loot
         self.total_initial_loot: int = self.loot_spawner.populate_bermuda_loot()
 
+    # Bermuda Waiting Island authentic geometry
+    WAITING_ISLAND_CENTER: Tuple[float, float, float] = BERMUDA_WAITING_ISLAND_CENTER
+    WAITING_ISLAND_RADIUS: float = BERMUDA_WAITING_ISLAND_RADIUS
+    WAITING_ISLAND_SPAWN_RADIUS: float = BERMUDA_WAITING_ISLAND_SPAWN_RADIUS
+
     def start_match(self) -> None:
         """Start the live Bermuda combat loop."""
         self.is_match_active = True
@@ -144,38 +156,116 @@ class WorldEngine:
     @property
     def alive_player_count(self) -> int:
         """Return the authoritative count of alive players currently in the world."""
-        return sum(1 for p in self.players.values() if p.is_alive)
+        seen = set()
+        count = 0
+        for p in self.players.values():
+            eid = getattr(p, "entity_id", p.player_id)
+            if eid not in seen:
+                seen.add(eid)
+                if p.is_alive:
+                    count += 1
+        return count
+
+    def get_player(self, player_id: Any) -> Optional[CombatPlayer]:
+        """Look up player by player_id string, entity_id, or account_id."""
+        pid_str = str(player_id)
+        if pid_str in self.players:
+            return self.players[pid_str]
+        for p in self.players.values():
+            if str(getattr(p, "entity_id", "")) == pid_str or str(getattr(p, "account_id", "")) == pid_str:
+                return p
+        return None
+
+    def initialize_waiting_island(self, human_player_ids: List[str]) -> None:
+        """Authoritatively place human players on the Bermuda Waiting Island center pedestal."""
+        sx, sy, sz = self.WAITING_ISLAND_CENTER
+        for idx, pid in enumerate(human_player_ids, start=1):
+            p = self.get_player(pid)
+            if p:
+                p.x = sx
+                p.y = sy
+                p.z = sz
+                p.yaw = 0.0
+                p.pitch = 0.0
+                p.speed = 0.0
+                p.physx_state = 0
+                p.physx_pose = 0
+                p.hp = 200.0
+                p.is_alive = True
+                p.entity_id = idx
+
+    def get_living_players(self) -> List[CombatPlayer]:
+        """Return list of distinct living players/bots in the world."""
+        seen = set()
+        result = []
+        for p in self.players.values():
+            eid = getattr(p, "entity_id", p.player_id)
+            if eid not in seen:
+                seen.add(eid)
+                if p.is_alive:
+                    result.append(p)
+        return result
 
     def register_player(self, player_id: str, nickname: str, is_bot: bool = False,
-                        x: Optional[float] = None, y: float = 20.0, z: Optional[float] = None) -> CombatPlayer:
-        """Register a player into the world instance with default melee weapon."""
+                        x: Optional[float] = None, y: Optional[float] = None, z: Optional[float] = None,
+                        entity_id: Optional[int] = None, account_id: Optional[int] = None) -> CombatPlayer:
+        """Register a player into the world instance with authentic Waiting Island placement."""
         if x is None or z is None:
-            # Pick a spawn point near a town
-            landmark = random.choice(list(BERMUDA_LANDMARKS.values()))
-            x = landmark["x"] + random.uniform(-15.0, 15.0)
-            z = landmark["z"] + random.uniform(-15.0, 15.0)
-            y = landmark["y"]
+            # Place on Bermuda Waiting Island spawn area
+            sx, sy, sz = self.WAITING_ISLAND_CENTER
+            if is_bot:
+                angle = random.uniform(0.0, 2.0 * math.pi)
+                dist = random.uniform(5.0, self.WAITING_ISLAND_SPAWN_RADIUS)
+                x = sx + dist * math.cos(angle)
+                z = sz + dist * math.sin(angle)
+            else:
+                x = sx
+                z = sz
+            y = sy if y is None else y
+        elif y is None:
+            y = self.WAITING_ISLAND_CENTER[1]
 
-        player = CombatPlayer(player_id, nickname, is_bot=is_bot, x=x, y=y, z=z)
+        # Resolve entity_id
+        if entity_id is None:
+            if player_id.isdigit() and int(player_id) <= 50:
+                entity_id = int(player_id)
+            elif is_bot:
+                entity_id = len(self.players) + 1
+            else:
+                entity_id = 1
+
+        acc_id = account_id or (int(player_id) if player_id.isdigit() else 0)
+
+        player = CombatPlayer(player_id, nickname, is_bot=is_bot, x=x, y=y, z=z,
+                              entity_id=entity_id, account_id=acc_id)
         # Default starting weapon: Fist / Pan
-        pan_info = WEAPON_REGISTRY["Pan"]
+        pan_info = WEAPON_REGISTRY.get("Pan", {"name": "Pan", "item_id": 907000008, "category": WeaponCategory.MELEE})
         player.weapons["melee"] = {
             "name": pan_info["name"],
             "item_id": pan_info["item_id"],
-            "category": pan_info["category"]
+            "category": pan_info.get("category", WeaponCategory.MELEE)
         }
         self.players[player_id] = player
+        # Store entity_id alias for quick client entity lookup
+        self.players[str(entity_id)] = player
         return player
 
-    def update_player_pos(self, player_id: str, x: float, y: float, z: float, yaw: float = 0.0, pitch: float = 0.0) -> None:
+    def update_player_pos(self, player_id: str, x: float, y: float, z: float,
+                          yaw: float = 0.0, pitch: float = 0.0, speed: float = 0.0,
+                          physx_state: Optional[int] = None, physx_pose: Optional[int] = None) -> None:
         """Update authoritative position and orientation received from client or bot."""
-        player = self.players.get(player_id)
+        player = self.players.get(player_id) or self.get_player(player_id)
         if player and player.is_alive:
             player.x = x
             player.y = y
             player.z = z
             player.yaw = yaw
             player.pitch = pitch
+            player.speed = speed
+            if physx_state is not None:
+                player.physx_state = physx_state
+            if physx_pose is not None:
+                player.physx_pose = physx_pose
 
     def tick(self, delta_time: float) -> Dict[str, Any]:
         """

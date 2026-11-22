@@ -1,0 +1,1544 @@
+{
+  "game_version": "1.39.0",
+  "build_flavor": "Barbosa Pushpa SingleBoot",
+  "generated_at": "2026-11-22T00:16:00Z",
+  "items": {
+    "110100008": {
+      "item_id": 110100008,
+      "name": "Weapon Royale Voucher",
+      "icon_name": "Icon_voucher",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_voucher.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\110100008.png",
+      "url": "/assets/freefire/1.39/items/110100008.png",
+      "dimensions": "170x126",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "110100009": {
+      "item_id": 110100009,
+      "name": "Gold Royale Voucher",
+      "icon_name": "Icon_voucher",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_voucher.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\110100009.png",
+      "url": "/assets/freefire/1.39/items/110100009.png",
+      "dimensions": "170x126",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "110100010": {
+      "item_id": 110100010,
+      "name": "Diamond Royale Voucher",
+      "icon_name": "Icon_voucher",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_voucher.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\110100010.png",
+      "url": "/assets/freefire/1.39/items/110100010.png",
+      "dimensions": "170x126",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "110100018": {
+      "item_id": 110100018,
+      "name": "Incubator Voucher",
+      "icon_name": "Icon_voucher",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_voucher.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\110100018.png",
+      "url": "/assets/freefire/1.39/items/110100018.png",
+      "dimensions": "170x126",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "110200001": {
+      "item_id": 110200001,
+      "name": "FF Token",
+      "icon_name": "Icon_ff_token",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_token.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\110200001.png",
+      "url": "/assets/freefire/1.39/items/110200001.png",
+      "dimensions": "122x83",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "203000500": {
+      "item_id": 203000500,
+      "name": "T_16_L_TOP_COS_GOLD_S11",
+      "icon_name": "Icon_avatar_top_cos_gold_s11",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\common\\Icon_avatar_top_cos_gold_s11.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\203000500.png",
+      "url": "/assets/freefire/1.39/items/203000500.png",
+      "dimensions": "103x116",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "203000501": {
+      "item_id": 203000501,
+      "name": "T_16_L_TOP_COS_MASTER_S11",
+      "icon_name": "Icon_avatar_top_cos_master_s11",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\common\\Icon_avatar_top_cos_master_s11.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\203000501.png",
+      "url": "/assets/freefire/1.39/items/203000501.png",
+      "dimensions": "103x116",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "203000505": {
+      "item_id": 203000505,
+      "name": "T_16_L_MALE_JACKET_HITMAN",
+      "icon_name": "Icon_avatar_male_jacket_Hitman",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\common\\Icon_avatar_male_jacket_Hitman.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\203000505.png",
+      "url": "/assets/freefire/1.39/items/203000505.png",
+      "dimensions": "121x107",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "203000506": {
+      "item_id": 203000506,
+      "name": "T_16_L_MALE_TOP_COS_DJ_A",
+      "icon_name": "Icon_avatar_male_top_cos_DJ_A",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\common\\Icon_avatar_male_top_cos_DJ_A.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\203000506.png",
+      "url": "/assets/freefire/1.39/items/203000506.png",
+      "dimensions": "70x109",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "204000300": {
+      "item_id": 204000300,
+      "name": "T_16_L_FEMALE_BOTTOM_COS_SUMMER",
+      "icon_name": "Icon_avatar_female_bottom_cos_summer",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\common\\Icon_avatar_female_bottom_cos_summer.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\204000300.png",
+      "url": "/assets/freefire/1.39/items/204000300.png",
+      "dimensions": "104x62",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "204000304": {
+      "item_id": 204000304,
+      "name": "T_16_L_MALE_BOTTOM_COS_ARMORJACKET",
+      "icon_name": "Icon_avatar_male_bottom_cos_armorjacket",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\common\\Icon_avatar_male_bottom_cos_armorjacket.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\204000304.png",
+      "url": "/assets/freefire/1.39/items/204000304.png",
+      "dimensions": "47x117",
+      "rarity": 5,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "204000307": {
+      "item_id": 204000307,
+      "name": "T_16_L_MALE_BOTTOM_COS_GUYVER",
+      "icon_name": "Icon_avatar_male_bottom_cos_guyver",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\common\\Icon_avatar_male_bottom_cos_guyver.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\204000307.png",
+      "url": "/assets/freefire/1.39/items/204000307.png",
+      "dimensions": "51x117",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000303": {
+      "item_id": 710000303,
+      "name": "T_14_1_Y_BUNDLE_FIREFIGHTERS_NAME",
+      "icon_name": "Icon_firefighters_bundle",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_firefighters_bundle.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000303.png",
+      "url": "/assets/freefire/1.39/items/710000303.png",
+      "dimensions": "140x140",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000304": {
+      "item_id": 710000304,
+      "name": "T_14_1_Y_BUNDLE_MALE_FIREFIGHTERS_NAME",
+      "icon_name": "Icon_firefighters_male",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_firefighters_male.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000304.png",
+      "url": "/assets/freefire/1.39/items/710000304.png",
+      "dimensions": "57x139",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000305": {
+      "item_id": 710000305,
+      "name": "T_14_1_Y_BUNDLE_FEMALE_FIREFIGHTERS_NAME",
+      "icon_name": "Icon_firefighters_female",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_firefighters_female.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000305.png",
+      "url": "/assets/freefire/1.39/items/710000305.png",
+      "dimensions": "68x139",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000400": {
+      "item_id": 710000400,
+      "name": "T_17_Y_BUNDLE_FEMALE_FFUNIT_NAME",
+      "icon_name": "Icon_female_ffunit",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_ffunit.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000400.png",
+      "url": "/assets/freefire/1.39/items/710000400.png",
+      "dimensions": "87x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000401": {
+      "item_id": 710000401,
+      "name": "T_17_Y_BUNDLE_MALE_BLOODBORNE_NAME",
+      "icon_name": "Icon_male_bloodborne",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_bloodborne.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000401.png",
+      "url": "/assets/freefire/1.39/items/710000401.png",
+      "dimensions": "62x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000403": {
+      "item_id": 710000403,
+      "name": "T_17_Y_BUNDLE_MALE_BANDOFBRO_NAME",
+      "icon_name": "Icon_male_bandofbro",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_bandofbro.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000403.png",
+      "url": "/assets/freefire/1.39/items/710000403.png",
+      "dimensions": "72x138",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000404": {
+      "item_id": 710000404,
+      "name": "T_17_Y_BUNDLE_FEMALE_BANDOFBRO_NAME",
+      "icon_name": "Icon_female_bandofbro",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_bandofbro.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000404.png",
+      "url": "/assets/freefire/1.39/items/710000404.png",
+      "dimensions": "86x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000405": {
+      "item_id": 710000405,
+      "name": "T_17_Y_BUNDLE_MALE_SELVEDGEWORK_NAME",
+      "icon_name": "Icon_male_selvedgework",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_selvedgework.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000405.png",
+      "url": "/assets/freefire/1.39/items/710000405.png",
+      "dimensions": "70x137",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000406": {
+      "item_id": 710000406,
+      "name": "T_17_Y_BUNDLE_FEMALE_SELVEDGEWORK_NAME",
+      "icon_name": "Icon_female_selvedgework",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_selvedgework.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000406.png",
+      "url": "/assets/freefire/1.39/items/710000406.png",
+      "dimensions": "64x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000408": {
+      "item_id": 710000408,
+      "name": "T_17_Y_BUNDLE_MALE_YINYANG_NAME",
+      "icon_name": "Icon_male_yinyang",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_yinyang.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000408.png",
+      "url": "/assets/freefire/1.39/items/710000408.png",
+      "dimensions": "69x137",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000409": {
+      "item_id": 710000409,
+      "name": "T_17_Y_BUNDLE_FEMALE_YINYANG_NAME",
+      "icon_name": "Icon_female_yinyang",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_yinyang.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000409.png",
+      "url": "/assets/freefire/1.39/items/710000409.png",
+      "dimensions": "80x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000410": {
+      "item_id": 710000410,
+      "name": "T_17_Y_BUNDLE_MALE_YINYANG_GOLD_NAME",
+      "icon_name": "Icon_male_yinyang_gold",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_yinyang_gold.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000410.png",
+      "url": "/assets/freefire/1.39/items/710000410.png",
+      "dimensions": "69x137",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000411": {
+      "item_id": 710000411,
+      "name": "T_17_Y_BUNDLE_FEMALE_YINYANG_GOLD_NAME",
+      "icon_name": "Icon_female_yinyang_gold",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_yinyang_gold.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000411.png",
+      "url": "/assets/freefire/1.39/items/710000411.png",
+      "dimensions": "80x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000412": {
+      "item_id": 710000412,
+      "name": "T_17_Y_BUNDLE_MALE_YINYANG_BLUE_NAME",
+      "icon_name": "Icon_male_yinyang_blue",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_yinyang_blue.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000412.png",
+      "url": "/assets/freefire/1.39/items/710000412.png",
+      "dimensions": "69x137",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000413": {
+      "item_id": 710000413,
+      "name": "T_17_Y_BUNDLE_FEMALE_YINYANG_BLUE_NAME",
+      "icon_name": "Icon_female_yinyang_blue",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_yinyang_blue.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000413.png",
+      "url": "/assets/freefire/1.39/items/710000413.png",
+      "dimensions": "80x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000414": {
+      "item_id": 710000414,
+      "name": "T_17_Y_BUNDLE_MALE_JOKER_ROYAL_NAME",
+      "icon_name": "Icon_male_joker_royal",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_joker_royal.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000414.png",
+      "url": "/assets/freefire/1.39/items/710000414.png",
+      "dimensions": "62x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000415": {
+      "item_id": 710000415,
+      "name": "T_17_Y_BUNDLE_FEMALE_JOKER_ROYAL_NAME",
+      "icon_name": "Icon_female_joker_royal",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_joker_royal.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000415.png",
+      "url": "/assets/freefire/1.39/items/710000415.png",
+      "dimensions": "75x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000416": {
+      "item_id": 710000416,
+      "name": "T_17_Y_BUNDLE_MALE_JOKER_REAPER_NAME",
+      "icon_name": "Icon_male_joker_reaper",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_joker_reaper.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000416.png",
+      "url": "/assets/freefire/1.39/items/710000416.png",
+      "dimensions": "62x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000417": {
+      "item_id": 710000417,
+      "name": "T_17_Y_BUNDLE_FEMALE_JOKER_REAPER_NAME",
+      "icon_name": "Icon_female_joker_reaper",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_joker_reaper.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000417.png",
+      "url": "/assets/freefire/1.39/items/710000417.png",
+      "dimensions": "75x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000418": {
+      "item_id": 710000418,
+      "name": "T_17_Y_BUNDLE_MALE_JOKER_PENNYWISE_NAME",
+      "icon_name": "Icon_male_joker_pennywise",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_joker_pennywise.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000418.png",
+      "url": "/assets/freefire/1.39/items/710000418.png",
+      "dimensions": "62x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000419": {
+      "item_id": 710000419,
+      "name": "T_17_Y_BUNDLE_FEMALE_JOKER_PENNYWISE_NAME",
+      "icon_name": "Icon_female_joker_pennywise",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_joker_pennywise.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000419.png",
+      "url": "/assets/freefire/1.39/items/710000419.png",
+      "dimensions": "77x139",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000422": {
+      "item_id": 710000422,
+      "name": "T_17_Y_BUNDLE_MALE_INDEPENDENCE_NAME",
+      "icon_name": "Icon_male_independence",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_male_independence.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000422.png",
+      "url": "/assets/freefire/1.39/items/710000422.png",
+      "dimensions": "64x138",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "710000423": {
+      "item_id": 710000423,
+      "name": "T_17_Y_BUNDLE_FEMALE_INDEPENDENCE_NAME",
+      "icon_name": "Icon_female_independence",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\store\\Icon_female_independence.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\710000423.png",
+      "url": "/assets/freefire/1.39/items/710000423.png",
+      "dimensions": "67x137",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000001": {
+      "item_id": 800000001,
+      "name": "TXT_DEBRIS_COP_NAME",
+      "icon_name": "Icon_face_male_sc_Cop",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Cop.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000001.png",
+      "url": "/assets/freefire/1.39/items/800000001.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000002": {
+      "item_id": 800000002,
+      "name": "TXT_DEBRIS_NURSE_NAME",
+      "icon_name": "Icon_face_female_sc_Nurse",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Nurse.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000002.png",
+      "url": "/assets/freefire/1.39/items/800000002.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000003": {
+      "item_id": 800000003,
+      "name": "TXT_DEBRIS_RUNNER_NAME",
+      "icon_name": "Icon_face_female_sc_Runner",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Runner.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000003.png",
+      "url": "/assets/freefire/1.39/items/800000003.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000004": {
+      "item_id": 800000004,
+      "name": "TXT_DEBRIS_SEAMAN_NAME",
+      "icon_name": "Icon_face_male_sc_Seamman",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Seamman.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000004.png",
+      "url": "/assets/freefire/1.39/items/800000004.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000005": {
+      "item_id": 800000005,
+      "name": "TXT_DEBRIS_BODYGUARD_NAME",
+      "icon_name": "Icon_face_female_sc_Bodyguard",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Bodyguard.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000005.png",
+      "url": "/assets/freefire/1.39/items/800000005.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000006": {
+      "item_id": 800000006,
+      "name": "TXT_DEBRIS_RACERGIRL_NAME",
+      "icon_name": "Icon_face_female_sc_Racergirl",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Racergirl.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000006.png",
+      "url": "/assets/freefire/1.39/items/800000006.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000007": {
+      "item_id": 800000007,
+      "name": "TXT_OB7_JRW_DEBRIS_FOODIEBOY_NAME",
+      "icon_name": "Icon_face_male_sc_foodieboy",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_foodieboy.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000007.png",
+      "url": "/assets/freefire/1.39/items/800000007.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000008": {
+      "item_id": 800000008,
+      "name": "TXT_OB8_JRW_DEBRIS_THAIBOXER_NAME",
+      "icon_name": "Icon_face_male_sc_thaiboxer",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_thaiboxer.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000008.png",
+      "url": "/assets/freefire/1.39/items/800000008.png",
+      "dimensions": "206x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000009": {
+      "item_id": 800000009,
+      "name": "TXT_OB9_JRW_DEBRIS_ARMSDEALER_NAME",
+      "icon_name": "Icon_face_female_sc_armsdealer",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_armsdealer.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000009.png",
+      "url": "/assets/freefire/1.39/items/800000009.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000010": {
+      "item_id": 800000010,
+      "name": "TXT_OB10_JRW_DEBRIS_BRAZILSOLDIER_NAME",
+      "icon_name": "Icon_face_male_sc_BrazilSoldier",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_BrazilSoldier.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000010.png",
+      "url": "/assets/freefire/1.39/items/800000010.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000011": {
+      "item_id": 800000011,
+      "name": "TXT_OB11_JRW_DEBRIS_RICHGIRL_NAME",
+      "icon_name": "Icon_face_female_sc_richgirl",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_richgirl.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000011.png",
+      "url": "/assets/freefire/1.39/items/800000011.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000012": {
+      "item_id": 800000012,
+      "name": "T_12_R_DEBRIS_GANGLEADER_NAME",
+      "icon_name": "Icon_face_male_sc_gangleader",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_gangleader.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000012.png",
+      "url": "/assets/freefire/1.39/items/800000012.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000013": {
+      "item_id": 800000013,
+      "name": "T_12_R_DEBRIS_MONKEYGOD_NAME",
+      "icon_name": "Icon_face_male_sc_monkeygod",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_monkeygod.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000013.png",
+      "url": "/assets/freefire/1.39/items/800000013.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000014": {
+      "item_id": 800000014,
+      "name": "T_13_R_DEBRIS_HACKERGIRL_NAME",
+      "icon_name": "Icon_face_female_sc_HackerGirl",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_HackerGirl.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000014.png",
+      "url": "/assets/freefire/1.39/items/800000014.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000015": {
+      "item_id": 800000015,
+      "name": "T_14_R_DEBRIS_SAMURAI_NAME",
+      "icon_name": "Icon_face_male_sc_Samurai",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Samurai.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000015.png",
+      "url": "/assets/freefire/1.39/items/800000015.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000016": {
+      "item_id": 800000016,
+      "name": "T_15_R_DEBRIS_AGENT_NAME",
+      "icon_name": "Icon_face_female_sc_Agent",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Agent.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000016.png",
+      "url": "/assets/freefire/1.39/items/800000016.png",
+      "dimensions": "205x250",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000017": {
+      "item_id": 800000017,
+      "name": "T_16_Y_DEBRIS_HITMAN_NAME",
+      "icon_name": "Icon_face_male_sc_hitman",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_hitman.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000017.png",
+      "url": "/assets/freefire/1.39/items/800000017.png",
+      "dimensions": "207x252",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000018": {
+      "item_id": 800000018,
+      "name": "T_17_Y_DEBRIS_MADEMANA_NAME",
+      "icon_name": "Icon_face_female_sc_MadeManA",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_MadeManA.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000018.png",
+      "url": "/assets/freefire/1.39/items/800000018.png",
+      "dimensions": "207x252",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000019": {
+      "item_id": 800000019,
+      "name": "T_17_Y_DEBRIS_PLAYBOY_NAME",
+      "icon_name": "Icon_face_male_sc_Playboy",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Playboy.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000019.png",
+      "url": "/assets/freefire/1.39/items/800000019.png",
+      "dimensions": "207x252",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "800000304": {
+      "item_id": 800000304,
+      "name": "T_12_Z_CHEST_EXCHANGE_CRYSTAL",
+      "icon_name": "Icon_ff_crystal",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_crystal.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\800000304.png",
+      "url": "/assets/freefire/1.39/items/800000304.png",
+      "dimensions": "180x180",
+      "rarity": 5,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "808000001": {
+      "item_id": 808000001,
+      "name": "T_12_Z_CHEST_UPGRADE_CARD",
+      "icon_name": "Icon_ff_upgrade_stone",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_upgrade_stone.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\808000001.png",
+      "url": "/assets/freefire/1.39/items/808000001.png",
+      "dimensions": "148x154",
+      "rarity": 5,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "808000002": {
+      "item_id": 808000002,
+      "name": "T_12_Z_CHEST_DRAGON_CARD",
+      "icon_name": "Icon_ff_dragon_layout",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_dragon_layout.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\808000002.png",
+      "url": "/assets/freefire/1.39/items/808000002.png",
+      "dimensions": "167x156",
+      "rarity": 5,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "808000003": {
+      "item_id": 808000003,
+      "name": "T_12_Z_CHEST_MASK_CARD",
+      "icon_name": "Icon_ff_mask_layout",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_mask_layout.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\808000003.png",
+      "url": "/assets/freefire/1.39/items/808000003.png",
+      "dimensions": "169x144",
+      "rarity": 5,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001603": {
+      "item_id": 907001603,
+      "name": "T_16_W_M60_MONSTER_NAME",
+      "icon_name": "Icon_M60_Monster",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_M60_Monster.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001603.png",
+      "url": "/assets/freefire/1.39/items/907001603.png",
+      "dimensions": "254x62",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001604": {
+      "item_id": 907001604,
+      "name": "T_16_W_UMP_MONSTER_NAME",
+      "icon_name": "Icon_UMP_Monster",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_UMP_Monster.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001604.png",
+      "url": "/assets/freefire/1.39/items/907001604.png",
+      "dimensions": "178x83",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001605": {
+      "item_id": 907001605,
+      "name": "T_16_W_XM8_MONSTER_NAME",
+      "icon_name": "Icon_XM8_Monster",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_XM8_Monster.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001605.png",
+      "url": "/assets/freefire/1.39/items/907001605.png",
+      "dimensions": "228x84",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001607": {
+      "item_id": 907001607,
+      "name": "T_16_W_XM8_HUNTER_NAME",
+      "icon_name": "Icon_XM8_Hunter",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_XM8_Hunter.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001607.png",
+      "url": "/assets/freefire/1.39/items/907001607.png",
+      "dimensions": "228x83",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001608": {
+      "item_id": 907001608,
+      "name": "T_16_W_AWM_HUNTER_NAME",
+      "icon_name": "Icon_AWM_Hunter",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_AWM_Hunter.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001608.png",
+      "url": "/assets/freefire/1.39/items/907001608.png",
+      "dimensions": "288x58",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001611": {
+      "item_id": 907001611,
+      "name": "T_16_W_AK_FIRE_NAME",
+      "icon_name": "Icon_AK47_Fire",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_AK47_Fire.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001611.png",
+      "url": "/assets/freefire/1.39/items/907001611.png",
+      "dimensions": "257x83",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001612": {
+      "item_id": 907001612,
+      "name": "T_16_W_MP40_ELECTRICITY_NAME",
+      "icon_name": "Icon_MP40_Electricity",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_MP40_Electricity.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001612.png",
+      "url": "/assets/freefire/1.39/items/907001612.png",
+      "dimensions": "218x77",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001613": {
+      "item_id": 907001613,
+      "name": "T_16_W_SCAR_WATER_NAME",
+      "icon_name": "Icon_SCAR_Water",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_SCAR_Water.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001613.png",
+      "url": "/assets/freefire/1.39/items/907001613.png",
+      "dimensions": "267x83",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001614": {
+      "item_id": 907001614,
+      "name": "T_16_W_M4A1_EARTH_NAME",
+      "icon_name": "Icon_M4A1_Earth",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_M4A1_Earth.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001614.png",
+      "url": "/assets/freefire/1.39/items/907001614.png",
+      "dimensions": "250x86",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001615": {
+      "item_id": 907001615,
+      "name": "T_16_W_FAMAS_BWDARKGREENBLUE_NAME",
+      "icon_name": "Icon_FAMS_Blackwidow",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_FAMS_Blackwidow.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001615.png",
+      "url": "/assets/freefire/1.39/items/907001615.png",
+      "dimensions": "221x88",
+      "rarity": 5,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001620": {
+      "item_id": 907001620,
+      "name": "T_16_W_AN94_BOOYAH_NAME",
+      "icon_name": "Icon_AN94_Booyah",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_AN94_Booyah.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001620.png",
+      "url": "/assets/freefire/1.39/items/907001620.png",
+      "dimensions": "240x67",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001621": {
+      "item_id": 907001621,
+      "name": "T_16_W_M14_BOOYAH_NAME",
+      "icon_name": "Icon_M14_Booyah",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_M14_Booyah.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001621.png",
+      "url": "/assets/freefire/1.39/items/907001621.png",
+      "dimensions": "265x50",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001622": {
+      "item_id": 907001622,
+      "name": "T_16_W_GROZA_BOOYAH_NAME",
+      "icon_name": "Icon_Groza_Booyah",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_Groza_Booyah.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001622.png",
+      "url": "/assets/freefire/1.39/items/907001622.png",
+      "dimensions": "211x87",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907001623": {
+      "item_id": 907001623,
+      "name": "T_16_W_UMP_BOOYAH_NAME",
+      "icon_name": "Icon_UMP_Booyah",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\collection\\Icon_UMP_Booyah.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907001623.png",
+      "url": "/assets/freefire/1.39/items/907001623.png",
+      "dimensions": "183x86",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "907100001": {
+      "item_id": 907100001,
+      "name": "FF Token",
+      "icon_name": "Icon_ff_token",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_token.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\907100001.png",
+      "url": "/assets/freefire/1.39/items/907100001.png",
+      "dimensions": "122x83",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "1101000001": {
+      "item_id": 1101000001,
+      "name": "TXT_OB8_LZW_GOLD_UP_CARD_50",
+      "icon_name": "Icon_gold_up_card_50",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_gold_up_card_50.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\1101000001.png",
+      "url": "/assets/freefire/1.39/items/1101000001.png",
+      "dimensions": "125x111",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "1101000002": {
+      "item_id": 1101000002,
+      "name": "TXT_OB8_LZW_GOLD_UP_CARD_100",
+      "icon_name": "Icon_gold_up_card_100",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_gold_up_card_100.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\1101000002.png",
+      "url": "/assets/freefire/1.39/items/1101000002.png",
+      "dimensions": "125x111",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "1102000001": {
+      "item_id": 1102000001,
+      "name": "TXT_OB8_LZW_EXP_UP_CARD_50",
+      "icon_name": "Icon_exp_up_card_50",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_exp_up_card_50.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\1102000001.png",
+      "url": "/assets/freefire/1.39/items/1102000001.png",
+      "dimensions": "124x110",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "1102000002": {
+      "item_id": 1102000002,
+      "name": "TXT_OB8_LZW_EXP_UP_CARD_100",
+      "icon_name": "Icon_exp_up_card_100",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_exp_up_card_100.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\1102000002.png",
+      "url": "/assets/freefire/1.39/items/1102000002.png",
+      "dimensions": "124x111",
+      "rarity": 4,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    },
+    "1307000001": {
+      "item_id": 1307000001,
+      "name": "T_12_O_PETFOOD_NAME",
+      "icon_name": "Icon_ff_Petfood",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_Petfood.png",
+      "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\items\\1307000001.png",
+      "url": "/assets/freefire/1.39/items/1307000001.png",
+      "dimensions": "147x129",
+      "rarity": 3,
+      "status": "EXTRACTED_AND_VERIFIED",
+      "verified": true
+    }
+  },
+  "royale_machines": {
+    "3": {
+      "name": "Diamond Royale",
+      "artwork": {
+        "banner": {
+          "asset_name": "UI_Lottery_Poster_P.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_Poster_P.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_Poster_P.png",
+          "dimensions": "252x292",
+          "verified": true
+        },
+        "thumbnail": {
+          "asset_name": "FF_Lottery_gaindiamond.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_gaindiamond.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_gaindiamond.png",
+          "dimensions": "82x83",
+          "verified": true
+        },
+        "background": {
+          "asset_name": "UI_Lottery_bg01.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_bg01.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_bg01.png",
+          "dimensions": "116x123",
+          "verified": true
+        },
+        "featured": {
+          "asset_name": "UI_Lottery_Poster_P.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_Poster_P.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_Poster_P.png",
+          "dimensions": "252x292",
+          "verified": true
+        },
+        "promo": {
+          "asset_name": "FF_Lottery_gaindiamond_big.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_gaindiamond_big.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_gaindiamond_big.png",
+          "dimensions": "175x179",
+          "verified": true
+        }
+      }
+    },
+    "4": {
+      "name": "Weapon Royale",
+      "artwork": {
+        "banner": {
+          "asset_name": "UI_Lottery_Poster_W.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_Poster_W.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_Poster_W.png",
+          "dimensions": "252x292",
+          "verified": true
+        },
+        "thumbnail": {
+          "asset_name": "FF_Lottery_weapon.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_weapon.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_weapon.png",
+          "dimensions": "60x60",
+          "verified": true
+        },
+        "background": {
+          "asset_name": "UI_Lottery_bg02.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_bg02.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_bg02.png",
+          "dimensions": "118x90",
+          "verified": true
+        },
+        "featured": {
+          "asset_name": "FF_Lottery_M4A1_Carnival_big.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_M4A1_Carnival_big.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_M4A1_Carnival_big.png",
+          "dimensions": "172x155",
+          "verified": true
+        },
+        "promo": {
+          "asset_name": "FF_Lottery_weaponman.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_weaponman.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_weaponman.png",
+          "dimensions": "60x60",
+          "verified": true
+        }
+      }
+    },
+    "5": {
+      "name": "Gold Royale",
+      "artwork": {
+        "banner": {
+          "asset_name": "UI_Lottery_Poster_G.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_Poster_G.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_Poster_G.png",
+          "dimensions": "252x292",
+          "verified": true
+        },
+        "thumbnail": {
+          "asset_name": "FF_Lottery_gaincoin.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_gaincoin.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_gaincoin.png",
+          "dimensions": "82x83",
+          "verified": true
+        },
+        "background": {
+          "asset_name": "UI_Lottery_bg01.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_bg01.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_bg01.png",
+          "dimensions": "116x123",
+          "verified": true
+        },
+        "featured": {
+          "asset_name": "UI_Lottery_Poster_G.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_Lottery_Poster_G.png",
+          "url": "/assets/freefire/1.39/royale/UI_Lottery_Poster_G.png",
+          "dimensions": "252x292",
+          "verified": true
+        },
+        "promo": {
+          "asset_name": "FF_Lottery_gaincoin_big.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_gaincoin_big.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_gaincoin_big.png",
+          "dimensions": "175x180",
+          "verified": true
+        }
+      }
+    },
+    "6": {
+      "name": "Incubator (YinYang & Joker)",
+      "artwork": {
+        "banner": {
+          "asset_name": "FF_Lottery_anni_big.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_anni_big.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_anni_big.png",
+          "dimensions": "179x179",
+          "verified": true
+        },
+        "thumbnail": {
+          "asset_name": "FF_Lottery_anni_forge.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_anni_forge.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_anni_forge.png",
+          "dimensions": "178x180",
+          "verified": true
+        },
+        "background": {
+          "asset_name": "UI_GachaLegendary_Prob_bg.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\UI_GachaLegendary_Prob_bg.png",
+          "url": "/assets/freefire/1.39/royale/UI_GachaLegendary_Prob_bg.png",
+          "dimensions": "66x360",
+          "verified": true
+        },
+        "featured": {
+          "asset_name": "FF_Lottery_anni_forge.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_Lottery_anni_forge.png",
+          "url": "/assets/freefire/1.39/royale/FF_Lottery_anni_forge.png",
+          "dimensions": "178x180",
+          "verified": true
+        },
+        "promo": {
+          "asset_name": "FF_UI_Lottery_Animate.png",
+          "file_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\server\\static\\assets\\freefire\\1.39\\royale\\FF_UI_Lottery_Animate.png",
+          "url": "/assets/freefire/1.39/royale/FF_UI_Lottery_Animate.png",
+          "dimensions": "512x512",
+          "verified": true
+        }
+      }
+    }
+  },
+  "characters": {
+    "101000001": {
+      "avatar_id": 101000001,
+      "name": "Eva",
+      "head_icon": "Icon_face_female01_head",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000001.png",
+      "verified": true
+    },
+    "101000005": {
+      "avatar_id": 101000005,
+      "name": "Olivia",
+      "head_icon": "Icon_face_female_head_sc_nurse",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000005.png",
+      "verified": true
+    },
+    "101000006": {
+      "avatar_id": 101000006,
+      "name": "Kelly",
+      "head_icon": "Icon_face_female_head_sc_runner",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000006.png",
+      "verified": true
+    },
+    "101000007": {
+      "avatar_id": 101000007,
+      "name": "Nikita",
+      "head_icon": "Icon_face_female_head_sc_bodyguard",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000007.png",
+      "verified": true
+    },
+    "101000008": {
+      "avatar_id": 101000008,
+      "name": "Misha",
+      "head_icon": "Icon_face_female_head_sc_racergirl",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000008.png",
+      "verified": true
+    },
+    "101000009": {
+      "avatar_id": 101000009,
+      "name": "Paloma",
+      "head_icon": "Icon_face_female_head_sc_armsdealer",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000009.png",
+      "verified": true
+    },
+    "101000010": {
+      "avatar_id": 101000010,
+      "name": "Caroline",
+      "head_icon": "Icon_face_female_head_sc_richgirl",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000010.png",
+      "verified": true
+    },
+    "101000011": {
+      "avatar_id": 101000011,
+      "name": "Moco",
+      "head_icon": "Icon_face_female_head_sc_hackergirl",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000011.png",
+      "verified": true
+    },
+    "101000012": {
+      "avatar_id": 101000012,
+      "name": "Laura",
+      "head_icon": "Icon_face_female_head_sc_Agent",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000012.png",
+      "verified": true
+    },
+    "101000013": {
+      "avatar_id": 101000013,
+      "name": "A124",
+      "head_icon": "Icon_face_female_head_sc_MadeManA",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_101000013.png",
+      "verified": true
+    },
+    "102000004": {
+      "avatar_id": 102000004,
+      "name": "Adam",
+      "head_icon": "Icon_face_male04_head",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000004.png",
+      "verified": true
+    },
+    "102000005": {
+      "avatar_id": 102000005,
+      "name": "Andrew",
+      "head_icon": "Icon_face_male_head_sc_cop",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000005.png",
+      "verified": true
+    },
+    "102000006": {
+      "avatar_id": 102000006,
+      "name": "Ford",
+      "head_icon": "Icon_face_male_head_sc_seaman",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000006.png",
+      "verified": true
+    },
+    "102000007": {
+      "avatar_id": 102000007,
+      "name": "Maxim",
+      "head_icon": "Icon_face_male_head_sc_foodieboy",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000007.png",
+      "verified": true
+    },
+    "102000008": {
+      "avatar_id": 102000008,
+      "name": "Kla",
+      "head_icon": "Icon_face_male_head_sc_thaiboxer",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000008.png",
+      "verified": true
+    },
+    "102000009": {
+      "avatar_id": 102000009,
+      "name": "Miguel",
+      "head_icon": "Icon_face_male_head_sc_brazilsoldier",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000009.png",
+      "verified": true
+    },
+    "102000010": {
+      "avatar_id": 102000010,
+      "name": "Antonio",
+      "head_icon": "Icon_face_male_head_sc_gangleader",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000010.png",
+      "verified": true
+    },
+    "102000011": {
+      "avatar_id": 102000011,
+      "name": "Wukong",
+      "head_icon": "Icon_face_male_head_sc_monkeygod",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000011.png",
+      "verified": true
+    },
+    "102000012": {
+      "avatar_id": 102000012,
+      "name": "Hayato",
+      "head_icon": "Icon_face_male_head_sc_Samurai",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000012.png",
+      "verified": true
+    },
+    "102000013": {
+      "avatar_id": 102000013,
+      "name": "Rafael",
+      "head_icon": "Icon_face_male_head_sc_hitman",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000013.png",
+      "verified": true
+    },
+    "102000014": {
+      "avatar_id": 102000014,
+      "name": "Joseph",
+      "head_icon": "Icon_face_male_head_sc_Playboy",
+      "head_url": "/assets/freefire/1.39/characters/avatar_head_102000014.png",
+      "verified": true
+    }
+  },
+  "debris": {
+    "800000001": {
+      "debris_id": 800000001,
+      "avatar_id": 102000005,
+      "character_name": "Andrew",
+      "icon_name": "Icon_face_male_sc_Cop",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Cop.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000001.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000002": {
+      "debris_id": 800000002,
+      "avatar_id": 101000005,
+      "character_name": "Olivia",
+      "icon_name": "Icon_face_female_sc_Nurse",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Nurse.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000002.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000003": {
+      "debris_id": 800000003,
+      "avatar_id": 101000006,
+      "character_name": "Kelly",
+      "icon_name": "Icon_face_female_sc_Runner",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Runner.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000003.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000004": {
+      "debris_id": 800000004,
+      "avatar_id": 102000006,
+      "character_name": "Ford",
+      "icon_name": "Icon_face_male_sc_Seamman",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Seamman.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000004.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000005": {
+      "debris_id": 800000005,
+      "avatar_id": 101000007,
+      "character_name": "Nikita",
+      "icon_name": "Icon_face_female_sc_Bodyguard",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Bodyguard.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000005.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000006": {
+      "debris_id": 800000006,
+      "avatar_id": 101000008,
+      "character_name": "Misha",
+      "icon_name": "Icon_face_female_sc_Racergirl",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Racergirl.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000006.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000007": {
+      "debris_id": 800000007,
+      "avatar_id": 102000007,
+      "character_name": "Maxim",
+      "icon_name": "Icon_face_male_sc_foodieboy",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_foodieboy.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000007.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000008": {
+      "debris_id": 800000008,
+      "avatar_id": 102000008,
+      "character_name": "Kla",
+      "icon_name": "Icon_face_male_sc_thaiboxer",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_thaiboxer.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000008.png",
+      "dimensions": "206x250",
+      "verified": true
+    },
+    "800000009": {
+      "debris_id": 800000009,
+      "avatar_id": 101000009,
+      "character_name": "Paloma",
+      "icon_name": "Icon_face_female_sc_armsdealer",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_armsdealer.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000009.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000010": {
+      "debris_id": 800000010,
+      "avatar_id": 102000009,
+      "character_name": "Miguel",
+      "icon_name": "Icon_face_male_sc_BrazilSoldier",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_BrazilSoldier.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000010.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000011": {
+      "debris_id": 800000011,
+      "avatar_id": 101000010,
+      "character_name": "Caroline",
+      "icon_name": "Icon_face_female_sc_richgirl",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_richgirl.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000011.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000012": {
+      "debris_id": 800000012,
+      "avatar_id": 102000010,
+      "character_name": "Antonio",
+      "icon_name": "Icon_face_male_sc_gangleader",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_gangleader.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000012.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000013": {
+      "debris_id": 800000013,
+      "avatar_id": 102000011,
+      "character_name": "Wukong",
+      "icon_name": "Icon_face_male_sc_monkeygod",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_monkeygod.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000013.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000014": {
+      "debris_id": 800000014,
+      "avatar_id": 101000011,
+      "character_name": "Moco",
+      "icon_name": "Icon_face_female_sc_HackerGirl",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_HackerGirl.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000014.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000015": {
+      "debris_id": 800000015,
+      "avatar_id": 102000012,
+      "character_name": "Hayato",
+      "icon_name": "Icon_face_male_sc_Samurai",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Samurai.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000015.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000016": {
+      "debris_id": 800000016,
+      "avatar_id": 101000012,
+      "character_name": "Laura",
+      "icon_name": "Icon_face_female_sc_Agent",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_Agent.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000016.png",
+      "dimensions": "205x250",
+      "verified": true
+    },
+    "800000017": {
+      "debris_id": 800000017,
+      "avatar_id": 102000013,
+      "character_name": "Rafael",
+      "icon_name": "Icon_face_male_sc_hitman",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_hitman.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000017.png",
+      "dimensions": "207x252",
+      "verified": true
+    },
+    "800000018": {
+      "debris_id": 800000018,
+      "avatar_id": 101000013,
+      "character_name": "A124",
+      "icon_name": "Icon_face_female_sc_MadeManA",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_female_sc_MadeManA.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000018.png",
+      "dimensions": "207x252",
+      "verified": true
+    },
+    "800000019": {
+      "debris_id": 800000019,
+      "avatar_id": 102000014,
+      "character_name": "Joseph",
+      "icon_name": "Icon_face_male_sc_Playboy",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_face_male_sc_Playboy.png",
+      "url": "/assets/freefire/1.39/characters/debris_800000019.png",
+      "dimensions": "207x252",
+      "verified": true
+    }
+  },
+  "ui_assets": {
+    "UI_Lottery_ramp_bg.png": {
+      "asset_name": "UI_Lottery_ramp_bg.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_Lottery_ramp_bg.png",
+      "url": "/assets/freefire/1.39/ui/UI_Lottery_ramp_bg.png",
+      "verified": true
+    },
+    "UI_Lottery_item_bg.png": {
+      "asset_name": "UI_Lottery_item_bg.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_Lottery_item_bg.png",
+      "url": "/assets/freefire/1.39/ui/UI_Lottery_item_bg.png",
+      "verified": true
+    },
+    "UI_Lottery_timelimit_bg.png": {
+      "asset_name": "UI_Lottery_timelimit_bg.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_Lottery_timelimit_bg.png",
+      "url": "/assets/freefire/1.39/ui/UI_Lottery_timelimit_bg.png",
+      "verified": true
+    },
+    "UI_Lottery_discount01.png": {
+      "asset_name": "UI_Lottery_discount01.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_Lottery_discount01.png",
+      "url": "/assets/freefire/1.39/ui/UI_Lottery_discount01.png",
+      "verified": true
+    },
+    "UI_Lottery_btn01.png": {
+      "asset_name": "UI_Lottery_btn01.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_Lottery_btn01.png",
+      "url": "/assets/freefire/1.39/ui/UI_Lottery_btn01.png",
+      "verified": true
+    },
+    "UI_Lottery_btn02.png": {
+      "asset_name": "UI_Lottery_btn02.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_Lottery_btn02.png",
+      "url": "/assets/freefire/1.39/ui/UI_Lottery_btn02.png",
+      "verified": true
+    },
+    "UI_GachaLegendary_Prob_bg.png": {
+      "asset_name": "UI_GachaLegendary_Prob_bg.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_GachaLegendary_Prob_bg.png",
+      "url": "/assets/freefire/1.39/ui/UI_GachaLegendary_Prob_bg.png",
+      "verified": true
+    },
+    "UI_GachaLegendary_btn_bglight.png": {
+      "asset_name": "UI_GachaLegendary_btn_bglight.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\UI_GachaLegendary_btn_bglight.png",
+      "url": "/assets/freefire/1.39/ui/UI_GachaLegendary_btn_bglight.png",
+      "verified": true
+    },
+    "FF_Lottery_Turntable_btn_1.png": {
+      "asset_name": "FF_Lottery_Turntable_btn_1.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\FF_Lottery_Turntable_btn_1.png",
+      "url": "/assets/freefire/1.39/ui/FF_Lottery_Turntable_btn_1.png",
+      "verified": true
+    },
+    "FF_Lottery_Turntable_btn_5.png": {
+      "asset_name": "FF_Lottery_Turntable_btn_5.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\luck_royale\\FF_Lottery_Turntable_btn_5.png",
+      "url": "/assets/freefire/1.39/ui/FF_Lottery_Turntable_btn_5.png",
+      "verified": true
+    },
+    "Icon_ff_upgrade_stone.png": {
+      "asset_name": "Icon_ff_upgrade_stone.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_upgrade_stone.png",
+      "url": "/assets/freefire/1.39/ui/Icon_ff_upgrade_stone.png",
+      "verified": true
+    },
+    "Icon_ff_crystal.png": {
+      "asset_name": "Icon_ff_crystal.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_crystal.png",
+      "url": "/assets/freefire/1.39/ui/Icon_ff_crystal.png",
+      "verified": true
+    },
+    "Icon_ff_token.png": {
+      "asset_name": "Icon_ff_token.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_token.png",
+      "url": "/assets/freefire/1.39/ui/Icon_ff_token.png",
+      "verified": true
+    },
+    "Icon_voucher.png": {
+      "asset_name": "Icon_voucher.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_voucher.png",
+      "url": "/assets/freefire/1.39/ui/Icon_voucher.png",
+      "verified": true
+    },
+    "Icon_ff_dragon_layout.png": {
+      "asset_name": "Icon_ff_dragon_layout.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_dragon_layout.png",
+      "url": "/assets/freefire/1.39/ui/Icon_ff_dragon_layout.png",
+      "verified": true
+    },
+    "Icon_ff_mask_layout.png": {
+      "asset_name": "Icon_ff_mask_layout.png",
+      "source_path": "D:\\MY WORK\\RESOURCES\\LEGACY\\LEGACY\\dump\\extracted_sprites\\lobby\\Icon_ff_mask_layout.png",
+      "url": "/assets/freefire/1.39/ui/Icon_ff_mask_layout.png",
+      "verified": true
+    }
+  }
+}

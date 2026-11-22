@@ -98,6 +98,15 @@ class GroupMode:
     QUAD = 3
 
 
+class MapID:
+    BERMUDA = 1           # Authentic Bermuda (APK assets: PVP_WaitingIsland / PVP_Paradise)
+    PURGATORY = 2         # Authentic Purgatory / Azores (APK assets: PVP_Azores)
+    HYAKKI = 3            # Death Uprising PVE (APK assets: PVE_Hyakki)
+    MAELSTROM = 4         # Speed Royale / Death Race (PVP_Maelstrom)
+    BERMUDA_WINTER = 5    # Bermuda Winterlands (PVP_Paradise_XMS)
+    PVE_SURVIVAL = 6      # PVE Zombie Defense
+
+
 class MatchMode:
     NONE = 0
     CASUAL = 1
@@ -107,14 +116,25 @@ class MatchMode:
 
 
 class GameMode:
+    NONE = 0
     BATTLE_ROYALE = 1
     SPEED_ROYALE = 2
     FATE_ROYALE = 3
-    PURGE = 8
+    ZOMBIE_SPEED_ROYALE = 4
+    ZOMBIE_GROUND = 7
+    PURGE_LEGACY = 8
+    JANKENPON = 9
+    WINNER_TAKES_ALL = 11
+    PURGE = 12
     PURGE_ALT = 12
-    CS = 11
+    REBORN = 13
+    HOOK_BRICK = 14
+    CS = 15
+    CS_LEGACY = 11
     CS_ALT = 15
     BIG_HEAD = 16
+    PVE_HYAKKI = 101
+    PVE_SV_ZOMBIE = 102
 
 
 class TeamMemberType:

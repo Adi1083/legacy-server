@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <base href="/dashboard/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>IND PROJECT Control Center — FF 2019 Restoration</title>
+
+  <!-- Typography: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Apple Dark Glassmorphism Design Tokens & Shell Layout -->
+  <link rel="stylesheet" href="src/design-system/tokens.css">
+</head>
+
+<body>
+  <!-- Master Single Page Application Container -->
+  <div id="app-root">
+    <!-- AppShell rendered dynamically by src/app/app.js -->
+  </div>
+
+  <!-- Toast Notification Portal -->
+  <div id="toast-container"></div>
+
+  <!-- 1. Core Infrastructure & Shared Utilities -->
+  <script src="src/core/api/api-client.js"></script>
+  <script src="src/core/context/player-context.js"></script>
+  <script src="src/shared/ui-components.js"></script>
+  <script src="src/shared/icons.js"></script>
+
+  <!-- 2. Application Shell & Router -->
+  <script src="src/app/router.js"></script>
+  <script src="src/app/sidebar.js"></script>
+  <script src="src/app/topbar.js"></script>
+
+  <!-- 3. Workspaces & Functional Domain Modules -->
+  <!-- 01 Overview -->
+  <script src="src/modules/overview/main.js"></script>
+  <script src="src/modules/overview/monitoring.js"></script>
+
+  <!-- 02 Player Management -->
+  <script src="src/modules/players/directory.js"></script>
+  <script src="src/modules/players/inspector.js"></script>
+  <script src="src/modules/players/account.js"></script>
+  <script src="src/modules/players/bans.js"></script>
+  <script src="src/modules/players/sessions.js"></script>
+
+  <!-- 03 Inventory & Collection -->
+  <script src="src/modules/inventory/manager.js"></script>
+  <script src="src/modules/inventory/characters.js"></script>
+  <script src="src/modules/inventory/pets.js"></script>
+  <script src="src/modules/inventory/wardrobe.js"></script>
+
+  <!-- 04 Economy -->
+  <script src="src/modules/economy/currencies.js"></script>
+  <script src="src/modules/economy/wallet.js"></script>
+
+  <!-- 05 Luck Royale Studio -->
+  <script src="src/modules/luck-royale/common.js"></script>
+  <script src="src/modules/luck-royale/overview.js"></script>
+  <script src="src/modules/luck-royale/machines.js"></script>
+  <script src="src/modules/luck-royale/pools.js"></script>
+  <script src="src/modules/luck-royale/pity.js"></script>
+  <script src="src/modules/luck-royale/currencies.js"></script>
+  <script src="src/modules/luck-royale/forge.js"></script>
+  <script src="src/modules/luck-royale/events.js"></script>
+  <script src="src/modules/luck-royale/banners.js"></script>
+  <script src="src/modules/luck-royale/player.js"></script>
+  <script src="src/modules/luck-royale/transactions.js"></script>
+  <script src="src/modules/luck-royale/simulator.js"></script>
+  <script src="src/modules/luck-royale/config.js"></script>
+
+  <!-- 06 Game Management -->
+  <script src="src/modules/game/modes.js"></script>
+  <script src="src/modules/game/maps.js"></script>
+  <script src="src/modules/game/matchmaking.js"></script>
+  <script src="src/modules/game/rooms.js"></script>
+
+  <!-- 07 Social & Communication -->
+  <script src="src/modules/social/mail.js"></script>
+  <script src="src/modules/social/mail-compose.js"></script>
+  <script src="src/modules/social/friends.js"></script>
+  <script src="src/modules/social/squads.js"></script>
+
+  <!-- 08 Content Management -->
+  <script src="src/modules/cms/banners.js"></script>
+  <script src="src/modules/cms/lobby.js"></script>
+  <script src="src/modules/cms/announcements.js"></script>
+  <script src="src/modules/cms/events.js"></script>
+
+  <!-- 09 Logs & Monitoring -->
+  <script src="src/modules/logs/api.js"></script>
+  <script src="src/modules/logs/audit.js"></script>
+  <script src="src/modules/logs/transactions.js"></script>
+
+  <!-- 10 System Administration -->
+  <script src="src/modules/system/settings.js"></script>
+  <script src="src/modules/system/database.js"></script>
+  <script src="src/modules/system/security.js"></script>
+
+  <!-- 4. Master Application Entry Point -->
+  <script src="src/app/app.js"></script>
+</body>
+
+</html>

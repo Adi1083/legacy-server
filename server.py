@@ -21,8 +21,10 @@ from handlers.game_router import handle_game_post
 from handlers.dashboard_api import (
     handle_dashboard_get,
     handle_dashboard_post,
+    handle_dashboard_delete,
     render_dashboard_html,
 )
+from handlers.admin_luck_royale_api import handle_admin_luck_royale_request
 from tcp_server import TCP_PORT, start_tcp_server, stop_tcp_server
 from combat.udp_server import start_combat_server, get_combat_server
 
@@ -62,7 +64,7 @@ class BarbosaHandler(BaseHTTPRequestHandler):
         self.send_header("Connection", "close")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Headers", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         self.end_headers()
         self.close_connection = True
 
@@ -136,8 +138,12 @@ class BarbosaHandler(BaseHTTPRequestHandler):
             path = self._clean_path(parsed.path)
             client_ip = self._get_client_ip()
 
-            if path != "/api/requests" and not path.startswith("/api/dashboard"):
+            if path != "/api/requests" and not path.startswith("/api/dashboard") and not path.startswith("/api/admin"):
                 log_request("GET", self.path, client_ip)
+
+            # Admin Luck Royale REST API
+            if handle_admin_luck_royale_request(self, "GET", path, parsed.query, b""):
+                return
 
             # Dashboard Web UI & Real-Time Control / Request API
             if handle_dashboard_get(
@@ -171,8 +177,12 @@ class BarbosaHandler(BaseHTTPRequestHandler):
             content_len = int(self.headers.get("Content-Length", 0))
             raw_body = self.rfile.read(content_len) if content_len > 0 else b""
 
-            if not path.startswith("/api/dashboard"):
+            if not path.startswith("/api/dashboard") and not path.startswith("/api/admin"):
                 log_request("POST", self.path, client_ip, raw_body)
+
+            # Admin Luck Royale REST API
+            if handle_admin_luck_royale_request(self, "POST", path, parsed.query, raw_body):
+                return
 
             if handle_dashboard_post(self, path, raw_body):
                 return
@@ -180,6 +190,48 @@ class BarbosaHandler(BaseHTTPRequestHandler):
             handle_game_post(self, path, client_ip, raw_body)
         except Exception as e:
             print(f"[-] POST Exception on {self.path}: {e}", flush=True)
+
+    def do_PUT(self):
+        try:
+            parsed = urlparse(self.path)
+            path = self._clean_path(parsed.path)
+            client_ip = self._get_client_ip()
+            content_len = int(self.headers.get("Content-Length", 0))
+            raw_body = self.rfile.read(content_len) if content_len > 0 else b""
+
+            if not path.startswith("/api/dashboard") and not path.startswith("/api/admin"):
+                log_request("PUT", self.path, client_ip, raw_body)
+
+            # Admin Luck Royale REST API
+            if handle_admin_luck_royale_request(self, "PUT", path, parsed.query, raw_body):
+                return
+
+            self.send_json({"ok": False, "error": f"Method PUT not supported on {path}"}, status=405)
+        except Exception as e:
+            print(f"[-] PUT Exception on {self.path}: {e}", flush=True)
+
+    def do_DELETE(self):
+        try:
+            parsed = urlparse(self.path)
+            path = self._clean_path(parsed.path)
+            client_ip = self._get_client_ip()
+            content_len = int(self.headers.get("Content-Length", 0))
+            raw_body = self.rfile.read(content_len) if content_len > 0 else b""
+
+            if not path.startswith("/api/dashboard") and not path.startswith("/api/admin"):
+                log_request("DELETE", self.path, client_ip, raw_body)
+
+            # Admin Luck Royale REST API
+            if handle_admin_luck_royale_request(self, "DELETE", path, parsed.query, raw_body):
+                return
+
+            # Admin & Dashboard REST API
+            if handle_dashboard_delete(self, path, raw_body):
+                return
+
+            self.send_json({"ok": False, "error": f"Method DELETE not supported on {path}"}, status=405)
+        except Exception as e:
+            print(f"[-] DELETE Exception on {self.path}: {e}", flush=True)
 
     def do_OPTIONS(self):
         self.send_response(200)

@@ -14,7 +14,7 @@
       "gos_pos": 7,
       "type": 0,
       "link_url": "",
-      "version": 15,
+      "version": 17,
       "open_type": 1
     },
     {
@@ -31,7 +31,7 @@
       "gos_pos": 14,
       "type": 0,
       "link_url": "",
-      "version": 13,
+      "version": 15,
       "open_type": 1
     }
   ],
@@ -48,6 +48,20 @@
       "go_pos": 7,
       "go_to_switch": true,
       "link_url": ""
+    },
+    {
+      "name": "login bg",
+      "advertisment_url": "/banners/login_bg.png",
+      "go_pos": 7,
+      "enabled": true,
+      "sort_id": 1,
+      "link_url": "",
+      "go_to_switch": true,
+      "id": 14,
+      "type": 11,
+      "language": "en",
+      "ad_start_time": 1795183742,
+      "ad_end_time": 1826806142
     },
     {
       "id": 2,
@@ -212,7 +226,9 @@
       "go_pos": 1,
       "sub_go_pos": "",
       "external_for_official_website": false,
-      "go_to_switch": true
+      "go_to_switch": true,
+      "enabled": true,
+      "link_url": ""
     }
   ],
   "announcements": [
@@ -251,7 +267,7 @@
       "enabled": true,
       "language": "en",
       "order_in_this_language": 1,
-      "content": "Welcome to India V1 Free Fire 1.39! Claim Daily Attendance & Bingo rewards now!",
+      "content": "PushpaGG - OLD FREE FIRE 2019 RESTORATION",
       "start_time": 1794400562,
       "end_time": 1826022962,
       "region": "DEFAULT",
@@ -262,7 +278,7 @@
       "enabled": true,
       "language": "en",
       "order_in_this_language": 2,
-      "content": "Season Launch Festival is live \u2014 complete missions to earn free Diamonds and Activeness chests!",
+      "content": "JOIN OFFICIAL DISCORD SERVERS FOR GAME",
       "start_time": 1794400562,
       "end_time": 1826022962,
       "region": "DEFAULT",

@@ -11,7 +11,7 @@ AvatarSkillSlot.csv, AvatarSuit.csv, AvatarLevelCard.csv).
 from __future__ import annotations
 
 import copy
-from typing import Any, Dict, List, Optional, Sequence, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Set, Tuple
 
 from .decoder import decode_proto, get_packed_varints, get_varint
 from .encoder import (
@@ -238,6 +238,49 @@ SPECIAL_AVATAR_IDS: List[int] = [
 ALL_MAX_SKILL_IDS: List[int] = [
     meta["skills"][-1] for meta in AVATAR_CATALOG.values() if meta["skills"]
 ]
+
+# ---------------------------------------------------------------------------
+# Authoritative Avatar ID -> Debris ID Mapping (19 Upgradeable Characters)
+# Extracted & Verified against AvatarProfile.csv, Item.csv, and libil2cpp.so
+# ---------------------------------------------------------------------------
+
+# Starter avatars Adam (102000004) and Eva (101000001) are excluded as they have
+# no skill progressions or character-specific debris items.
+STARTER_AVATAR_IDS: Set[int] = {
+    101000001,  # Eva
+    102000004,  # Adam
+}
+
+AVATAR_TO_DEBRIS_MAP: Dict[int, int] = {
+    102000005: 800000001,  # Andrew -> 警察男碎片 (TXT_DEBRIS_COP_NAME)
+    101000005: 800000002,  # Olivia -> 护士女碎片 (TXT_DEBRIS_NURSE_NAME)
+    101000006: 800000003,  # Kelly -> 跑步女碎片 (TXT_DEBRIS_RUNNER_NAME)
+    102000006: 800000004,  # Ford -> 海员男碎片 (TXT_DEBRIS_SEAMAN_NAME)
+    101000007: 800000005,  # Nikita -> 保镖女碎片 (TXT_DEBRIS_BODYGUARD_NAME)
+    101000008: 800000006,  # Misha -> 赛车女碎片 (TXT_DEBRIS_RACERGIRL_NAME)
+    102000007: 800000007,  # Maxim -> 吃货男碎片 (TXT_OB7_JRW_DEBRIS_FOODIEBOY_NAME)
+    102000008: 800000008,  # Kla -> 泰拳男碎片 (TXT_OB8_JRW_DEBRIS_THAIBOXER_NAME)
+    101000009: 800000009,  # Paloma -> 军火女碎片 (TXT_OB9_JRW_DEBRIS_ARMSDEALER_NAME)
+    102000009: 800000010,  # Miguel -> 士兵男碎片 (TXT_OB10_JRW_DEBRIS_BRAZILSOLDIER_NAME)
+    101000010: 800000011,  # Caroline -> 大小姐碎片 (TXT_OB11_JRW_DEBRIS_RICHGIRL_NAME)
+    102000010: 800000012,  # Antonio -> 黑帮男碎片 (T_12_R_DEBRIS_GANGLEADER_NAME)
+    102000011: 800000013,  # Wukong -> 猴神男碎片 (T_12_R_DEBRIS_MONKEYGOD_NAME)
+    101000011: 800000014,  # Moco -> 黑客女碎片 (T_13_R_DEBRIS_HACKERGIRL_NAME)
+    102000012: 800000015,  # Hayato -> 武士男碎片 (T_14_R_DEBRIS_SAMURAI_NAME)
+    101000012: 800000016,  # Laura -> 特工女碎片 (T_15_R_DEBRIS_AGENT_NAME)
+    102000013: 800000017,  # Rafael -> 杀手男碎片 (T_16_Y_DEBRIS_HITMAN_NAME)
+    101000013: 800000018,  # A124 -> 人造人女碎片 (T_17_Y_DEBRIS_MADEMANA_NAME)
+    102000014: 800000019,  # Joseph -> 花花公子男碎片 (T_17_Y_DEBRIS_PLAYBOY_NAME)
+}
+
+
+def get_character_debris_id(avatar_id: int) -> Optional[int]:
+    """Return authoritative DebrisID (800000001..800000019) for an avatar ID.
+
+    Returns None if avatar is not an upgradeable character (e.g. starter avatars
+    Adam 102000004 and Eva 101000001) or unknown.
+    """
+    return AVATAR_TO_DEBRIS_MAP.get(int(avatar_id))
 
 # level -> (debris_count, coins, gems) from AvatarProfile.csv
 UNLOCK_PROFILE_COSTS: Dict[int, Tuple[int, int, int]] = {

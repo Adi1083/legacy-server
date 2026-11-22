@@ -1,0 +1,339 @@
+/* ==========================================================================
+   IND PROJECT Control Center — FF 2019 Restoration
+   Application Shell Styles: Navigation, Collapsible Sidebar, Topbar, Modals
+   ========================================================================== */
+
+/* --- Layout Transitions & Shell Basics --- */
+.app-sidebar {
+  transition: width 0.24s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  min-height: 54px;
+}
+
+.sidebar-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar-toggle-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-default);
+  color: var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.sidebar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-color: var(--border-hover);
+}
+
+/* --- Accordion Navigation Sections --- */
+.nav-section {
+  margin-bottom: 4px;
+}
+
+.nav-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px 4px 10px;
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+  user-select: none;
+  transition: background var(--transition-fast);
+}
+
+.nav-section-header:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.nav-section-header:hover .nav-section-title {
+  color: var(--text-secondary);
+}
+
+.nav-section-chevron {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+}
+
+.nav-section.collapsed .nav-section-chevron {
+  transform: rotate(-90deg);
+}
+
+.nav-section-items {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: max-height 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-section.collapsed .nav-section-items {
+  display: none;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  margin-bottom: 2px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav-item .nav-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Collapsed Mini-Sidebar Mode (Width: 64px) --- */
+.app-sidebar.collapsed {
+  width: 64px !important;
+  min-width: 64px !important;
+}
+
+.app-sidebar.collapsed .brand-info {
+  display: none !important;
+}
+
+.app-sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.app-sidebar.collapsed .sidebar-brand-group {
+  display: flex;
+  justify-content: center;
+}
+
+.app-sidebar.collapsed .sidebar-toggle-btn {
+  position: absolute;
+  right: 6px;
+  top: 14px;
+  width: 20px;
+  height: 20px;
+  font-size: 9px;
+  display: none; /* In mini mode, toggle button is available in topbar or hover */
+}
+
+.app-sidebar.collapsed:hover .sidebar-toggle-btn {
+  display: flex;
+}
+
+.app-sidebar.collapsed .nav-section-header {
+  display: none !important;
+}
+
+.app-sidebar.collapsed .nav-section {
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 6px;
+}
+
+.app-sidebar.collapsed .nav-section.collapsed .nav-section-items {
+  display: flex !important; /* In mini mode, all items remain accessible by icon */
+}
+
+.app-sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 8px 0;
+  margin: 3px 6px;
+}
+
+.app-sidebar.collapsed .nav-label {
+  display: none !important;
+}
+
+.app-sidebar.collapsed .nav-icon {
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+}
+
+/* Floating Tooltip in Collapsed Mode */
+.app-sidebar.collapsed .nav-item:hover::after {
+  content: attr(data-title);
+  position: fixed;
+  left: 72px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--border-default);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: var(--shadow-dropdown);
+  z-index: 99999;
+  pointer-events: none;
+  animation: tooltipIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes tooltipIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* --- Topbar Styling & Breadcrumbs --- */
+.topbar-sidebar-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 14px;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  user-select: none;
+}
+
+.breadcrumb-segment {
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-segment:hover {
+  color: var(--accent-cyan);
+}
+
+.breadcrumb-sep {
+  opacity: 0.35;
+  font-size: 10px;
+}
+
+.breadcrumb-active {
+  color: #fff;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* --- Player Context Indicator Pill --- */
+.player-context-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.player-context-pill:hover {
+  border-color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.10);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.player-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+  flex-shrink: 0;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 4px var(--accent-emerald); }
+  50% { transform: scale(1.15); box-shadow: 0 0 10px var(--accent-emerald); }
+  100% { transform: scale(0.95); box-shadow: 0 0 4px var(--accent-emerald); }
+}
+
+.player-context-pill.loading .player-dot {
+  background: var(--accent-amber);
+  box-shadow: 0 0 8px var(--accent-amber);
+}
+
+/* --- Spin Animation for Refresh Buttons --- */
+.spin-anim {
+  animation: spinSlow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- Responsive Drawer Mode (Screens < 768px) --- */
+@media (max-width: 768px) {
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .app-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: var(--blur-sm);
+    -webkit-backdrop-filter: var(--blur-sm);
+    z-index: 999;
+  }
+}

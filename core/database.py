@@ -64,9 +64,17 @@ class Database:
                         selected_pet_id INTEGER NOT NULL DEFAULT 120000001,
                         equipped_clothes_json TEXT NOT NULL DEFAULT '[]',
                         profile_data_json TEXT NOT NULL DEFAULT '{}',
+                        is_banned INTEGER NOT NULL DEFAULT 0,
                         updated_at INTEGER NOT NULL
                     );
                 """)
+
+                # Auto-migration: ensure is_banned column exists for legacy database schemas
+                cur = conn.cursor()
+                cur.execute("PRAGMA table_info(accounts);")
+                account_cols = [r["name"] for r in cur.fetchall()]
+                if "is_banned" not in account_cols:
+                    conn.execute("ALTER TABLE accounts ADD COLUMN is_banned INTEGER NOT NULL DEFAULT 0;")
 
                 # 2. Inventory Items
                 conn.execute("""
@@ -180,6 +188,40 @@ class Database:
                     );
                 """)
 
+                # 11. Gacha Transactions Log (Audit history of all spins)
+                conn.execute("""
+                    CREATE TABLE IF NOT EXISTS gacha_transactions (
+                        trans_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        account_id INTEGER NOT NULL,
+                        chest_id INTEGER NOT NULL,
+                        gacha_type INTEGER NOT NULL,
+                        consume_type INTEGER NOT NULL,
+                        cost_type INTEGER NOT NULL,
+                        cost_amount INTEGER NOT NULL,
+                        reward_list_json TEXT NOT NULL DEFAULT '[]',
+                        lucky_before INTEGER NOT NULL DEFAULT 0,
+                        lucky_after INTEGER NOT NULL DEFAULT 0,
+                        has_big_reward INTEGER NOT NULL DEFAULT 0,
+                        timestamp INTEGER NOT NULL
+                    );
+                """)
+                conn.execute("CREATE INDEX IF NOT EXISTS idx_gacha_tx_acct ON gacha_transactions(account_id, timestamp DESC);")
+                conn.execute("CREATE INDEX IF NOT EXISTS idx_gacha_tx_chest ON gacha_transactions(chest_id, timestamp DESC);")
+
+                # 12. Gacha Special Exchanges (Incubator Forge crafts)
+                conn.execute("""
+                    CREATE TABLE IF NOT EXISTS gacha_special_exchanges (
+                        trans_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        account_id INTEGER NOT NULL,
+                        forge_tab_id INTEGER NOT NULL,
+                        item_id INTEGER NOT NULL,
+                        count INTEGER NOT NULL DEFAULT 1,
+                        consumed_json TEXT NOT NULL DEFAULT '[]',
+                        timestamp INTEGER NOT NULL
+                    );
+                """)
+                conn.execute("CREATE INDEX IF NOT EXISTS idx_gacha_se_acct ON gacha_special_exchanges(account_id, timestamp DESC);")
+
                 conn.execute("COMMIT;")
             except Exception:
                 conn.execute("ROLLBACK;")
@@ -206,6 +248,7 @@ class Database:
                 data.update(extra)
             except Exception:
                 pass
+            data["is_banned"] = bool(data.get("is_banned", 0))
             return data
 
     def save_profile(self, account_id: int, profile_dict: Dict[str, Any]) -> None:
@@ -220,18 +263,19 @@ class Database:
             avatar = int(profile_dict.get("avatar_id", profile_dict.get("selected_avatar_id", 102000004)))
             pet = int(profile_dict.get("selected_pet_id", 120000001))
             clothes = json.dumps(profile_dict.get("clothes", []))
+            is_banned = 1 if profile_dict.get("is_banned") else 0
 
             # Store extra fields
             extra = {k: v for k, v in profile_dict.items() if k not in {
                 "account_id", "nickname", "level", "exp", "gold", "diamonds", "gems", "coins",
-                "selected_avatar_id", "avatar_id", "selected_pet_id", "clothes"
+                "selected_avatar_id", "avatar_id", "selected_pet_id", "clothes", "is_banned"
             }}
 
             conn.execute("""
                 INSERT INTO accounts (
                     account_id, nickname, level, exp, gold, diamonds,
-                    selected_avatar_id, selected_pet_id, equipped_clothes_json, profile_data_json, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    selected_avatar_id, selected_pet_id, equipped_clothes_json, profile_data_json, is_banned, updated_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(account_id) DO UPDATE SET
                     nickname=excluded.nickname,
                     level=excluded.level,
@@ -242,11 +286,105 @@ class Database:
                     selected_pet_id=excluded.selected_pet_id,
                     equipped_clothes_json=excluded.equipped_clothes_json,
                     profile_data_json=excluded.profile_data_json,
+                    is_banned=excluded.is_banned,
                     updated_at=excluded.updated_at;
             """, (
                 int(account_id), nick, lvl, exp, gold, gems, avatar, pet,
-                clothes, json.dumps(extra), now
+                clothes, json.dumps(extra), is_banned, now
             ))
+
+    def set_player_banned(self, account_id: int, banned: bool = True) -> bool:
+        with self._lock:
+            now = int(time.time())
+            cur = self._get_conn().cursor()
+            cur.execute("""
+                UPDATE accounts
+                SET is_banned = ?, updated_at = ?
+                WHERE account_id = ?;
+            """, (1 if banned else 0, now, int(account_id)))
+            return cur.rowcount > 0
+
+    def is_player_banned(self, account_id: int) -> bool:
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT is_banned FROM accounts WHERE account_id = ?;", (int(account_id),))
+            row = cur.fetchone()
+            return bool(row["is_banned"]) if row else False
+
+    def list_accounts_paged(
+        self,
+        search: str = "",
+        sort_by: str = "account_id",
+        sort_dir: str = "asc",
+        page: int = 1,
+        limit: int = 20,
+        is_banned: Optional[bool] = None,
+    ) -> Tuple[List[Dict[str, Any]], int]:
+        with self._lock:
+            cur = self._get_conn().cursor()
+            clauses: List[str] = []
+            params: List[Any] = []
+
+            clean_search = str(search or "").strip()
+            if clean_search:
+                s_pattern = f"%{clean_search}%"
+                clauses.append("(LOWER(nickname) LIKE LOWER(?) OR CAST(account_id AS TEXT) LIKE ?)")
+                params.extend([s_pattern, s_pattern])
+
+            if is_banned is not None:
+                clauses.append("is_banned = ?")
+                params.append(1 if is_banned else 0)
+
+            where_sql = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+
+            # Count total
+            cur.execute(f"SELECT COUNT(*) AS total FROM accounts{where_sql};", tuple(params))
+            total_row = cur.fetchone()
+            total = int(total_row["total"]) if total_row else 0
+
+            # Sort sanitation
+            sort_map = {
+                "id": "account_id",
+                "account_id": "account_id",
+                "nickname": "nickname",
+                "level": "level",
+                "exp": "exp",
+                "gold": "gold",
+                "coins": "gold",
+                "diamonds": "diamonds",
+                "gems": "diamonds",
+                "is_banned": "is_banned",
+                "updated_at": "updated_at",
+                "created_at": "account_id",
+            }
+            safe_sort = sort_map.get(str(sort_by or "").lower().strip(), "account_id")
+            safe_dir = "DESC" if str(sort_dir or "").upper().strip() == "DESC" else "ASC"
+
+            safe_page = max(1, int(page))
+            safe_limit = max(1, min(100, int(limit)))
+            offset = (safe_page - 1) * safe_limit
+
+            query_sql = f"SELECT * FROM accounts{where_sql} ORDER BY {safe_sort} {safe_dir} LIMIT ? OFFSET ?;"
+            cur.execute(query_sql, tuple(params + [safe_limit, offset]))
+
+            results: List[Dict[str, Any]] = []
+            for r in cur.fetchall():
+                d = dict(r)
+                try:
+                    d["clothes"] = json.loads(d.pop("equipped_clothes_json", "[]"))
+                except Exception:
+                    d["clothes"] = []
+                try:
+                    extra = json.loads(d.pop("profile_data_json", "{}"))
+                    d.update(extra)
+                except Exception:
+                    pass
+                d["is_banned"] = bool(d.get("is_banned", 0))
+                d["coins"] = d.get("gold", 0)
+                d["gems"] = d.get("diamonds", 0)
+                results.append(d)
+
+            return results, total
 
     def update_wallet(self, account_id: int, gold: int, diamonds: int) -> None:
         with self._lock:
@@ -277,6 +415,13 @@ class Database:
                 ON CONFLICT(account_id, item_id) DO UPDATE SET
                     count = excluded.count;
             """, (int(account_id), int(item_id), int(count), now))
+
+    def delete_inventory_item(self, account_id: int, item_id: int) -> None:
+        with self._lock:
+            self._get_conn().execute(
+                "DELETE FROM inventory WHERE account_id = ? AND item_id = ?;",
+                (int(account_id), int(item_id)),
+            )
 
     def save_inventory_batch(self, account_id: int, items: Dict[int, int]) -> None:
         if not items:
@@ -611,6 +756,108 @@ class Database:
                     updated_at = excluded.updated_at;
             """, (int(account_id), int(chest_id), blob, now))
 
+    def record_gacha_transaction(
+        self,
+        account_id: int,
+        chest_id: int,
+        gacha_type: int,
+        consume_type: int,
+        cost_type: int,
+        cost_amount: int,
+        reward_list: Sequence[Dict[str, Any]],
+        lucky_before: int = 0,
+        lucky_after: int = 0,
+        has_big_reward: bool = False,
+        timestamp: Optional[int] = None,
+    ) -> int:
+        with self._lock:
+            ts = int(timestamp or time.time())
+            reward_json = json.dumps(list(reward_list))
+            cur = self._get_conn().cursor()
+            cur.execute("""
+                INSERT INTO gacha_transactions (
+                    account_id, chest_id, gacha_type, consume_type,
+                    cost_type, cost_amount, reward_list_json,
+                    lucky_before, lucky_after, has_big_reward, timestamp
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """, (
+                int(account_id), int(chest_id), int(gacha_type), int(consume_type),
+                int(cost_type), int(cost_amount), reward_json,
+                int(lucky_before), int(lucky_after), 1 if has_big_reward else 0, ts
+            ))
+            return cur.lastrowid or 0
+
+    def get_gacha_transactions(
+        self,
+        account_id: Optional[int] = None,
+        chest_id: Optional[int] = None,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> List[Dict[str, Any]]:
+        with self._lock:
+            cur = self._get_conn().cursor()
+            query = "SELECT * FROM gacha_transactions WHERE 1=1"
+            params: List[Any] = []
+            if account_id is not None:
+                query += " AND account_id = ?"
+                params.append(int(account_id))
+            if chest_id is not None:
+                query += " AND chest_id = ?"
+                params.append(int(chest_id))
+            query += " ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
+            params.extend([max(1, int(limit)), max(0, int(offset))])
+            cur.execute(query, params)
+            rows = cur.fetchall()
+            results: List[Dict[str, Any]] = []
+            for r in rows:
+                results.append({
+                    "trans_id": r["trans_id"],
+                    "account_id": r["account_id"],
+                    "chest_id": r["chest_id"],
+                    "gacha_type": r["gacha_type"],
+                    "consume_type": r["consume_type"],
+                    "cost_type": r["cost_type"],
+                    "cost_amount": r["cost_amount"],
+                    "reward_list": json.loads(r["reward_list_json"]) if r["reward_list_json"] else [],
+                    "lucky_before": r["lucky_before"],
+                    "lucky_after": r["lucky_after"],
+                    "has_big_reward": bool(r["has_big_reward"]),
+                    "timestamp": r["timestamp"],
+                })
+            return results
+
+    def record_special_exchange(
+        self,
+        account_id: int,
+        forge_tab_id: int,
+        item_id: int,
+        count: int = 1,
+        consumed_items: Optional[Sequence[Dict[str, Any]]] = None,
+        timestamp: Optional[int] = None,
+    ) -> int:
+        with self._lock:
+            ts = int(timestamp or time.time())
+            consumed_json = json.dumps(list(consumed_items or []))
+            cur = self._get_conn().cursor()
+            cur.execute("""
+                INSERT INTO gacha_special_exchanges (
+                    account_id, forge_tab_id, item_id, count, consumed_json, timestamp
+                ) VALUES (?, ?, ?, ?, ?, ?);
+            """, (int(account_id), int(forge_tab_id), int(item_id), int(count), consumed_json, ts))
+            return cur.lastrowid or 0
+
+    def get_special_exchange_purchases(self, account_id: int) -> Dict[Tuple[int, int], int]:
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("""
+                SELECT forge_tab_id, item_id, SUM(count) as total_count
+                FROM gacha_special_exchanges
+                WHERE account_id = ?
+                GROUP BY forge_tab_id, item_id;
+            """, (int(account_id),))
+            rows = cur.fetchall()
+            return {(int(r["forge_tab_id"]), int(r["item_id"])): int(r["total_count"]) for r in rows}
+
     # -------------------------------------------------------------------------
     # Audit Log
     # -------------------------------------------------------------------------
@@ -659,6 +906,113 @@ class Database:
                 d["payload"] = json.loads(d.pop("payload_json", "{}"))
                 out.append(d)
             return out
+
+    # -------------------------------------------------------------------------
+    # Multi-Player Account Discovery & Registration Queries
+    # -------------------------------------------------------------------------
+
+    def get_all_account_ids(self) -> List[int]:
+        """Return list of all registered account IDs ordered ascending."""
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT account_id FROM accounts ORDER BY account_id ASC;")
+            return [int(r["account_id"]) for r in cur.fetchall()]
+
+    def get_next_account_id(self) -> int:
+        """Allocate next monotonically increasing dynamic account_id (>= 10001)."""
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT MAX(account_id) AS max_id FROM accounts;")
+            row = cur.fetchone()
+            max_id = int(row["max_id"]) if (row and row["max_id"] is not None) else 10000
+            return max(max_id + 1, 10001)
+
+    def find_account_by_nickname(self, nickname: str) -> Optional[Dict[str, Any]]:
+        """Case-insensitive exact nickname search in accounts store."""
+        if not nickname:
+            return None
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT account_id FROM accounts WHERE LOWER(nickname) = LOWER(?);", (str(nickname).strip(),))
+            row = cur.fetchone()
+            if not row:
+                return None
+            return self.get_profile(int(row["account_id"]))
+
+    def find_account_by_open_id(self, open_id: str) -> Optional[Dict[str, Any]]:
+        """Lookup account by platform open_id stored in profile_data_json."""
+        if not open_id:
+            return None
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT account_id FROM accounts WHERE json_extract(profile_data_json, '$.open_id') = ?;", (str(open_id),))
+            row = cur.fetchone()
+            if not row:
+                return None
+            return self.get_profile(int(row["account_id"]))
+
+    def find_account_by_device_id(self, device_id: str) -> Optional[Dict[str, Any]]:
+        """Lookup account by client device_id stored in profile_data_json."""
+        if not device_id:
+            return None
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT account_id FROM accounts WHERE json_extract(profile_data_json, '$.device_id') = ?;", (str(device_id),))
+            row = cur.fetchone()
+            if not row:
+                return None
+            return self.get_profile(int(row["account_id"]))
+
+    def find_account_by_token(self, token: str) -> Optional[Dict[str, Any]]:
+        """Lookup account by active session token stored in profile_data_json."""
+        if not token:
+            return None
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute("SELECT account_id FROM accounts WHERE json_extract(profile_data_json, '$.token') = ?;", (str(token),))
+            row = cur.fetchone()
+            if not row:
+                return None
+            return self.get_profile(int(row["account_id"]))
+
+    def search_accounts_by_nickname(self, query_str: str, limit: int = 20) -> List[Dict[str, Any]]:
+        """Fuzzy search accounts by nickname prefix or substring."""
+        if not query_str:
+            return []
+        with self._lock:
+            cur = self._get_conn().cursor()
+            cur.execute(
+                "SELECT account_id FROM accounts WHERE LOWER(nickname) LIKE LOWER(?) ORDER BY level DESC LIMIT ?;",
+                (f"%{query_str}%", int(limit)),
+            )
+            out: List[Dict[str, Any]] = []
+            for r in cur.fetchall():
+                prof = self.get_profile(int(r["account_id"]))
+                if prof:
+                    out.append(prof)
+            return out
+
+    def delete_account(self, account_id: int) -> bool:
+        """Purge account and related records from database."""
+        with self._lock:
+            conn = self._get_conn()
+            aid = int(account_id)
+            conn.execute("BEGIN IMMEDIATE;")
+            try:
+                conn.execute("DELETE FROM accounts WHERE account_id = ?;", (aid,))
+                conn.execute("DELETE FROM inventory WHERE account_id = ?;", (aid,))
+                conn.execute("DELETE FROM characters WHERE account_id = ?;", (aid,))
+                conn.execute("DELETE FROM pets WHERE account_id = ?;", (aid,))
+                conn.execute("DELETE FROM mails WHERE account_id = ?;", (aid,))
+                conn.execute("DELETE FROM friends WHERE account_id = ? OR friend_id = ?;", (aid, aid))
+                conn.execute("DELETE FROM user_claims WHERE account_id = ?;", (aid,))
+                conn.execute("DELETE FROM activity_states WHERE account_id = ?;", (aid,))
+                conn.execute("DELETE FROM gacha_states WHERE account_id = ?;", (aid,))
+                conn.execute("COMMIT;")
+                return True
+            except Exception:
+                conn.execute("ROLLBACK;")
+                return False
 
 
 # Global singleton database instance

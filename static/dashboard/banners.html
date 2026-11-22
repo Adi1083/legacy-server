@@ -7,24 +7,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css">
   <style>
     /* ==========================================================================
        CSS VARIABLES & THEME TOKENS
        ========================================================================== */
     :root {
-      --b-bg-base: #070a12;
-      --b-bg-surface: rgba(15, 23, 42, 0.78);
-      --b-bg-surface-elevated: rgba(22, 33, 59, 0.88);
-      --b-bg-input: rgba(10, 15, 29, 0.85);
-      --b-border: rgba(255, 255, 255, 0.08);
+      --b-bg-base: #f5f5f7;
+      --b-bg-surface: #ffffff;
+      --b-bg-surface-elevated: #fbfbfd;
+      --b-bg-input: #f2f2f7;
+      --b-border: #e5e5ea;
       --b-border-hover: rgba(56, 189, 248, 0.35);
       --b-border-active: #38bdf8;
       
-      --b-text-main: #f8fafc;
-      --b-text-muted: #94a3b8;
-      --b-text-dim: #64748b;
+      --b-text-main: #1d1d1f;
+      --b-text-muted: #6e6e73;
+      --b-text-dim: #86868b;
 
-      --b-cyan: #38bdf8;
+      --b-cyan: #0071e3;
       --b-cyan-glow: rgba(56, 189, 248, 0.22);
       --b-indigo: #818cf8;
       --b-green: #10b981;
@@ -38,16 +39,15 @@
       --b-radius-md: 10px;
       --b-radius-lg: 14px;
       --b-shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      --apple-spring: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: radial-gradient(circle at 10% 10%, #0d172e 0%, transparent 45%),
-                  radial-gradient(circle at 90% 90%, #111827 0%, transparent 45%),
-                  var(--b-bg-base);
+      background: #f5f5f7;
       color: var(--b-text-main);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 'Plus Jakarta Sans', sans-serif;
       font-size: 13px;
       line-height: 1.5;
       min-height: 100vh;
@@ -260,10 +260,13 @@
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.18s;
+      transition: transform 120ms var(--apple-spring), filter 120ms var(--apple-spring), box-shadow 120ms var(--apple-spring);
+      will-change: transform;
+      user-select: none;
       box-shadow: 0 2px 8px var(--b-cyan-glow);
     }
     .b-btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .b-btn-primary:active, .b-btn-secondary:active, .b-btn-gold:active, .b-subtab-btn:active { transform: scale(0.97); }
 
     .b-btn-secondary {
       display: inline-flex;
@@ -279,7 +282,9 @@
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.18s;
+      transition: transform 120ms var(--apple-spring), background 120ms var(--apple-spring), border-color 120ms var(--apple-spring);
+      will-change: transform;
+      user-select: none;
     }
     .b-btn-secondary:hover { background: rgba(51, 65, 85, 0.8); border-color: rgba(255, 255, 255, 0.2); }
 
@@ -296,6 +301,9 @@
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
+      transition: transform 120ms var(--apple-spring), filter 120ms var(--apple-spring), box-shadow 120ms var(--apple-spring);
+      will-change: transform;
+      user-select: none;
       box-shadow: 0 2px 8px var(--b-gold-glow);
     }
     .b-btn-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
@@ -1320,6 +1328,7 @@
     .spinning { animation: bSpin 0.7s linear infinite; }
     @keyframes bSpin { 100% { transform: rotate(360deg); } }
   </style>
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css?v=3">
 </head>
 <body>
 
@@ -1348,6 +1357,10 @@
       <button class="b-subtab-btn" data-tab="marquee-news" onclick="BannersSection.switchSubTab('marquee-news')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
         <span>Ticker &amp; Announcements</span>
+      </button>
+      <button class="b-subtab-btn" data-tab="boot-branding" onclick="BannersSection.switchSubTab('boot-branding')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span>Boot &amp; Login Visuals</span>
       </button>
     </nav>
 
@@ -1794,6 +1807,42 @@
           <button type="submit" class="b-btn-primary">Save Notice</button>
         </div>
       </form>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SUBTAB 5: BOOT, SPLASH & LOGIN VISUALS (REALTIME CMS ENGINE)
+       ======================================================================== -->
+  <section id="b-pane-boot-branding" class="b-subtab-pane">
+    <div class="b-card">
+      <div class="b-card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2 class="b-card-title">Client Boot &amp; Login Visuals Manager</h2>
+          <p class="b-card-desc">Direct HTTP dynamic hot-swapping for all APK visual sequences. Zero repacking, instant dashboard sync.</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="b-btn-secondary" onclick="BannersSection.refreshBranding()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            <span>Reload Visuals</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+        <button class="b-filter-pill active" data-bfilter="all" onclick="BannersSection.filterBranding('all')">All Slots (9)</button>
+        <button class="b-filter-pill" data-bfilter="boot" onclick="BannersSection.filterBranding('boot')">Boot &amp; Splash</button>
+        <button class="b-filter-pill" data-bfilter="login" onclick="BannersSection.filterBranding('login')">Login Wallpapers</button>
+        <button class="b-filter-pill" data-bfilter="lobby" onclick="BannersSection.filterBranding('lobby')">Lobby &amp; Ads</button>
+      </div>
+
+      <!-- Slots Grid -->
+      <div id="b-branding-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:20px;">
+        <!-- Dynamically injected via banners.js -->
+        <div style="grid-column:1/-1; padding:40px; text-align:center; color:var(--b-text-dim);">
+          Loading branding slots...
+        </div>
+      </div>
     </div>
   </section>
 </div>

@@ -1,0 +1,1449 @@
+{
+  "schema_version": "1.39.0",
+  "version": 1130,
+  "last_modified": 1795290247,
+  "machines": [
+    {
+      "chest_id": 3,
+      "chest_sub_id": 20,
+      "priority": 100,
+      "coin_type": 2,
+      "chest_name": "TXT_CHEST_NAME_GEM",
+      "exchange_itemid": 110100008,
+      "free_type": 1,
+      "once_price": 60,
+      "ten_price": 600,
+      "exchange_once_num": 1,
+      "exchange_ten_num": 10,
+      "color_id": 1,
+      "chest_model_id": 203000374,
+      "show_model_male": 102000010,
+      "show_model_female": 101000010,
+      "rare_item_max": 100,
+      "chest_type_enum": 3,
+      "forge_tab_id": 0,
+      "once_num": 1,
+      "ten_num": 10,
+      "discount_price_one": 0,
+      "discount_price_ten": 0,
+      "must_drop": true,
+      "extra_reward": true,
+      "first_reward_switch": true,
+      "first_reward_max": 3,
+      "second_level_count": 40,
+      "third_level_count": 90,
+      "chest_activity": 2,
+      "open_priority_switch": 0,
+      "chest_model_id2": 0,
+      "chest_model_id3": 0,
+      "drop_probability_switch": true,
+      "extra_reward_icon": 2,
+      "chest_hint_color": 0,
+      "extra_reward_reset_day": [
+        1
+      ],
+      "probabilities": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          18
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "items": [
+        {
+          "item_id": 800000304,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 800000304,
+          "repeated_item_num": 1,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 2,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 710000401,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 10,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 4,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 710000400,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 10,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 4,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 710000403,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 8,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 12,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 710000404,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 8,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 12,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 710000405,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 15,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 710000406,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 15,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 203000505,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 203000506,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 204000304,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 204000307,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1101000002,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": false,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 90,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1102000002,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": false,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 90,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1307000001,
+          "item_num": 2,
+          "item_type": 1,
+          "is_show": false,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 90,
+          "is_jackpot": false
+        }
+      ],
+      "extra_rewards": [
+        {
+          "cdt_value": 5,
+          "reward_id": 110100008,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 15,
+          "reward_id": 110100009,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 30,
+          "reward_id": 110200001,
+          "reward_num": 15,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 60,
+          "reward_id": 110100018,
+          "reward_num": 2,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 100,
+          "reward_id": 800000304,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        }
+      ],
+      "is_visible": true,
+      "banner_image": "",
+      "is_enabled": true,
+      "state_enum": 1,
+      "start_time": 0,
+      "end_time": 0,
+      "min_player_level": 1,
+      "requires_elite_pass": false,
+      "min_vip_level": 0,
+      "allow_single_spin": true,
+      "allow_multi_spin": true,
+      "daily_spin_limit": 0
+    },
+    {
+      "chest_id": 4,
+      "chest_sub_id": 12,
+      "priority": 75,
+      "coin_type": 2,
+      "chest_name": "TXT_CHEST_NAME_GUN",
+      "exchange_itemid": 110100009,
+      "free_type": 1,
+      "once_price": 40,
+      "ten_price": 400,
+      "exchange_once_num": 1,
+      "exchange_ten_num": 10,
+      "color_id": 1,
+      "chest_model_id": 907001611,
+      "show_model_male": 102000010,
+      "show_model_female": 101000010,
+      "rare_item_max": 150,
+      "chest_type_enum": 0,
+      "forge_tab_id": 0,
+      "once_num": 1,
+      "ten_num": 10,
+      "discount_price_one": 0,
+      "discount_price_ten": 0,
+      "must_drop": true,
+      "extra_reward": true,
+      "first_reward_switch": false,
+      "first_reward_max": 3,
+      "second_level_count": 40,
+      "third_level_count": 90,
+      "chest_activity": 0,
+      "open_priority_switch": 0,
+      "chest_model_id2": 0,
+      "chest_model_id3": 0,
+      "drop_probability_switch": true,
+      "extra_reward_icon": 2,
+      "chest_hint_color": 0,
+      "extra_reward_reset_day": [
+        1
+      ],
+      "probabilities": [
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          22
+        ],
+        [
+          0,
+          75
+        ]
+      ],
+      "items": [
+        {
+          "item_id": 907001611,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 10,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 4,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 907001612,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 10,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 4,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 907001613,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 6,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 14,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001614,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 6,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 14,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001620,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 20,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001621,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 20,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001622,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 55,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001623,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 55,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001603,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 65,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001604,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 65,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001605,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 65,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001607,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 65,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001608,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 65,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 110200001,
+          "item_num": 5,
+          "item_type": 1,
+          "is_show": false,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 80,
+          "is_jackpot": false
+        }
+      ],
+      "extra_rewards": [
+        {
+          "cdt_value": 5,
+          "reward_id": 110100009,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 15,
+          "reward_id": 110100008,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 30,
+          "reward_id": 110200001,
+          "reward_num": 15,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 60,
+          "reward_id": 907001620,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 100,
+          "reward_id": 907001611,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        }
+      ],
+      "is_visible": true,
+      "banner_image": "",
+      "is_enabled": true,
+      "state_enum": 1,
+      "start_time": 0,
+      "end_time": 0,
+      "min_player_level": 1,
+      "requires_elite_pass": false,
+      "min_vip_level": 0,
+      "allow_single_spin": true,
+      "allow_multi_spin": true,
+      "daily_spin_limit": 0
+    },
+    {
+      "chest_id": 5,
+      "chest_sub_id": 4,
+      "priority": 50,
+      "coin_type": 1,
+      "chest_name": "TXT_CHEST_NAME_GOLD",
+      "exchange_itemid": 110100010,
+      "free_type": 1,
+      "once_price": 300,
+      "ten_price": 3000,
+      "exchange_once_num": 1,
+      "exchange_ten_num": 10,
+      "color_id": 2,
+      "chest_model_id": 101000010,
+      "show_model_male": 102000007,
+      "show_model_female": 101000010,
+      "rare_item_max": 300,
+      "chest_type_enum": 0,
+      "forge_tab_id": 0,
+      "once_num": 1,
+      "ten_num": 10,
+      "discount_price_one": 0,
+      "discount_price_ten": 0,
+      "must_drop": true,
+      "extra_reward": true,
+      "first_reward_switch": false,
+      "first_reward_max": 3,
+      "second_level_count": 40,
+      "third_level_count": 90,
+      "chest_activity": 0,
+      "open_priority_switch": 1,
+      "chest_model_id2": 700000257,
+      "chest_model_id3": 0,
+      "drop_probability_switch": true,
+      "extra_reward_icon": 2,
+      "chest_hint_color": 0,
+      "extra_reward_reset_day": [
+        1
+      ],
+      "probabilities": [
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          14
+        ],
+        [
+          0,
+          85
+        ]
+      ],
+      "items": [
+        {
+          "item_id": 710000422,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 10,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 3,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 710000423,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 10,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 3,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 710000303,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 15,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 710000304,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 15,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 710000305,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 15,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 203000500,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 203000501,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 204000300,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 3,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 800000001,
+          "item_num": 5,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 85,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 800000002,
+          "item_num": 5,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 85,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1101000001,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": false,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 95,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1102000001,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": false,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 95,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1307000001,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": false,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 95,
+          "is_jackpot": false
+        }
+      ],
+      "extra_rewards": [
+        {
+          "cdt_value": 5,
+          "reward_id": 110100010,
+          "reward_num": 2,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 15,
+          "reward_id": 110100008,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 30,
+          "reward_id": 110200001,
+          "reward_num": 10,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 60,
+          "reward_id": 710000304,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 100,
+          "reward_id": 710000422,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        }
+      ],
+      "is_visible": true,
+      "banner_image": "",
+      "is_enabled": true,
+      "state_enum": 1,
+      "start_time": 0,
+      "end_time": 0,
+      "min_player_level": 1,
+      "requires_elite_pass": false,
+      "min_vip_level": 0,
+      "allow_single_spin": true,
+      "allow_multi_spin": true,
+      "daily_spin_limit": 0
+    },
+    {
+      "chest_id": 6,
+      "chest_sub_id": 4,
+      "priority": 1,
+      "coin_type": 2,
+      "chest_name": "T_12_Z_CHEST_WHEEL_HELP_TAB",
+      "exchange_itemid": 110100018,
+      "free_type": 0,
+      "once_price": 60,
+      "ten_price": 270,
+      "exchange_once_num": 1,
+      "exchange_ten_num": 5,
+      "color_id": 3,
+      "chest_model_id": 203000395,
+      "show_model_male": 102000009,
+      "show_model_female": 101000010,
+      "rare_item_max": 80,
+      "chest_type_enum": 1,
+      "forge_tab_id": 1,
+      "once_num": 1,
+      "ten_num": 5,
+      "discount_price_one": 0,
+      "discount_price_ten": 0,
+      "must_drop": false,
+      "extra_reward": true,
+      "first_reward_switch": false,
+      "first_reward_max": 3,
+      "second_level_count": 40,
+      "third_level_count": 90,
+      "chest_activity": 2,
+      "open_priority_switch": 0,
+      "chest_model_id2": 203000396,
+      "chest_model_id3": 0,
+      "drop_probability_switch": true,
+      "extra_reward_icon": 2,
+      "chest_hint_color": 0,
+      "extra_reward_reset_day": [
+        1
+      ],
+      "probabilities": [
+        [
+          2,
+          6
+        ],
+        [
+          1,
+          24
+        ],
+        [
+          0,
+          70
+        ]
+      ],
+      "items": [
+        {
+          "item_id": 808000001,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 808000001,
+          "repeated_item_num": 1,
+          "turntable_props_type": 1,
+          "drop_up_ratio": 0.0,
+          "weight": 6,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 808000003,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 808000003,
+          "repeated_item_num": 1,
+          "turntable_props_type": 2,
+          "drop_up_ratio": 0.0,
+          "weight": 14,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 808000002,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 808000002,
+          "repeated_item_num": 1,
+          "turntable_props_type": 1,
+          "drop_up_ratio": 0.0,
+          "weight": 6,
+          "is_jackpot": true
+        },
+        {
+          "item_id": 808000003,
+          "item_num": 2,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 808000003,
+          "repeated_item_num": 2,
+          "turntable_props_type": 2,
+          "drop_up_ratio": 0.0,
+          "weight": 8,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 907001615,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 1,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 10,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 16,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 800000304,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 2,
+          "repeated_item_id": 800000304,
+          "repeated_item_num": 1,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 4,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 110100008,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110100008,
+          "repeated_item_num": 1,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 40,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 110100009,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110100009,
+          "repeated_item_num": 1,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 40,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 110200001,
+          "item_num": 5,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 5,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 55,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1307000001,
+          "item_num": 3,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1101000002,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        },
+        {
+          "item_id": 1102000002,
+          "item_num": 1,
+          "item_type": 1,
+          "is_show": true,
+          "reward_level": 0,
+          "repeated_item_id": 110200001,
+          "repeated_item_num": 2,
+          "turntable_props_type": 0,
+          "drop_up_ratio": 0.0,
+          "weight": 60,
+          "is_jackpot": false
+        }
+      ],
+      "extra_rewards": [
+        {
+          "cdt_value": 5,
+          "reward_id": 808000003,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 15,
+          "reward_id": 808000001,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 30,
+          "reward_id": 808000003,
+          "reward_num": 2,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        },
+        {
+          "cdt_value": 60,
+          "reward_id": 808000002,
+          "reward_num": 1,
+          "reward_type": 1,
+          "cdt_type": 1,
+          "icon": "",
+          "special_reward": ""
+        }
+      ],
+      "is_visible": true,
+      "banner_image": "",
+      "is_enabled": true,
+      "state_enum": 1,
+      "start_time": 0,
+      "end_time": 0,
+      "min_player_level": 1,
+      "requires_elite_pass": false,
+      "min_vip_level": 0,
+      "allow_single_spin": true,
+      "allow_multi_spin": true,
+      "daily_spin_limit": 0
+    }
+  ],
+  "special_exchanges": [
+    {
+      "forge_tab_id": 1,
+      "tab_name": "T_17_R_CHEST_YINYANG_NAME",
+      "item_id": 710000410,
+      "item_num": 1,
+      "sort_id": 1,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000001,
+          3,
+          1
+        ],
+        [
+          808000003,
+          7,
+          1
+        ]
+      ],
+      "reward_level": 2,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 1,
+      "tab_name": "T_17_R_CHEST_YINYANG_NAME",
+      "item_id": 710000411,
+      "item_num": 1,
+      "sort_id": 2,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000001,
+          3,
+          1
+        ],
+        [
+          808000003,
+          7,
+          1
+        ]
+      ],
+      "reward_level": 2,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 1,
+      "tab_name": "T_17_R_CHEST_YINYANG_NAME",
+      "item_id": 710000412,
+      "item_num": 1,
+      "sort_id": 3,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000001,
+          2,
+          1
+        ],
+        [
+          808000003,
+          5,
+          1
+        ]
+      ],
+      "reward_level": 1,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 1,
+      "tab_name": "T_17_R_CHEST_YINYANG_NAME",
+      "item_id": 710000413,
+      "item_num": 1,
+      "sort_id": 4,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000001,
+          2,
+          1
+        ],
+        [
+          808000003,
+          5,
+          1
+        ]
+      ],
+      "reward_level": 1,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 1,
+      "tab_name": "T_17_R_CHEST_YINYANG_NAME",
+      "item_id": 710000408,
+      "item_num": 1,
+      "sort_id": 5,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000001,
+          1,
+          1
+        ],
+        [
+          808000003,
+          3,
+          1
+        ]
+      ],
+      "reward_level": 0,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 1,
+      "tab_name": "T_17_R_CHEST_YINYANG_NAME",
+      "item_id": 710000409,
+      "item_num": 1,
+      "sort_id": 6,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000001,
+          1,
+          1
+        ],
+        [
+          808000003,
+          3,
+          1
+        ]
+      ],
+      "reward_level": 0,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 2,
+      "tab_name": "T_17_R_CHEST_JOKER_NAME",
+      "item_id": 710000414,
+      "item_num": 1,
+      "sort_id": 1,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000002,
+          3,
+          1
+        ],
+        [
+          808000003,
+          7,
+          1
+        ]
+      ],
+      "reward_level": 2,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 2,
+      "tab_name": "T_17_R_CHEST_JOKER_NAME",
+      "item_id": 710000415,
+      "item_num": 1,
+      "sort_id": 2,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000002,
+          3,
+          1
+        ],
+        [
+          808000003,
+          7,
+          1
+        ]
+      ],
+      "reward_level": 2,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 2,
+      "tab_name": "T_17_R_CHEST_JOKER_NAME",
+      "item_id": 710000416,
+      "item_num": 1,
+      "sort_id": 3,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000002,
+          2,
+          1
+        ],
+        [
+          808000003,
+          5,
+          1
+        ]
+      ],
+      "reward_level": 1,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 2,
+      "tab_name": "T_17_R_CHEST_JOKER_NAME",
+      "item_id": 710000417,
+      "item_num": 1,
+      "sort_id": 4,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000002,
+          2,
+          1
+        ],
+        [
+          808000003,
+          5,
+          1
+        ]
+      ],
+      "reward_level": 1,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 2,
+      "tab_name": "T_17_R_CHEST_JOKER_NAME",
+      "item_id": 710000418,
+      "item_num": 1,
+      "sort_id": 5,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000002,
+          1,
+          1
+        ],
+        [
+          808000003,
+          3,
+          1
+        ]
+      ],
+      "reward_level": 0,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    },
+    {
+      "forge_tab_id": 2,
+      "tab_name": "T_17_R_CHEST_JOKER_NAME",
+      "item_id": 710000419,
+      "item_num": 1,
+      "sort_id": 6,
+      "limited_purchase_times": 1,
+      "exchange_items": [
+        [
+          808000002,
+          1,
+          1
+        ],
+        [
+          808000003,
+          3,
+          1
+        ]
+      ],
+      "reward_level": 0,
+      "language": "en",
+      "image_url": "",
+      "real_image_url": "",
+      "is_show": true
+    }
+  ]
+}

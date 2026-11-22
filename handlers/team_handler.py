@@ -144,16 +144,23 @@ def _push_account_packet(account_id: int, cmd: int, payload: bytes) -> None:
 
 
 def _resolve_profile(account_id: int) -> Dict[str, Any]:
-    """Resolve full profile dict for either the local player or a bot/friend."""
+    """Resolve full profile dict for either a real multi-player account or a bot/friend."""
     aid = int(account_id)
-    if aid == DEFAULT_ACCOUNT_ID:
+    try:
+        from core.player import player_manager
+        p = player_manager.get_player(aid)
+        if p:
+            prof = p.get_profile()
+        else:
+            prof = dict(state.get_profile(aid))
+    except Exception:
         prof = dict(state.get_profile(aid))
-    else:
+
+    if not prof or not prof.get("nickname"):
         player = state.get_player(aid)
         if player:
             prof = dict(player)
-        else:
-            prof = dict(state.get_profile(aid))
+
     # Guarantee clothes are populated so Unity renders the 3D model properly on pedestal
     if not prof.get("clothes"):
         prof["clothes"] = list(DEFAULT_CLOTHES)
@@ -180,7 +187,7 @@ def _enrich_team(team: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         map_ids = [int(merged.get("map_id", 1))]
     merged["map_ids"] = [int(m) for m in map_ids]
     game_mode = int(merged.get("game_mode", GameMode.BATTLE_ROYALE))
-    default_mm = MatchMode.RANKING if game_mode == GameMode.BATTLE_ROYALE else MatchMode.CASUAL
+    default_mm = MatchMode.CASUAL
     merged["match_mode"] = int(meta.get("match_mode", default_mm))
     merged["is_ranking_match"] = bool(
         meta.get("is_ranking_match", merged["match_mode"] == MatchMode.RANKING)
@@ -400,7 +407,8 @@ def _op_change_group(account_id: int, req: Dict[str, Any]) -> Optional[Dict[str,
 def _build_matchmaking_suss_ntf(enriched: Dict[str, Any]) -> bytes:
     """Build `tcp.MatchmakingSussNtf` from an enriched team dictionary."""
     tid = int(enriched.get("team_id", 0))
-    match_id = int(enriched.get("match_id") or (tid * 100 + int(enriched.get("matchmaking_started_at") or time.time()) % 100))
+    from core.state import generate_match_id
+    match_id = int(enriched.get("match_id") or generate_match_id())
     host = os.environ.get("INDIA V1_GAME_SERVER_HOST", "10.0.2.2")
     port = int(os.environ.get("INDIA V1_GAME_SERVER_PORT", "39800"))
     leader_id = int(enriched.get("leader_id") or 10001)
@@ -424,14 +432,16 @@ def _build_matchmaking_suss_ntf(enriched: Dict[str, Any]) -> bytes:
 
         udp_srv.register_match_token(token=tok_hex, account_id=leader_id, match_id=match_id, nickname=player_nick)
         if global_match_director:
+            g_mode = int(enriched.get("game_mode", GameMode.BATTLE_ROYALE))
+            bot_cnt = 49 if g_mode == GameMode.BATTLE_ROYALE else 7
             global_match_director.create_match(
                 match_id=match_id,
                 map_id=(enriched.get("map_ids") or [int(enriched.get("map_id", 1))])[0],
-                game_mode=int(enriched.get("game_mode", GameMode.BATTLE_ROYALE)),
+                game_mode=g_mode,
                 match_mode=int(enriched.get("match_mode", MatchMode.CASUAL)),
                 host_player_id=str(leader_id),
                 host_nickname=player_nick,
-                bot_count=2,
+                bot_count=bot_cnt,
                 prepare_token=tok_hex,
                 secret=sec_hex
             )
@@ -443,7 +453,7 @@ def _build_matchmaking_suss_ntf(enriched: Dict[str, Any]) -> bytes:
         server_addr=f"{host}:{port}",
         secret=sec_hex,
         prepare_token=tok_hex,
-        sleep_ms=500,
+        sleep_ms=0,
         map_id=(enriched.get("map_ids") or [int(enriched.get("map_id", 1))])[0],
         game_mode=int(enriched.get("game_mode", GameMode.BATTLE_ROYALE)),
         match_mode=int(enriched.get("match_mode", MatchMode.CASUAL)),
@@ -997,17 +1007,17 @@ def handle_group_tcp_command(
     if protocol == EProtocolProto.MATCHMAKING:
         if cmd == EMatchmakingProto.START:
             req = decode_matchmaking_start_req(raw_body)
-            _op_start_matchmaking(
+            _, suss = _op_start_matchmaking(
                 account_id,
                 game_mode=req["game_mode"] or None,
                 map_ids=req["map_ids"] or None,
                 match_mode=req["match_mode"] or None,
                 difficulty=req["difficulty"],
             )
-            return EMatchmakingProto.START, 0, b""
+            return EMatchmakingProto.MATCHMAKINGSUSS_NTF, 0, suss
         if cmd == EMatchmakingProto.GROUPSTART:
             req = decode_matchmaking_group_start_req(raw_body)
-            _op_start_matchmaking(
+            _, suss = _op_start_matchmaking(
                 account_id,
                 team_id=req["group_id"],
                 game_mode=req["game_mode"] or None,
@@ -1015,7 +1025,7 @@ def handle_group_tcp_command(
                 match_mode=req["match_mode"] or None,
                 difficulty=req["difficulty"],
             )
-            return EMatchmakingProto.GROUPSTART, 0, b""
+            return EMatchmakingProto.MATCHMAKINGSUSS_NTF, 0, suss
         if cmd in (EMatchmakingProto.CANCEL, EMatchmakingProto.GROUPCANCEL, EMatchmakingProto.DROPMATCH):
             req = decode_group_id_req(raw_body)
             state.cancel_matchmaking(team_id=req["group_id"] or None, account_id=account_id)

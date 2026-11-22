@@ -83,10 +83,51 @@ class InventoryService:
         unlock_all_inventory_in_state(state)
 
     def notify_lobby_change(self, account_id: int) -> None:
-        """Notify connected TCP lobby squad members of visual equipment changes."""
+        """Immediately sync player equipment state and push real-time TCP sync packets to client socket."""
+        try:
+            self._ensure_selected_defaults(account_id)
+            sel = self.get_selected_items(account_id)
+            loadout_ids = [lo["loadout_id"] if isinstance(lo, dict) else int(lo) for lo in sel.get("loadouts", [])]
+            state.update_profile(
+                account_id=account_id,
+                avatar_id=sel["avatar_id"],
+                skin_color=sel["skin_color"],
+                clothes=sel["clothes"],
+                slots=sel["slots"],
+                shows=sel["shows"],
+                banner_id=sel["banner_id"],
+                head_pic=sel["head_pic"],
+                emotes=sel["emotes"],
+                loadouts=loadout_ids,
+                pve_primary_weapon_skin=sel["pve_primary_weapon_skin"],
+                ranking_cards=sel["ranking_cards"],
+            )
+            try:
+                from core.player import player_manager
+                p = player_manager.get_player(account_id)
+                if p:
+                    p.avatar_id = sel["avatar_id"]
+                    p.skin_color = sel["skin_color"]
+                    p.clothes = list(sel["clothes"])
+                    p.slots = list(sel["slots"])
+                    p.shows = list(sel["shows"])
+                    p.banner_id = sel["banner_id"]
+                    p.head_pic = sel["head_pic"]
+                    p.emotes = list(sel["emotes"])
+            except Exception:
+                pass
+        except Exception:
+            pass
+
         try:
             from handlers.team_handler import broadcast_group_change
             broadcast_group_change(account_id)
+        except Exception:
+            pass
+
+        try:
+            from tcp_server import push_collection_sync
+            push_collection_sync(account_id)
         except Exception:
             pass
 
@@ -206,32 +247,59 @@ class InventoryService:
             self._ensure_selected_defaults(account_id)
             self._loadouts[account_id] = [int(x) for x in loadouts]
             state.update_profile(account_id=account_id, loadouts=list(self._loadouts[account_id]))
+            self.notify_lobby_change(account_id)
 
     def choose_slots(self, slots: List[int], account_id: int = DEFAULT_ACCOUNT_ID) -> None:
         """
         Equip collection slots:
-        [0: Gamebag/Backpack (ct=4), 1: Parachute (ct=5), 2: Skyboard (ct=6), 3: Lootbox (ct=3), 4: Vehicle (ct=8)].
+        [0: Gamebag/Backpack (ct=4 / prefix 904),
+         1: Parachute (ct=5 / prefix 209),
+         2: Skyboard/Surfboard (ct=6 / prefix 906),
+         3: Lootbox/Deathbox (ct=3 / prefix 903),
+         4: Vehicle (ct=8 / prefix 908)].
         Supports both full 5-slot arrays and selective single/partial slot replacements.
         """
         with self._lock:
             self._ensure_selected_defaults(account_id)
+            current_slots = list(self._slots[account_id])
+            while len(current_slots) < 5:
+                current_slots.append(DEFAULT_COLLECTION_SLOTS[len(current_slots)])
+
             if len(slots) >= 5:
-                self._slots[account_id] = [int(x) for x in slots]
+                for idx in range(min(5, len(slots))):
+                    current_slots[idx] = int(slots[idx])
             elif slots:
-                current_slots = list(self._slots[account_id])
-                while len(current_slots) < 5:
-                    current_slots.append(DEFAULT_COLLECTION_SLOTS[len(current_slots)])
                 ct_map = {4: 0, 5: 1, 6: 2, 3: 3, 8: 4}
                 for s in slots:
                     sid = int(s)
+                    if not sid:
+                        continue
                     meta = UNLOCKED_ITEM_DEFS.get(sid)
                     ct = meta[2] if meta else 0
+                    prefix = str(sid)[:3]
                     if ct in ct_map:
                         current_slots[ct_map[ct]] = sid
+                    elif prefix == "904":  # Backpack
+                        current_slots[0] = sid
+                    elif prefix == "209":  # Parachute
+                        current_slots[1] = sid
+                    elif prefix == "906":  # Skyboard
+                        current_slots[2] = sid
+                    elif prefix == "903":  # Lootbox
+                        current_slots[3] = sid
+                    elif prefix == "908":  # Vehicle
+                        current_slots[4] = sid
+                    elif prefix == "907":  # Weapon skin -> redirect to shows
+                        self._shows[account_id] = [sid]
+                        state.update_profile(account_id=account_id, shows=[sid])
+                    elif prefix == "901":  # Banner -> redirect to banner
+                        state.update_profile(account_id=account_id, banner_id=sid)
+                    elif prefix == "902":  # Headpic -> redirect to headpic
+                        state.update_profile(account_id=account_id, head_pic=sid)
                     else:
                         if sid not in current_slots:
                             current_slots.append(sid)
-                self._slots[account_id] = current_slots
+            self._slots[account_id] = current_slots[:5]
             state.update_profile(account_id=account_id, slots=list(self._slots[account_id]))
             self.notify_lobby_change(account_id)
 
@@ -324,12 +392,14 @@ class InventoryService:
             else:
                 self._ranking_cards[account_id] = []
             state.update_profile(account_id=account_id, ranking_cards=list(self._ranking_cards[account_id]))
+            self.notify_lobby_change(account_id)
 
     def choose_pve_primary_weapon(self, weapon_id: int, account_id: int = DEFAULT_ACCOUNT_ID) -> None:
         with self._lock:
             self._ensure_selected_defaults(account_id)
             self._pve_weapons[account_id] = int(weapon_id)
             state.update_profile(account_id=account_id, pve_primary_weapon_skin=int(weapon_id))
+            self.notify_lobby_change(account_id)
 
     def unlock_collection_item(self, item_id: int, count: int = 1, account_id: int = DEFAULT_ACCOUNT_ID) -> bool:
         """Unlock a collection item into player inventory state and DB."""
@@ -381,7 +451,7 @@ def handle_inventory_request(
         )
         return True
 
-    if endpoint == "ChangeClothes":
+    if endpoint in ("ChangeClothes", "cmd_change_clothes"):
         req = decode_change_clothes_req(raw_body)
         handler.send_proto(
             "CSChangeClothesRes",
@@ -394,7 +464,7 @@ def handle_inventory_request(
         )
         return True
 
-    if endpoint == "ChooseLoadout":
+    if endpoint in ("ChooseLoadout", "ChooseLoadouts"):
         req = decode_choose_loadout_req(raw_body)
         inventory_service.choose_loadouts(req["loadouts"], account_id=account_id)
         handler.send_proto("Empty (ChooseLoadout)", b"")
@@ -417,35 +487,46 @@ def handle_inventory_request(
         )
         return True
 
-    if endpoint == "ChooseSlots":
+    if endpoint in ("ChooseSlots", "ChooseSlot"):
         slots = decode_choose_slots_req(raw_body)
         inventory_service.choose_slots(slots, account_id=account_id)
         handler.send_proto("Empty (ChooseSlots)", b"")
         return True
 
-    if endpoint == "ChooseShow":
+    if endpoint in ("ChooseShow", "ChooseShows"):
         shows = decode_choose_show_req(raw_body)
         inventory_service.choose_shows(shows, account_id=account_id)
         handler.send_proto("Empty (ChooseShow)", b"")
         return True
 
-    if endpoint == "EquipWeaponSkin":
+    if endpoint in ("EquipWeaponSkin", "EquipWeapon"):
         inventory_service.equip_single_or_list(raw_body, target="weapon", account_id=account_id)
         handler.send_proto("Empty (EquipWeaponSkin)", b"")
         return True
 
-    if endpoint == "EquipCollection":
+    if endpoint in ("EquipCollection", "EquipItem", "cmd_equip", "Equip"):
         inventory_service.equip_single_or_list(raw_body, target="collection", account_id=account_id)
         handler.send_proto("Empty (EquipCollection)", b"")
         return True
 
-    if endpoint == "ChooseEmote":
+    if endpoint in ("UnequipItem", "Unequip", "cmd_unequip"):
+        f = decode_proto(raw_body) if raw_body else {}
+        item_id = get_varint(f, 1, 0)
+        prefix = str(item_id)[:3]
+        if prefix == "907":
+            inventory_service.choose_shows(DEFAULT_WEAPON_SHOWS, account_id=account_id)
+        else:
+            inventory_service.notify_lobby_change(account_id)
+        handler.send_proto("Empty (UnequipItem)", b"")
+        return True
+
+    if endpoint in ("ChooseEmote", "EquipEmote"):
         req = decode_choose_emote_req(raw_body)
         inventory_service.choose_emote(req["slot_id"], req["emote_id"], account_id=account_id)
         handler.send_proto("Empty (ChooseEmote)", b"")
         return True
 
-    if endpoint == "ChooseRankingCards":
+    if endpoint in ("ChooseRankingCards", "ChooseRankingCard"):
         cid = decode_choose_ranking_cards_req(raw_body)
         inventory_service.choose_ranking_card(cid, account_id=account_id)
         handler.send_proto("Empty (ChooseRankingCards)", b"")
@@ -457,14 +538,14 @@ def handle_inventory_request(
         handler.send_proto("Empty (ChoosePVEPrimaryWeapon)", b"")
         return True
 
-    if endpoint == "ChooseBanner":
+    if endpoint in ("ChooseBanner", "EquipBanner"):
         bid = decode_choose_banner_req(raw_body)
         if bid:
             inventory_service.choose_banner(bid, account_id=account_id)
         handler.send_proto("Empty (ChooseBanner)", b"")
         return True
 
-    if endpoint == "ChooseHeadPic":
+    if endpoint in ("ChooseHeadPic", "EquipHeadPic"):
         hid = decode_choose_head_pic_req(raw_body)
         if hid:
             inventory_service.choose_head_pic(hid, account_id=account_id)

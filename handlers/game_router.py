@@ -11,8 +11,11 @@ from __future__ import annotations
 
 import importlib
 import os
-from typing import Any, Callable, List, Tuple
+import re
+from typing import Any, Callable, Dict, List, Optional, Tuple
+from urllib.parse import parse_qs, urlparse
 
+from core.player import Player, player_manager
 from core.state import DEFAULT_ACCOUNT_ID, state
 from proto.auth_models import (
     encode_backpack_res,
@@ -24,8 +27,9 @@ from proto.auth_models import (
     encode_skill_list_res,
     encode_wallet_res,
 )
+from proto.decoder import decode_proto, get_string, get_varint
 
-HandlerFunc = Callable[[Any, str, str, bytes], bool]
+HandlerFunc = Callable[..., bool]
 
 # Ordered handler modules: completed handlers first, optional in-flight modules guarded.
 # Specific endpoint matching inside each module prevents substring collisions
@@ -70,11 +74,144 @@ def _extract_endpoint(path: str) -> str:
     return clean.rsplit("/", 1)[-1] if "/" in clean else clean
 
 
+def _resolve_request_account(
+    handler: Any,
+    path: str,
+    client_ip: str,
+    raw_body: bytes,
+    is_login_endpoint: bool = False,
+) -> Tuple[Player, bool]:
+    """
+    Extract account identity from query string, headers, protobuf body, or IP session,
+    and authenticate against PlayerManager.
+    Returns: (player: Player, is_new: bool)
+    """
+    parsed_aid: int = 0
+    token: str = ""
+    open_id: str = ""
+    device_id: str = ""
+    region: str = ""
+    nickname: str = ""
+
+    # 1. Parse URL query string
+    try:
+        raw_url = getattr(handler, "path", path)
+        query_str = urlparse(raw_url).query
+        if query_str:
+            params = parse_qs(query_str)
+            for k in ("account_id", "aid", "uid", "player_id", "id"):
+                if k in params and params[k]:
+                    val = params[k][0].strip()
+                    if val.isdigit() and int(val) > 0:
+                        parsed_aid = int(val)
+                        break
+            for k in ("token", "session_token", "login_token"):
+                if k in params and params[k]:
+                    token = params[k][0].strip()
+                    break
+            for k in ("open_id", "openid"):
+                if k in params and params[k]:
+                    open_id = params[k][0].strip()
+                    break
+            for k in ("device_id", "did"):
+                if k in params and params[k]:
+                    device_id = params[k][0].strip()
+                    break
+            if "region" in params and params["region"]:
+                region = params["region"][0].strip().upper()
+            if "nickname" in params and params["nickname"]:
+                nickname = params["nickname"][0].strip()
+    except Exception:
+        pass
+
+    # 2. Parse HTTP headers
+    try:
+        headers = getattr(handler, "headers", {})
+        if not parsed_aid:
+            for hk in ("X-Account-Id", "account_id", "aid"):
+                val = headers.get(hk)
+                if val and str(val).strip().isdigit():
+                    parsed_aid = int(str(val).strip())
+                    break
+        if not token:
+            auth_val = headers.get("Authorization", "") or headers.get("token", "") or headers.get("X-Session-Token", "")
+            if auth_val:
+                clean_auth = str(auth_val).replace("Bearer ", "").strip()
+                if clean_auth:
+                    token = clean_auth
+        if not open_id:
+            open_id = headers.get("X-Open-Id", "") or headers.get("open_id", "") or headers.get("X-GARENA-OPENID", "")
+        if not device_id:
+            device_id = headers.get("X-Device-Id", "") or headers.get("device_id", "")
+    except Exception:
+        pass
+
+    # 3. Parse protobuf body if present
+    if raw_body and len(raw_body) > 1:
+        try:
+            f = decode_proto(raw_body)
+            if not parsed_aid and 1 in f:
+                val1 = f[1][0]
+                if isinstance(val1, int) and val1 >= 10000:
+                    parsed_aid = int(val1)
+            if not token:
+                token = get_string(f, 29, "") or get_string(f, 8, "") or get_string(f, 2, "")
+            if not open_id:
+                open_id = get_string(f, 22, "")
+            if not device_id:
+                device_id = get_string(f, 19, "")
+                if not device_id and 1 in f and isinstance(f[1][0], (bytes, bytearray, str)):
+                    device_id = get_string(f, 1, "")
+            if not region:
+                region = get_string(f, 26, "") or get_string(f, 3, "")
+            if not nickname:
+                nickname = get_string(f, 34, "") or get_string(f, 2, "")
+        except Exception:
+            pass
+
+    # 4. If we have credentials or it's a login endpoint, authenticate
+    if parsed_aid > 0 or token or open_id or device_id:
+        player, is_new = player_manager.authenticate(
+            account_id=parsed_aid,
+            open_id=open_id,
+            device_id=device_id,
+            token=token,
+            client_ip=client_ip,
+            nickname=nickname,
+            region=region or "DEFAULT",
+        )
+        return player, is_new
+
+    # 5. Check client_ip session
+    if client_ip:
+        sess_aid = player_manager.get_session_account_id(client_ip)
+        if sess_aid:
+            player = player_manager.get_player(sess_aid)
+            if player:
+                return player, False
+
+    # 6. If it's a login/register endpoint without explicit credentials,
+    # provision a new player if not localhost, or return default player
+    if is_login_endpoint:
+        player, is_new = player_manager.authenticate(
+            open_id=open_id or (f"guest_{client_ip.replace('.', '_')}" if client_ip not in ("127.0.0.1", "::1") else ""),
+            device_id=device_id,
+            client_ip=client_ip,
+            region=region or "DEFAULT",
+        )
+        return player, is_new
+
+    # 7. Fallback to default player
+    default_p = player_manager.get_or_create(DEFAULT_ACCOUNT_ID)
+    return default_p, False
+
+
 def _dispatch_feature_handlers(
     handler: Any,
     path: str,
     client_ip: str,
     raw_body: bytes,
+    account_id: int = DEFAULT_ACCOUNT_ID,
 ) -> bool:
     """Try modular handlers, picking up newly landed optional modules automatically."""
     for mod_name, fn_name, required in _HANDLER_SPECS:
@@ -91,8 +228,12 @@ def _dispatch_feature_handlers(
                     raise
                 continue
 
-        if fn(handler, path, client_ip, raw_body):
-            return True
+        try:
+            if fn(handler, path, client_ip, raw_body, account_id=account_id):
+                return True
+        except TypeError:
+            if fn(handler, path, client_ip, raw_body):
+                return True
     return False
 
 
@@ -119,71 +260,83 @@ def handle_game_post(handler: Any, path: str, client_ip: str, raw_body: bytes) -
     endpoint = _extract_endpoint(path)
     clean_path = path.split("?", 1)[0]
 
+    is_login = endpoint in ("MajorLogin", "MajorRegister", "Login", "GetLoginData", "ChooseRegion", "CreateRole", "FirstLogin")
+    player, is_new = _resolve_request_account(handler, path, client_ip, raw_body, is_login_endpoint=is_login)
+    account_id = player.account_id
+
     # 1. Exact Auth / Session endpoints
     if endpoint == "MajorLogin":
+        player_manager.bind_session(client_ip, player.account_id, player.token)
         handler.send_proto(
             "MajorLoginRes",
             encode_major_login_res(
-                account_id=DEFAULT_ACCOUNT_ID,
-                region="DEFAULT",
-                token="barbosa_session_token_12345",
+                account_id=player.account_id,
+                region=player.region,
+                token=player.token,
                 ttl=86400,
                 server_url=base_url,
-            ),
-        )
-        return True
-
-    if endpoint == "MajorRegister":
-        prof = state.get_profile(DEFAULT_ACCOUNT_ID)
-        handler.send_proto(
-            "LoginRes (Register)",
-            encode_login_res(
-                account_id=DEFAULT_ACCOUNT_ID,
-                nickname=str(prof.get("nickname", "Clack")),
-                region="DEFAULT",
-                host=host_header,
-                tcp_addr=tcp_addr,
-                chat_server=1,
-            ),
-        )
-        return True
-
-    if endpoint == "GetLoginData":
-        prof = state.get_profile(DEFAULT_ACCOUNT_ID)
-        handler.send_proto(
-            "LoginRes (GetLoginData)",
-            encode_login_res(
-                account_id=DEFAULT_ACCOUNT_ID,
-                nickname=str(prof.get("nickname", "Clack")),
-                region="DEFAULT",
-                host=host_header,
-                tcp_addr=tcp_addr,
-                chat_server=1,
             ),
         )
         return True
 
     if endpoint == "ChooseRegion":
+        f = decode_proto(raw_body)
+        chosen_reg = get_string(f, 1, "")
+        if not chosen_reg:
+            query_str = urlparse(getattr(handler, "path", path)).query
+            if query_str:
+                p_dict = parse_qs(query_str)
+                if "region" in p_dict and p_dict["region"]:
+                    chosen_reg = p_dict["region"][0]
+        if chosen_reg:
+            player_manager.change_region(player.account_id, chosen_reg)
+        player_manager.bind_session(client_ip, player.account_id, player.token)
         handler.send_proto(
             "ChooseRegionRes",
             encode_major_login_res(
-                account_id=DEFAULT_ACCOUNT_ID,
-                region="DEFAULT",
-                token="barbosa_session_token_12345",
+                account_id=player.account_id,
+                region=player.region,
+                token=player.token,
                 ttl=86400,
                 server_url=base_url,
             ),
         )
         return True
 
-    if endpoint == "Login":
-        prof = state.get_profile(DEFAULT_ACCOUNT_ID)
+    if endpoint in ("MajorRegister", "CreateRole", "FirstLogin"):
+        f = decode_proto(raw_body)
+        new_nick = get_string(f, 1, "")
+        if not new_nick or (2 in f and isinstance(f[2][0], (bytes, bytearray, str))):
+            alt = get_string(f, 2, "")
+            if alt and not isinstance(f[2][0], int):
+                new_nick = alt
+        reg = get_string(f, 3, "")
+        if reg:
+            player_manager.change_region(player.account_id, reg)
+        if new_nick:
+            player_manager.change_nickname(player.account_id, new_nick)
+        player_manager.bind_session(client_ip, player.account_id, player.token)
         handler.send_proto(
-            "LoginRes",
+            "LoginRes (Register)",
             encode_login_res(
-                account_id=DEFAULT_ACCOUNT_ID,
-                nickname=str(prof.get("nickname", "Clack")),
-                region="DEFAULT",
+                account_id=player.account_id,
+                nickname=player.nickname,
+                region=player.region,
+                host=host_header,
+                tcp_addr=tcp_addr,
+                chat_server=1,
+            ),
+        )
+        return True
+
+    if endpoint in ("GetLoginData", "Login"):
+        player_manager.bind_session(client_ip, player.account_id, player.token)
+        handler.send_proto(
+            f"LoginRes ({endpoint})",
+            encode_login_res(
+                account_id=player.account_id,
+                nickname=player.nickname,
+                region=player.region,
                 host=host_header,
                 tcp_addr=tcp_addr,
                 chat_server=1,
@@ -192,44 +345,51 @@ def handle_game_post(handler: Any, path: str, client_ip: str, raw_body: bytes) -
         return True
 
     if endpoint == "GetPlatformProfile":
-        handler.send_proto("PlatformProfileRes", encode_platform_profile_res())
+        handler.send_proto(
+            "PlatformProfileRes",
+            encode_platform_profile_res(
+                external_id=str(player.account_id),
+                external_name=player.nickname,
+                external_type=1,
+            ),
+        )
         return True
 
     if endpoint == "GetWallet":
-        wallet = state.get_wallet(DEFAULT_ACCOUNT_ID)
+        wallet = state.get_wallet(player.account_id)
         handler.send_proto(
             "CSGetWalletRes",
-            encode_wallet_res(account_id=DEFAULT_ACCOUNT_ID, coins=wallet["coins"], gems=wallet["gems"]),
+            encode_wallet_res(account_id=player.account_id, coins=wallet["coins"], gems=wallet["gems"]),
         )
         return True
 
     # 2. Modular feature handlers (Mail, Social, Team, Clan, Leaderboard,
     #    Elite Pass, Profile, Pet, Activity, Store + optional Character,
     #    Inventory, Gacha, Room, Misc as they land).
-    if _dispatch_feature_handlers(handler, path, client_ip, raw_body):
+    if _dispatch_feature_handlers(handler, path, client_ip, raw_body, account_id=player.account_id):
         return True
 
     # 3. Temporary auth_models / stub fallbacks for in-flight modules
     if endpoint == "LoginGetProfile":
         handler.send_proto(
             "LoginProfileRes",
-            encode_login_profile_res(account_id=DEFAULT_ACCOUNT_ID, avatar_id=1),
+            encode_login_profile_res(account_id=player.account_id, avatar_id=player.avatar_id),
         )
         return True
 
     if endpoint == "GetProfiles":
-        handler.send_proto("CSGetProfileListRes", encode_profile_list_res(avatar_id=1))
+        handler.send_proto("CSGetProfileListRes", encode_profile_list_res(avatar_id=player.avatar_id))
         return True
 
     if endpoint == "GetSkills":
-        handler.send_proto("CSGetSkillListRes", encode_skill_list_res(account_id=DEFAULT_ACCOUNT_ID))
+        handler.send_proto("CSGetSkillListRes", encode_skill_list_res(account_id=player.account_id))
         return True
 
     if endpoint == "GetBackpack":
         from handlers.inventory_handler import inventory_service
         handler.send_proto(
             "CSGetBackpackRes",
-            inventory_service.get_backpack(account_id=DEFAULT_ACCOUNT_ID),
+            inventory_service.get_backpack(account_id=player.account_id),
         )
         return True
 

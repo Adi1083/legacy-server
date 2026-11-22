@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>India V1 1.39 — Luck Royale &amp; Gacha Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css">
+  <style>
+    /* ==========================================================================
+       APPLE PROFESSIONAL HIG SYSTEM TOKENS & LUCK ROYALE WORKSTATION STYLES
+       Zero Emojis — Pure SF Pro / Plus Jakarta Sans & Vector SVGs
+       ========================================================================== */
+    :root {
+      --lr-bg-base: #f5f5f7;
+      --lr-bg-surface: #ffffff;
+      --lr-bg-surface-elevated: #fbfbfd;
+      --lr-bg-card: #ffffff;
+      --lr-bg-input: #f2f2f7;
+      
+      --lr-border: #e5e5ea;
+      --lr-border-subtle: #f2f2f7;
+      --lr-border-strong: #d1d1d6;
+      --lr-border-accent: #0071e3;
+      
+      --lr-text-primary: #1d1d1f;
+      --lr-text-secondary: #6e6e73;
+      --lr-text-tertiary: #86868b;
+      
+      /* Apple Semantic Colors */
+      --lr-blue: #0071e3;
+      --lr-blue-tint: #e8f2fc;
+      --lr-blue-hover: #0077ed;
+      
+      --lr-green: #34c759;
+      --lr-green-text: #1b813e;
+      --lr-green-tint: #edf9f0;
+      
+      --lr-gold: #ff9500;
+      --lr-gold-text: #b25000;
+      --lr-gold-tint: #fff4e5;
+      
+      --lr-purple: #af52de;
+      --lr-purple-text: #782ba8;
+      --lr-purple-tint: #f6edfc;
+      
+      --lr-red: #ff3b30;
+      --lr-red-tint: #feeceb;
+      
+      /* Rarity Palette (OB17 Gacha Standards) */
+      --rarity-super-bg: #fff8eb;
+      --rarity-super-border: #f59e0b;
+      --rarity-super-text: #b45309;
+      
+      --rarity-rare-bg: #f5f3ff;
+      --rarity-rare-border: #8b5cf6;
+      --rarity-rare-text: #6d28d9;
+      
+      --rarity-norm-bg: #f8fafc;
+      --rarity-norm-border: #cbd5e1;
+      --rarity-norm-text: #475569;
+
+      --lr-radius-xs: 4px;
+      --lr-radius-sm: 6px;
+      --lr-radius-md: 10px;
+      --lr-radius-lg: 14px;
+      --lr-radius-full: 9999px;
+
+      --lr-shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --lr-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.02);
+      --lr-shadow-modal: 0 16px 40px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+      
+      --apple-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--lr-bg-base);
+      color: var(--lr-text-primary);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+      font-size: 13px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .monospace { font-family: 'JetBrains Mono', "SF Mono", Menlo, Consolas, monospace; }
+    .tabular { font-variant-numeric: tabular-nums; }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d1d6; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #aeaeb2; }
+
+    /* SVG Icon Helpers */
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .icon svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ==========================================================================
+       TOP CONTROL HEADER & NAVIGATION
+       ========================================================================== */
+    .lr-header {
+      background: var(--lr-bg-surface);
+      border-bottom: 1px solid var(--lr-border);
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .lr-header-top {
+      height: 48px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .lr-brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lr-badge {
+      background: #1d1d1f;
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: var(--lr-radius-xs);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .lr-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+    }
+
+    .lr-version {
+      font-size: 11px;
+      color: var(--lr-text-secondary);
+      border-left: 1px solid var(--lr-border);
+      padding-left: 10px;
+    }
+
+    .lr-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lr-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: var(--lr-radius-full);
+      font-size: 11.5px;
+      font-weight: 500;
+      border: 1px solid var(--lr-border);
+      background: var(--lr-bg-surface-elevated);
+      color: var(--lr-text-secondary);
+    }
+    .lr-chip.active {
+      background: var(--lr-green-tint);
+      border-color: rgba(52, 199, 89, 0.3);
+      color: var(--lr-green-text);
+      font-weight: 600;
+    }
+    .lr-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lr-green);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: var(--lr-radius-sm);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--lr-border);
+      background: #ffffff;
+      color: var(--lr-text-primary);
+      cursor: pointer;
+      user-select: none;
+      transition: all 120ms var(--apple-spring);
+      white-space: nowrap;
+    }
+    .btn:hover { background: var(--lr-bg-input); }
+    .btn:active { transform: scale(0.97); }
+    
+    .btn-primary {
+      background: var(--lr-blue);
+      border-color: var(--lr-blue);
+      color: #ffffff;
+    }
+    .btn-primary:hover { background: var(--lr-blue-hover); }
+
+    .btn-success {
+      background: var(--lr-green-text);
+      border-color: var(--lr-green-text);
+      color: #ffffff;
+    }
+    .btn-success:hover { filter: brightness(1.1); }
+
+    .btn-warning {
+      background: var(--lr-gold-text);
+      border-color: var(--lr-gold-text);
+      color: #ffffff;
+    }
+    .btn-warning:hover { filter: brightness(1.1); }
+
+    .btn-danger {
+      background: var(--lr-red);
+      border-color: var(--lr-red);
+      color: #ffffff;
+    }
+    .btn-danger:hover { filter: brightness(0.92); }
+
+    .btn-sm {
+      padding: 3px 8px;
+      font-size: 11px;
+    }
+
+    /* Sub-tabs Row */
+    .lr-subtabs-bar {
+      padding: 0 20px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .lr-segmented-nav {
+      display: inline-flex;
+      background: var(--lr-bg-input);
+      border-radius: var(--lr-radius-md);
+      padding: 3px;
+      border: 1px solid var(--lr-border);
+      gap: 2px;
+      overflow-x: auto;
+      max-width: 100%;
+      scrollbar-width: none;
+    }
+    .lr-segmented-nav::-webkit-scrollbar { display: none; }
+
+    .lr-subtab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: var(--lr-radius-sm);
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--lr-text-secondary);
+      cursor: pointer;
+      user-select: none;
+      transition: all 120ms var(--apple-spring);
+      white-space: nowrap;
+    }
+    .lr-subtab-btn:hover { color: var(--lr-text-primary); }
+    .lr-subtab-btn.active {
+      background: #ffffff;
+      color: var(--lr-text-primary);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ==========================================================================
+       MAIN VIEW CONTAINER & SCROLL PANE
+       ========================================================================== */
+    .lr-main-viewport {
+      flex: 1;
+      height: calc(100vh - 86px);
+      width: 100vw;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lr-view-pane {
+      display: none;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 22px 40px;
+      gap: 16px;
+      flex-direction: column;
+    }
+    .lr-view-pane.active {
+      display: flex;
+    }
+
+    /* Cards & Layout */
+    .lr-card {
+      background: var(--lr-bg-surface);
+      border-radius: var(--lr-radius-lg);
+      border: 1px solid var(--lr-border);
+      box-shadow: var(--lr-shadow-card);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .lr-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .lr-card-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .lr-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lr-card-desc {
+      font-size: 12px;
+      color: var(--lr-text-secondary);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+    @media (max-width: 1100px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Metric Tiles */
+    .lr-stat-tile {
+      background: var(--lr-bg-surface);
+      border: 1px solid var(--lr-border);
+      border-radius: var(--lr-radius-md);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .lr-stat-lbl {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--lr-text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lr-stat-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--lr-text-primary);
+      letter-spacing: -0.02em;
+    }
+    .lr-stat-sub {
+      font-size: 11px;
+      color: var(--lr-green-text);
+      font-weight: 500;
+    }
+
+    /* Rarity Badges */
+    .badge-rarity {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: var(--lr-radius-xs);
+    }
+    .badge-rarity.super {
+      background: var(--rarity-super-bg);
+      border: 1px solid var(--rarity-super-border);
+      color: var(--rarity-super-text);
+    }
+    .badge-rarity.rare {
+      background: var(--rarity-rare-bg);
+      border: 1px solid var(--rarity-rare-border);
+      color: var(--rarity-rare-text);
+    }
+    .badge-rarity.normal {
+      background: var(--rarity-norm-bg);
+      border: 1px solid var(--rarity-norm-border);
+      color: var(--rarity-norm-text);
+    }
+
+    /* Clean Apple Grid Table */
+    .table-container {
+      border: 1px solid var(--lr-border);
+      border-radius: var(--lr-radius-md);
+      overflow-x: auto;
+      background: #ffffff;
+    }
+    .lr-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 12.5px;
+    }
+    .lr-table th {
+      background: var(--lr-bg-surface-elevated);
+      color: var(--lr-text-secondary);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--lr-border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .lr-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--lr-border-subtle);
+      color: var(--lr-text-primary);
+      vertical-align: middle;
+    }
+    .lr-table tr:hover td {
+      background: var(--lr-bg-surface-elevated);
+    }
+
+    /* Progress bar */
+    .meter-bar-track {
+      width: 100%;
+      height: 7px;
+      background: var(--lr-bg-input);
+      border-radius: var(--lr-radius-full);
+      overflow: hidden;
+      border: 1px solid var(--lr-border);
+      position: relative;
+    }
+    .meter-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--lr-blue), #5856d6);
+      border-radius: var(--lr-radius-full);
+      transition: width 240ms var(--apple-spring);
+    }
+    .meter-bar-fill.gold {
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+    }
+
+    /* Form Inputs */
+    .input-text, .input-select, .input-textarea {
+      background: var(--lr-bg-surface-elevated);
+      border: 1px solid var(--lr-border);
+      border-radius: var(--lr-radius-sm);
+      padding: 6px 10px;
+      color: var(--lr-text-primary);
+      font-family: inherit;
+      font-size: 12.5px;
+      outline: none;
+      transition: all 120ms var(--apple-spring);
+      width: 100%;
+    }
+    .input-text:focus, .input-select:focus, .input-textarea:focus {
+      background: #ffffff;
+      border-color: var(--lr-blue);
+      box-shadow: 0 0 0 3px var(--lr-blue-tint);
+    }
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--lr-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+      animation: modalFadeIn 160ms var(--apple-spring);
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-window {
+      background: #ffffff;
+      border-radius: var(--lr-radius-lg);
+      border: 1px solid var(--lr-border-strong);
+      box-shadow: var(--lr-shadow-modal);
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 180ms var(--apple-spring);
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.96) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--lr-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .modal-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--lr-border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      background: var(--lr-bg-surface-elevated);
+    }
+
+    /* Toast System */
+    .toast-container {
+      position: fixed;
+      top: 56px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 2000;
+      pointer-events: none;
+    }
+    .toast-card {
+      pointer-events: auto;
+      background: #ffffff;
+      border-radius: var(--lr-radius-md);
+      border: 1px solid var(--lr-border-strong);
+      padding: 9px 14px;
+      box-shadow: var(--lr-shadow-modal);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--lr-text-primary);
+      min-width: 280px;
+      max-width: 440px;
+      animation: toastIn 180ms var(--apple-spring);
+      transition: all 140ms var(--apple-spring);
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .toast-card.out { opacity: 0; transform: translateY(-6px) scale(0.97); }
+
+    /* Machine Card */
+    .machine-card {
+      background: #ffffff;
+      border: 1px solid var(--lr-border);
+      border-radius: var(--lr-radius-md);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 120ms var(--apple-spring);
+    }
+    .machine-card:hover {
+      border-color: var(--lr-blue);
+      box-shadow: 0 4px 14px rgba(0, 113, 227, 0.08);
+    }
+    .machine-banner-preview {
+      width: 100%;
+      height: 100px;
+      border-radius: var(--lr-radius-sm);
+      object-fit: cover;
+      background: #f0f0f4;
+      border: 1px solid var(--lr-border);
+    }
+
+    /* Toggle switch */
+    .switch-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .switch-ui {
+      width: 32px;
+      height: 18px;
+      background: #d1d1d6;
+      border-radius: 9px;
+      position: relative;
+      transition: background 160ms ease;
+    }
+    .switch-ui::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: transform 160ms var(--apple-spring);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    input[type="checkbox"]:checked + .switch-ui {
+      background: var(--lr-green);
+    }
+    input[type="checkbox"]:checked + .switch-ui::after {
+      transform: translateX(14px);
+    }
+
+    /* Wheel preview for Incubator */
+    .turntable-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .wheel-slot-card {
+      border: 1px solid var(--lr-border);
+      border-radius: var(--lr-radius-sm);
+      padding: 8px;
+      background: var(--lr-bg-surface-elevated);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Apple macOS Workstation Header -->
+  <header class="lr-header">
+    <div class="lr-header-top">
+      <div class="lr-brand-cluster">
+        <span class="lr-badge">LUCK ROYALE // OB17</span>
+        <span class="lr-title">Gacha Engine &amp; Economy Studio</span>
+        <span class="lr-version">Free Fire 1.39 Protocol</span>
+      </div>
+
+      <div class="lr-telemetry">
+        <div class="lr-chip active" id="header-engine-status">
+          <span class="lr-dot"></span>
+          <span>4 Machines Active</span>
+        </div>
+        <div class="lr-chip">
+          <span>Target Account:</span>
+          <strong class="monospace" id="header-target-account" style="color:var(--lr-blue);">10001 (PushpaGG)</strong>
+        </div>
+        <div class="lr-chip">
+          <span>Total Spins:</span>
+          <strong class="monospace tabular" id="header-total-spins">0</strong>
+        </div>
+        <button class="btn btn-sm" id="btn-global-sync" onclick="LuckRoyaleApp.syncAll(true)">
+          <span class="icon"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
+          <span>Sync Telemetry</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sub-tabs Navigation -->
+    <div class="lr-subtabs-bar">
+      <nav class="lr-segmented-nav">
+        <button class="lr-subtab-btn active" data-tab="tab-overview" onclick="LuckRoyaleApp.switchTab('tab-overview')">
+          <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+          <span>1. Overview</span>
+        </button>
+        <button class="lr-subtab-btn" data-tab="tab-machines" onclick="LuckRoyaleApp.switchTab('tab-machines')">
+          <span class="icon"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+          <span>2. Machine Manager</span>
+        </button>
+        <button class="lr-subtab-btn" data-tab="tab-reward-pools" onclick="LuckRoyaleApp.switchTab('tab-reward-pools')">
+          <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg></span>
+          <span>3. Reward Pool Editor</span>
+        </button>
+        <button class="lr-subtab-btn" data-tab="tab-lucky-meters" onclick="LuckRoyaleApp.switchTab('tab-lucky-meters')">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          <span>4. Lucky Meter Manager</span>
+        </button>
+        <button class="lr-subtab-btn" data-tab="tab-currency-vouchers" onclick="LuckRoyaleApp.switchTab('tab-currency-vouchers')">
+          <span class="icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="M17 14h.01"/></svg></span>
+          <span>5. Currency &amp; Vouchers</span>
+        </button>
+        <button class="lr-subtab-btn" data-tab="tab-incubator-forge" onclick="LuckRoyaleApp.switchTab('tab-incubator-forge')">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+          <span>6. Incubator Forge</span>
+        </button>
+        <button class="lr-subtab-btn" data-tab="tab-banners-events" onclick="LuckRoyaleApp.switchTab('tab-banners-events')">
+          <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
+          <span>7. Banners &amp; Events</span>
+        </button>
+        <button class="lr-subtab-btn" data-tab="tab-account-tx" onclick="LuckRoyaleApp.switchTab('tab-account-tx')">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <span>8. Account &amp; Transactions</span>
+        </button>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button class="btn btn-primary btn-sm" onclick="LuckRoyaleApp.openQuickSpinModal()">
+          <span class="icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+          <span>Quick Spin Simulator</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Main Viewport Stage -->
+  <main class="lr-main-viewport">
+
+    <!-- ===================================================================
+         VIEW 1: LUCK ROYALE OVERVIEW
+         =================================================================== -->
+    <section id="tab-overview" class="lr-view-pane active">
+      <!-- Telemetry Cards Grid -->
+      <div class="grid-4">
+        <div class="lr-stat-tile">
+          <span class="lr-stat-lbl">
+            <span class="icon"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/></svg></span>
+            Active Machines
+          </span>
+          <span class="lr-stat-val monospace" id="stat-active-machines">4</span>
+          <span class="lr-stat-sub">Diamond, Weapon, Gold, Incubator</span>
+        </div>
+        <div class="lr-stat-tile">
+          <span class="lr-stat-lbl">
+            <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg></span>
+            Total Spin Volume
+          </span>
+          <span class="lr-stat-val monospace tabular" id="stat-total-spins">0</span>
+          <span class="lr-stat-sub" id="stat-spins-today">+0 in current session</span>
+        </div>
+        <div class="lr-stat-tile">
+          <span class="lr-stat-lbl">
+            <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/></svg></span>
+            Diamonds Consumed
+          </span>
+          <span class="lr-stat-val monospace tabular" id="stat-diamonds-burned" style="color:var(--lr-blue);">0</span>
+          <span class="lr-stat-sub">From Diamond Royale &amp; Incubator</span>
+        </div>
+        <div class="lr-stat-tile">
+          <span class="lr-stat-lbl">
+            <span class="icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/></svg></span>
+            Gold Coins Consumed
+          </span>
+          <span class="lr-stat-val monospace tabular" id="stat-gold-burned" style="color:var(--lr-gold-text);">0</span>
+          <span class="lr-stat-sub">From Gold Royale Draws</span>
+        </div>
+      </div>
+
+      <!-- Vouchers In Circulation & Consumed -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Voucher Economy &amp; Consumption Telemetry</h2>
+            <p class="lr-card-desc">Active tickets burnt vs granted across all OB17 Luck Royale machines</p>
+          </div>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.switchTab('tab-currency-vouchers')">Manage Vouchers &rarr;</button>
+        </div>
+
+        <div class="grid-4" id="vouchers-overview-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Real-Time Machine Overview Grid -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Configured Gacha Machines (OB17 Live Roster)</h2>
+            <p class="lr-card-desc">Current production machines available to clients calling /GetGachaDesc and /Lottery</p>
+          </div>
+          <button class="btn btn-sm btn-primary" onclick="LuckRoyaleApp.openMachineModal()">+ Add New Machine</button>
+        </div>
+
+        <div class="grid-4" id="overview-machines-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Recent Spins Live Feed -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Recent Gacha Transactions Log</h2>
+            <p class="lr-card-desc">Real-time audit stream of recent pulls, rewards rolled, and duplicate conversions</p>
+          </div>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.switchTab('tab-account-tx')">View All Transactions &rarr;</button>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table" id="overview-tx-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Account UID</th>
+                <th>Machine</th>
+                <th>Draw Type</th>
+                <th>Currency Spent</th>
+                <th>Items Awarded</th>
+                <th>Lucky Meter</th>
+              </tr>
+            </thead>
+            <tbody id="overview-tx-tbody">
+              <tr>
+                <td colspan="7" style="text-align:center; padding:24px; color:var(--lr-text-tertiary);">No transactions logged yet. Run a simulator spin to populate.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         VIEW 2: MACHINE MANAGER
+         =================================================================== -->
+    <section id="tab-machines" class="lr-view-pane">
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Luck Royale Machine Manager</h2>
+            <p class="lr-card-desc">Configure, duplicate, order, and toggle Free Fire 1.39 chest machines</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="text" class="input-text" id="machine-filter-input" placeholder="Search machines..." style="width:180px;" oninput="LuckRoyaleApp.filterMachines()">
+            <button class="btn btn-primary" onclick="LuckRoyaleApp.openMachineModal()">
+              <span class="icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+              <span>Create Machine</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table" id="machines-table">
+            <thead>
+              <tr>
+                <th style="width:70px;">ID</th>
+                <th>Machine Name</th>
+                <th>Type</th>
+                <th>Currency</th>
+                <th>Single Draw (1x)</th>
+                <th>Multi Draw (10x/5x)</th>
+                <th>Linked Voucher</th>
+                <th>Lucky Meter Max</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Lobby Visibility</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="machines-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         VIEW 3: REWARD POOL EDITOR
+         =================================================================== -->
+    <section id="tab-reward-pools" class="lr-view-pane">
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Reward Pool Editor &amp; Probability Tuner</h2>
+            <p class="lr-card-desc">Adjust drop weights, duplicate token conversions, and view statistical probability distributions</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <label class="form-label" style="margin:0;">Select Machine:</label>
+            <select class="input-select" id="reward-pool-machine-select" style="width:220px;" onchange="LuckRoyaleApp.onPoolMachineChange()">
+              <!-- Options populated dynamically -->
+            </select>
+            <button class="btn btn-primary" onclick="LuckRoyaleApp.openAddRewardModal()">+ Add Reward Item</button>
+          </div>
+        </div>
+
+        <!-- Pool Probability Summary Bar -->
+        <div class="grid-4" id="pool-summary-grid">
+          <div class="lr-stat-tile">
+            <span class="lr-stat-lbl">Total Items In Pool</span>
+            <span class="lr-stat-val monospace" id="pool-stat-total-items">0</span>
+            <span class="lr-stat-sub">Active drop slots</span>
+          </div>
+          <div class="lr-stat-tile">
+            <span class="lr-stat-lbl">Super Rare / Grand Prize</span>
+            <span class="lr-stat-val monospace" id="pool-stat-super-rare" style="color:var(--rarity-super-text);">0</span>
+            <span class="lr-stat-sub" id="pool-stat-super-prob">0.0% Aggregate Chance</span>
+          </div>
+          <div class="lr-stat-tile">
+            <span class="lr-stat-lbl">Rare Items</span>
+            <span class="lr-stat-val monospace" id="pool-stat-rare" style="color:var(--rarity-rare-text);">0</span>
+            <span class="lr-stat-sub" id="pool-stat-rare-prob">0.0% Aggregate Chance</span>
+          </div>
+          <div class="lr-stat-tile">
+            <span class="lr-stat-lbl">Normal Items</span>
+            <span class="lr-stat-val monospace" id="pool-stat-normal">0</span>
+            <span class="lr-stat-sub" id="pool-stat-normal-prob">0.0% Aggregate Chance</span>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <div style="display:flex; gap:8px;">
+            <input type="text" class="input-text" id="reward-pool-search" placeholder="Filter items by ID or name..." style="width:240px;" oninput="LuckRoyaleApp.filterRewardPool()">
+            <select class="input-select" id="reward-pool-rarity-filter" style="width:140px;" onchange="LuckRoyaleApp.filterRewardPool()">
+              <option value="all">All Rarities</option>
+              <option value="super">Super Rare (Grand Prize)</option>
+              <option value="rare">Rare</option>
+              <option value="normal">Normal</option>
+            </select>
+          </div>
+
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.runStatisticalSimulation()">
+            <span class="icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+            <span>Simulate 100 Pulls</span>
+          </button>
+        </div>
+
+        <!-- Reward Pool Table -->
+        <div class="table-container">
+          <table class="lr-table" id="reward-pool-table">
+            <thead>
+              <tr>
+                <th style="width:80px;">Item ID</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Rarity</th>
+                <th>Drop Weight</th>
+                <th>Est. Probability</th>
+                <th>Duplicate Conversion</th>
+                <th>UI Preview</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reward-pool-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         VIEW 4: LUCKY METER MANAGER
+         =================================================================== -->
+    <section id="tab-lucky-meters" class="lr-view-pane">
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Lucky Meter &amp; Pity System Architecture</h2>
+            <p class="lr-card-desc">Authoritative parameters controlling player bad-luck protection, guaranteed grand prize drops, and weekly milestones</p>
+          </div>
+          <button class="btn btn-sm btn-primary" onclick="LuckRoyaleApp.saveAllMeters()">Save All Meter Configurations</button>
+        </div>
+
+        <div class="grid-2" id="lucky-meter-cards-grid">
+          <!-- Populated dynamically via JS for 4 machines -->
+        </div>
+      </div>
+
+      <!-- Weekly Milestone Reward Chests -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Weekly Spin Milestone Rewards (/LotteryExtraReward)</h2>
+            <p class="lr-card-desc">Progressive milestone reward crates unlocked as total weekly draws accumulate</p>
+          </div>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.openAddMilestoneModal()">+ Add Milestone Tier</button>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table">
+            <thead>
+              <tr>
+                <th>Machine</th>
+                <th>Required Weekly Spins</th>
+                <th>Bonus Reward Item</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="milestones-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         VIEW 5: CURRENCY & VOUCHER MANAGER
+         =================================================================== -->
+    <section id="tab-currency-vouchers" class="lr-view-pane">
+      <!-- Active Account Wallet Dossier -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Live Account Wallet &amp; Voucher Inventory</h2>
+            <p class="lr-card-desc">Real-time balances for test operative and direct balance modifications</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label class="form-label" style="margin:0;">Account UID:</label>
+            <input type="number" class="input-text monospace" id="wallet-account-id" value="10001" style="width:120px;">
+            <button class="btn btn-sm" onclick="LuckRoyaleApp.reloadTargetWallet()">Load Balances</button>
+          </div>
+        </div>
+
+        <div class="grid-4" id="wallet-balances-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Grant / Deduct Console -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Direct Grant &amp; Deduct Console</h2>
+            <p class="lr-card-desc">Inject or remove vouchers, evolution stones, blueprints, or currency instantly</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 2fr 1fr 1fr auto; gap:12px; align-items:flex-end;">
+          <div>
+            <label class="form-label">Asset / Voucher Type</label>
+            <select class="input-select" id="grant-asset-select">
+              <option value="diamonds">Diamonds (Gems Currency)</option>
+              <option value="gold">Gold Coins Currency</option>
+              <option value="802000001">Diamond Royale Voucher (802000001 / 110100008)</option>
+              <option value="802000008">Weapon Royale Voucher (802000008 / 110100009)</option>
+              <option value="802000000">Gold Royale Voucher (802000000 / 110100010)</option>
+              <option value="802000009">Incubator Voucher (802000009 / 110100018)</option>
+              <option value="808000001">Evolution Stone (808000001 / 808000003)</option>
+              <option value="808000011">YinYang Blueprint (808000011 / 808000001)</option>
+              <option value="808000012">Joker Blueprint (808000012 / 808000002)</option>
+              <option value="800000301">FF Tokens (800000301 / 110200001)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Action</label>
+            <select class="input-select" id="grant-action-type">
+              <option value="grant">Grant (+ Delta)</option>
+              <option value="deduct">Deduct (- Delta)</option>
+              <option value="set">Set Exact Balance</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Amount</label>
+            <input type="number" class="input-text monospace" id="grant-amount-input" value="10" min="1">
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="LuckRoyaleApp.executeGrantDeduct()">
+              <span class="icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>Execute Transaction</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Preset Delta Buttons -->
+        <div style="display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap;">
+          <span style="font-size:11px; font-weight:600; color:var(--lr-text-tertiary); text-transform:uppercase;">Quick Grant:</span>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.quickGrantVouchers(10)">+10 All Vouchers</button>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.quickGrantVouchers(50)">+50 All Vouchers</button>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.quickGrantCurrency(10000, 5000)">+10k Gold &amp; +5k Diamonds</button>
+          <button class="btn btn-sm btn-success" onclick="LuckRoyaleApp.quickGrantIncubatorMaterials()">+10 Evolution Stones &amp; +5 Blueprints</button>
+        </div>
+      </div>
+
+      <!-- Machine Spin Cost Calibration -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Live Machine Spin Cost Tuning</h2>
+            <p class="lr-card-desc">Adjust single and multi-spin price per machine without restarting the server</p>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table">
+            <thead>
+              <tr>
+                <th>Machine</th>
+                <th>Currency</th>
+                <th>Single Draw Price (1x)</th>
+                <th>Multi Draw Price (10x/5x)</th>
+                <th>Voucher Discount Ratio</th>
+                <th style="text-align:right;">Save Adjustments</th>
+              </tr>
+            </thead>
+            <tbody id="spin-costs-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         VIEW 6: INCUBATOR FORGE MANAGER
+         =================================================================== -->
+    <section id="tab-incubator-forge" class="lr-view-pane">
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Incubator &amp; Exchange Forge Manager (/GetGachaSpecialExchangeDesc)</h2>
+            <p class="lr-card-desc">Configure blueprint and evolution stone synthesis recipes for exclusive legendary bundles and weapon skins</p>
+          </div>
+          <button class="btn btn-primary" onclick="LuckRoyaleApp.openForgeRecipeModal()">+ Create Forge Recipe</button>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table" id="forge-recipes-table">
+            <thead>
+              <tr>
+                <th style="width:70px;">Sort</th>
+                <th>Forge Tab</th>
+                <th>Reward Item ID &amp; Name</th>
+                <th>Required Blueprints</th>
+                <th>Required Evolution Stones</th>
+                <th>Account Limit</th>
+                <th>Rarity</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="forge-recipes-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FF Token Shop Cosmetic Exchange -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">FF Token Cosmetics Exchange Shop</h2>
+            <p class="lr-card-desc">Cosmetic items redeemable by players utilizing duplicate FF Tokens (Item ID: 800000301)</p>
+          </div>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.openAddTokenShopModal()">+ Add Token Item</button>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table">
+            <thead>
+              <tr>
+                <th>Item ID</th>
+                <th>Item Name</th>
+                <th>Required FF Tokens</th>
+                <th>Purchase Limit</th>
+                <th>Category</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="token-shop-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         VIEW 7: BANNER & EVENT MANAGER
+         =================================================================== -->
+    <section id="tab-banners-events" class="lr-view-pane">
+      <!-- Active Banners Assignment -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Machine Billboard Banner Assignments</h2>
+            <p class="lr-card-desc">Assign poster graphics from server/static/banners/ directly to client gacha displays</p>
+          </div>
+          <button class="btn btn-sm" onclick="LuckRoyaleApp.reloadBannerGallery()">Refresh Assets</button>
+        </div>
+
+        <div class="grid-4" id="machine-banners-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Banner Graphic Asset Browser -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Available Server Banner Assets (server/static/banners/)</h2>
+            <p class="lr-card-desc">Verified Free Fire OB17 billboard textures, posters, and button overlays</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:12px;" id="banner-assets-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Event Schedule Table -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Luck Royale Timed Event Schedules</h2>
+            <p class="lr-card-desc">Schedule rate-up buffs, diamond discount weekends, and machine availability windows</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="LuckRoyaleApp.openEventScheduleModal()">+ Schedule Event</button>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table">
+            <thead>
+              <tr>
+                <th>Event Title</th>
+                <th>Target Machine</th>
+                <th>Start Date &amp; Time</th>
+                <th>End Date &amp; Time</th>
+                <th>Rate-Up Buff</th>
+                <th>Discount</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="events-schedule-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         VIEW 8: ACCOUNT INSPECTOR & TRANSACTIONS
+         =================================================================== -->
+    <section id="tab-account-tx" class="lr-view-pane">
+      <!-- Account Deep Inspector Card -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Account Lucky Meter &amp; History Inspector</h2>
+            <p class="lr-card-desc">Inspect exact meter counters, draw history, and simulate real spins</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <input type="number" class="input-text monospace" id="inspector-aid-input" value="10001" style="width:130px;">
+            <button class="btn btn-primary" onclick="LuckRoyaleApp.inspectAccount()">Inspect Account</button>
+          </div>
+        </div>
+
+        <!-- Account Profile Strip -->
+        <div style="display:flex; align-items:center; justify-content:space-between; background:var(--lr-bg-surface-elevated); border:1px solid var(--lr-border); border-radius:var(--lr-radius-md); padding:12px 16px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:40px; height:40px; border-radius:var(--lr-radius-md); background:var(--lr-blue-tint); color:var(--lr-blue); display:flex; align-items:center; justify-content:center; font-weight:700; font-family:'JetBrains Mono';">
+              P
+            </div>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <strong style="font-size:14px;" id="insp-name">PushpaGG</strong>
+                <span class="monospace" style="font-size:11px; color:var(--lr-blue); background:var(--lr-blue-tint); padding:1px 6px; border-radius:4px;" id="insp-uid">UID: 10001</span>
+                <span class="lr-chip active" style="font-size:10px; padding:2px 6px;">Lobby Online</span>
+              </div>
+              <div style="font-size:11.5px; color:var(--lr-text-secondary); margin-top:2px;">
+                Level 50 &bull; Rank: Heroic &bull; State RLock Safe
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-sm btn-primary" onclick="LuckRoyaleApp.triggerTestSpin(3, 1)">Test Spin 1x (Diamond)</button>
+            <button class="btn btn-sm btn-primary" onclick="LuckRoyaleApp.triggerTestSpin(3, 10)">Test Spin 10x (Diamond)</button>
+            <button class="btn btn-sm btn-warning" onclick="LuckRoyaleApp.triggerTestSpin(6, 5)">Test Spin 5x (Incubator)</button>
+          </div>
+        </div>
+
+        <!-- Lucky Meters Detailed Status Grid -->
+        <div class="grid-4" id="inspector-meters-grid" style="margin-top:4px;">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Transaction Explorer with Filters -->
+      <div class="lr-card">
+        <div class="lr-card-header">
+          <div class="lr-card-title-group">
+            <h2 class="lr-card-title">Transaction &amp; Audit Trail Explorer</h2>
+            <p class="lr-card-desc">Filterable transaction ledger with winning item details and meter progression</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <select class="input-select" id="tx-filter-machine" style="width:160px;" onchange="LuckRoyaleApp.filterTransactions()">
+              <option value="all">All Machines</option>
+              <option value="3">Diamond Royale</option>
+              <option value="4">Weapon Royale</option>
+              <option value="5">Gold Royale</option>
+              <option value="6">Incubator</option>
+            </select>
+            <button class="btn btn-sm" onclick="LuckRoyaleApp.exportTransactionsCSV()">
+              <span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
+              <span>Export CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="lr-table" id="tx-explorer-table">
+            <thead>
+              <tr>
+                <th>Tx ID</th>
+                <th>Timestamp</th>
+                <th>UID</th>
+                <th>Machine</th>
+                <th>Type</th>
+                <th>Currency Deducted</th>
+                <th>Items Won</th>
+                <th>Duplicate Tokens</th>
+                <th>Lucky Meter Shift</th>
+              </tr>
+            </thead>
+            <tbody id="tx-explorer-tbody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================
+       RESPONSIVE MODAL DIALOGS
+       =================================================================== -->
+
+  <!-- Modal 1: Create / Edit Machine -->
+  <div class="modal-backdrop" id="modal-machine">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-machine-title">Configure Luck Royale Machine</h3>
+        <button class="btn btn-sm" onclick="LuckRoyaleApp.closeModal('modal-machine')">
+          <span class="icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        </button>
+      </div>
+      <form id="form-machine" onsubmit="LuckRoyaleApp.saveMachineForm(event)">
+        <div class="modal-body">
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Chest ID</label>
+              <input type="number" class="input-text monospace" id="m-form-id" required>
+            </div>
+            <div>
+              <label class="form-label">Priority (Display Order)</label>
+              <input type="number" class="input-text monospace" id="m-form-priority" value="50" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label">Machine Name</label>
+            <input type="text" class="input-text" id="m-form-name" placeholder="e.g. Diamond Royale" required>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Chest Type</label>
+              <select class="input-select" id="m-form-type">
+                <option value="0">Normal Gacha (Single/Ten)</option>
+                <option value="1">Turntable Incubator Wheel</option>
+                <option value="2">Ultramate Wheel</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Currency Type</label>
+              <select class="input-select" id="m-form-coin">
+                <option value="2">Diamonds (Gems)</option>
+                <option value="1">Gold Coins</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Single Draw Price</label>
+              <input type="number" class="input-text monospace" id="m-form-once-price" value="60" required>
+            </div>
+            <div>
+              <label class="form-label">Multi Draw Price</label>
+              <input type="number" class="input-text monospace" id="m-form-ten-price" value="600" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Single Count (Pulls)</label>
+              <input type="number" class="input-text monospace" id="m-form-once-num" value="1" required>
+            </div>
+            <div>
+              <label class="form-label">Multi Count (Pulls)</label>
+              <input type="number" class="input-text monospace" id="m-form-ten-num" value="10" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Linked Voucher Item ID</label>
+              <input type="number" class="input-text monospace" id="m-form-voucher" value="802000001">
+            </div>
+            <div>
+              <label class="form-label">Lucky Meter Max (Pity Cap)</label>
+              <input type="number" class="input-text monospace" id="m-form-meter-max" value="150" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label">Banner Image Filename</label>
+            <input type="text" class="input-text monospace" id="m-form-banner" value="luck_royale_banner.png">
+          </div>
+
+          <div class="grid-2" style="margin-top:4px;">
+            <label class="switch-wrap">
+              <input type="checkbox" id="m-form-enabled" checked style="display:none;">
+              <span class="switch-ui"></span>
+              <span style="font-weight:600; font-size:12px;">Machine Enabled</span>
+            </label>
+            <label class="switch-wrap">
+              <input type="checkbox" id="m-form-visible" checked style="display:none;">
+              <span class="switch-ui"></span>
+              <span style="font-weight:600; font-size:12px;">Lobby Visible</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn" onclick="LuckRoyaleApp.closeModal('modal-machine')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Machine</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add / Edit Reward Item -->
+  <div class="modal-backdrop" id="modal-reward-item">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-reward-title">Configure Reward Pool Item</h3>
+        <button class="btn btn-sm" onclick="LuckRoyaleApp.closeModal('modal-reward-item')">
+          <span class="icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        </button>
+      </div>
+      <form id="form-reward-item" onsubmit="LuckRoyaleApp.saveRewardItemForm(event)">
+        <div class="modal-body">
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Item ID</label>
+              <input type="number" class="input-text monospace" id="r-form-id" required oninput="LuckRoyaleApp.onRewardItemIdInput()">
+            </div>
+            <div>
+              <label class="form-label">Quantity</label>
+              <input type="number" class="input-text monospace" id="r-form-count" value="1" min="1" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label">Item Name (Preview)</label>
+            <input type="text" class="input-text" id="r-form-name" placeholder="Item name will auto-populate..." required>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Rarity Tier</label>
+              <select class="input-select" id="r-form-rarity">
+                <option value="2">Super Rare (Grand Prize)</option>
+                <option value="1">Rare</option>
+                <option value="0">Normal</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Drop Weight</label>
+              <input type="number" class="input-text monospace" id="r-form-weight" value="50" min="1" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Duplicate Item ID (Token)</label>
+              <input type="number" class="input-text monospace" id="r-form-dup-id" value="800000301">
+            </div>
+            <div>
+              <label class="form-label">Duplicate Tokens Awarded</label>
+              <input type="number" class="input-text monospace" id="r-form-dup-num" value="5" min="1">
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:4px;">
+            <label class="switch-wrap">
+              <input type="checkbox" id="r-form-show" checked style="display:none;">
+              <span class="switch-ui"></span>
+              <span style="font-weight:600; font-size:12px;">Display in UI Preview</span>
+            </label>
+            <div>
+              <label class="form-label">Turntable Wheel Slot (0..11)</label>
+              <input type="number" class="input-text monospace" id="r-form-wheel-slot" value="0" min="0" max="11">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn" onclick="LuckRoyaleApp.closeModal('modal-reward-item')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Reward</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Incubator Forge Recipe -->
+  <div class="modal-backdrop" id="modal-forge-recipe">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-forge-title">Configure Special Exchange Recipe</h3>
+        <button class="btn btn-sm" onclick="LuckRoyaleApp.closeModal('modal-forge-recipe')">
+          <span class="icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        </button>
+      </div>
+      <form id="form-forge-recipe" onsubmit="LuckRoyaleApp.saveForgeRecipeForm(event)">
+        <div class="modal-body">
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Sort Priority</label>
+              <input type="number" class="input-text monospace" id="f-form-sort" value="1" required>
+            </div>
+            <div>
+              <label class="form-label">Forge Tab ID</label>
+              <input type="number" class="input-text monospace" id="f-form-tab" value="1" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label">Reward Item ID (Bundle/Weapon)</label>
+            <input type="number" class="input-text monospace" id="f-form-reward-id" value="710000410" required>
+          </div>
+          <div>
+            <label class="form-label">Reward Item Name</label>
+            <input type="text" class="input-text" id="f-form-name" value="YinYang Master Gold Bundle (Male)" required>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label class="form-label">Required Blueprints</label>
+              <input type="number" class="input-text monospace" id="f-form-blueprints" value="3" min="1" required>
+            </div>
+            <div>
+              <label class="form-label">Required Evolution Stones</label>
+              <input type="number" class="input-text monospace" id="f-form-stones" value="7" min="1" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label">Blueprint Item ID</label>
+            <select class="input-select" id="f-form-blueprint-id">
+              <option value="808000011">YinYang Blueprint (808000011 / 808000001)</option>
+              <option value="808000012">Joker Blueprint (808000012 / 808000002)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn" onclick="LuckRoyaleApp.closeModal('modal-forge-recipe')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Recipe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Quick Spin Simulator Result Dialog -->
+  <div class="modal-backdrop" id="modal-spin-result">
+    <div class="modal-window" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display:flex; align-items:center; gap:8px;">
+          <span class="icon" style="color:var(--lr-blue);"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+          <span>Luck Royale Draw Outcome</span>
+        </h3>
+        <button class="btn btn-sm" onclick="LuckRoyaleApp.closeModal('modal-spin-result')">
+          <span class="icon"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+        </button>
+      </div>
+      <div class="modal-body" id="spin-result-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="LuckRoyaleApp.closeModal('modal-spin-result')">Awesome, Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Controller Script -->
+  <script src="/dashboard/luck_royale.js"></script>
+</body>
+</html>

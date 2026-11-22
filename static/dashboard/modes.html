@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Modes &amp; Maps Studio - Free Fire 1.39 India V1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css">
+  <style>
+    :root {
+      --bg-base: #f5f5f7;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f4f4f7;
+      --bg-input: #f2f2f7;
+      --border: #e5e5ea;
+      --border-subtle: #f2f2f7;
+      --border-accent: #0071e3;
+      --text-primary: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-tertiary: #86868b;
+      --accent: #0071e3;
+      --accent-glow: rgba(56, 189, 248, 0.15);
+      --green: #10b981;
+      --gold: #f59e0b;
+      --rose: #f43f5e;
+      --purple: #a855f7;
+      --blue: #3b82f6;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      line-height: 1.45;
+      overflow: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-base);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    .modes-root {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      background: var(--bg-base);
+      overflow: hidden;
+    }
+
+    .modes-topbar {
+      height: 58px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .topbar-badge {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 10px;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .topbar-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .topbar-sub {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), background 120ms cubic-bezier(0.16, 1, 0.3, 1), border-color 120ms cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      outline: none;
+      user-select: none;
+      will-change: transform;
+    }
+
+    .btn:active,
+    .filter-btn:active,
+    .btn-icon:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #030712;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: #7dd3fc;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .btn-success {
+      background: #064e3b;
+      color: #a7f3d0;
+      border-color: #059669;
+    }
+
+    .btn-success:hover {
+      background: #047857;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+      border-color: #334155;
+    }
+
+    .stats-bar {
+      height: 44px;
+      background: rgba(12, 18, 29, 0.7);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+    }
+
+    .stats-chips {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .chip-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .chip-val.green {
+      color: var(--green);
+    }
+
+    .chip-val.gold {
+      color: var(--gold);
+    }
+
+    .chip-val.accent {
+      color: var(--accent);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-btn {
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .modes-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .mode-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+
+    .mode-card:hover {
+      border-color: #334155;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .mode-card.is-active {
+      border-left: 3px solid var(--green);
+    }
+
+    .mode-card.is-locked {
+      border-left: 3px solid var(--rose);
+      opacity: 0.82;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .card-meta-tags {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-map {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .badge-mode {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .badge-ranked {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-new {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .badge-status-on {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-status-off {
+      background: rgba(244, 63, 94, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      min-height: 34px;
+    }
+
+    .card-params {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: var(--bg-card);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    .param-row {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-tertiary);
+    }
+
+    .param-val {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 36px;
+      height: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #334155;
+      transition: .2s;
+      border-radius: 20px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: var(--green);
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(16px);
+    }
+
+    .toggle-label {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .toggle-label.on {
+      color: var(--green);
+    }
+
+    .toggle-label.off {
+      color: var(--rose);
+    }
+
+    .btn-icon {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-tertiary);
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border-color: #475569;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      color: var(--text-primary);
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      font-size: 12px;
+      font-weight: 500;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+  <link rel="stylesheet" href="/dashboard/apple-light-theme.css?v=3">
+</head>
+
+<body>
+
+  <div class="modes-root">
+    <!-- Top Bar -->
+    <header class="modes-topbar">
+      <div class="topbar-left">
+        <span class="topbar-badge">1.39 AUTHENTIC RE</span>
+        <div>
+          <div class="topbar-title">Game Modes &amp; Maps Studio</div>
+          <div class="topbar-sub">Real-Time Barbossa Mode Opening &amp; UI Unlock Controller</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-success" onclick="unlockAllModes()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M2 12h20" />
+          </svg>
+          Unlock All 16 Modes
+        </button>
+        <button class="btn btn-secondary" onclick="lockOptionalModes()">
+          Lock Optional (Core Only)
+        </button>
+        <button class="btn btn-secondary" onclick="resetModes()">
+          Reset to Defaults
+        </button>
+        <button class="btn btn-primary" onclick="loadModes()">
+          Refresh
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats Bar & Filter -->
+    <div class="stats-bar">
+      <div class="stats-chips">
+        <div class="chip">Total Modes: <span class="chip-val accent" id="stat-total">16</span></div>
+        <div class="chip">Active &amp; Playable: <span class="chip-val green" id="stat-active">--</span></div>
+        <div class="chip">Locked / Closed: <span class="chip-val gold" id="stat-locked">--</span></div>
+        <div class="chip">Maps Supported: <span class="chip-val">Bermuda (1), Purgatory (2), Hyakki (3)</span></div>
+      </div>
+      <div class="filter-group">
+        <button class="filter-btn active" data-map="all" onclick="filterMap('all', this)">All Maps</button>
+        <button class="filter-btn" data-map="1" onclick="filterMap('1', this)">Bermuda</button>
+        <button class="filter-btn" data-map="2" onclick="filterMap('2', this)">Purgatory</button>
+        <button class="filter-btn" data-map="3" onclick="filterMap('3', this)">Death Uprising</button>
+      </div>
+    </div>
+
+    <!-- Content Grid -->
+    <main class="modes-content">
+      <div class="modes-grid" id="modes-grid">
+        <!-- Populated dynamically by modes.js -->
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/dashboard/modes.js"></script>
+</body>
+
+</html>

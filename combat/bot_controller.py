@@ -158,6 +158,17 @@ class Vector3:
 SPAWN_ISLAND_CENTER = Vector3(-500.0, 10.0, 800.0)
 SPAWN_ISLAND_RADIUS = 50.0
 
+# Authentic Bermuda Spawn Island Pedestals:
+# Pedestal 1: Local Human Player / Host (Center Podium)
+# Pedestals 2-5: Top Rank Bots (Kelly, Andrew, and Flank Podiums)
+SPAWN_ISLAND_PEDESTALS: List[Vector3] = [
+    Vector3(-500.0, 10.0, 800.0),  # Pedestal 1: Human Player 1
+    Vector3(-502.5, 10.3, 799.0),  # Pedestal 2: Rank 2 Bot (Kelly, Player 2)
+    Vector3(-497.5, 10.3, 799.0),  # Pedestal 3: Rank 3 Bot (Andrew, Player 3)
+    Vector3(-505.0, 10.1, 797.5),  # Pedestal 4: Rank 4 Bot (Player 4)
+    Vector3(-495.0, 10.1, 797.5),  # Pedestal 5: Rank 5 Bot (Player 5)
+]
+
 # Strategic hot-drop towns and key locations on Bermuda
 BERMUDA_HOT_DROPS: Dict[str, Dict[str, Any]] = {
     "Peak": {
@@ -457,15 +468,22 @@ class SimulatedBot:
         self.dropped_lootbox: Optional[Dict[str, Any]] = None
 
     def spawn_on_island(self) -> None:
-        """Place bot on the Bermuda spawn island waiting area"""
-        angle = random.uniform(0, 2 * math.pi)
-        r = random.uniform(5.0, SPAWN_ISLAND_RADIUS)
-        self.position = Vector3(
-            SPAWN_ISLAND_CENTER.x + r * math.cos(angle),
-            SPAWN_ISLAND_CENTER.y,
-            SPAWN_ISLAND_CENTER.z + r * math.sin(angle),
-        )
-        self.rotation_yaw = random.uniform(0, 360)
+        """Place bot on the Bermuda spawn island waiting area (pedestal or perimeter ring)"""
+        if getattr(self, "spawn_position", None):
+            self.position = self.spawn_position.copy()
+        elif self.player_id in (2, 3, 4, 5):
+            self.position = SPAWN_ISLAND_PEDESTALS[self.player_id - 1].copy()
+        else:
+            k = (self.player_id - 6) % 15
+            ring = (self.player_id - 6) // 15
+            radius = 12.0 if ring == 0 else (24.0 if ring == 1 else 38.0)
+            angle = k * (2.0 * math.pi / 15.0) + (math.pi / 15.0 if ring == 1 else 0.0)
+            self.position = Vector3(
+                SPAWN_ISLAND_CENTER.x + radius * math.cos(angle),
+                SPAWN_ISLAND_CENTER.y,
+                SPAWN_ISLAND_CENTER.z + radius * math.sin(angle),
+            )
+        self.rotation_yaw = 180.0 if self.player_id in (2, 3, 4, 5) else random.uniform(0, 360)
         self.rotation_pitch = 0.0
         self.physx_state = PhysxState.WALKING
         self.physx_pose = PhysxPose.STANDING
@@ -577,6 +595,16 @@ class SimulatedBot:
 
     def _tick_island_roam(self, dt: float) -> None:
         """Casual roaming, dashing, and idling on Spawn Island"""
+        if self.player_id in (2, 3, 4, 5):
+            # Top-ranked bots remain proudly stationed on pedestals 2-5
+            self.speed = 0.0
+            self.physx_pose = PhysxPose.STANDING
+            self.roam_pause_timer -= dt
+            if self.roam_pause_timer <= 0:
+                self.rotation_yaw = (self.rotation_yaw + random.choice([-10.0, 0.0, 10.0])) % 360
+                self.roam_pause_timer = random.uniform(2.5, 5.0)
+            return
+
         self.roam_pause_timer -= dt
         if self.roam_pause_timer <= 0:
             if random.random() < 0.25:
@@ -878,9 +906,11 @@ class SimulatedBot:
 
     def to_state_dict(self) -> Dict[str, Any]:
         """Authoritative state dictionary for high-level JSON/UDP broadcasts"""
+        bot_pid = getattr(self, "player_id", self.bot_id + 1)
         return {
-            "entity_id": self.bot_id,
-            "player_id": getattr(self, "player_id", self.bot_id + 1),
+            "entity_id": bot_pid,
+            "bot_id": self.bot_id,
+            "player_id": bot_pid,
             "account_id": self.account_id,
             "nickname": self.nickname,
             "position": self.position.to_dict(),
@@ -935,7 +965,7 @@ class SimulatedBot:
             1 if self.is_firing else 0,
         )
 
-    def encode_s2c_player_join(self, match_id: int = 10001) -> bytes:
+    def encode_s2c_player_join(self, match_id: Optional[int] = None) -> bytes:
         """Encode official S2C_PlayerJoin packet (Opcode 101) for this bot."""
         from .combat_packet_codec import S2C_PlayerJoin
         pkt = S2C_PlayerJoin(
@@ -943,7 +973,7 @@ class SimulatedBot:
             account_id=self.account_id,
             team_id=self.bot_id,
             camp=1,
-            match_id=match_id,
+            match_id=match_id or self.match_id,
             nickname=self.nickname,
             avatar_id=self.profile.avatar_id,
             is_bot=True,
@@ -1103,14 +1133,19 @@ class BotController:
             else:
                 target_town = all_town_keys[i % len(all_town_keys)]
 
-            # Individual spawn island position
-            angle = random.uniform(0, 2 * math.pi)
-            r = random.uniform(5.0, SPAWN_ISLAND_RADIUS)
-            spawn_pos = Vector3(
-                SPAWN_ISLAND_CENTER.x + r * math.cos(angle),
-                SPAWN_ISLAND_CENTER.y,
-                SPAWN_ISLAND_CENTER.z + r * math.sin(angle),
-            )
+            # Spawn Island position: pedestals 2-5 for top bots, concentric perimeter rings for 6-50
+            if player_id in (2, 3, 4, 5):
+                spawn_pos = SPAWN_ISLAND_PEDESTALS[player_id - 1].copy()
+            else:
+                k = (player_id - 6) % 15
+                ring = (player_id - 6) // 15
+                radius = 12.0 if ring == 0 else (24.0 if ring == 1 else 38.0)
+                angle = k * (2.0 * math.pi / 15.0) + (math.pi / 15.0 if ring == 1 else 0.0)
+                spawn_pos = Vector3(
+                    SPAWN_ISLAND_CENTER.x + radius * math.cos(angle),
+                    SPAWN_ISLAND_CENTER.y,
+                    SPAWN_ISLAND_CENTER.z + radius * math.sin(angle),
+                )
 
             profile = BotProfile(
                 bot_id=bot_id,
@@ -1184,7 +1219,7 @@ class BotController:
         self.flight_progress = max(0.0, min(1.0, progress))
         self.current_flight_pos = Vector3(
             self.flight_start.x + (self.flight_end.x - self.flight_start.x) * self.flight_progress,
-            300.0,
+            self.flight_start.y,
             self.flight_start.z + (self.flight_end.z - self.flight_start.z) * self.flight_progress,
         )
 
