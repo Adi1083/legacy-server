@@ -623,7 +623,6 @@ class GachaService:
                         has_big_reward = True
 
                     # Duplicate Reward Detection & Automatic Token Conversion
-                    is_owned = False
                     is_stackable = _is_stackable_item(picked.item_id)
                     if is_stackable:
                         dest_id = picked.item_id
@@ -666,24 +665,11 @@ class GachaService:
                     state.add_item(dest_id, dest_num, account_id=account_id)
                     journal.items_added.append((dest_id, dest_num, was_new))
 
-                    # Stage 5 Duplicate Presentation Correction:
-                    # Gold Royale duplicate character rewards must present the authoritative debris item (800000000+)
-                    # as the primary reward (Origin) so CSSharedItemData resolves the item sprite, name, and count,
-                    # while avoiding matching wheel grand-prize IDs which triggers unwanted 3D feature showcase.
-                    origin_type = picked.item_type
-                    origin_id = picked.item_id
-                    origin_num = picked.item_num
-
-                    if is_owned and cfg.chest_id == CHEST_GOLD_ROYALE and (100000000 <= picked.item_id < 200000000 or picked.item_id in AVATAR_CATALOG):
-                        origin_type = AwardType.ITEM
-                        origin_id = dest_id
-                        origin_num = dest_num
-
                     lottery_goods.append(
                         {
-                            "origin_award_type": origin_type,
-                            "origin_award_id": origin_id,
-                            "origin_award_num": origin_num,
+                            "origin_award_type": picked.item_type,
+                            "origin_award_id": picked.item_id,
+                            "origin_award_num": picked.item_num,
                             "dest_award_type": AwardType.ITEM,
                             "dest_award_id": dest_id,
                             "dest_award_num": dest_num,
@@ -697,18 +683,17 @@ class GachaService:
                     if is_jackpot_extra or picked_extra.reward_level >= RareType.SUPER_RARE:
                         has_big_reward = True
 
-                    is_owned_extra = False
                     is_stackable = _is_stackable_item(picked_extra.item_id)
                     if is_stackable:
                         dest_id = picked_extra.item_id
                         dest_num = max(1, picked_extra.item_num)
                         was_new = False
                     else:
-                        is_owned_extra = (
+                        is_owned = (
                             state.is_item_unlocked(picked_extra.item_id, account_id=account_id)
                             or (picked_extra.item_id in batch_granted_items)
                         )
-                        if is_owned_extra:
+                        if is_owned:
                             if cfg.chest_id == CHEST_GOLD_ROYALE and (100000000 <= picked_extra.item_id < 200000000 or picked_extra.item_id in AVATAR_CATALOG):
                                 # ABSOLUTE RULE: Gold Royale duplicate character rewards must produce character-specific fragments (debris 800000000+), NEVER generic FF Tokens
                                 debris_id = get_character_debris_id(picked_extra.item_id)
@@ -739,20 +724,11 @@ class GachaService:
                     state.add_item(dest_id, dest_num, account_id=account_id)
                     journal.items_added.append((dest_id, dest_num, was_new))
 
-                    origin_extra_type = picked_extra.item_type
-                    origin_extra_id = picked_extra.item_id
-                    origin_extra_num = picked_extra.item_num
-
-                    if is_owned_extra and cfg.chest_id == CHEST_GOLD_ROYALE and (100000000 <= picked_extra.item_id < 200000000 or picked_extra.item_id in AVATAR_CATALOG):
-                        origin_extra_type = AwardType.ITEM
-                        origin_extra_id = dest_id
-                        origin_extra_num = dest_num
-
                     extra_one_goods.append(
                         {
-                            "origin_award_type": origin_extra_type,
-                            "origin_award_id": origin_extra_id,
-                            "origin_award_num": origin_extra_num,
+                            "origin_award_type": picked_extra.item_type,
+                            "origin_award_id": picked_extra.item_id,
+                            "origin_award_num": picked_extra.item_num,
                             "dest_award_type": AwardType.ITEM,
                             "dest_award_id": dest_id,
                             "dest_award_num": dest_num,
